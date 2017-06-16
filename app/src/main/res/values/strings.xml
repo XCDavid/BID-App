@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Enrolamiento</string>
+    <!--Form strings-->
+    <string name="form_activity_name">Formulario</string>
+    <string name="phone_form">* Teléfono</string>
+    <string name="continue_form">Continuar</string>
+    <string name="mail_form">Correo electrónico</string>
+    <string name="mother_last_name_form">* Apellido materno</string>
+    <string name="last_name_form">* Apellido paterno</string>
+    <string name="name_form">* Nombre(s)</string>
+    <string name="required_text_form">* Campos obligatorios</string>
+</resources>

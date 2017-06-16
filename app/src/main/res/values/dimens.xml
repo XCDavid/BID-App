@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vertical_separator_form">30dp</dimen>
+    <dimen name="horizontal_margin_form">30dp</dimen>
+    <dimen name="margin_top_form">30dp</dimen>
+    <dimen name="button_height_form">60dp</dimen>
+    <dimen name="notice_required_form">12sp</dimen>
+    <dimen name="small_vertical_separator_form">10dp</dimen>
+
+</resources>

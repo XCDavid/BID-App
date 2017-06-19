@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,9 +8,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/ly_options_face_scan"
-        >
+        android:layout_above="@+id/b_continue_face_scan"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/textView"
@@ -32,7 +30,7 @@
             android:id="@+id/ib_face_scan"
             android:layout_width="@dimen/width_face_scan_button"
             android:layout_height="@dimen/height_face_scan_buton"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
             android:background="@drawable/selector_image_button"
             android:padding="20dp"
@@ -44,37 +42,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-    <LinearLayout
-        android:id="@+id/ly_options_face_scan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_above="@+id/b_continue_face_scan"
-        android:gravity="top"
-        >
-        <ToggleButton
-            android:id="@+id/cameraSelect"
-            android:textOn="Camara Trasera"
-            android:textOff="Camara Frontal"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvFaceCount"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="top"
-            android:text="Toca aquí para comenzar a tomar la foto"
-            android:textSize="10sp" />
-    </LinearLayout>
 
     <Button
         android:id="@+id/b_continue_face_scan"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/selector_primary_button"
         android:text="@string/continue_id_scan"
-        android:textColor="@color/text_color_white"
-        android:background="@drawable/selector_primary_button"/>
+        android:textColor="@color/text_color_white" />
 </RelativeLayout>

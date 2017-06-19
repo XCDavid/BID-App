@@ -32,7 +32,7 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.form_main);
+        setContentView(R.layout.activity_form);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.form_activity_name));
             invalidateOptionsMenu();

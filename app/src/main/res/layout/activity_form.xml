@@ -8,11 +8,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/b_continue_form"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/horizontal_margin_form"
         android:layout_marginRight="@dimen/horizontal_margin_form"
-        android:layout_marginTop="@dimen/margin_top_form"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/b_continue_form">
+        android:layout_marginTop="@dimen/margin_top_form">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,9 +22,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_top_separator_form"
                 android:text="@string/required_text_form"
-                android:layout_marginTop="@dimen/vertical_separator_form"
-                android:textSize="@dimen/notice_required_form"/>
+                android:textSize="@dimen/notice_required_form" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -37,11 +37,11 @@
                 android:id="@+id/et_name_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1"
-                android:maxLength="30"
                 android:clickable="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:inputType="text"
+                android:maxLength="30"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/tv_last_name"
@@ -54,11 +54,11 @@
                 android:id="@+id/et_last_name_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:maxLength="30"
                 android:clickable="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/tv_mother_last_name"
@@ -71,11 +71,11 @@
                 android:id="@+id/et_mother_last_name_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:maxLength="30"
                 android:clickable="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/tv_mail"
@@ -88,11 +88,11 @@
                 android:id="@+id/et_mail_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:maxLength="40"
                 android:clickable="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="true"
+                android:inputType="textEmailAddress"
+                android:maxLength="40"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/tv_phone"
@@ -105,12 +105,12 @@
                 android:id="@+id/et_phone_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLines="1"
-                android:maxLength="20"
+                android:layout_marginBottom="@dimen/vertical_separator_form"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
-                android:layout_marginBottom="@dimen/vertical_separator_form"/>
+                android:inputType="number"
+                android:maxLength="20"
+                android:maxLines="1" />
         </LinearLayout>
     </ScrollView>
     <Button

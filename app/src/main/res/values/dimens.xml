@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="vertical_top_separator_form">10dp</dimen>
     <dimen name="vertical_separator_form">30dp</dimen>
-    <dimen name="horizontal_margin_form">30dp</dimen>
-    <dimen name="margin_top_form">30dp</dimen>
+    <dimen name="horizontal_margin_form">20dp</dimen>
+    <dimen name="margin_top_form">10dp</dimen>
     <dimen name="button_height_form">60dp</dimen>
     <dimen name="notice_required_form">12sp</dimen>
     <dimen name="small_vertical_separator_form">10dp</dimen>
     <dimen name="width_face_scan_button">250dp</dimen>
     <dimen name="height_face_scan_buton">350dp</dimen>
+    <dimen name="thumb_left_margin_bottom">70dp</dimen>
+    <dimen name="thumb_left_margin_left">255dp</dimen>
+
 
 </resources>

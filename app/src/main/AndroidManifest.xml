@@ -26,9 +26,12 @@
         <activity
             android:name=".activities.IdScanActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.FaceScanActivity"
-            android:screenOrientation="portrait">
-
+        <activity
+            android:name=".activities.FaceScanActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.FingerPrintsActivity"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

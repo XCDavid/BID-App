@@ -31,19 +31,19 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE = 663;
     String encodedStringFace;
 
-    private Camera camera;
+//    private Camera camera;
 //    private SurfaceView surfaceView;
-    private SurfaceHolder surfaceHolder;
-    boolean preview = false;
+//    private SurfaceHolder surfaceHolder;
+//    boolean preview = false;
 //    private Button btnTakePicture;
-    private TextView txtFaceCount;
+//    private TextView txtFaceCount;
 //    private ImageView ibFacePictureButton;
 //    private Button confirm;
 //    private Button recapture;
     private byte[] photoBuffer;
 //    private View root;
-    private ToggleButton cameraSelect;
-    private int currentCameraId;
+//    private ToggleButton cameraSelect;
+//    private int currentCameraId;
 //    private FaceListener faceListener;
 
     @Override
@@ -57,9 +57,9 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
         ibFacePictureButton.setOnClickListener(this);
         continueFaceScan.setOnClickListener(this);
 
-        txtFaceCount = (TextView) findViewById(R.id.tvFaceCount);
-        cameraSelect = (ToggleButton) findViewById(R.id.cameraSelect);
-        cameraSelect.setChecked(true);
+//        txtFaceCount = (TextView) findViewById(R.id.tvFaceCount);
+//        cameraSelect = (ToggleButton) findViewById(R.id.cameraSelect);
+//        cameraSelect.setChecked(true);
 //        cameraSelect.setVisibility(View.GONE);
 //        cameraSelect.setOnCheckedChangeListener(this);
     }
@@ -71,6 +71,10 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
                 break;
             case R.id.b_continue_face_scan:
+//                if (validatePictureEncoded()){
+                    Intent i = new Intent(this,FingerPrintsActivity.class);
+                    startActivity(i);
+//                }
                 break;
         }
     }
@@ -97,7 +101,7 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
 
     public boolean validatePictureEncoded(){
         if(encodedStringFace == null){
-            Toast.makeText(this,"Debes tomar una fotografía de la identificación por la parte Frontal",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Debes tomar una fotografía del rostro del usuario para continuar.",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this,"Ok",Toast.LENGTH_SHORT).show();
             return true;

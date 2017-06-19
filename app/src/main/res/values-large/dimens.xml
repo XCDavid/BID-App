@@ -6,7 +6,7 @@
     <dimen name="button_height_form">60dp</dimen>
     <dimen name="notice_required_form">12sp</dimen>
     <dimen name="small_vertical_separator_form">10dp</dimen>
-    <dimen name="width_face_scan_button">250dp</dimen>
-    <dimen name="height_face_scan_buton">350dp</dimen>
+    <dimen name="width_face_scan_button">350dp</dimen>
+    <dimen name="height_face_scan_buton">450dp</dimen>
 
 </resources>

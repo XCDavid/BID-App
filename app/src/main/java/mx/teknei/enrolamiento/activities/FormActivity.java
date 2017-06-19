@@ -1,7 +1,7 @@
 package mx.teknei.enrolamiento.activities;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import mx.teknei.enrolamiento.R;
 
-public class FormActivity extends AppCompatActivity implements View.OnClickListener,View.OnFocusChangeListener {
+public class FormActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etName;
     EditText etLastName;
     EditText etMotherLastName;
@@ -26,10 +26,13 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     EditText etPhone;
     Button buttonContinue;
 
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.form_main);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.form_activity_name));
             invalidateOptionsMenu();
@@ -64,23 +67,12 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
         etPhone = (EditText) findViewById(R.id.et_phone_form);
         buttonContinue = (Button) findViewById(R.id.b_continue_form);
 
-//        etName.setOnFocusChangeListener(this);
-//        etLastName.setOnFocusChangeListener(this);
-//        etMotherLastName.setOnFocusChangeListener(this);
-//        etMail.setOnFocusChangeListener(this);
-//        etPhone.setOnFocusChangeListener(this);
-
         buttonContinue.setOnClickListener(this);
         etName.setFilters(new InputFilter[]{filter});
         etLastName.setFilters(new InputFilter[]{filter});
         etMotherLastName.setFilters(new InputFilter[]{filter});
         etMail.setFilters(new InputFilter[]{filterMail});
 
-//        if(etName.hasFocus()) {
-//            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-//            etName.clearFocus();
-//        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
@@ -88,9 +80,10 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_continue_form:
-                if (validateDataForm()){
-
-                }
+//                if (validateDataForm()){
+                    Intent i = new Intent(this,IdScanActivity.class);
+                    startActivity(i);
+//                }
                 break;
         }
     }
@@ -149,22 +142,6 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
         }
         return false;
     }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-
-    @Override
-    public void onFocusChange(View view, boolean hasFocus) {
-        if (!hasFocus) {
-            hideKeyboard(view);
-        }
-    }
-
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
 
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);

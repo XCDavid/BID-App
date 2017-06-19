@@ -7,6 +7,9 @@
     <!--Button state colors-->
     <color name="button_disabled">#B6B6B6</color>
     <color name="button_pressed">#3F51B5</color>
+    <!--Button state colors-->
+    <color name="image_button_active">#81A4CD</color>
+    <color name="image_button_pressed">#DBE4EE</color>
 
     <!--Text color form-->
     <color name="text_color_white">#FFF</color>

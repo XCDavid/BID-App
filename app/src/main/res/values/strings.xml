@@ -9,4 +9,7 @@
     <string name="last_name_form">* Apellido paterno</string>
     <string name="name_form">* Nombre(s)</string>
     <string name="required_text_form">* Campos obligatorios</string>
+
+    <!--Id Scan strings-->
+    <string name="continue_id_scan">Continuar</string>
 </resources>

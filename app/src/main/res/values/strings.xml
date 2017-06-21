@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
+    <!--Alert Dialog strings-->
+    <string name="continue_message_dialog">Continuar</string>
+    <string name="message_dialog">Mensaje</string>
     <!--Form strings-->
     <string name="form_activity_name">Formulario</string>
     <string name="phone_form">* Teléfono</string>
@@ -13,7 +16,20 @@
     <!--Id Scan strings-->
     <string name="continue_id_scan">Continuar</string>
     <string name="identification_frontal_id_scan">Identificación - Frontal</string>
-    <string name="identification_posterior_scan_face">Identificación - Posterior</string>
+    <string name="identification_posterior_id_scan">Identificación - Posterior</string>
+    <string name="start_scan_process_id_scan">Iniciando escáner...</string>
+    <string name="get_info_process_id_scan">Extrayendo información...</string>
+    <string name="document">Documento</string>
+    <string name="personal_info">Datos personales</string>
+    <string name="id_number">Número</string>
+    <string name="valid_to">Caducidad</string>
+    <string name="birth_date">Nacimiento</string>
+    <string name="gender">Sexo</string>
+    <string name="name">Nombre</string>
+    <string name="nationality">Nacionalidad</string>
+    <!--Face Scan strings-->
     <string name="picture_face_face_scan">Fotografía - Rostro</string>
+    <!--Fingerprints strings-->
     <string name="instruction_begin_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
+    <string name="continue_fingerprints">Continuar</string>
 </resources>

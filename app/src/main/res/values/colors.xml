@@ -3,7 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
+    <color name="colorGray">#B6B6B6</color>
+    <color name="transparentGray">#AAB6B6B6</color>
     <!--Button state colors-->
     <color name="button_disabled">#B6B6B6</color>
     <color name="button_pressed">#3F51B5</color>

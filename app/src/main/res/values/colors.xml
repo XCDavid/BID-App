@@ -16,5 +16,5 @@
 
     <!--Transparent Color image button-->
     <color name="button_pressed_transparent">#CCB6B6B6</color>
-    <color name="button_active_transparent">#00B6B6B6</color>
+    <color name="button_active_transparent">#AAB6B6B6</color>
 </resources>

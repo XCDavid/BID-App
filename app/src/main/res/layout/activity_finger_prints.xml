@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/ly_tv_instructions_fingerprints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Selecciona un dedo para comenzar la captura de huellas dactilares."
-            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/margin_top_bottom_fingerprints"
+            android:layout_marginTop="@dimen/margin_top_bottom_fingerprints"
             android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            />
+            android:text="@string/instruction_begin_fingerprints_scan"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -26,36 +26,92 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/ly_tv_instructions_fingerprints"
-        >
+        android:layout_below="@id/ly_tv_instructions_fingerprints">
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/hands"
+            android:layout_marginBottom="@dimen/margin_all_image_view_fingerprints"
+            android:layout_marginEnd="@dimen/margin_all_image_view_fingerprints"
+            android:layout_marginLeft="@dimen/margin_all_image_view_fingerprints"
+            android:layout_marginRight="@dimen/margin_all_image_view_fingerprints"
+            android:layout_marginStart="@dimen/margin_all_image_view_fingerprints"
+            android:layout_marginTop="@dimen/margin_all_image_view_fingerprints"
             android:adjustViewBounds="true"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:src="@drawable/hands"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:id="@+id/imageView" />
 
         <ImageButton
-            android:layout_width="31dp"
-            android:layout_height="26dp"
+            android:layout_width="@dimen/width_thumb_finger"
+            android:layout_height="@dimen/height_thumb_finger"
             android:layout_marginBottom="@dimen/thumb_left_margin_bottom"
             android:layout_marginLeft="@dimen/thumb_left_margin_left"
             android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
             android:scaleType="centerCrop"
-            android:background="@drawable/selector_image_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
+        <ImageButton
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/index_left_margin_bottom"
+            android:layout_marginLeft="@dimen/index_left_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <ImageButton
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/middle_left_margin_bottom"
+            android:layout_marginLeft="@dimen/middle_left_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <ImageButton
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/ring_left_margin_bottom"
+            android:layout_marginLeft="@dimen/ring_left_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <ImageButton
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/pinky_left_margin_bottom"
+            android:layout_marginLeft="@dimen/pinky_left_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector_primary_button"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="80dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

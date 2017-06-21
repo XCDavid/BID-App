@@ -12,4 +12,8 @@
 
     <!--Id Scan strings-->
     <string name="continue_id_scan">Continuar</string>
+    <string name="identification_frontal_id_scan">Identificación - Frontal</string>
+    <string name="identification_posterior_scan_face">Identificación - Posterior</string>
+    <string name="picture_face_face_scan">Fotografía - Rostro</string>
+    <string name="instruction_begin_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
 </resources>

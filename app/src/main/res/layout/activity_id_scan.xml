@@ -11,8 +11,8 @@
     android:layout_alignParentTop="true"
     android:orientation="vertical"
     android:layout_above="@+id/b_continue_id_scan"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp">
+    android:layout_marginTop="@dimen/margin_top_bottom_id_scan"
+    android:layout_marginBottom="@dimen/margin_top_bottom_id_scan">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,11 +21,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/margin_constraint_id_scan"
+            android:layout_marginLeft="@dimen/margin_constraint_id_scan"
+            android:layout_marginRight="@dimen/margin_constraint_id_scan"
             android:gravity="center"
-            android:text="Identificación - Frontal"
+            android:text="@string/identification_frontal_id_scan"
             app:layout_constraintBottom_toTopOf="@+id/ib_frontal_id_scan"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -33,19 +33,18 @@
 
         <ImageButton
             android:id="@+id/ib_frontal_id_scan"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="@dimen/width_image_button_id_scan"
+            android:layout_height="@dimen/height_image_button_id_scan"
+            android:layout_marginTop="@dimen/margin_top_id_scan"
             android:src="@android:drawable/ic_menu_camera"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/selector_image_button"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:padding="20dp"
+            android:padding="@dimen/padding_all_image_button_id_scan"
             />
     </android.support.constraint.ConstraintLayout>
 
@@ -57,30 +56,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/margin_constraint_id_scan"
+            android:layout_marginLeft="@dimen/margin_constraint_id_scan"
+            android:layout_marginRight="@dimen/margin_constraint_id_scan"
             android:gravity="center"
-            android:text="Identificación - Posterior"
+            android:text="@string/identification_posterior_scan_face"
             app:layout_constraintBottom_toTopOf="@+id/ib_posterior_id_scan"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
         <ImageButton
             android:id="@+id/ib_posterior_id_scan"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="@dimen/width_image_button_id_scan"
+            android:layout_height="@dimen/height_image_button_id_scan"
+            android:layout_marginTop="@dimen/margin_top_id_scan"
             android:src="@android:drawable/ic_menu_camera"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/selector_image_button"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:padding="20dp"
+            android:padding="@dimen/padding_all_image_button_id_scan"
             />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

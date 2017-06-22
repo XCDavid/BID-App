@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento.dialogs;
+package com.mobbeel.mobbscan.simple.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,7 +7,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import mx.teknei.enrolamiento.R;
+import com.mobbeel.mobbscan.simple.R;
 
 public class AlertDialog extends Dialog implements View.OnClickListener {
 		Button okButton;

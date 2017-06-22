@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento.activities;
+package com.mobbeel.mobbscan.simple.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,9 +32,9 @@ import com.mobbeel.mobbscan.document.IDDocument;
 
 import java.util.Date;
 
-import mx.teknei.enrolamiento.R;
-import mx.teknei.enrolamiento.dialogs.ProgressDialog;
-import mx.teknei.enrolamiento.utils.SharedPreferencesUtils;
+import com.mobbeel.mobbscan.simple.R;
+import com.mobbeel.mobbscan.simple.dialogs.ProgressDialog;
+import com.mobbeel.mobbscan.simple.utils.SharedPreferencesUtils;
 
 public class IdScanActivity extends AppCompatActivity implements View.OnClickListener, IDDocumentScanListener, IDDocumentDetectionListener {
     ImageButton idFrontButton;
@@ -59,7 +59,10 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_id_scan);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getResources().getString(R.string.id_scan_activity_name));
+            invalidateOptionsMenu();
+        }
         idFrontButton = (ImageButton) findViewById(R.id.ib_frontal_id_scan);
         idPosteriorButton = (ImageButton) findViewById(R.id.ib_posterior_id_scan);
         continueButton = (Button) findViewById(R.id.b_continue_id_scan);
@@ -76,7 +79,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
         scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.ID_SCAN,null);
 
-        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
+        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.com.mobbeel.com/");
 //        MobbScanAPI.getInstance().setApiMode(MobbScanAPI.MobbScanAPIMode.OFFLINE);
 //        MobbScanAPI.getInstance().setBaseUrl("https://201.99.106.95:28443/mobsscan-wrapper/solr/");
         MobbScanAPI.getInstance().initAPI("a64a304e-b13f-4f69-a0f9-512cc6c85cad", this, new LicenseStatusListener() {

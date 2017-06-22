@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento.activities;
+package com.mobbeel.mobbscan.simple.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import mx.teknei.enrolamiento.R;
+import com.mobbeel.mobbscan.simple.R;
 
 public class FormActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etName;

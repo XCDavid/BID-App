@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento.activities;
+package com.mobbeel.mobbscan.simple.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import mx.teknei.enrolamiento.R;
+import com.mobbeel.mobbscan.simple.R;
 
 public class FingerPrintsActivity extends AppCompatActivity implements View.OnClickListener{
     Button continueButton;
@@ -15,7 +15,10 @@ public class FingerPrintsActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger_prints);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getResources().getString(R.string.fingerprints_activity_name));
+            invalidateOptionsMenu();
+        }
         continueButton = (Button) findViewById(R.id.b_continue_fingerprints);
         continueButton.setOnClickListener(this);
     }

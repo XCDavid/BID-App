@@ -1,11 +1,11 @@
-package mx.teknei.enrolamiento.dialogs;
+package com.mobbeel.mobbscan.simple.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.view.Window;
 import android.widget.TextView;
 
-import mx.teknei.enrolamiento.R;
+import com.mobbeel.mobbscan.simple.R;
 
 public class ProgressDialog extends Dialog {
 		TextView txvMessage;

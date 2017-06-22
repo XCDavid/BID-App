@@ -37,6 +37,10 @@
     <dimen name="ring_left_margin_left">128dp</dimen>
     <dimen name="pinky_left_margin_bottom">181dp</dimen>
     <dimen name="pinky_left_margin_left">90dp</dimen>
-
+    <!--Document Scan Dimens-->
+    <dimen name="margin_constrain_document_scan">8dp</dimen>
+    <dimen name="width_document_scan_button">250dp</dimen>
+    <dimen name="height_document_scan_buton">350dp</dimen>
+    <dimen name="padding_all_image_buton_document_scan">20dp</dimen>
 
 </resources>

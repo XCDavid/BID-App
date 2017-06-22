@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento.utils;
+package com.mobbeel.mobbscan.simple.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

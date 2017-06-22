@@ -14,6 +14,7 @@
     <string name="required_text_form">* Campos obligatorios</string>
 
     <!--Id Scan strings-->
+    <string name="id_scan_activity_name">Identificación</string>
     <string name="continue_id_scan">Continuar</string>
     <string name="identification_frontal_id_scan">Identificación - Frontal</string>
     <string name="identification_posterior_id_scan">Identificación - Posterior</string>
@@ -28,8 +29,14 @@
     <string name="name">Nombre</string>
     <string name="nationality">Nacionalidad</string>
     <!--Face Scan strings-->
+    <string name="face_scan_activity_name">Fotografía</string>
     <string name="picture_face_face_scan">Fotografía - Rostro</string>
     <!--Fingerprints strings-->
+    <string name="fingerprints_activity_name">Huellas Dactilares</string>
     <string name="instruction_begin_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
     <string name="continue_fingerprints">Continuar</string>
+    <!--Document Scan strings-->
+    <string name="document_scan_activity_name">Comprobante</string>
+    <string name="continue_document_scan">Continuar</string>
+    <string name="document_instruction_document_scan">Fotografía - Documento</string>
 </resources>

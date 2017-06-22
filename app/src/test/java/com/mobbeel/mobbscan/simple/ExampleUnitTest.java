@@ -1,4 +1,4 @@
-package mx.teknei.enrolamiento;
+package com.mobbeel.mobbscan.simple;
 
 import org.junit.Test;
 

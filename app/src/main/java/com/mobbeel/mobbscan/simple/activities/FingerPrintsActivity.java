@@ -27,7 +27,7 @@ public class FingerPrintsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.b_continue_fingerprints:
-                Intent i = new Intent(this, FaceScanActivity.class);
+                Intent i = new Intent(this, DocumentScanActivity.class);
                 startActivity(i);
                 break;
         }

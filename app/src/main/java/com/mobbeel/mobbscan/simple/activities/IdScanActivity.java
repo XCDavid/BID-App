@@ -74,12 +74,20 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         continueButton.setOnClickListener(this);
         buttonShowHideResultData.setOnClickListener(this);
 
+        progressDialog = new ProgressDialog(this, getString(R.string.get_info_process_id_scan));
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        progressDialogToScan = new ProgressDialog(this, getString(R.string.start_scan_process_id_scan));
+        progressDialogToScan.setCancelable(false);
+        progressDialogToScan.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         encodedStringFrontal = null;
         encodedStringPosterior = null;
 
         scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.ID_SCAN,null);
 
-        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.com.mobbeel.com/");
+        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
 //        MobbScanAPI.getInstance().setApiMode(MobbScanAPI.MobbScanAPIMode.OFFLINE);
 //        MobbScanAPI.getInstance().setBaseUrl("https://201.99.106.95:28443/mobsscan-wrapper/solr/");
         MobbScanAPI.getInstance().initAPI("a64a304e-b13f-4f69-a0f9-512cc6c85cad", this, new LicenseStatusListener() {
@@ -103,6 +111,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.ib_posterior_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
+                scanBack();
                 break;
             case R.id.ly_button_reult_data_id_scan:
                 showHideResultData();
@@ -195,16 +204,15 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
     private void scan(final MobbScanOperationMode operationMode) {
         refreshUI(null);
-        progressDialogToScan = new ProgressDialog(this, getString(R.string.start_scan_process_id_scan));
-        progressDialogToScan.setCancelable(false);
-        progressDialogToScan.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         progressDialogToScan.show();
 
         MobbScanAPI.getInstance().startScan(MobbScanDocumentType.MEXIDCardD, operationMode, new ScanStartListener() {
             @Override
             public void onScanStarted(MobbScanStartScanResult result, String scanId, MobbScanAPIError error) {
+                progressDialogToScan.hide();
                 if (result == MobbScanStartScanResult.OK) {
-                    if (scandIdOperation == null && !scandIdOperation.equals("")){
+                    if (scandIdOperation == null ){
                         scandIdOperation = scanId;
                         SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.ID_SCAN,scandIdOperation);
                     }
@@ -217,9 +225,8 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                         MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.BACK, scanId, IdScanActivity.this, IdScanActivity.this);
                     }
                 } else {
-                    progressDialogToScan.hide();
                     Toast.makeText(IdScanActivity.this, error.toString() + ": The scan process could not be started. Please, contact with Mobbeel", Toast.LENGTH_LONG).show();
-                    MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);
+//                    MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);
                 }
             }
         });
@@ -261,9 +268,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onIDDocumentDetected(MobbScanDetectionResult result, MobbScanDetectionResultData resultData, MobbScanAPIError error) {
 //        progressDialog.setMessage("Extracting document information...");
-        progressDialog = new ProgressDialog(this, getString(R.string.get_info_process_id_scan));
-        progressDialog.setCancelable(false);
-        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         progressDialog.show();
         if (result == MobbScanDetectionResult.OK) {
             // free allocated memory if you don't use the bitmap result
@@ -272,10 +277,12 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                 if (resultData.getDocumentSide() == MobbScanDocumentSide.FRONT) {
                     Bitmap bmp = resultData.getImage();
                     idFrontButton.setImageBitmap(bmp);
+                    showHideResultData();
                 }
-                if (resultData.getDocumentSide() == MobbScanDocumentSide.FRONT) {
+                if (resultData.getDocumentSide() == MobbScanDocumentSide.BACK) {
                     Bitmap bmp = resultData.getImage();
-                    idFrontButton.setImageBitmap(bmp);
+                    idPosteriorButton.setImageBitmap(bmp);
+                    showHideResultData();
                 }
             }
         }

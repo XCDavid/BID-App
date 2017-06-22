@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -186,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <TextView
@@ -214,7 +214,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -233,7 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -253,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -273,7 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -293,7 +293,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
-                    android:textColor="@android:color/darker_gray" />
+                     />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

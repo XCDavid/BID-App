@@ -94,7 +94,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:clickable="true">
 
         <LinearLayout
             android:id="@+id/ly_button_reult_data_id_scan"
@@ -130,7 +131,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:background="@color/transparentGray"
+            android:background="@color/colorGray"
             android:visibility="gone">
 
 

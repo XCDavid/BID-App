@@ -44,6 +44,8 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
     LinearLayout sectionResultData;
     ImageView indicatorResultShow;
 
+    MobbScanDocumentType idTypeSelected;
+
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL = 661;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR = 662;
 
@@ -52,6 +54,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
     ProgressDialog progressDialog;
     ProgressDialog progressDialogToScan;
+    ProgressDialog progressDialogStartLoad;
 
     String scandIdOperation = null;
 
@@ -82,10 +85,20 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         progressDialogToScan.setCancelable(false);
         progressDialogToScan.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        progressDialogStartLoad = new ProgressDialog(this, getString(R.string.load_id_scan));
+        progressDialogStartLoad.setCancelable(false);
+        progressDialogStartLoad.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialogStartLoad.show();
+
         encodedStringFrontal = null;
         encodedStringPosterior = null;
 
-        scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.ID_SCAN,null);
+        Bundle bundle = getIntent().getExtras();
+        //Extract the data…
+        String idType = bundle.getString("id_type");
+        idTypeSelected = MobbScanDocumentType.getMobbScanDocumentType(idType);
+
+        scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, null);
 
         MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
 //        MobbScanAPI.getInstance().setApiMode(MobbScanAPI.MobbScanAPIMode.OFFLINE);
@@ -98,6 +111,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     Toast.makeText(IdScanActivity.this, "VALID License" + licenseResult.toString() + ", Date:" + licenseValidTo, Toast.LENGTH_LONG).show();
                 }
+                progressDialogStartLoad.dismiss();
             }
         });
     }
@@ -125,11 +139,11 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void showHideResultData(){
-        if(sectionResultData.getVisibility() == View.VISIBLE){
+    public void showHideResultData() {
+        if (sectionResultData.getVisibility() == View.VISIBLE) {
             sectionResultData.setVisibility(View.GONE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_48dp));
-        }else{
+        } else {
             sectionResultData.setVisibility(View.VISIBLE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_up_black_48dp));
         }
@@ -207,14 +221,14 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialogToScan.show();
 
-        MobbScanAPI.getInstance().startScan(MobbScanDocumentType.MEXIDCardD, operationMode, new ScanStartListener() {
+        MobbScanAPI.getInstance().startScan(idTypeSelected, operationMode, new ScanStartListener() {
             @Override
             public void onScanStarted(MobbScanStartScanResult result, String scanId, MobbScanAPIError error) {
                 progressDialogToScan.hide();
                 if (result == MobbScanStartScanResult.OK) {
-                    if (scandIdOperation == null ){
+                    if (scandIdOperation == null) {
                         scandIdOperation = scanId;
-                        SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.ID_SCAN,scandIdOperation);
+                        SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this, SharedPreferencesUtils.ID_SCAN, scandIdOperation);
                     }
                     if (operationMode == MobbScanOperationMode.SCAN_ONLY_FRONT) {
                         MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);

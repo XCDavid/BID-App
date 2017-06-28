@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mobbeel.mobbscan.simple.activities.FormActivity"
+            android:name=".activities.FormActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,16 +26,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mobbeel.mobbscan.simple.activities.IdScanActivity"
+            android:name=".activities.IdScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mobbeel.mobbscan.simple.activities.FaceScanActivity"
+            android:name=".activities.FaceScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mobbeel.mobbscan.simple.activities.FingerPrintsActivity"
-            android:screenOrientation="landscape"></activity>
-        <activity android:name="com.mobbeel.mobbscan.simple.activities.DocumentScanActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".activities.FingerPrintsActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.DocumentScanActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.SelectIdTypeActivity"></activity>
     </application>
 
 </manifest>

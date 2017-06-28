@@ -13,12 +13,16 @@
     <string name="name_form">* Nombre(s)</string>
     <string name="required_text_form">* Campos obligatorios</string>
 
+    <!--Select Id Scan strings-->
+    <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
+
     <!--Id Scan strings-->
     <string name="id_scan_activity_name">Identificación</string>
     <string name="continue_id_scan">Continuar</string>
     <string name="identification_frontal_id_scan">Identificación - Frontal</string>
     <string name="identification_posterior_id_scan">Identificación - Posterior</string>
     <string name="start_scan_process_id_scan">Iniciando escáner...</string>
+    <string name="load_id_scan">Cargando...</string>
     <string name="get_info_process_id_scan">Extrayendo información...</string>
     <string name="document">Documento</string>
     <string name="personal_info">Datos personales</string>

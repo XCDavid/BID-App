@@ -81,7 +81,7 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.b_continue_form:
 //                if (validateDataForm()){
-                    Intent i = new Intent(this,IdScanActivity.class);
+                    Intent i = new Intent(this,SelectIdTypeActivity.class);
                     startActivity(i);
 //                }
                 break;

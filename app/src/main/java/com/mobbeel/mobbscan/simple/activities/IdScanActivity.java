@@ -1,8 +1,11 @@
 package com.mobbeel.mobbscan.simple.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,6 +37,7 @@ import java.util.Date;
 
 import com.mobbeel.mobbscan.simple.R;
 import com.mobbeel.mobbscan.simple.dialogs.ProgressDialog;
+import com.mobbeel.mobbscan.simple.utils.PermissionsUtils;
 import com.mobbeel.mobbscan.simple.utils.SharedPreferencesUtils;
 
 public class IdScanActivity extends AppCompatActivity implements View.OnClickListener, IDDocumentScanListener, IDDocumentDetectionListener {
@@ -100,6 +104,9 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
         scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, null);
 
+        //Check Permissions For Android 6.0 up
+        PermissionsUtils.checkPermissionCamera(this);
+
         MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
 //        MobbScanAPI.getInstance().setApiMode(MobbScanAPI.MobbScanAPIMode.OFFLINE);
 //        MobbScanAPI.getInstance().setBaseUrl("https://201.99.106.95:28443/mobsscan-wrapper/solr/");
@@ -111,21 +118,26 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     Toast.makeText(IdScanActivity.this, "VALID License" + licenseResult.toString() + ", Date:" + licenseValidTo, Toast.LENGTH_LONG).show();
                 }
-                progressDialogStartLoad.dismiss();
+                if (progressDialogStartLoad != null && progressDialogStartLoad.isShowing()) {
+                    progressDialogStartLoad.dismiss();
+                }
             }
         });
     }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_frontal_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL);
-                scanFront();
+//                scanFront();
+                scanBoth();
                 break;
             case R.id.ib_posterior_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
-                scanBack();
+//                scanBack();
+                scanBoth();
                 break;
             case R.id.ly_button_reult_data_id_scan:
                 showHideResultData();
@@ -306,5 +318,26 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
     protected void onDestroy() {
         super.onDestroy();
         MobbScanAPI.getInstance().release();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermissionsUtils.CAMERA_REQUEST_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    IdScanActivity.this.onBackPressed();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

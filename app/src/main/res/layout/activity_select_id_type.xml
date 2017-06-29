@@ -18,17 +18,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_rounded_button"
-            android:text="INE"
+            android:text="@string/ine_select_id_type"
             android:textStyle="bold"
             android:textColor="@color/text_color_white"
             android:layout_marginBottom="50dp"
             />
         <Button
-            android:id="@+id/b_ife_select_id"
+            android:id="@+id/b_ife_c_select_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_rounded_button"
-            android:text="IFE"
+            android:text="@string/ife_c_select_id_type"
+            android:textStyle="bold"
+            android:textColor="@color/text_color_white"
+            android:layout_marginBottom="50dp"
+            />
+        <Button
+            android:id="@+id/b_ife_d_select_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_rounded_button"
+            android:text="@string/ife_d_select_id_type"
             android:textStyle="bold"
             android:textColor="@color/text_color_white"
             android:layout_marginBottom="50dp"
@@ -38,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_rounded_button"
-            android:text="Pasaporte"
+            android:text="@string/pasaporte_select_id_type"
             android:textStyle="bold"
             android:textColor="@color/text_color_white"
             android:layout_marginBottom="50dp"
@@ -49,10 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_rounded_button"
-            android:text="Licencia"
+            android:text="@string/licencia_select_id_type"
             android:textStyle="bold"
             android:textColor="@color/text_color_white"
             android:layout_marginBottom="50dp"
+            android:visibility="gone"
             />
 
     </LinearLayout>

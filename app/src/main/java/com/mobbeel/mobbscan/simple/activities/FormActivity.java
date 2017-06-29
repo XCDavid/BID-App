@@ -22,8 +22,10 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     EditText etName;
     EditText etLastName;
     EditText etMotherLastName;
+    EditText etCurp;
     EditText etMail;
     EditText etPhone;
+
     Button buttonContinue;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -48,6 +50,17 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
                 return "";
             }
         };
+        InputFilter filterCURP = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals("")) { // for backspace
+                    return source;
+                }
+                if (source.toString().matches("[A-Z0-9ÑÁÉÍÓÚ]+")) {
+                    return source;
+                }
+                return "";
+            }
+        };
         InputFilter filterMail = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals("")) { // for backspace
@@ -63,15 +76,17 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
         etName = (EditText) findViewById(R.id.et_name_form);
         etLastName = (EditText) findViewById(R.id.et_last_name_form);
         etMotherLastName = (EditText) findViewById(R.id.et_mother_last_name_form);
+        etCurp = (EditText) findViewById(R.id.et_curp_form);
         etMail = (EditText) findViewById(R.id.et_mail_form);
         etPhone = (EditText) findViewById(R.id.et_phone_form);
         buttonContinue = (Button) findViewById(R.id.b_continue_form);
 
         buttonContinue.setOnClickListener(this);
-        etName.setFilters(new InputFilter[]{filter});
-        etLastName.setFilters(new InputFilter[]{filter});
-        etMotherLastName.setFilters(new InputFilter[]{filter});
-        etMail.setFilters(new InputFilter[]{filterMail});
+        etName.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(30)});
+        etLastName.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(30)});
+        etMotherLastName.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(30)});
+        etCurp.setFilters(new InputFilter[]{filterCURP, new InputFilter.LengthFilter(18)});
+        etMail.setFilters(new InputFilter[]{filterMail, new InputFilter.LengthFilter(40)});
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
@@ -109,6 +124,20 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
             if(etMotherLastName.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etMotherLastName, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }else if (etCurp.getText().toString().equals("")){
+            Toast.makeText(this,"El campo ( CURP ) es obligatorio",Toast.LENGTH_SHORT).show();
+            etCurp.clearFocus();
+            if(etCurp.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }else if (etCurp.getText().toString().length() < 18){
+            Toast.makeText(this,"El campo ( CURP ) debe tener 18 digitos",Toast.LENGTH_SHORT).show();
+            etCurp.clearFocus();
+            if(etCurp.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
         }else if (etPhone.getText().toString().equals("")){
             Toast.makeText(this,"El campo ( Teléfono ) es obligatorio",Toast.LENGTH_SHORT).show();

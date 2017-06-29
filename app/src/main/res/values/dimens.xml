@@ -42,5 +42,9 @@
     <dimen name="width_document_scan_button">250dp</dimen>
     <dimen name="height_document_scan_buton">350dp</dimen>
     <dimen name="padding_all_image_buton_document_scan">20dp</dimen>
+    <!--Pay Confirm Dimens-->
+    <dimen name="vertical_top_separator_pay_confirm">10dp</dimen>
+    <dimen name="vertical_separator_pay_confirm">30dp</dimen>
+    <dimen name="horizontal_margin_pay_confirm">20dp</dimen>
 
 </resources>

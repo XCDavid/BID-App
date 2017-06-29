@@ -76,6 +76,22 @@
                 android:inputType="textPersonName"
                 android:maxLength="30"
                 android:maxLines="1" />
+            <TextView
+                android:id="@+id/tv_curp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                android:text="* CURP" />
+
+            <EditText
+                android:id="@+id/et_curp_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="textCapCharacters"
+                android:maxLength="18"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/tv_mail"
@@ -105,12 +121,14 @@
                 android:id="@+id/et_phone_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/vertical_separator_form"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:inputType="number"
                 android:maxLength="20"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:layout_marginBottom="@dimen/vertical_separator_form"
+                />
+
         </LinearLayout>
     </ScrollView>
     <Button

@@ -15,6 +15,11 @@
 
     <!--Select Id Scan strings-->
     <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
+    <string name="ine_select_id_type">INE</string>
+    <string name="ife_c_select_id_type">IFE tipo C</string>
+    <string name="ife_d_select_id_type">IFE tipo D</string>
+    <string name="pasaporte_select_id_type">Pasaporte</string>
+    <string name="licencia_select_id_type">Licencia</string>
 
     <!--Id Scan strings-->
     <string name="id_scan_activity_name">Identificación</string>
@@ -43,4 +48,8 @@
     <string name="document_scan_activity_name">Comprobante</string>
     <string name="continue_document_scan">Continuar</string>
     <string name="document_instruction_document_scan">Fotografía - Documento</string>
+    <!--Document Scan strings-->
+    <string name="pay_confirm_activity_name">Confirmación de pago</string>
+    <string name="continue_pay_confirm">Continuar</string>
+
 </resources>

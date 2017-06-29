@@ -10,7 +10,8 @@ import com.mobbeel.mobbscan.api.MobbScanDocumentType;
 import com.mobbeel.mobbscan.simple.R;
 
 public class SelectIdTypeActivity extends AppCompatActivity implements View.OnClickListener {
-    Button ifeButton;
+    Button ifeCButton;
+    Button ifeDButton;
     Button ineButton;
     Button passportButton;
     Button licenseButton;
@@ -23,12 +24,14 @@ public class SelectIdTypeActivity extends AppCompatActivity implements View.OnCl
             getSupportActionBar().setTitle(getResources().getString(R.string.select_id_scan_activity_name));
             invalidateOptionsMenu();
         }
-        ifeButton = (Button) findViewById(R.id.b_ife_select_id);
+        ifeCButton = (Button) findViewById(R.id.b_ife_c_select_id);
+        ifeDButton = (Button) findViewById(R.id.b_ife_d_select_id);
         ineButton = (Button) findViewById(R.id.b_ine_select_id);
         passportButton = (Button) findViewById(R.id.b_passport_select_id);
         licenseButton = (Button) findViewById(R.id.b_licence_select_id);
 
-        ifeButton.setOnClickListener(this);
+        ifeCButton.setOnClickListener(this);
+        ifeDButton.setOnClickListener(this);
         ineButton.setOnClickListener(this);
         passportButton.setOnClickListener(this);
         licenseButton.setOnClickListener(this);
@@ -40,9 +43,15 @@ public class SelectIdTypeActivity extends AppCompatActivity implements View.OnCl
         //Create the bundle
         Bundle bundle = new Bundle();
         switch (view.getId()) {
-            case R.id.b_ife_select_id:
+            case R.id.b_ife_c_select_id:
                 //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.MEXIDCard.toString());
+                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
+                //Add the bundle to the intent
+                i.putExtras(bundle);
+                break;
+            case R.id.b_ife_d_select_id:
+                //Add your data from getFactualResults method to bundle
+                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
                 //Add the bundle to the intent
                 i.putExtras(bundle);
                 break;
@@ -60,9 +69,9 @@ public class SelectIdTypeActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.b_licence_select_id:
                 //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
+//                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
                 //Add the bundle to the intent
-                i.putExtras(bundle);
+//                i.putExtras(bundle);
                 break;
         }
         startActivity(i);

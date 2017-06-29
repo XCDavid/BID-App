@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -37,7 +38,12 @@
         <activity
             android:name=".activities.DocumentScanActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.SelectIdTypeActivity"></activity>
+        <activity
+            android:name=".activities.SelectIdTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PayConfirmationActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

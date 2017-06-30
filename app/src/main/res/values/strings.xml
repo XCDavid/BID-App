@@ -48,8 +48,10 @@
     <string name="document_scan_activity_name">Comprobante</string>
     <string name="continue_document_scan">Continuar</string>
     <string name="document_instruction_document_scan">Fotografía - Documento</string>
-    <!--Document Scan strings-->
+    <!--Pay Confirm strings-->
     <string name="pay_confirm_activity_name">Confirmación de pago</string>
     <string name="continue_pay_confirm">Continuar</string>
+    <string name="contract_reference_pay_confirmation">Número de referencia de contrato</string>
+    <string name="amount_pay_confirmation">Importe $</string>
 
 </resources>

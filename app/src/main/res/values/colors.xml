@@ -18,4 +18,9 @@
     <!--Transparent Color image button-->
     <color name="button_pressed_transparent">#B6B6B6</color>
     <color name="button_active_transparent">#AAB6B6B6</color>
+
+    <!--LogIn Button state colors-->
+    <color name="button_login_disabled">#B6B6B6</color>
+    <color name="button_login_pressed">#FFCAE9</color>
+    <color name="button_login_active">#FF4081</color>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Número de referencia de contrato " />
+            android:text="@string/contract_reference_pay_confirmation" />
 
         <EditText
             android:id="@+id/et_contract_reference_pay_confirm"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Número de referencia de contrato " />
+            android:text="@string/amount_pay_confirmation" />
 
         <EditText
             android:id="@+id/et_pay_amount_pay_confirm"

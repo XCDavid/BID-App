@@ -43,7 +43,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PayConfirmationActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.LogInActivity"></activity>
     </application>
 
 </manifest>

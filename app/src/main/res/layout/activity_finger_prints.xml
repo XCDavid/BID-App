@@ -9,7 +9,8 @@
         android:id="@+id/ly_tv_instructions_fingerprints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -19,6 +20,13 @@
             android:gravity="center"
             android:text="@string/instruction_begin_fingerprints_scan"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -46,8 +54,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             android:id="@+id/imageView" />
-
+        <!--Left Arm-->
         <ImageButton
+            android:id="@+id/b_thumb_left_arm"
             android:layout_width="@dimen/width_thumb_finger"
             android:layout_height="@dimen/height_thumb_finger"
             android:layout_marginBottom="@dimen/thumb_left_margin_bottom"
@@ -58,6 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
         <ImageButton
+            android:id="@+id/b_index_left_arm"
             android:layout_width="@dimen/width_index_finger"
             android:layout_height="@dimen/height_index_finger"
             android:layout_marginBottom="@dimen/index_left_margin_bottom"
@@ -68,6 +78,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
         <ImageButton
+            android:id="@+id/b_middle_left_arm"
             android:layout_width="@dimen/width_index_finger"
             android:layout_height="@dimen/height_index_finger"
             android:layout_marginBottom="@dimen/middle_left_margin_bottom"
@@ -78,6 +89,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
         <ImageButton
+            android:id="@+id/b_ring_left_arm"
             android:layout_width="@dimen/width_index_finger"
             android:layout_height="@dimen/height_index_finger"
             android:layout_marginBottom="@dimen/ring_left_margin_bottom"
@@ -88,6 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
         <ImageButton
+            android:id="@+id/b_pinky_left_arm"
             android:layout_width="@dimen/width_index_finger"
             android:layout_height="@dimen/height_index_finger"
             android:layout_marginBottom="@dimen/pinky_left_margin_bottom"
@@ -98,6 +111,62 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
+        <!--Right Arm-->
+        <ImageButton
+            android:id="@+id/b_thumb_right_arm"
+            android:layout_width="@dimen/width_thumb_finger"
+            android:layout_height="@dimen/height_thumb_finger"
+            android:layout_marginBottom="@dimen/thumb_left_margin_bottom"
+            android:layout_marginRight="@dimen/thumb_right_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/b_index_right_arm"
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/index_left_margin_bottom"
+            android:layout_marginRight="@dimen/index_right_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/b_middle_right_arm"
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/middle_left_margin_bottom"
+            android:layout_marginRight="@dimen/middle_right_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/b_ring_riht_arm"
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/ring_left_margin_bottom"
+            android:layout_marginRight="@dimen/ring_right_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/b_pinky_right_arm"
+            android:layout_width="@dimen/width_index_finger"
+            android:layout_height="@dimen/height_index_finger"
+            android:layout_marginBottom="@dimen/pinky_left_margin_bottom"
+            android:layout_marginRight="@dimen/pinky_right_margin_left"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/b_continue_fingerprints"

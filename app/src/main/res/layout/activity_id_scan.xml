@@ -47,11 +47,23 @@
                 android:background="@drawable/selector_image_button"
                 android:padding="@dimen/padding_all_image_button_id_scan"
                 android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_camera"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_camera"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="@+id/ib_frontal_id_scan"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="@+id/ib_frontal_id_scan"
+                app:layout_constraintTop_toTopOf="@+id/ib_frontal_id_scan"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_frontal_id_scan"
+                android:layout_marginBottom="8dp" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -80,11 +92,22 @@
                 android:background="@drawable/selector_image_button"
                 android:padding="@dimen/padding_all_image_button_id_scan"
                 android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_camera"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="@+id/ib_posterior_id_scan"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="@+id/ib_posterior_id_scan"
+                app:layout_constraintTop_toTopOf="@+id/ib_posterior_id_scan"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_posterior_id_scan"
+                android:layout_marginBottom="8dp" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 

@@ -9,11 +9,12 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.mobbeel.mobbscan.simple.R;
-import com.scanlibrary.ScanActivity;
-import com.scanlibrary.ScanConstants;
+//import com.scanlibrary.ScanActivity;
+//import com.scanlibrary.ScanConstants;
 
 import java.io.IOException;
 
@@ -21,6 +22,8 @@ import java.io.IOException;
 public class DocumentScanActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int REQUEST_CODE = 99;
     ImageButton takeDocumentPicture;
+
+    Button bContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,38 +35,44 @@ public class DocumentScanActivity extends AppCompatActivity implements View.OnCl
         }
 
         takeDocumentPicture = (ImageButton) findViewById(R.id.ib_document_scan);
+        bContinue = (Button) findViewById(R.id.b_continue_document_scan);
         takeDocumentPicture.setOnClickListener(this);
+        bContinue.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ib_document_scan:
-                startScan(ScanConstants.OPEN_CAMERA);
+//                startScan(ScanConstants.OPEN_CAMERA);
+                break;
+            case R.id.b_continue_document_scan:
+                Intent i = new Intent(this, PayConfirmationActivity.class);
+                startActivity(i);
                 break;
         }
     }
 
     protected void startScan(int preference) {
-        Intent intent = new Intent(this, ScanActivity.class);
-        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
-        startActivityForResult(intent, REQUEST_CODE);
+//        Intent intent = new Intent(this, ScanActivity.class);
+//        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+//        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                getContentResolver().delete(uri, null, null);
-                takeDocumentPicture.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+//            Bitmap bitmap = null;
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+//                getContentResolver().delete(uri, null, null);
+//                takeDocumentPicture.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     private Bitmap convertByteArrayToBitmap(byte[] data) {

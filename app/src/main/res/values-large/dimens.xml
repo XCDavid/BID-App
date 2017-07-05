@@ -23,20 +23,28 @@
     <!--Fingerprints Dimens-->
     <dimen name="margin_top_bottom_fingerprints">20dp</dimen>
     <dimen name="margin_all_image_view_fingerprints">8dp</dimen>
-    <dimen name="width_thumb_finger">50dp</dimen>
-    <dimen name="height_thumb_finger">45dp</dimen>
-    <dimen name="thumb_left_margin_left">405dp</dimen>
-    <dimen name="thumb_left_margin_bottom">124dp</dimen>
-    <dimen name="width_index_finger">45dp</dimen>
-    <dimen name="height_index_finger">50dp</dimen>
-    <dimen name="index_left_margin_bottom">322dp</dimen>
-    <dimen name="index_left_margin_left">343dp</dimen>
-    <dimen name="middle_left_margin_bottom">341dp</dimen>
-    <dimen name="middle_left_margin_left">271dp</dimen>
-    <dimen name="ring_left_margin_bottom">329dp</dimen>
-    <dimen name="ring_left_margin_left">201dp</dimen>
-    <dimen name="pinky_left_margin_bottom">300dp</dimen>
-    <dimen name="pinky_left_margin_left">140dp</dimen>
+    <dimen name="width_index_finger">49dp</dimen>
+    <dimen name="height_index_finger">54dp</dimen>
+    <dimen name="width_thumb_finger">54dp</dimen>
+    <dimen name="height_thumb_finger">49dp</dimen>
+    <!--Left arm-->
+    <dimen name="thumb_left_margin_left">373dp</dimen>
+    <dimen name="thumb_left_margin_bottom">141dp</dimen>
+    <dimen name="index_left_margin_bottom">360dp</dimen>
+    <dimen name="index_left_margin_left">303dp</dimen>
+    <dimen name="middle_left_margin_bottom">380dp</dimen>
+    <dimen name="middle_left_margin_left">221dp</dimen>
+    <dimen name="ring_left_margin_bottom">364dp</dimen>
+    <dimen name="ring_left_margin_left">148dp</dimen>
+    <!--Rigth Arm-->
+    <dimen name="thumb_right_margin_left">360dp</dimen>
+    <dimen name="index_right_margin_left">290dp</dimen>
+    <dimen name="middle_right_margin_left">208dp</dimen>
+    <dimen name="ring_right_margin_left">135dp</dimen>
+    <dimen name="pinky_right_margin_left">62dp</dimen>
+
+    <dimen name="pinky_left_margin_bottom">339dp</dimen>
+    <dimen name="pinky_left_margin_left">75dp</dimen>
     <!--Document Scan Dimens-->
     <dimen name="margin_constrain_document_scan">8dp</dimen>
     <dimen name="width_document_scan_button">350dp</dimen>

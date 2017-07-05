@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
+    <string name="app_tray_again">Reintentar</string>
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
     <string name="message_dialog">Mensaje</string>
@@ -53,5 +54,8 @@
     <string name="continue_pay_confirm">Continuar</string>
     <string name="contract_reference_pay_confirmation">Número de referencia de contrato</string>
     <string name="amount_pay_confirmation">Importe $</string>
+    <!--Result operation strings-->
+    <string name="result_operation_activity_name">Resultado</string>
+    <string name="end_result_operation">Terminar</string>
 
 </resources>

@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.mobbeel.mobbscan.simple.R;
-//import com.scanlibrary.ScanActivity;
-//import com.scanlibrary.ScanConstants;
+import com.scanlibrary.ScanActivity;
+import com.scanlibrary.ScanConstants;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class DocumentScanActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ib_document_scan:
-//                startScan(ScanConstants.OPEN_CAMERA);
+                startScan(ScanConstants.OPEN_CAMERA);
                 break;
             case R.id.b_continue_document_scan:
                 Intent i = new Intent(this, PayConfirmationActivity.class);
@@ -54,25 +54,25 @@ public class DocumentScanActivity extends AppCompatActivity implements View.OnCl
     }
 
     protected void startScan(int preference) {
-//        Intent intent = new Intent(this, ScanActivity.class);
-//        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
-//        startActivityForResult(intent, REQUEST_CODE);
+        Intent intent = new Intent(this, ScanActivity.class);
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-//            Bitmap bitmap = null;
-//            try {
-//                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//                getContentResolver().delete(uri, null, null);
-//                takeDocumentPicture.setImageBitmap(bitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                getContentResolver().delete(uri, null, null);
+                takeDocumentPicture.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private Bitmap convertByteArrayToBitmap(byte[] data) {

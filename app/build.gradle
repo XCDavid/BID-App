@@ -4,17 +4,19 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     dexOptions{
-        maxProcessCount 2
-        javaMaxHeapSize "2g"
+        maxProcessCount 3
+        javaMaxHeapSize "3g"
     }
     defaultConfig {
         applicationId "com.mobbeel.mobbscan.simple"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,6 +30,11 @@ android {
             dirs 'libs'
         }
     }
+    sourceSets.main
+            {
+                jni.srcDirs = []
+                jniLibs.srcDir 'src/main/jniLibs'
+            }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -48,21 +55,27 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //    compile(name: "MorphoSmart_SDK_6.16.0.0"  ,ext:'jar')
     compile(name: "mobbscan-sdk-android-2.1.1", ext: 'aar')
     compile(name: "mobb-commons-android-1.3.0", ext: 'aar')
+    compile files('libs/MorphoSmart_SDK_6.16.0.0.jar')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    //MobbScan 3rd party libraries
+    //    MobbScan 3rd party libraries
     compile 'dev.dworks.libs:volleyplus:+'
     compile 'de.greenrobot:eventbus:2.4.0'
-    ///////////////////////////////////////
+    ////    ///////////////////////////////////////
     compile 'com.madgag:scpkix-jdk15on:1.47.0.2'
     compile 'com.madgag:scprov-jdk15on:1.47.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    ///////////////////////////////////////
-    compile 'com.google.android.gms:play-services-vision:8.4.0'
-    // Tesseract 3.05
-    compile 'com.rmtheis:tess-two:6.2.0'
+    ////    ///////////////////////////////////////
+    compile 'com.google.android.gms:play-services-vision:11.0.1'
+    //////     Tesseract 3.05
+    //    compile 'com.rmtheis:tess-two:6.2.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
+    //Scan Document Module
     compile project(':scanlibrary')
 }
+
+

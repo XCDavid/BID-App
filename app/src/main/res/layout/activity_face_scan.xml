@@ -34,7 +34,7 @@
             android:background="@drawable/selector_image_button"
             android:padding="@dimen/padding_all_image_buton_scan_face"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_camera"
+            app:srcCompat="@drawable/ic_camera_front"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

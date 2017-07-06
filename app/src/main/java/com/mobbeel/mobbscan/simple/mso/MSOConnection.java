@@ -23,15 +23,15 @@ import java.nio.ByteBuffer;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MSOConnection implements Observer{
+public class MSOConnection extends FingerPrintsActivity implements Observer, MSOShower {
 
     MorphoDevice morphoDevice;
 
-    private String fingerPrint;
+//    private String fingerPrint;
 
     private Bitmap imageBmp;
 
-    private String coded;
+//    private String coded;
 
     private String sensorName;
 
@@ -41,10 +41,10 @@ public class MSOConnection implements Observer{
 
     private String strMessage = null;
 
-//    private MainActivity activity;
+    //    private MainActivity activity;
     private Activity activity;
 
-    private int	callbackCmd	= CallbackMask.MORPHO_CALLBACK_IMAGE_CMD.getValue()
+    private int callbackCmd = CallbackMask.MORPHO_CALLBACK_IMAGE_CMD.getValue()
             | CallbackMask.MORPHO_CALLBACK_ENROLLMENT_CMD.getValue()
             | CallbackMask.MORPHO_CALLBACK_COMMAND_CMD.getValue()
             | CallbackMask.MORPHO_CALLBACK_CODEQUALITY.getValue()
@@ -52,16 +52,16 @@ public class MSOConnection implements Observer{
 
     private static MSOConnection singleton;
 
-    public static MSOConnection getInstance(){
-        if(singleton == null)
+    public static MSOConnection getInstance() {
+        if (singleton == null)
             singleton = new MSOConnection();
 
         return singleton;
     }
 
-    public String getCoded(){
-        return coded;
-    }
+//    public String getCoded(){
+//        return coded;
+//    }
 
 
     public Bitmap getBitMap()
@@ -70,34 +70,32 @@ public class MSOConnection implements Observer{
     }
 
 
-    public String getString()
-    {
-        return fingerPrint;
-    }
+//    public String getString()
+//    {
+//        return fingerPrint;
+//    }
 
 
-    private MSOConnection(){
+    private MSOConnection() {
         morphoDevice = new MorphoDevice();
     }
 
 
-    public void setMsoShower(MSOShower msoShower){
+    public void setMsoShower(MSOShower msoShower) {
         this.msoShower = msoShower;
     }
 
 
-
-    public int getCallbackCmd(){
+    public int getCallbackCmd() {
 
         return callbackCmd;
     }
 
-    public void tkn_mso_get_usb_permission(Activity activity) throws TKN_MSO_ERROR{
+    public void tkn_mso_get_usb_permission(Activity activity) throws TKN_MSO_ERROR {
 
         USBManager.getInstance().initialize(activity, "com.morpho.morphosample.USB_ACTION");
 
-        if(USBManager.getInstance().isDevicesHasPermission() != true)
-        {
+        if (USBManager.getInstance().isDevicesHasPermission() != true) {
             throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_PERMISSIONS_NOT_ALLOWED);
         }
 
@@ -112,18 +110,18 @@ public class MSOConnection implements Observer{
         int ret = morphoDevice.initUsbDevicesNameEnum(nbUsbDevice);
 
         if (ret != ErrorCodes.MORPHO_OK)
-          throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_NOT_INIT);
+            throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_NOT_INIT);
 
-        if(nbUsbDevice < 1)
-          throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_DEVICES_ZERO);
+        if (nbUsbDevice < 1)
+            throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_DEVICES_ZERO);
 
         sensorName = morphoDevice.getUsbDeviceName(0);
-        if(nbUsbDevice == 2)
+        if (nbUsbDevice == 2)
             sensorName = morphoDevice.getUsbDeviceName(1);
 
         ret = morphoDevice.openUsbDevice(sensorName, 0);
 
-        if(ret != 0)
+        if (ret != 0)
             throw new TKN_MSO_ERROR(TKN_MSO_CODES.USB_DEVICE_NOT_OPENED);
 
         res = true;
@@ -133,75 +131,75 @@ public class MSOConnection implements Observer{
 
     public void tkn_mso_capture(final Activity context) throws TKN_MSO_ERROR {
 
-        //boolean res = false;
+        boolean res = false;
 
         try {
             tkn_mso_get_usb_permission(context);
-        }catch (TKN_MSO_ERROR e){
+        } catch (TKN_MSO_ERROR e) {
             throw e;
         }
 
 
-        //try {
-
-        //Thread.sleep(400);
-
-        //res = tkn_mso_connect();
-
-        //if(res != true)
-        //{
-           // Thread.sleep(1000);
-//            //res = tkn_mso_connect();
-//            if(res != true)
-//            {
-//                Thread.sleep(3500);
-//                tkn_mso_connect();
-//            }
-//        }
-
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-//            throw new TKN_MSO_ERROR(TKN_MSO_CODES.THREAD_INTERRUPTED);
-//        }
-
+        try {
+             //Thread.sleep(400);
+            res = tkn_mso_connect();
+            if(res != true){
+             Thread.sleep(1000);
+                res = tkn_mso_connect();
+                if(res != true)
+                {
+                    Thread.sleep(3500);
+                    tkn_mso_connect();
+                }
+            }
+        }catch (InterruptedException e){
+            e.printStackTrace();
+            throw new TKN_MSO_ERROR(TKN_MSO_CODES.THREAD_INTERRUPTED);
+        }
 
 //        if(res == true) {
-//
-//            final Thread commandThread = (new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-                    int timeOut = 20;
-                    int acquisitionThreshold = 0;
-                    CompressionAlgorithm compressAlgo;
-                    int compressRate = 10;
-                    int detectModeChoice;
-                    LatentDetection latentDetection;
-                    MorphoImage morphoImage = new MorphoImage();
+            final Thread commandThread = (new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-                    int callbackCmd = MSOConnection.getInstance().getCallbackCmd();
 
-                    callbackCmd &= ~CallbackMask.MORPHO_CALLBACK_ENROLLMENT_CMD.getValue();
+        int timeOut = 20;
+        int acquisitionThreshold = 0;
+        CompressionAlgorithm compressAlgo;
+        int compressRate = 10;
+        int detectModeChoice;
+        LatentDetection latentDetection;
+        MorphoImage morphoImage = new MorphoImage();
 
-                    compressAlgo = CompressionAlgorithm.MORPHO_COMPRESS_WSQ;
+        int callbackCmd = MSOConnection.getInstance().getCallbackCmd();
 
-                    detectModeChoice = DetectionMode.MORPHO_ENROLL_DETECT_MODE.getValue();
+        callbackCmd &= ~CallbackMask.MORPHO_CALLBACK_ENROLLMENT_CMD.getValue();
 
-                    detectModeChoice |= DetectionMode.MORPHO_FORCE_FINGER_ON_TOP_DETECT_MODE.getValue();
+        // ---------- Recomendado
+        compressAlgo = CompressionAlgorithm.MORPHO_COMPRESS_WSQ;
 
-                    latentDetection = LatentDetection.LATENT_DETECT_DISABLE;
+        // ---------- Imagen sin comprimir
+        //compressAlgo = CompressionAlgorithm.MORPHO_NO_COMPRESS;
 
-                    final int ret = morphoDevice.getImage(timeOut, acquisitionThreshold, compressAlgo, compressRate, detectModeChoice, latentDetection, morphoImage, callbackCmd, MSOConnection.getInstance());
+        // ---------- Recomendado con dispositivos RS232
+        //compressAlgo = CompressionAlgorithm.MORPHO_COMPRESS_V1;
 
-                    if (msoShower != null)
-                        msoShower.updateImageView(morphoImage.getCompressedImage(), ret);
 
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(morphoImage.getImage(), 0, morphoImage.getImage().length);
-//                    ((FingerPrintsActivity)context).updateImageFingerView(bitmap);
+        detectModeChoice = DetectionMode.MORPHO_ENROLL_DETECT_MODE.getValue();
 
-//                }
-//            }));
-//            commandThread.start();
+        detectModeChoice |= DetectionMode.MORPHO_FORCE_FINGER_ON_TOP_DETECT_MODE.getValue();
 
+        latentDetection = LatentDetection.LATENT_DETECT_DISABLE;
+
+        final int ret = morphoDevice.getImage(timeOut, acquisitionThreshold, compressAlgo, compressRate, detectModeChoice, latentDetection, morphoImage, callbackCmd, MSOConnection.getInstance());
+
+        if (msoShower != null)
+            msoShower.updateImageView(morphoImage.getCompressedImage(), ret);
+
+
+                }
+            }));
+            commandThread.start();
 
 
 //        }else{
@@ -212,26 +210,21 @@ public class MSOConnection implements Observer{
     }
 
 
-
-    public synchronized void update(Observable o, Object arg)
-    {
-        try
-        {
+    public synchronized void update(Observable o, Object arg) {
+        try {
             // convert the object to a callback back message.
             CallbackMessage message = (CallbackMessage) arg;
 
             int type = message.getMessageType();
 
-            switch (type)
-            {
+            switch (type) {
 
                 case 1:
                     // message is a command.
                     Integer command = (Integer) message.getMessage();
 
                     // Analyze the command.
-                    switch (command)
-                    {
+                    switch (command) {
                         case 0:
                             strMessage = "move-no-finger";
                             break;
@@ -261,7 +254,7 @@ public class MSOConnection implements Observer{
 
                     }
 
-                    if(msoShower != null) {
+                    if (msoShower != null) {
                         mHandler.post(new Runnable() {
                             @Override
                             public synchronized void run() {
@@ -283,17 +276,16 @@ public class MSOConnection implements Observer{
 
                     imageBmp.copyPixelsFromBuffer(ByteBuffer.wrap(morphoImage.getImage(), 0, morphoImage.getImage().length));
 
-                    morphoImage.getImage();
+//                    morphoImage.getImage();
+//
+//                    morphoImage.getCompressedImage();
+//
+//                    fingerPrint = imageBmp.toString();
+//
+//                    coded = Base64.encode(fingerPrint);
 
-                    morphoImage.getCompressedImage();
 
-                    fingerPrint = imageBmp.toString();
-
-                    coded = Base64.encode(fingerPrint);
-
-
-
-                    if(msoShower != null) {
+                    if (msoShower != null) {
                         mHandler.post(new Runnable() {
                             @Override
                             public synchronized void run() {
@@ -303,7 +295,7 @@ public class MSOConnection implements Observer{
                     }
                     break;
                 case 3:
-                    if(msoShower != null) {
+                    if (msoShower != null) {
                         // message is the coded image quality.
                         final Integer quality = (Integer) message.getMessage();
                         mHandler.post(new Runnable() {
@@ -316,11 +308,10 @@ public class MSOConnection implements Observer{
                     }
                     break;
             }
-        }
-        catch (Exception e)
-        {
-            if(msoShower != null)
-                msoShower.showAlert(""+e.getMessage());
+        } catch (Exception e) {
+            if (msoShower != null)
+                msoShower.showAlert("" + e.getMessage());
         }
     }
+
 }

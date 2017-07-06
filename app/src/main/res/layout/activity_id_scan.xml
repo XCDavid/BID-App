@@ -55,7 +55,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_camera"
+                app:srcCompat="@drawable/ic_photo_camera"
                 android:layout_marginRight="8dp"
                 app:layout_constraintRight_toRightOf="@+id/ib_frontal_id_scan"
                 android:layout_marginLeft="8dp"
@@ -99,7 +99,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_camera"
+                app:srcCompat="@drawable/ic_photo_camera"
                 android:layout_marginRight="8dp"
                 app:layout_constraintRight_toRightOf="@+id/ib_posterior_id_scan"
                 android:layout_marginLeft="8dp"

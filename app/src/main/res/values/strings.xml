@@ -1,14 +1,24 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
-    <string name="app_tray_again">Reintentar</string>
+
+    <!--Server strings-->
+    <string name="message_ws_notice">Aviso</string>
+    <string name="message_ws_tray_again">Reintentar</string>
+    <string name="message_ws_no_internet">No tienes conexi\u00F3n a internet</string>
+    <string name="message_ws_petition_fail">Ocurri\u00F3 un error al establecer conexi\u00F3n con el servidor</string>
+    <string name="message_ws_response_300">300 - El archivo se encuentra en otra direcci\u00F3n</string>
+    <string name="message_ws_response_400">400 - La consulta no puede ser procesada</string>
+    <string name="message_ws_response_500">500 - No se pudo consultar el servidor</string>
     <!--Default Values strings-->
     <string name="default_url_id_scan">https://mobbscan-pre.mobbeel.com/</string>
     <string name="default_license_id_scan">a64a304e-b13f-4f69-a0f9-512cc6c85cad</string>
-    <string name="default_url_teknei">Reintentar</string>
+    <string name="default_url_teknei">http://localhost:8080/BIDServer/</string>
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
     <string name="message_dialog">Mensaje</string>
+    <!--LogIn strings-->
+    <string name="get_user_log_in">Autenticando</string>
     <!--Form strings-->
     <string name="form_activity_name">Formulario</string>
     <string name="phone_form">* Teléfono</string>

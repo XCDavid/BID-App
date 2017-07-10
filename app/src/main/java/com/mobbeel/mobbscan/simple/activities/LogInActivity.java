@@ -1,18 +1,20 @@
 package com.mobbeel.mobbscan.simple.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mobbeel.mobbscan.simple.R;
-import com.morpho.android.usb.USBManager;
-import com.morpho.morphosmart.sdk.MorphoDevice;
+import com.mobbeel.mobbscan.simple.asynctask.GetUser;
 
-public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
+public class LogInActivity extends BaseActivity implements View.OnClickListener {
     Button bLogIn;
+    EditText etUser;
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +25,43 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
 
         setContentView(R.layout.activity_log_in);
+        etUser = (EditText) findViewById(R.id.et_user_log_in);
         bLogIn = (Button) findViewById(R.id.b_login);
         bLogIn.setOnClickListener(this);
-
-
-        MorphoDevice morphoDevice = new MorphoDevice();
-        USBManager.getInstance().initialize(this, "com.morpho.morphosample.USB_ACTION");
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_login:
-                Intent i = new Intent(LogInActivity.this, FormActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
+                if (validateData()) {
+                    sendPetition();
+                }
                 break;
         }
+    }
+
+    public boolean validateData() {
+        user = etUser.getText().toString();
+        if (!user.equals("")) {
+            return true;
+        } else {
+            Toast.makeText(LogInActivity.this, "Ingresa un usuario para poder continuar", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    @Override
+    public void sendPetition() {
+//        super.sendPetition();
+        new GetUser(LogInActivity.this, "", "").execute();
+    }
+
+    @Override
+    public void goNext() {
+//        super.goNext();
+        Intent i = new Intent(LogInActivity.this, FormActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 }

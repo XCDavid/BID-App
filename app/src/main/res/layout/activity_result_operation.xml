@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
-        android:text="@string/app_tray_again"
+        android:text="@string/message_ws_tray_again"
         android:textColor="@color/text_color_white"
         android:background="@drawable/selector_primary_button"
         android:visibility="gone"/>

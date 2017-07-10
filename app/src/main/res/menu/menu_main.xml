@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/i_search_menu"
+        android:icon="@drawable/ic_search_menu"
+        android:orderInCategory="100"
+        android:title="buscar"
+        app:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/i_settings_menu"
+        android:icon="@drawable/ic_settings_menu"
+        android:orderInCategory="100"
+        android:title="buscar"
+        app:showAsAction="always">
+    </item>
+   <!-- <item
+        android:id="@+id/main_options_action"
+        android:icon="@drawable/ic_morevert"
+        android:title="opciones"
+        android:orderInCategory="200"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/i_options_action"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:orderInCategory="101"
+                android:title="Ajustes"
+                app:showAsAction="never" />
+            </menu>
+    </item>-->
+</menu>

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
     <string name="app_tray_again">Reintentar</string>
+    <!--Default Values strings-->
+    <string name="default_url_id_scan">https://mobbscan-pre.mobbeel.com/</string>
+    <string name="default_license_id_scan">a64a304e-b13f-4f69-a0f9-512cc6c85cad</string>
+    <string name="default_url_teknei">Reintentar</string>
+
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
     <string name="message_dialog">Mensaje</string>
@@ -58,4 +63,6 @@
     <string name="result_operation_activity_name">Resultado</string>
     <string name="end_result_operation">Terminar</string>
 
+    <!--Settings strings-->
+    <string name="settings_activity_name">Ajustes</string>
 </resources>

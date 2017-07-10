@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -175,5 +177,28 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
+    }
+
+    //menu actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.i_search_menu) {
+            Toast.makeText(this, "Trabajando...", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.i_settings_menu) {
+            Intent i = new Intent(this,SettingsActivity.class);
+            startActivity(i);
+        }
+        /*if (id == R.id.main_options_action) {
+            Toast.makeText(this, "Trabajando...opciones", Toast.LENGTH_SHORT).show();
+        }*/
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -190,7 +190,8 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.i_search_menu) {
-            Toast.makeText(this, "Trabajando...", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this,ConsultActivity.class);
+            startActivity(i);
         }
         if (id == R.id.i_settings_menu) {
             Intent i = new Intent(this,SettingsActivity.class);

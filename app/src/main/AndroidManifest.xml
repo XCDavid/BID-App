@@ -53,6 +53,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ConsultActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

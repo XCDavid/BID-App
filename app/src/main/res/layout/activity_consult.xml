@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_alignParentTop="true"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Ingresa la operación que desees consultar"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_num_operation_consult"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:hint="Número de operación"
+                android:layout_margin="5dp"
+                />
+            <Button
+                android:id="@+id/b_search_operation_consult"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Buscar"
+                android:textColor="@color/text_color_white"
+                android:background="@drawable/selector_rounded_button"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

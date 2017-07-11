@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.mobbeel.mobbscan.simple.R;
 import com.mobbeel.mobbscan.simple.activities.BaseActivity;
+import com.mobbeel.mobbscan.simple.activities.FormActivity;
 import com.mobbeel.mobbscan.simple.dialogs.AlertDialog;
 import com.mobbeel.mobbscan.simple.dialogs.ProgressDialog;
 import com.mobbeel.mobbscan.simple.utils.ApiConstants;
@@ -18,11 +19,11 @@ import com.mobbeel.mobbscan.simple.ws.ServerConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GetUser extends AsyncTask<String, Void, Void> {
-    private String newToken;
+public class LogOut extends AsyncTask<String, Void, Void> {
+    //    private String newToken;
     private String token;
 
-    private String userToCheck;
+//    private String userToCheck;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -35,9 +36,9 @@ public class GetUser extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public GetUser(Activity context, String userString, String tokenOld) {
+    public LogOut(Activity context, /*String userString,*/ String tokenOld) {
         this.activityOrigin = context;
-        this.userToCheck = userString;
+//        this.userToCheck = userString;
         this.token = tokenOld;
     }
 
@@ -45,7 +46,7 @@ public class GetUser extends AsyncTask<String, Void, Void> {
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.get_user_log_in));
+                activityOrigin.getString(R.string.message_log_out));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -66,9 +67,8 @@ public class GetUser extends AsyncTask<String, Void, Void> {
         if (hasConecction) {
             try {
                 ServerConnection serverConnection = new ServerConnection();
-//                String peticionJSON = buildJson(userToCheck);
-                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.URL_GET_USER + userToCheck, token, "GET");
+                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_OUT_USER, token, ServerConnection.METHOD_GET);
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -91,24 +91,8 @@ public class GetUser extends AsyncTask<String, Void, Void> {
     private void manageResponse(Object arrayResponse[]) {
         responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
-        String responseContent = null;
-        String value = null;
         if (responseStatus >= 200 && responseStatus < 300) {
-            try {
-                responseContent = responseJSONObject.getString("content"); //obtiene los datos del json de respuesta
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                value = responseJSONObject.getString("value"); //obtiene los datos del json de respuesta
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (responseContent != null && value != null && !value.equals("")) {
-                responseOk = true;
-            } else {
-                errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-            }
+            responseOk = true;
         } else if (responseStatus >= 300 && responseStatus < 400) {
             errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
@@ -120,34 +104,19 @@ public class GetUser extends AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-
+        progressDialog.dismiss();
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TOKEN_APP);
         if (hasConecction) {
             if (responseOk) {
-                String responseContent = "";
-                String value = "";
-                try {
-                    responseContent = responseJSONObject.getString("content");
-                    value = responseJSONObject.getString("value");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ((BaseActivity) activityOrigin).goNext();
+                ((BaseActivity) activityOrigin).logOut();
             } else {
-                AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
-                dialogoAlert.setCancelable(false);
-                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogoAlert.show();
+                Log.i("Message logout","logout: "+errorMessage);
+                ((BaseActivity) activityOrigin).logOut();
             }
         } else {
-            errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
-            AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
-            dialogoAlert.setCancelable(false);
-            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogoAlert.show();
+            Log.i("Message logout","logout: "+errorMessage);
+            ((BaseActivity) activityOrigin).logOut();
         }
-        progressDialog.dismiss();
     }
 
 }

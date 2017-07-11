@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpDelete;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -33,12 +34,14 @@ public class ServerConnection {
      */
     public static final String ANDROID_USER_AGENT = "http.agent";
     public static final String APPLICATION_JSON = "application/json";
-    public static final String HEADER_TOKEN_CODE = "TOKEN";
+    public static final String HEADER_TOKEN_CODE = "Authorization";
+    public static final String METHOD_GET = "GET";
+    public static final String METHOD_POST = "POST";
+    public static final String METHOD_DELETE = "DELETE";
 
     private String tokenID = "";
     public static final int TIME_OUT = 5000;
     Integer statusResponse = null;
-
 
 
     public Object[] connection(Context context, String stringJSON, String serverMethod, String token, String method) {
@@ -51,26 +54,40 @@ public class ServerConnection {
 
         HttpPost httpPOST = null;
         HttpGet httpGet = null;
-	    this.tokenID = token;
+        HttpDelete httpDelete = null;
+        this.tokenID = token;
 //		this.tokenID = HerApplication.HEADER_APPLICATION_KEY;
-        if (method.equals("POST")) {
-            httpPOST = new HttpPost(serverMethod);
-        } else if (method.equals("GET")) {
-            httpGet = new HttpGet(serverMethod);
+        //Selecciona que tipo de metodo crear
+        switch (method) {
+            case ServerConnection.METHOD_POST:
+                httpPOST = new HttpPost(serverMethod);
+                break;
+            case ServerConnection.METHOD_GET:
+                httpGet = new HttpGet(serverMethod);
+                break;
+            case ServerConnection.METHOD_DELETE:
+                httpDelete =  new HttpDelete(serverMethod);
+                break;
         }
-        //Creamos la entidad de datos que enviaremos
+//        if (method.equals(ServerConnection.METHOD_POST)) {
+//            httpPOST = new HttpPost(serverMethod);
+//        } else if (method.equals(ServerConnection.METHOD_GET)) {
+//            httpGet = new HttpGet(serverMethod);
+//        }
+        //Creamos la entidad de datos que enviaremos si existe el JSONOBJECT
         String sendJSON = stringJSON;
-        if(sendJSON != null) {
+        if (sendJSON != null) {
             sendJSON = stringJSON.replaceAll("\\\\", "");
         }
         StringEntity entityData = null;
         try {
-            if(sendJSON != null) {
+            if (sendJSON != null) {
                 entityData = new StringEntity(sendJSON);
             }
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
         }
+        //Si hay entidad de datos se agrega al Post en caso de que el metodo POST tambien exista
         if (entityData != null) {
             entityData.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON));
             if (httpPOST != null) {
@@ -78,7 +95,7 @@ public class ServerConnection {
             }
         }
 
-        // Ejecuta la peticion HTTP POST / GET al servidor
+        // Ejecuta la peticion HTTP POST / GET / DELETE al servidor
         try {
             if (httpPOST != null) {
                 //User aget add
@@ -96,6 +113,11 @@ public class ServerConnection {
                 //Normal headers add
                 httpGet.setHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 httpResponse = clienteHTTP.execute(httpGet);
+            } else if (httpDelete != null) {
+                httpDelete.setHeader(HEADER_TOKEN_CODE, tokenID);
+                //Normal headers add
+                httpDelete.setHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
+                httpResponse = clienteHTTP.execute(httpDelete);
             }
         } catch (Exception ee) {
             ee.printStackTrace();

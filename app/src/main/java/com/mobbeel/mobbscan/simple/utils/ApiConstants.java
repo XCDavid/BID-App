@@ -11,5 +11,7 @@ public class ApiConstants {
      */
     public static final int ACTION_CLOSE = 0;
     public static final int ACTION_TRY_AGAIN = 1;
-    public static final String URL_GET_USER = "login?user1=";
+    public static final String LOG_IN_USER = "login?user1=";
+    public static final String LOG_OUT_USER = "logout";
+
 }

@@ -5,6 +5,7 @@ package com.mobbeel.mobbscan.simple;
  */
 
 public interface BaseAction {
+    void logOut();
     void goNext();
     void sendPetition();
 }

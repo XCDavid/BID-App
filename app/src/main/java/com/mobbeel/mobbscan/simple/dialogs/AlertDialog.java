@@ -13,6 +13,7 @@ import com.mobbeel.mobbscan.simple.utils.ApiConstants;
 
 public class AlertDialog extends Dialog implements View.OnClickListener {
     Button okButton;
+    Button cancelButton;
     TextView txvTitle;
     TextView txvMessage;
     Activity activityOrigin;
@@ -36,22 +37,36 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         txvTitle = (TextView) findViewById(R.id.alert_title);
         txvMessage = (TextView) findViewById(R.id.alert_message);
         okButton = (Button) findViewById(R.id.ok_buttom);
+        cancelButton = (Button) findViewById(R.id.cancel_buttom);
         okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN)
             okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
+        if (actionIn == ApiConstants.ACTION_CLOSE)
+            cancelButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == okButton) {
-            dismiss();
-            if (actionIn == ApiConstants.ACTION_CLOSE )
-                activityOrigin.finish();
-            if (actionIn == ApiConstants.ACTION_TRY_AGAIN)
-                ((BaseActivity) activityOrigin).sendPetition();
+        switch (v.getId()) {
+            case R.id.ok_buttom:
+                dismiss();
+                if (actionIn == ApiConstants.ACTION_CLOSE)
+                    ((BaseActivity) activityOrigin).logOut();
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN) {
+                    ((BaseActivity) activityOrigin).goNext();
+//                ((BaseActivity) activityOrigin).sendPetition();
+                }
+                break;
+            case R.id.cancel_buttom:
+                dismiss();
+                break;
         }
+//        if (v == okButton) {
+//
+//        }
     }
 }

@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mobbeel.mobbscan.simple.R;
-import com.mobbeel.mobbscan.simple.asynctask.GetUser;
+import com.mobbeel.mobbscan.simple.asynctask.LogIn;
 
 public class LogInActivity extends BaseActivity implements View.OnClickListener {
     Button bLogIn;
@@ -54,7 +54,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void sendPetition() {
 //        super.sendPetition();
-        new GetUser(LogInActivity.this, "", "").execute();
+        new LogIn(LogInActivity.this, "", "").execute();
     }
 
     @Override

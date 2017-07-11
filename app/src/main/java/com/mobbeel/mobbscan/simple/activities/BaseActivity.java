@@ -13,6 +13,11 @@ public class BaseActivity extends AppCompatActivity implements BaseAction {
     }
 
     @Override
+    public void logOut() {
+
+    }
+
+    @Override
     public void goNext() {
 
     }

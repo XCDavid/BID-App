@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
+    <!--LogIn LogOut-->
+    <string name="get_user_log_in">Autenticando</string>
+    <string name="message_log_out">Saliendo</string>
+    <string name="message_title_logout">Salir de la aplicación</string>
+    <string name="message_message_logout">Al salir de la aplicación la operación actual sera cancelada y la sesión actual se cerrará\n¿Desea salir de la aplicación?</string>
 
     <!--Server strings-->
     <string name="message_ws_notice">Aviso</string>
@@ -16,9 +21,9 @@
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
+    <string name="cancel_message_dialog">Continuar</string>
     <string name="message_dialog">Mensaje</string>
-    <!--LogIn strings-->
-    <string name="get_user_log_in">Autenticando</string>
+
     <!--Form strings-->
     <string name="form_activity_name">Formulario</string>
     <string name="phone_form">* Teléfono</string>

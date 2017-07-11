@@ -2,7 +2,6 @@ package com.mobbeel.mobbscan.simple.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -15,12 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.mobbeel.mobbscan.simple.R;
+import com.mobbeel.mobbscan.simple.dialogs.AlertDialog;
+import com.mobbeel.mobbscan.simple.utils.ApiConstants;
+import com.mobbeel.mobbscan.simple.utils.SharedPreferencesUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mobbeel.mobbscan.simple.R;
-
-public class FormActivity extends AppCompatActivity implements View.OnClickListener {
+public class FormActivity extends BaseActivity implements View.OnClickListener {
     EditText etName;
     EditText etLastName;
     EditText etMotherLastName;
@@ -98,84 +100,84 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.b_continue_form:
 //                if (validateDataForm()){
-                    Intent i = new Intent(this,SelectIdTypeActivity.class);
-                    startActivity(i);
+                Intent i = new Intent(this, SelectIdTypeActivity.class);
+                startActivity(i);
 //                }
                 break;
         }
     }
 
     private boolean validateDataForm() {
-        if (etName.getText().toString().equals("")){
-            Toast.makeText(this,"El campo ( Nombre ) es obligatorio",Toast.LENGTH_SHORT).show();
+        if (etName.getText().toString().equals("")) {
+            Toast.makeText(this, "El campo ( Nombre ) es obligatorio", Toast.LENGTH_SHORT).show();
             etName.clearFocus();
-            if(etName.requestFocus()) {
+            if (etName.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etName, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etLastName.getText().toString().equals("")){
-            Toast.makeText(this,"El campo ( Apellido paterno ) es obligatorio",Toast.LENGTH_SHORT).show();
+        } else if (etLastName.getText().toString().equals("")) {
+            Toast.makeText(this, "El campo ( Apellido paterno ) es obligatorio", Toast.LENGTH_SHORT).show();
             etLastName.clearFocus();
-            if(etLastName.requestFocus()) {
+            if (etLastName.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etLastName, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etMotherLastName.getText().toString().equals("")){
-            Toast.makeText(this,"El campo ( Apellido materno ) es obligatorio",Toast.LENGTH_SHORT).show();
+        } else if (etMotherLastName.getText().toString().equals("")) {
+            Toast.makeText(this, "El campo ( Apellido materno ) es obligatorio", Toast.LENGTH_SHORT).show();
             etMotherLastName.clearFocus();
-            if(etMotherLastName.requestFocus()) {
+            if (etMotherLastName.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etMotherLastName, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etCurp.getText().toString().equals("")){
-            Toast.makeText(this,"El campo ( CURP ) es obligatorio",Toast.LENGTH_SHORT).show();
+        } else if (etCurp.getText().toString().equals("")) {
+            Toast.makeText(this, "El campo ( CURP ) es obligatorio", Toast.LENGTH_SHORT).show();
             etCurp.clearFocus();
-            if(etCurp.requestFocus()) {
+            if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etCurp.getText().toString().length() < 18){
-            Toast.makeText(this,"El campo ( CURP ) debe tener 18 digitos",Toast.LENGTH_SHORT).show();
+        } else if (etCurp.getText().toString().length() < 18) {
+            Toast.makeText(this, "El campo ( CURP ) debe tener 18 digitos", Toast.LENGTH_SHORT).show();
             etCurp.clearFocus();
-            if(etCurp.requestFocus()) {
+            if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etPhone.getText().toString().equals("")){
-            Toast.makeText(this,"El campo ( Teléfono ) es obligatorio",Toast.LENGTH_SHORT).show();
+        } else if (etPhone.getText().toString().equals("")) {
+            Toast.makeText(this, "El campo ( Teléfono ) es obligatorio", Toast.LENGTH_SHORT).show();
             etPhone.clearFocus();
-            if(etPhone.requestFocus()) {
+            if (etPhone.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etPhone, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (etPhone.getText().toString().length() < 8){
-            Toast.makeText(this,"El campo ( Teléfono ) debe tener minimo 8 caracteres",Toast.LENGTH_SHORT).show();
+        } else if (etPhone.getText().toString().length() < 8) {
+            Toast.makeText(this, "El campo ( Teléfono ) debe tener minimo 8 caracteres", Toast.LENGTH_SHORT).show();
             etPhone.clearFocus();
-            if(etPhone.requestFocus()) {
+            if (etPhone.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etPhone, InputMethodManager.SHOW_IMPLICIT);
             }
-        }else if (!etMail.getText().toString().equals("")){
-            if (!validate(etMail.getText().toString())){
-                Toast.makeText(this,"El campo ( Correo ) tiene un formato erroneo",Toast.LENGTH_SHORT).show();
+        } else if (!etMail.getText().toString().equals("")) {
+            if (!validate(etMail.getText().toString())) {
+                Toast.makeText(this, "El campo ( Correo ) tiene un formato erroneo", Toast.LENGTH_SHORT).show();
                 etMail.clearFocus();
-                if(etMail.requestFocus()) {
+                if (etMail.requestFocus()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(etMail, InputMethodManager.SHOW_IMPLICIT);
                 }
-            }else {
-                Toast.makeText(this,"Super OK !!!",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
                 return true;
             }
-        }else{
-            Toast.makeText(this,"Super OK !!!",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
     }
 
     public static boolean validate(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
 
@@ -190,16 +192,47 @@ public class FormActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.i_search_menu) {
-            Intent i = new Intent(this,ConsultActivity.class);
+            Intent i = new Intent(this, ConsultActivity.class);
             startActivity(i);
         }
         if (id == R.id.i_settings_menu) {
-            Intent i = new Intent(this,SettingsActivity.class);
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
+        }
+        if (id == R.id.i_log_out_menu) {
+            Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
         }
         /*if (id == R.id.main_options_action) {
             Toast.makeText(this, "Trabajando...opciones", Toast.LENGTH_SHORT).show();
         }*/
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        AlertDialog dialogoAlert;
+        dialogoAlert = new AlertDialog(FormActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_CLOSE);
+        dialogoAlert.setCancelable(false);
+        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogoAlert.show();
+    }
+
+    @Override
+    public void logOut() {
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String token = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this,SharedPreferencesUtils.TOKEN_APP,"");
+        if (!operationID.equals("")){
+            //new AsynckTask para cancelar la operacion
+            return;
+        }
+        if(!token.equals("") ){
+            //new AsynckTask para logOut de la aplicación
+            return;
+        }
+        if(token.equals("") && operationID.equals("")){
+            finish();
+        }
     }
 }

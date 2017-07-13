@@ -126,6 +126,23 @@
                 android:inputType="number"
                 android:maxLength="20"
                 android:maxLines="1"
+                />
+            <TextView
+                android:id="@+id/tv_contract_ref_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                android:text="@string/contract_reference_pay_confirmation" />
+
+            <EditText
+                android:id="@+id/et_contract_ref_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="number"
+                android:maxLength="20"
+                android:maxLines="1"
                 android:layout_marginBottom="@dimen/vertical_separator_form"
                 />
 

@@ -14,9 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.teknei.bid.R;
-import com.teknei.bid.asynctask.CancelOp;
-import com.teknei.bid.asynctask.LogIn;
-import com.teknei.bid.asynctask.LogOut;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;

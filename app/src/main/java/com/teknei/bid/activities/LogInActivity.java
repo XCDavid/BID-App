@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.LogIn;
+import com.teknei.bid.utils.SharedPreferencesUtils;
 
 public class LogInActivity extends BaseActivity implements View.OnClickListener {
     Button bLogIn;
@@ -28,6 +29,11 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         etUser = (EditText) findViewById(R.id.et_user_log_in);
         bLogIn = (Button) findViewById(R.id.b_login);
         bLogIn.setOnClickListener(this);
+
+        saveSharedPreferenceByDefault();
+
+        //Borrar
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.OPERATION_ID);
     }
 
     @Override
@@ -64,4 +70,15 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
+
+    public void saveSharedPreferenceByDefault(){
+        String urlIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_ID_SCAN, getString(R.string.default_url_id_scan));
+        String licenseIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.LICENSE_ID_SCAN, getString(R.string.default_license_id_scan));
+        String urlTeknei = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.URL_ID_SCAN,urlIdScan);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.LICENSE_ID_SCAN,licenseIdScan);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.URL_TEKNEI,urlTeknei);
+
+    }
+
 }

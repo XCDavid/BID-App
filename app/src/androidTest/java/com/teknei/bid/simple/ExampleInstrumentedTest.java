@@ -1,4 +1,4 @@
-package com.teknei.bid;
+package com.teknei.bid.simple;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

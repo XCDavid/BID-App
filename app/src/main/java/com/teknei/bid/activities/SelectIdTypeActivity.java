@@ -1,7 +1,6 @@
 package com.teknei.bid.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,11 +9,8 @@ import android.widget.Button;
 
 import com.mobbeel.mobbscan.api.MobbScanDocumentType;
 import com.teknei.bid.R;
-import com.teknei.bid.asynctask.CancelOp;
-import com.teknei.bid.asynctask.LogOut;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;
-import com.teknei.bid.utils.SharedPreferencesUtils;
 
 public class SelectIdTypeActivity extends BaseActivity implements View.OnClickListener {
     Button ifeCButton;

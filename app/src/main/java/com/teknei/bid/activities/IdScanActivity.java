@@ -104,17 +104,19 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
 
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionCamera(this);
+        String urlMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.URL_ID_SCAN,"");
+        String licenceMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.LICENSE_ID_SCAN,"");
 
 //        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
-//        MobbScanAPI.getInstance().setBaseUrl("https://192.168.1.201:38080/");//directa
-        MobbScanAPI.getInstance().setBaseUrl("https://200.95.167.84:38080/");//publica TEK
+        MobbScanAPI.getInstance().setBaseUrl(urlMobbScan);//directa
+//        MobbScanAPI.getInstance().setBaseUrl("https://200.95.167.84:38080/");//publica TEK
 //        MobbScanAPI.getInstance().setApiMode(MobbScanAPI.MobbScanAPIMode.OFFLINE);
 //        MobbScanAPI.getInstance().setBaseUrl("https://201.99.106.95:28443/mobsscan-wrapper/solr/");
 //        MobbScanAPI.getInstance().initAPI("a64a304e-b13f-4f69-a0f9-512cc6c85cad", this, new LicenseStatusListener() {
 //            @Override
 //            public void onLicenseStatusChecked(MobbScanLicenseResult licenseResult, Date licenseValidTo) {
-//        MobbScanAPI.getInstance().initAPI("a64a304e-b13f-4f69-a0f9-512cc6c85cad", this, new LicenseStatusListener() { // PRUEBAS
-        MobbScanAPI.getInstance().initAPI("0b3237e6-76c5-40d7-b895-0b7c74ccda5a", this, new LicenseStatusListener() {
+        MobbScanAPI.getInstance().initAPI(licenceMobbScan, this, new LicenseStatusListener() { // PRUEBAS
+//        MobbScanAPI.getInstance().initAPI("0b3237e6-76c5-40d7-b895-0b7c74ccda5a", this, new LicenseStatusListener() {
             @Override
             public void onLicenseStatusChecked(MobbScanLicenseResult licenseResult, Date licenseValidTo) {  // com.teknei.bid
                 if (licenseResult != MobbScanLicenseResult.VALID) {

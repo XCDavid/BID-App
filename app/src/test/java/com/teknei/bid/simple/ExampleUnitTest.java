@@ -1,4 +1,4 @@
-package com.teknei.bid;
+package com.teknei.bid.simple;
 
 import org.junit.Test;
 

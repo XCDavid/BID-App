@@ -67,7 +67,7 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnection serverConnection = new ServerConnection();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.METHOD_CANCEL_OPERATION+operationID, token, ServerConnection.METHOD_DELETE);
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.METHOD_CANCEL_OPERATION+operationID, token, ServerConnection.METHOD_DELETE,null,"");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -106,6 +106,8 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
         progressDialog.dismiss();
         //BORRAR
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.ID_SCAN);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.SCAN_SAVE_ID);
 
         if (hasConecction) {
             if (responseOk) {

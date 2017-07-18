@@ -21,6 +21,7 @@ import org.json.JSONObject;
 public class LogIn extends AsyncTask<String, Void, Void> {
     private String newToken;
     private String token;
+    private String authorization;
 
     private String userToCheck;
 
@@ -35,10 +36,11 @@ public class LogIn extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public LogIn(Activity context, String userString, String tokenOld) {
+    public LogIn(Activity context, String userString,String passString, String tokenOld, String autho) {
         this.activityOrigin = context;
         this.userToCheck = userString;
         this.token = tokenOld;
+        this.authorization = autho;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
                 ServerConnection serverConnection = new ServerConnection();
 //                String peticionJSON = buildJson(userToCheck);
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_IN_USER + userToCheck, token, ServerConnection.METHOD_GET);
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_IN_USER , token, ServerConnection.METHOD_GET,null,authorization);
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {

@@ -2,6 +2,7 @@ package com.teknei.bid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,7 +16,9 @@ import com.teknei.bid.utils.SharedPreferencesUtils;
 public class LogInActivity extends BaseActivity implements View.OnClickListener {
     Button bLogIn;
     EditText etUser;
+    EditText etPass;
     String user;
+    String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
         setContentView(R.layout.activity_log_in);
         etUser = (EditText) findViewById(R.id.et_user_log_in);
+        etPass = (EditText) findViewById(R.id.et_pass_log_in);
         bLogIn = (Button) findViewById(R.id.b_login);
         bLogIn.setOnClickListener(this);
 
@@ -49,8 +53,14 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
     public boolean validateData() {
         user = etUser.getText().toString();
-        if (!user.equals("")) {
-            return true;
+        pass = etPass.getText().toString();
+        if (!user.equals("") ) {
+            if (!etPass.equals("") ) {
+                return true;
+            }else{
+                Toast.makeText(LogInActivity.this, "Ingresa una contraseña para poder continuar", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         } else {
             Toast.makeText(LogInActivity.this, "Ingresa un usuario para poder continuar", Toast.LENGTH_SHORT).show();
             return false;
@@ -60,7 +70,11 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void sendPetition() {
 //        super.sendPetition();
-        new LogIn(LogInActivity.this, "", "").execute();
+//        String authorization = new String(Base64.encodeBase64(new String(user + ":" + pass).getBytes()));
+        String authorization = Base64.encodeToString(new String(user + ":" + pass).getBytes(), Base64.DEFAULT);
+//        headers.add("Authorization", "Basic " + authorization);
+
+        new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
     }
 
     @Override

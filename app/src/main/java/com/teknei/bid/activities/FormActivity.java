@@ -287,10 +287,11 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void sendPetition() {
 //        super.sendPetition();
-        String jsonString = buildJSON();
+
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         if(operationID.equals("")){
+            String jsonString = buildJSON();
             new StartOperation(FormActivity.this, token, jsonString).execute();
         }else {
             goNext();

@@ -9,6 +9,8 @@
     <string name="message_cancel_operation">Cancelando operación</string>
     <string name="message_cancel_operation_alert">La operación actual será cancelada y regresarás a la pantalla principal\n¿Desea cancelar la operación actual?</string>
     <string name="message_start_operation">Iniciando operación</string>
+    <string name="message_credentials_captured">Comprobando credenciales</string>
+    <string name="message_face_scan_check">Comprobando imagen</string>
     <!--Server strings-->
     <string name="message_ws_notice">Aviso</string>
     <string name="message_ws_tray_again">Reintentar</string>

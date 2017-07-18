@@ -65,7 +65,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnection serverConnection = new ServerConnection();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_START_OPERATION, token, ServerConnection.METHOD_POST);
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_START_OPERATION, token, ServerConnection.METHOD_POST,null,"");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {

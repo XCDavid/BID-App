@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.VectorDrawable;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -14,16 +18,27 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.CredentialsCaptured;
+import com.teknei.bid.asynctask.FaceFileSend;
+import com.teknei.bid.utils.SharedPreferencesUtils;
 
-public class FaceScanActivity extends AppCompatActivity implements View.OnClickListener/*, SurfaceHolder.Callback, CompoundButton.OnCheckedChangeListener*/{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class FaceScanActivity extends BaseActivity implements View.OnClickListener/*, SurfaceHolder.Callback, CompoundButton.OnCheckedChangeListener*/{
     ImageButton ibFacePictureButton;
     Button continueFaceScan;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE = 663;
     String encodedStringFace;
 
     private byte[] photoBuffer;
+
+    File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +63,9 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.b_continue_face_scan:
 //                if (validatePictureEncoded()){
-                    Intent i = new Intent(this,FingerPrintsActivity.class);
-                    startActivity(i);
+                    /*Intent i = new Intent(this,FingerPrintsActivity.class);
+                    startActivity(i);*/
+                    sendPetition();
 //                }
                 break;
         }
@@ -70,6 +86,30 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
                     String encodedString = encodeTobase64(bmp);
                     encodedStringFace = encodedString;
                     ibFacePictureButton.setImageBitmap(bmp);
+
+                    //Guarda nueva imagen del rostro de la persona
+                    String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+                    String dir = Environment.getExternalStorageDirectory()+ File.separator;
+                    File f = new File(Environment.getExternalStorageDirectory()
+                            + File.separator + "face_"+operationID+".jpg");
+                    if(f.exists()){
+                        f.delete();
+                        f = new File(Environment.getExternalStorageDirectory()+File.separator + "face_"+operationID+".jpg");
+                    }
+                    try {
+                        f.createNewFile();
+                        //write the bytes in file
+                        FileOutputStream fo = new FileOutputStream(f);
+                        fo.write(photoBuffer);
+                        // remember close de FileOutput
+                        fo.close();
+                        imageFile = f;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        f = null;
+                        imageFile = null;
+                    }
+
                 }
                 break;
         }
@@ -88,7 +128,7 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
     public static String encodeTobase64(Bitmap image) {
         Bitmap imagex = image;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imagex.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        imagex.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
         byte[] b = outputStream.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
         return imageEncoded;
@@ -107,7 +147,61 @@ public class FaceScanActivity extends AppCompatActivity implements View.OnClickL
     }
     public byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //Tipo de imagen
         return stream.toByteArray();
+    }
+
+    @Override
+    public void sendPetition() {
+        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+
+//        Bitmap mapAux = ibFacePictureButton.getDrawable().getBitMap();
+        boolean bitMapTake = false;
+        Bitmap bitmap;
+
+        if (ibFacePictureButton.getDrawable() instanceof BitmapDrawable) {
+            bitMapTake = true;
+            bitmap = ((BitmapDrawable)ibFacePictureButton.getDrawable()).getBitmap();
+        } else if (ibFacePictureButton.getDrawable() instanceof VectorDrawableCompat ){
+            bitMapTake = false;
+        }
+
+//        if(ibFacePictureButton.getDrawable() instanceof VectorDrawable){
+////            bitmap = ((VectorDrawable)ibFacePictureButton.getDrawable()).getBitmap();
+//            bitMapTake = false;
+//        }else if(ibFacePictureButton.getDrawable() instanceof BitmapDrawable){
+//            bitMapTake = true;
+//            bitmap = ((BitmapDrawable)ibFacePictureButton.getDrawable()).getBitmap();
+//        }
+
+//        Bitmap bitmap = ((VectorDrawable)ibFacePictureButton.getDrawable()).getBitmap();
+        if(bitMapTake){
+//            goNext();
+            String jsonString = buildJSON();
+            new FaceFileSend(FaceScanActivity.this, token, jsonString,imageFile ).execute();
+        }else {
+            Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
+//            goNext();
+        }
+    }
+
+    @Override
+    public void goNext() {
+//        super.goNext();
+        Intent i = new Intent(FaceScanActivity.this, DocumentScanActivity.class);
+        startActivity(i);
+    }
+
+    public String buildJSON() {
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        //Construimos el JSON
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("operationId", Integer.valueOf(operationID));
+            jsonObject.put("contentType", "image/jpeg");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 }

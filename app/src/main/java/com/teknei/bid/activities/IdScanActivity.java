@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,17 +35,23 @@ import com.mobbeel.mobbscan.document.IDDocument;
 import java.util.Date;
 
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.CredentialsCaptured;
+import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.PermissionsUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
-public class IdScanActivity extends AppCompatActivity implements View.OnClickListener, IDDocumentScanListener, IDDocumentDetectionListener {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class IdScanActivity extends BaseActivity implements View.OnClickListener, IDDocumentScanListener, IDDocumentDetectionListener {
     ImageButton idFrontButton;
     ImageButton idPosteriorButton;
     Button continueButton;
     LinearLayout buttonShowHideResultData;
     LinearLayout sectionResultData;
     ImageView indicatorResultShow;
+    ConstraintLayout posteriorLayout;
 
     MobbScanDocumentType idTypeSelected;
 
@@ -74,6 +81,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         buttonShowHideResultData = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
         sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
         indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
+        posteriorLayout = (ConstraintLayout) findViewById(R.id.cl_posterior);
         idFrontButton.setOnClickListener(this);
         idPosteriorButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
@@ -99,6 +107,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         //Extract the data…
         String idType = bundle.getString("id_type");
         idTypeSelected = MobbScanDocumentType.getMobbScanDocumentType(idType);
+        modifyLayoutByIdSelected(idTypeSelected);
 
         scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, null);
 
@@ -120,15 +129,24 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onLicenseStatusChecked(MobbScanLicenseResult licenseResult, Date licenseValidTo) {  // com.teknei.bid
                 if (licenseResult != MobbScanLicenseResult.VALID) {
-                    Toast.makeText(IdScanActivity.this, "There was a problem with the license", Toast.LENGTH_LONG).show();
+                    Toast.makeText(IdScanActivity.this, "Ocurrio un problema con la licencia", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(IdScanActivity.this, "VALID License" + licenseResult.toString() + ", Date:" + licenseValidTo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(IdScanActivity.this, "Licencia Valida" + licenseResult.toString() + ", Fecha :" + licenseValidTo, Toast.LENGTH_LONG).show();
                 }
                 if (progressDialogStartLoad != null && progressDialogStartLoad.isShowing()) {
                     progressDialogStartLoad.dismiss();
                 }
             }
         });
+    }
+
+    private void modifyLayoutByIdSelected(MobbScanDocumentType idType) {
+        if (idType ==  MobbScanDocumentType.Passport_TD3 ){
+            posteriorLayout.setVisibility(View.GONE);
+        }else{
+            posteriorLayout.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
@@ -138,7 +156,11 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.ib_frontal_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL);
 //                scanFront();
-                scanBoth();
+                if (idTypeSelected ==  MobbScanDocumentType.Passport_TD3 ){
+                    scanFront();
+                }else {
+                    scanBoth();
+                }
                 break;
             case R.id.ib_posterior_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
@@ -150,8 +172,9 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.b_continue_id_scan:
 //                if (validatePictureEncoded()){
-                Intent i = new Intent(this, FaceScanActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(this, FaceScanActivity.class);
+//                startActivity(i);
+                sendPetition();
 //                }
                 break;
         }
@@ -244,10 +267,8 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
             public void onScanStarted(MobbScanStartScanResult result, String scanId, MobbScanAPIError error) {
                 progressDialogToScan.hide();
                 if (result == MobbScanStartScanResult.OK) {
-                    if (scandIdOperation == null) {
                         scandIdOperation = scanId;
                         SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this, SharedPreferencesUtils.ID_SCAN, scandIdOperation);
-                    }
                     if (operationMode == MobbScanOperationMode.SCAN_ONLY_FRONT) {
                         MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);
                     } else if (operationMode == MobbScanOperationMode.SCAN_ONLY_BACK) {
@@ -257,8 +278,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
                         MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.BACK, scanId, IdScanActivity.this, IdScanActivity.this);
                     }
                 } else {
-                    Toast.makeText(IdScanActivity.this, error.toString() + ": The scan process could not be started. Please, contact with Mobbeel", Toast.LENGTH_LONG).show();
-//                    MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);
+                    Toast.makeText(IdScanActivity.this, error.toString() + ": EL proceso de escaneo no puede ser iniciado. Contacta con Mobbeel porfavor", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -290,7 +310,7 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
         if (result == MobbScanScanResult.COMPLETED) {
             refreshUI(resultData.getIdDocument());
         } else if (result == MobbScanScanResult.ERROR) {
-            Toast.makeText(IdScanActivity.this, "There was an error during scan process = " + error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(IdScanActivity.this, "Error durante el escaneo = " + error.toString(), Toast.LENGTH_LONG).show();
         }
         if (result != MobbScanScanResult.PENDING_OTHER_SIDE && progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -345,5 +365,43 @@ public class IdScanActivity extends AppCompatActivity implements View.OnClickLis
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @Override
+    public void sendPetition() {
+        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+
+        String scanSave =  SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
+        String scanActual =  SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, "");
+        if(scanSave.equals(scanActual)){
+            goNext();
+        }else {
+            String jsonString = buildJSON();
+            new CredentialsCaptured(IdScanActivity.this, token, jsonString).execute();
+        }
+    }
+
+    @Override
+    public void goNext() {
+//        super.goNext();
+        Intent i = new Intent(IdScanActivity.this, FaceScanActivity.class);
+        startActivity(i);
+    }
+
+    public String buildJSON() {
+
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String scanID = scandIdOperation;
+        //Construimos el JSON
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put("operationId", Integer.valueOf(operationID));
+            jsonObject.put("scanId", scanID);
+            jsonObject.put("credentialType", idTypeSelected.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 }

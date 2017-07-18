@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ScanLibrary</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Opciones</string>
+    <string name="scanning">Escaneando</string>
+    <string name="done">Guardar</string>
+    <string name="scan">Continuar</string>
+    <string name="cantCrop">No se puede cortar la imagen, modifica los puntos.</string>
+    <string name="ok">Ok</string>
+    <string name="loading">Cargando</string>
+    <string name="applying_filter">Aplicando filtro</string>
+    <string name="low_memory">Memoria baja</string>
+    <string name="low_memory_message">Tu teléfono tiene poca memoria, la aplicación puede sentirse lenta.</string>
+</resources>

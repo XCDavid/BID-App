@@ -22,5 +22,6 @@ public class ApiConstants {
     public static final String METHOD_CREDENTIALS = "rest/v1/credential";
     public static final String METHOD_FACE = "rest/v1/face";
     public static final String METHOD_DOCUMENT = "rest/v1/comprobante";
+    public static final String METHOD_PAY_CONFIRM = "rest/v1/end";
 
 }

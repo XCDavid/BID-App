@@ -127,6 +127,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        String documentOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.DOCUMENT_OPERATION, "");
         boolean bitMapTake = false;
         Bitmap bitmap;
 
@@ -136,13 +137,20 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         } else if (takeDocumentPicture.getDrawable() instanceof VectorDrawableCompat){
             bitMapTake = false;
         }
-        if(bitMapTake){
-            String jsonString = buildJSON();
-            new DocumentSend(DocumentScanActivity.this, token, jsonString,imageFile ).execute();
-        }else {
-            Toast.makeText(DocumentScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
+//        if (documentOperation.equals("")) {
+            //DES comentar
+//        if(bitMapTake){
+            //BORRAR
+            if (true) {
+                String jsonString = buildJSON();
+                new DocumentSend(DocumentScanActivity.this, token, jsonString, imageFile).execute();
+            } else {
+                Toast.makeText(DocumentScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
 //            goNext();
-        }
+            }
+//        }else{
+//            goNext();
+//        }
     }
 
     @Override

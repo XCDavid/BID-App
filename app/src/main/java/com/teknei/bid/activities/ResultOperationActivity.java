@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.teknei.bid.R;
+import com.teknei.bid.utils.SharedPreferencesUtils;
 
 public class ResultOperationActivity extends AppCompatActivity implements View.OnClickListener{
     Button finishOperation;
@@ -32,6 +33,8 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.b_end_result_operation:
+                cleanSharedPreferences();
+
                 Intent end = new Intent(ResultOperationActivity.this, FormActivity.class);
                 end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(end);
@@ -40,5 +43,15 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
             case R.id.b_try_again_result_operation:
                 break;
         }
+    }
+
+    private void cleanSharedPreferences() {
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.OPERATION_ID);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.ID_SCAN);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.SCAN_SAVE_ID);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.FACE_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.DOCUMENT_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.FINGERS_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.PAY_OPERATION);
     }
 }

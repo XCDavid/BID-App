@@ -108,10 +108,20 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.ID_SCAN);
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.SCAN_SAVE_ID);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FACE_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
 
         if (hasConecction) {
             if (responseOk) {
                 SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.ID_SCAN);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.SCAN_SAVE_ID);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FACE_OPERATION);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
                 if (ACTION == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();
                 }else if(ACTION == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION){

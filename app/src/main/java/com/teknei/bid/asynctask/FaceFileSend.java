@@ -117,6 +117,8 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
 
+        //BORRAR
+        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
         if (hasConecction) {
             if (responseOk) {
                 String messageResp = "";
@@ -125,8 +127,7 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String scanAUX =  SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
+                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
 
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);

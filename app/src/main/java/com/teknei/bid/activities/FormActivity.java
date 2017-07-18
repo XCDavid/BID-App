@@ -195,11 +195,11 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                     imm.showSoftInput(etMail, InputMethodManager.SHOW_IMPLICIT);
                 }
             } else {
-                Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
                 return true;
             }
         } else {
-            Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

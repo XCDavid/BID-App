@@ -154,6 +154,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        String faceOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FACE_OPERATION, "");
 
 //        Bitmap mapAux = ibFacePictureButton.getDrawable().getBitMap();
         boolean bitMapTake = false;
@@ -166,23 +167,21 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
             bitMapTake = false;
         }
 
-//        if(ibFacePictureButton.getDrawable() instanceof VectorDrawable){
-////            bitmap = ((VectorDrawable)ibFacePictureButton.getDrawable()).getBitmap();
-//            bitMapTake = false;
-//        }else if(ibFacePictureButton.getDrawable() instanceof BitmapDrawable){
-//            bitMapTake = true;
-//            bitmap = ((BitmapDrawable)ibFacePictureButton.getDrawable()).getBitmap();
+//        if (faceOperation.equals("")) {
+            //Des comentar
+//        if(bitMapTake){
+            //BORRAR
+            if (true) {
+//            goNext();
+                String jsonString = buildJSON();
+                new FaceFileSend(FaceScanActivity.this, token, jsonString, imageFile).execute();
+            } else {
+                Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
+//            goNext();
+            }
+//        }else{
+//            goNext();
 //        }
-
-//        Bitmap bitmap = ((VectorDrawable)ibFacePictureButton.getDrawable()).getBitmap();
-        if(bitMapTake){
-//            goNext();
-            String jsonString = buildJSON();
-            new FaceFileSend(FaceScanActivity.this, token, jsonString,imageFile ).execute();
-        }else {
-            Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
-//            goNext();
-        }
     }
 
     @Override

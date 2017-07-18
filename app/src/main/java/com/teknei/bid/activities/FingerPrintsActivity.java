@@ -346,6 +346,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        String fingerOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERS_OPERATION, "");
         boolean bitMapTake = false;
 
         if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable()instanceof BitmapDrawable) {
@@ -353,20 +354,24 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         } else if (bIndexLeft.getDrawable() instanceof VectorDrawableCompat || bIndexRight.getDrawable() instanceof VectorDrawableCompat){
             bitMapTake = false;
         }
-        //DES_COMENTAR
-        //if(bitMapTake){
-         //BORRAR
-        if(true){
-            String jsonString = buildJSON();
-            Log.d("FingerJSON", "JSON FINGERs:"+jsonString);
-            //Esta AsyncTask es de Otro activity
-            //Falta crear la ppropia para mandar todos los archivos de las huellas digitales
-            new FingersSend(FingerPrintsActivity.this, token, jsonString,fingersFileArray ).execute();
+//        if (fingerOperation.equals("")) {
+            //DES_COMENTAR
+            //if(bitMapTake){
+            //BORRAR
+            if (true) {
+                String jsonString = buildJSON();
+                Log.d("FingerJSON", "JSON FINGERs:" + jsonString);
+                //Esta AsyncTask es de Otro activity
+                //Falta crear la ppropia para mandar todos los archivos de las huellas digitales
+                new FingersSend(FingerPrintsActivity.this, token, jsonString, fingersFileArray).execute();
 
-        }else {
+            } else {
 //            Toast.makeText(FingerPrintsActivity.this, "Escanea los dedos indices para continuar", Toast.LENGTH_SHORT).show();
-            goNext();
-        }
+                goNext();
+            }
+//        }else{
+//            goNext();
+//        }
     }
 
     @Override

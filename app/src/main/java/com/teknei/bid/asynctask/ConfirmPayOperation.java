@@ -17,13 +17,10 @@ import com.teknei.bid.ws.ServerConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-
-public class DocumentSend extends AsyncTask<String, Void, Void> {
+public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
     //    private String newToken;
     private String token;
     private String jsonS;
-    private File imageF;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -36,18 +33,17 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public DocumentSend(Activity context, String tokenOld, String jsonString, File imageFile) {
+    public ConfirmPayOperation(Activity context, String tokenOld, String jsonString) {
         this.activityOrigin = context;
         this.token = tokenOld;
         this.jsonS = jsonString;
-        this.imageF = imageFile;
     }
 
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.message_face_scan_check));
+                activityOrigin.getString(R.string.message_pay_confirm_operation));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -69,7 +65,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnection serverConnection = new ServerConnection();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_DOCUMENT, token, ServerConnection.METHOD_POST,imageF,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_PAY_CONFIRM, token, ServerConnection.METHOD_POST,null,"");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -117,7 +113,8 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
         //BORRAR
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "ok");
+        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.PAY_OPERATION, "ok");
+
         if (hasConecction) {
             if (responseOk) {
                 String messageResp = "";
@@ -126,7 +123,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "ok");
+                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.PAY_OPERATION, "ok");
 
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);

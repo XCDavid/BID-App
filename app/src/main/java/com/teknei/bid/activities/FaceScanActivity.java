@@ -12,25 +12,40 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.CredentialsCaptured;
 import com.teknei.bid.asynctask.FaceFileSend;
+import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.utils.ApiConstants;
+import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class FaceScanActivity extends BaseActivity implements View.OnClickListener/*, SurfaceHolder.Callback, CompoundButton.OnCheckedChangeListener*/{
+public class FaceScanActivity extends BaseActivity implements View.OnClickListener/*, SurfaceHolder.Callback, CompoundButton.OnCheckedChangeListener*/ {
     ImageButton ibFacePictureButton;
     Button continueFaceScan;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE = 663;
@@ -39,6 +54,9 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     private byte[] photoBuffer;
 
     File imageFile;
+    File fileJson;
+
+    List<File> fileList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +71,13 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         continueFaceScan = (Button) findViewById(R.id.b_continue_face_scan);
         ibFacePictureButton.setOnClickListener(this);
         continueFaceScan.setOnClickListener(this);
+
+        fileList = new ArrayList<File>();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ib_face_scan:
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
                 break;
@@ -65,20 +85,21 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 //                if (validatePictureEncoded()){
                     /*Intent i = new Intent(this,FingerPrintsActivity.class);
                     startActivity(i);*/
-                    sendPetition();
+                sendPetition();
 //                }
                 break;
         }
     }
+
     private void dispatchTakePictureIntent(int REQUEST_CODE) {
-        Intent cameraIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE:
                 if (resultCode == RESULT_OK && data != null) {
                     Bitmap bmp = (Bitmap) data.getExtras().get("data");
@@ -88,13 +109,13 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
                     ibFacePictureButton.setImageBitmap(bmp);
 
                     //Guarda nueva imagen del rostro de la persona
-                    String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
-                    String dir = Environment.getExternalStorageDirectory()+ File.separator;
+                    String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+                    String dir = Environment.getExternalStorageDirectory() + File.separator;
                     File f = new File(Environment.getExternalStorageDirectory()
-                            + File.separator + "face_"+operationID+".jpg");
-                    if(f.exists()){
+                            + File.separator + "face_" + operationID + ".jpg");
+                    if (f.exists()) {
                         f.delete();
-                        f = new File(Environment.getExternalStorageDirectory()+File.separator + "face_"+operationID+".jpg");
+                        f = new File(Environment.getExternalStorageDirectory() + File.separator + "face_" + operationID + ".jpg");
                     }
                     try {
                         f.createNewFile();
@@ -115,11 +136,11 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    public boolean validatePictureEncoded(){
-        if(encodedStringFace == null){
-            Toast.makeText(this,"Debes tomar una fotografía del rostro del usuario para continuar.",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this,"Ok",Toast.LENGTH_SHORT).show();
+    public boolean validatePictureEncoded() {
+        if (encodedStringFace == null) {
+            Toast.makeText(this, "Debes tomar una fotografía del rostro del usuario para continuar.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -136,15 +157,15 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 
     public static Bitmap decodeBase64(String input) {
         byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0,      decodedByte.length);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
-    public Bitmap RotateBitmap(Bitmap source, float angle)
-    {
+    public Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
+
     public byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //Tipo de imagen
@@ -162,23 +183,27 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 
         if (ibFacePictureButton.getDrawable() instanceof BitmapDrawable) {
             bitMapTake = true;
-            bitmap = ((BitmapDrawable)ibFacePictureButton.getDrawable()).getBitmap();
-        } else if (ibFacePictureButton.getDrawable() instanceof VectorDrawableCompat ){
+            bitmap = ((BitmapDrawable) ibFacePictureButton.getDrawable()).getBitmap();
+        } else if (ibFacePictureButton.getDrawable() instanceof VectorDrawableCompat) {
             bitMapTake = false;
         }
 
 //        if (faceOperation.equals("")) {
-            //Des comentar
+        //Des comentar
 //        if(bitMapTake){
-            //BORRAR
-            if (true) {
+        //BORRAR
+        if (true) {
+            String localTime = PhoneSimUtils.getLocalDateAndTime();
+            SharedPreferencesUtils.saveToPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.TIMESTAMP_FACE, localTime);
+
+            String jsonString = buildJSON();
+            fileList.add(fileJson);
+            fileList.add(imageFile);
+            new FaceFileSend(FaceScanActivity.this, token, jsonString, fileList).execute();
+        } else {
+            Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
 //            goNext();
-                String jsonString = buildJSON();
-                new FaceFileSend(FaceScanActivity.this, token, jsonString, imageFile).execute();
-            } else {
-                Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
-//            goNext();
-            }
+        }
 //        }else{
 //            goNext();
 //        }
@@ -192,7 +217,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
@@ -201,6 +226,48 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        try {
+            Writer output = null;
+            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
+            if (fileJson.exists()) {
+                fileJson.delete();
+                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
+            }
+            output = new BufferedWriter(new FileWriter(fileJson));
+            output.write(jsonObject.toString());
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return jsonObject.toString();
+    }
+
+    //menu actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_operation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.i_close_operation_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FaceScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        if (id == R.id.i_log_out_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FaceScanActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

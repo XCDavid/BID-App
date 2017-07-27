@@ -11,6 +11,8 @@
     <string name="message_start_operation">Iniciando operación</string>
     <string name="message_credentials_captured">Comprobando credenciales</string>
     <string name="message_face_scan_check">Comprobando imagen</string>
+    <string name="message_figerprints_check">Almacenando huellas dactilares</string>
+    <string name="message_pay_confirm_operation">Confirmando operación</string>
     <!--Server strings-->
     <string name="message_ws_notice">Aviso</string>
     <string name="message_ws_tray_again">Reintentar</string>
@@ -21,9 +23,10 @@
     <string name="message_ws_response_400">400 - La consulta no puede ser procesada</string>
     <string name="message_ws_response_500">500 - No se pudo consultar el servidor</string>
     <!--Default Values strings-->
-    <string name="default_url_id_scan">https://mobbscan-pre.mobbeel.com/</string>
-    <string name="default_license_id_scan">a64a304e-b13f-4f69-a0f9-512cc6c85cad</string>
-    <string name="default_url_teknei">http://localhost:8080/BIDServer/</string>
+
+    <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
+    <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
+    <string name="default_url_teknei">http://192.168.1.200:28080/BIDServer/</string>
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
@@ -79,6 +82,7 @@
     <string name="pay_confirm_activity_name">Confirmación de pago</string>
     <string name="continue_pay_confirm">Continuar</string>
     <string name="contract_reference_pay_confirmation">Número de referencia de contrato</string>
+    <string name="payment_reference_pay_confirmation">Número de referencia</string>
     <string name="amount_pay_confirmation">Importe $</string>
     <!--Result operation strings-->
     <string name="result_operation_activity_name">Resultado</string>
@@ -86,4 +90,8 @@
 
     <!--Settings strings-->
     <string name="settings_activity_name">Ajustes</string>
+
+    <!--Form strings-->
+    <string name="fake_ine_activity_name">Resultado: Comprobación de identificación</string>
+    <string name="continue_fake_ine">Continuar</string>
 </resources>

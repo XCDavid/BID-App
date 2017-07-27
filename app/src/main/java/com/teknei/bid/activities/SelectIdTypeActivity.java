@@ -6,18 +6,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.mobbeel.mobbscan.api.MobbScanDocumentType;
 import com.teknei.bid.R;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;
 
-public class SelectIdTypeActivity extends BaseActivity implements View.OnClickListener {
+public class SelectIdTypeActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     Button ifeCButton;
     Button ifeDButton;
     Button ineButton;
     Button passportButton;
     Button licenseButton;
+    Button icarButton;
+
+    Switch mySwitch;
+
+    boolean credentialProvider = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,49 +40,78 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         ineButton = (Button) findViewById(R.id.b_ine_select_id);
         passportButton = (Button) findViewById(R.id.b_passport_select_id);
         licenseButton = (Button) findViewById(R.id.b_licence_select_id);
+        icarButton = (Button) findViewById(R.id.b_icar_select_id);
+
+        mySwitch = (Switch) findViewById(R.id.sw_id_provider);
 
         ifeCButton.setOnClickListener(this);
         ifeDButton.setOnClickListener(this);
         ineButton.setOnClickListener(this);
         passportButton.setOnClickListener(this);
         licenseButton.setOnClickListener(this);
+        icarButton.setOnClickListener(this);
+
+        //set the switch to ON
+        mySwitch.setChecked(true);
+        mySwitch.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(this, IdScanActivity.class);
+        Intent i;
+        if (credentialProvider) {
+            i = new Intent(this, IcarScanActivity.class);
+        } else {
+            i = new Intent(this, IdScanActivity.class);
+        }
         //Create the bundle
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.b_ife_c_select_id:
-                //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
+                if (credentialProvider) {
+                    bundle.putString("id_type", "IFE");
+                } else {
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
+                }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
                 break;
             case R.id.b_ife_d_select_id:
-                //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
+                if (credentialProvider) {
+                    bundle.putString("id_type", "IFE");
+                } else {
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
+                }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
                 break;
             case R.id.b_ine_select_id:
-                //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardE.toString());
+                if (credentialProvider) {
+                    bundle.putString("id_type", "INE");
+                } else {
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardE.toString());
+                }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
                 break;
             case R.id.b_passport_select_id:
-                //Add your data from getFactualResults method to bundle
-                bundle.putString("id_type", MobbScanDocumentType.Passport_TD3.toString());
+                if (credentialProvider) {
+                    bundle.putString("id_type", "PASAPORTE");
+                } else {
+                    bundle.putString("id_type", MobbScanDocumentType.Passport_TD3.toString());
+                }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
                 break;
             case R.id.b_licence_select_id:
-                //Add your data from getFactualResults method to bundle
 //                bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
                 //Add the bundle to the intent
 //                i.putExtras(bundle);
+                break;
+            case R.id.b_icar_select_id:
+                //Add the bundle to the intent
+//                i.putExtras(bundle);
+//                i = new Intent(this, IcarScanActivity.class);
                 break;
         }
         startActivity(i);
@@ -104,32 +141,15 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
-        /*if (id == R.id.main_options_action) {
-            Toast.makeText(this, "Trabajando...opciones", Toast.LENGTH_SHORT).show();
-        }*/
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void logOut() {
-//        super.logOut();
-//    }
-
     @Override
-    public void cancelOperation() {
-//        String operationID = SharedPreferencesUtils.readFromPreferencesString(SelectIdTypeActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
-//        String token = SharedPreferencesUtils.readFromPreferencesString(SelectIdTypeActivity.this, SharedPreferencesUtils.TOKEN_APP, "");
-//        if (!operationID.equals("")) {
-//            //new AsynckTask para cancelar la operacion
-//            new CancelOp(SelectIdTypeActivity.this, operationID, token).execute();
-//            return;
-//        }
-//        if (operationID.equals("")) {
-//            Intent end = new Intent(SelectIdTypeActivity.this, FormActivity.class);
-//            end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(end);
-//            finish();
-//        }
-        super.cancelOperation();
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        if (isChecked) {
+            credentialProvider = true;
+        } else {
+            credentialProvider = false;
+        }
     }
 }

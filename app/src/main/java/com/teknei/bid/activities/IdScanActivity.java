@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,13 +34,21 @@ import com.mobbeel.mobbscan.api.result.MobbScanScanResultData;
 import com.mobbeel.mobbscan.api.result.MobbScanStartScanResult;
 import com.mobbeel.mobbscan.document.IDDocument;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.CredentialsCaptured;
-import com.teknei.bid.asynctask.StartOperation;
+import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
+import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PermissionsUtils;
+import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
@@ -66,6 +76,11 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     ProgressDialog progressDialogStartLoad;
 
     String scandIdOperation = null;
+
+    String stringCredentialType = "";
+
+    File fileJson;
+    List<File> fileList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +118,8 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         encodedStringFrontal = null;
         encodedStringPosterior = null;
 
+        fileList = new ArrayList<File>();
+
         Bundle bundle = getIntent().getExtras();
         //Extract the data…
         String idType = bundle.getString("id_type");
@@ -113,8 +130,9 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionCamera(this);
-        String urlMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.URL_ID_SCAN,"");
-        String licenceMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.LICENSE_ID_SCAN,"");
+
+        String urlMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.URL_ID_SCAN, "");
+        String licenceMobbScan = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.LICENSE_ID_SCAN, "");
 
 //        MobbScanAPI.getInstance().setBaseUrl("https://mobbscan-pre.mobbeel.com/");
         MobbScanAPI.getInstance().setBaseUrl(urlMobbScan);//directa
@@ -125,7 +143,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 //            @Override
 //            public void onLicenseStatusChecked(MobbScanLicenseResult licenseResult, Date licenseValidTo) {
         MobbScanAPI.getInstance().initAPI(licenceMobbScan, this, new LicenseStatusListener() { // PRUEBAS
-//        MobbScanAPI.getInstance().initAPI("0b3237e6-76c5-40d7-b895-0b7c74ccda5a", this, new LicenseStatusListener() {
+            //        MobbScanAPI.getInstance().initAPI("0b3237e6-76c5-40d7-b895-0b7c74ccda5a", this, new LicenseStatusListener() {
             @Override
             public void onLicenseStatusChecked(MobbScanLicenseResult licenseResult, Date licenseValidTo) {  // com.teknei.bid
                 if (licenseResult != MobbScanLicenseResult.VALID) {
@@ -141,10 +159,15 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void modifyLayoutByIdSelected(MobbScanDocumentType idType) {
-        if (idType ==  MobbScanDocumentType.Passport_TD3 ){
+        if (idType == MobbScanDocumentType.Passport_TD3) {
             posteriorLayout.setVisibility(View.GONE);
-        }else{
+            stringCredentialType = "PASAPORTE";
+        } else if (idType == MobbScanDocumentType.MEXIDCardE) {
             posteriorLayout.setVisibility(View.VISIBLE);
+            stringCredentialType = "INE";
+        } else {
+            posteriorLayout.setVisibility(View.VISIBLE);
+            stringCredentialType = "IFE";
         }
 
     }
@@ -156,9 +179,9 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
             case R.id.ib_frontal_id_scan:
 //                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL);
 //                scanFront();
-                if (idTypeSelected ==  MobbScanDocumentType.Passport_TD3 ){
+                if (idTypeSelected == MobbScanDocumentType.Passport_TD3) {
                     scanFront();
-                }else {
+                } else {
                     scanBoth();
                 }
                 break;
@@ -226,7 +249,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         } else if (encodedStringPosterior == null) {
             Toast.makeText(this, "Debes tomar una fotografía de la identificación por la parte Posterior", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -267,8 +290,8 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
             public void onScanStarted(MobbScanStartScanResult result, String scanId, MobbScanAPIError error) {
                 progressDialogToScan.hide();
                 if (result == MobbScanStartScanResult.OK) {
-                        scandIdOperation = scanId;
-                        SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this, SharedPreferencesUtils.ID_SCAN, scandIdOperation);
+                    scandIdOperation = scanId;
+                    SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this, SharedPreferencesUtils.ID_SCAN, scandIdOperation);
                     if (operationMode == MobbScanOperationMode.SCAN_ONLY_FRONT) {
                         MobbScanAPI.getInstance().scanDocument(MobbScanDocumentSide.FRONT, scanId, IdScanActivity.this, IdScanActivity.this);
                     } else if (operationMode == MobbScanOperationMode.SCAN_ONLY_BACK) {
@@ -286,6 +309,34 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 
     private void refreshUI(IDDocument document) {
         if (document != null) {
+            String nameS = document.getName();
+            String apPatS = document.getFirstSurname();
+            String apMatS = document.getSecondSurname();
+//            String curpS = document.get();
+//            String section =  document.getSec;
+//            String documentNumber =  document.getDocumentNumber();
+            String psersonalNumber =  document.getPersonalNumber();
+            String OCR = psersonalNumber;
+            String validity = document.getDateOfExpiry();
+//            String address = document.getAddress();
+
+            //***Contruye el json con datos que no obtiene MobbScan
+            String jsonString = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,"{}");
+
+            try {
+                JSONObject jsonData = new JSONObject(jsonString);
+                jsonData.put("name", nameS+"");
+                jsonData.put("appat", apPatS+"");
+                jsonData.put("apmat", apMatS+"");
+//                jsonData.put("curp", curpS);
+                jsonData.put("ocr", OCR+"");
+                jsonData.put("validity", validity+"");
+                jsonData.put("address", "");
+                SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,jsonData.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             ((TextView) findViewById(R.id.tvPeronalNumber)).setText(document.getPersonalNumber());
             ((TextView) findViewById(R.id.tvDocumentNumber)).setText(document.getDocumentNumber());
             ((TextView) findViewById(R.id.tvNameAndSurname)).setText(document.getName() + " " + document.getSurname());
@@ -371,37 +422,86 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
 
-        String scanSave =  SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
-        String scanActual =  SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, "");
-        if(!scanSave.equals("")){
+        String scanSave = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
+        String scanActual = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, "");
+
+        if (!scanSave.equals("")) {
             goNext();
-        }else {
+        } else {
+            String localTime = PhoneSimUtils.getLocalDateAndTime();
+            SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS,localTime);
+
             String jsonString = buildJSON();
-            new CredentialsCaptured(IdScanActivity.this, token, jsonString).execute();
+            fileList.add(fileJson);
+            new CredentialsCaptured(IdScanActivity.this, token, jsonString, fileList).execute();
         }
     }
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(IdScanActivity.this, FaceScanActivity.class);
         startActivity(i);
     }
 
     public String buildJSON() {
 
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "666");
+
         String scanID = scandIdOperation;
+        //BORRAR
+//        String scanID = "c670040a-a13e-4ad5-81ae-a49bd9c7c6a3";
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("scanId", scanID);
-            jsonObject.put("credentialType", idTypeSelected.toString());
+            jsonObject.put("credentialType", stringCredentialType);
+//            jsonObject.put("imageResolution", 560);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        try {
+            Writer output = null;
+            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
+            if (fileJson.exists()) {
+                fileJson.delete();
+                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
+            }
+            output = new BufferedWriter(new FileWriter(fileJson));
+            output.write(jsonObject.toString());
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return jsonObject.toString();
+    }
+
+    //menu actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_operation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.i_close_operation_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(IdScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        if (id == R.id.i_log_out_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(IdScanActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

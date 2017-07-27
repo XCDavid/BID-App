@@ -196,6 +196,7 @@ public class PayConfirmationActivity extends BaseActivity implements View.OnClic
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return jsonObject.toString();
     }
 

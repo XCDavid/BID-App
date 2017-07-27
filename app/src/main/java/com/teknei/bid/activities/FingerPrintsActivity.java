@@ -14,8 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,6 +31,7 @@ import com.teknei.bid.R;
 
 import com.teknei.bid.asynctask.DocumentSend;
 import com.teknei.bid.asynctask.FingersSend;
+import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.FingerScanDialog;
 import com.teknei.bid.mso.MSOConnection;
 import com.teknei.bid.mso.MSOShower;
@@ -35,15 +39,20 @@ import com.morpho.android.usb.USBManager;
 import com.teknei.bid.tools.TKN_MSO_ERROR;
 import com.morpho.morphosmart.sdk.ErrorCodes;
 import com.morpho.morphosmart.sdk.MorphoDevice;
+import com.teknei.bid.utils.ApiConstants;
+import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +96,21 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     File imageFileMiddleRight;
     File imageFileIndexRight;
     File imageFileThumbRight;
+    //Left Hand
+    String base64PinkyLeft;
+    String base64RingLeft;
+    String base64MiddleLeft;
+    String base64IndexLeft;
+    String base64ThumbLeft;
+    //Right Hand
+    String base64PinkyRight;
+    String base64RingRight;
+    String base64MiddleRight;
+    String base64IndexRight;
+    String base64ThumbRight;
+
+    File fileJson;
+    List<File> fileList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +147,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         bThumbRight.setOnClickListener(this);
 
         fingersFileArray = new ArrayList<File>();
+        fileList = new ArrayList<File>();
 
         morphoDevice = new MorphoDevice();
         // ---------- Aqui se inicia la conexion con el lector(ya no se hace en el metodo mso1300
@@ -142,7 +167,11 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         super.onResume();
         boolean permission = USBManager.getInstance().isDevicesHasPermission();
         if (!permission) {
-            onBackPressed();
+            try {
+                onBackPressed();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -231,11 +260,18 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         return hasImage;
     }
 
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap imagex = image;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        imagex.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
+        byte[] b = outputStream.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        return imageEncoded;
+    }
+
     public void setImageToRightFinger() {
         if (imgFP != null) {
             Bitmap msoBitMap = MSOConnection.getInstance().getBitMap();
-            imgFP.setImageBitmap(msoBitMap);
-            photoBuffer = bitmapToByteArray(msoBitMap);
 
             String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
             String dir = Environment.getExternalStorageDirectory() + File.separator;
@@ -245,45 +281,62 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 case R.id.b_pinky_left_arm:
                     finger = "I5";
                     fingerSelect = 10;
+                    base64PinkyLeft = encodeTobase64(msoBitMap);
+                    Log.d("FingerJSON", "base 64 ll:" + base64PinkyLeft);
                     break;
                 case R.id.b_ring_left_arm:
                     finger = "I4";
                     fingerSelect = 9;
+                    base64RingLeft = encodeTobase64(msoBitMap);
+                    Log.d("FingerJSON", "base 64 lr:" + base64PinkyLeft);
                     break;
                 case R.id.b_middle_left_arm:
                     finger = "I3";
                     fingerSelect = 8;
+                    base64MiddleLeft = encodeTobase64(msoBitMap);
+                    Log.d("FingerJSON", "base 64 lm:" + base64PinkyLeft);
                     break;
                 case R.id.b_index_left_arm:
                     finger = "I2";
                     fingerSelect = 7;
+                    base64IndexLeft = encodeTobase64(msoBitMap);
+                    Log.d("FingerJSON", "base 64 li:" + base64PinkyLeft);
                     break;
                 case R.id.b_thumb_left_arm:
                     finger = "I1";
                     fingerSelect = 6;
+                    base64ThumbLeft = encodeTobase64(msoBitMap);
+                    Log.d("FingerJSON", "base 64 lt:" + base64PinkyLeft);
                     break;
                 case R.id.b_pinky_right_arm:
                     finger = "D5";
                     fingerSelect = 5;
+                    base64PinkyRight = encodeTobase64(msoBitMap);
                     break;
                 case R.id.b_ring_riht_arm:
                     finger = "D4";
                     fingerSelect = 4;
+                    base64RingRight = encodeTobase64(msoBitMap);
                     break;
                 case R.id.b_middle_right_arm:
                     finger = "D3";
                     fingerSelect = 3;
+                    base64MiddleRight = encodeTobase64(msoBitMap);
                     break;
                 case R.id.b_index_right_arm:
                     finger = "D2";
                     fingerSelect = 2;
+                    base64IndexRight = encodeTobase64(msoBitMap);
                     break;
                 case R.id.b_thumb_right_arm:
                     finger = "D1";
                     fingerSelect = 1;
+                    base64ThumbRight = encodeTobase64(msoBitMap);
                     break;
             }
-            //Guarda nueva imagen del rostro de la persona
+            imgFP.setImageBitmap(msoBitMap);
+            photoBuffer = bitmapToByteArray(msoBitMap);
+            //Guarda nueva imagen del dedo
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + "_" + operationID + ".jpg");
             if (f.exists()) {
                 f.delete();
@@ -359,12 +412,20 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
             //if(bitMapTake){
             //BORRAR
             if (true) {
+                String localTime = PhoneSimUtils.getLocalDateAndTime();
+                SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
+
                 String jsonString = buildJSON();
                 Log.d("FingerJSON", "JSON FINGERs:" + jsonString);
-                //Esta AsyncTask es de Otro activity
-                //Falta crear la ppropia para mandar todos los archivos de las huellas digitales
-                new FingersSend(FingerPrintsActivity.this, token, jsonString, fingersFileArray).execute();
-
+                fileList.add(fileJson);
+                if (imageFileIndexLeft != null){
+                    fileList.add(imageFileIndexLeft);
+                }
+                if (imageFileIndexRight != null){
+                    fileList.add(imageFileIndexRight);
+                }
+                Log.d("ArrayList Files", "Files:" + fileList.size());
+                new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
             } else {
 //            Toast.makeText(FingerPrintsActivity.this, "Escanea los dedos indices para continuar", Toast.LENGTH_SHORT).show();
                 goNext();
@@ -376,8 +437,8 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void goNext() {
-//        super.goNext();
-        Intent i = new Intent(FingerPrintsActivity.this, PayConfirmationActivity.class);
+//        Intent i = new Intent(FingerPrintsActivity.this, PayConfirmationActivity.class);
+        Intent i = new Intent(FingerPrintsActivity.this, FakeINEActivity.class);
         startActivity(i);
     }
 
@@ -387,6 +448,8 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("operationId", Integer.valueOf(operationID));
+            jsonObject.put("contentType", "image/jpeg");
+            jsonObject = addBase64Fingers(jsonObject);
 //            jsonObject.put("contentType", "image/jpeg");
             if (imageFileThumbLeft != null){
                 jsonObject.put("dedo1I", true);
@@ -452,9 +515,99 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        try {
+            Writer output = null;
+            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
+            if(fileJson.exists()){
+                fileJson.delete();
+                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
+            }
+            output = new BufferedWriter(new FileWriter(fileJson));
+            output.write(jsonObject.toString());
+            output.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.d("JSON FINGERS","JSON SEND -> " + jsonObject.toString());
         return jsonObject.toString();
     }
 
+    private JSONObject addBase64Fingers(JSONObject jsonObject) {
+        if (base64PinkyLeft != null && !base64PinkyLeft.equals("")) {
+            try {
+                jsonObject.put("ll", base64PinkyLeft);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64RingLeft != null && !base64RingLeft.equals("")) {
+            try {
+                jsonObject.put("lr", base64RingLeft);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64MiddleLeft != null && !base64MiddleLeft.equals("")) {
+            try {
+                jsonObject.put("lm", base64MiddleLeft);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64IndexLeft != null && !base64IndexLeft.equals("")) {
+            try {
+                jsonObject.put("li", base64IndexLeft);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64ThumbLeft != null && !base64ThumbLeft.equals("")) {
+            try {
+                jsonObject.put("lt", base64ThumbLeft);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        //Right arm
+        if (base64PinkyRight != null && !base64PinkyRight.equals("")) {
+            try {
+                jsonObject.put("rl", base64PinkyRight);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64RingRight != null && !base64RingRight.equals("")) {
+            try {
+                jsonObject.put("rr", base64RingRight);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64MiddleRight != null && !base64MiddleRight.equals("")) {
+            try {
+                jsonObject.put("rm", base64MiddleRight);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64IndexRight != null && !base64IndexRight.equals("")) {
+            try {
+                jsonObject.put("ri", base64IndexRight);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (base64ThumbRight != null && !base64ThumbRight.equals("")) {
+            try {
+                jsonObject.put("rt", base64ThumbRight);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d("JSON FINGERS","JSON MIDDLE -> " + jsonObject.toString());
+        return jsonObject;
+    }
 
     /**
      * @Author: MAESCOBAR
@@ -528,5 +681,32 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
+    }
+
+    //menu actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_operation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.i_close_operation_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FingerPrintsActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        if (id == R.id.i_log_out_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FingerPrintsActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

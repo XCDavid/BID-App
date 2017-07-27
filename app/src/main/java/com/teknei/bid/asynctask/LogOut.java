@@ -17,11 +17,7 @@ import com.teknei.bid.ws.ServerConnection;
 import org.json.JSONObject;
 
 public class LogOut extends AsyncTask<String, Void, Void> {
-    //    private String newToken;
     private String token;
-
-//    private String userToCheck;
-
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
     private String errorMessage;
@@ -35,7 +31,6 @@ public class LogOut extends AsyncTask<String, Void, Void> {
 
     public LogOut(Activity context, /*String userString,*/ String tokenOld) {
         this.activityOrigin = context;
-//        this.userToCheck = userString;
         this.token = tokenOld;
     }
 

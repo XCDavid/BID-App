@@ -1,6 +1,7 @@
 package com.teknei.bid.ws;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -18,7 +19,10 @@ import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
+import cz.msebera.android.httpclient.entity.mime.content.ContentBody;
+import cz.msebera.android.httpclient.entity.mime.content.FileBody;
 import cz.msebera.android.httpclient.entity.mime.content.StringBody;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicHeader;
@@ -47,7 +51,7 @@ public class ServerConnection {
 
     private String tokenID = "";
     private String basicAutho = "";
-    public static final int TIME_OUT = 5000;
+    public static final int TIME_OUT = 10000;
     Integer statusResponse = null;
 
 
@@ -77,17 +81,15 @@ public class ServerConnection {
                 httpDelete = new HttpDelete(serverMethod);
                 break;
         }
-//        if (method.equals(ServerConnection.METHOD_POST)) {
-//            httpPOST = new HttpPost(serverMethod);
-//        } else if (method.equals(ServerConnection.METHOD_GET)) {
-//            httpGet = new HttpGet(serverMethod);
-//        }
-
 
         //Creamos la entidad de datos que enviaremos si existe el JSONOBJECT
         String sendJSON = stringJSON;
         if (sendJSON != null) {
             sendJSON = stringJSON.replaceAll("\\\\", "");
+//            int i = sendJSON.indexOf("{");
+//            sendJSON = sendJSON.substring(i);
+//            sendJSON = stringJSON.replaceAll("\"", "\\\\\"");
+//            sendJSON = "\\\"" +sendJSON + "\\\"";
         }
         StringEntity entityData = null;
         try {
@@ -98,49 +100,72 @@ public class ServerConnection {
             e1.printStackTrace();
         }
         //Si hay entidad de datos se agrega al Post en caso de que el metodo POST tambien exista
-//        if (entityData != null) {
-//            entityData.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON));
-//            if (httpPOST != null) {
-//                httpPOST.setEntity(entityData);
-//            }
-//        }
-
-        //Image attaching
-        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
-        File fileOut = file;
-        if (fileOut != null) {
-            multipartEntity.addBinaryBody("file", fileOut, ContentType.create("image/jpeg"), file.getName());
-        }
-        //Json string attaching
-        if (sendJSON != null) {
-            multipartEntity.addPart("json", new StringBody(sendJSON, ContentType.APPLICATION_JSON));
+        if ( entityData != null && file == null && !serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential")) {
+            entityData.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON));
             if (httpPOST != null) {
-                httpPOST.setEntity(multipartEntity.build());
+                httpPOST.setEntity(entityData);
             }
         }
 
+        //Image attaching
+        // creates a unique boundary based on time stamp
+        String boundary = "===" + System.currentTimeMillis() + "===";
+        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        multipartEntity.setBoundary(boundary);
+        File fileOut = file;
+        File fileAux = new File(Environment.getExternalStorageDirectory()+File.separator+ "face_14.jpg");
+        if (!fileAux.exists()) {
+            try {
+                fileAux.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (fileOut != null  ) {
+//            multipartEntity.addBinaryBody("file", fileAux, ContentType.create("image/jpeg"), fileAux.getName());
+            multipartEntity.addBinaryBody("json", fileOut,ContentType.APPLICATION_JSON,fileOut.getName());
+
+//            ContentBody cbFile = new FileBody(file, "multipart/form-data");
+//            multipartEntity.addPart("json", cbFile);
+        }
+            //Json string attaching
+            if (sendJSON != null) {
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = new JSONObject(stringJSON);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                multipartEntity.addTextBody("json2", sendJSON, ContentType.TEXT_PLAIN);
+                multipartEntity.setStrictMode();
+                if (httpPOST != null && (serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential") || serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential"))) {
+                    httpPOST.setEntity(multipartEntity.build());
+                }
+            }
+//        }
         // Ejecuta la peticion HTTP POST / GET / DELETE al servidor
+
         try {
             if (httpPOST != null) {
-                //User aget add
-//                httpPOST.addHeader(HEADER_USER_AGENT, System.getProperty(ANDROID_USER_AGENT));
                 //Normal headers add
                 httpPOST.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
-                httpResponse = clienteHTTP.execute(httpPOST);
+                if (serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential") || serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential")) {
+                    httpPOST.setHeader(HTTP.CONTENT_TYPE, "multipart/form-data; boundary="+boundary);
+                }
                 /****///Token add       //Authorization      //Token" "token_del_login *****************************
                 httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
-                if (basicAutho != null) {
+                if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
-                    httpPOST.setHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
+                    httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
                 }
+                httpResponse = clienteHTTP.execute(httpPOST);
             } else if (httpGet != null) {
-                //User aget add
-//                httpGet.addHeader(HEADER_USER_AGENT, System.getProperty(ANDROID_USER_AGENT));
                 //Normal headers add
                 httpGet.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 //Token add
 //                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
-                if (basicAutho != null) {
+                if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
                     httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
                 }

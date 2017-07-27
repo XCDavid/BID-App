@@ -37,7 +37,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         saveSharedPreferenceByDefault();
 
         //Borrar
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.OPERATION_ID);
+        SharedPreferencesUtils.deleteFromPreferences(this, SharedPreferencesUtils.OPERATION_ID);
+
     }
 
     @Override
@@ -54,10 +55,10 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     public boolean validateData() {
         user = etUser.getText().toString();
         pass = etPass.getText().toString();
-        if (!user.equals("") ) {
-            if (!etPass.equals("") ) {
+        if (!user.equals("")) {
+            if (!pass.equals("")) {
                 return true;
-            }else{
+            } else {
                 Toast.makeText(LogInActivity.this, "Ingresa una contraseña para poder continuar", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -69,30 +70,25 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void sendPetition() {
-//        super.sendPetition();
 //        String authorization = new String(Base64.encodeBase64(new String(user + ":" + pass).getBytes()));
         String authorization = Base64.encodeToString(new String(user + ":" + pass).getBytes(), Base64.DEFAULT);
-//        headers.add("Authorization", "Basic " + authorization);
-
         new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
     }
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(LogInActivity.this, FormActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
 
-    public void saveSharedPreferenceByDefault(){
+    public void saveSharedPreferenceByDefault() {
         String urlIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_ID_SCAN, getString(R.string.default_url_id_scan));
         String licenseIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.LICENSE_ID_SCAN, getString(R.string.default_license_id_scan));
         String urlTeknei = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
-        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.URL_ID_SCAN,urlIdScan);
-        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.LICENSE_ID_SCAN,licenseIdScan);
-        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.URL_TEKNEI,urlTeknei);
-
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_ID_SCAN, urlIdScan);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.LICENSE_ID_SCAN, licenseIdScan);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_TEKNEI, urlTeknei);
     }
 
 }

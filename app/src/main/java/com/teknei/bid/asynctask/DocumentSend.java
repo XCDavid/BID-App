@@ -13,17 +13,19 @@ import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.ServerConnection;
+import com.teknei.bid.ws.ServerConnectionListImages;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 
 public class DocumentSend extends AsyncTask<String, Void, Void> {
     //    private String newToken;
     private String token;
     private String jsonS;
-    private File imageF;
+    private List<File> imageF;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -36,7 +38,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public DocumentSend(Activity context, String tokenOld, String jsonString, File imageFile) {
+    public DocumentSend(Activity context, String tokenOld, String jsonString, List<File> imageFile) {
         this.activityOrigin = context;
         this.token = tokenOld;
         this.jsonS = jsonString;
@@ -67,7 +69,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         if (hasConecction) {
             try {
-                ServerConnection serverConnection = new ServerConnection();
+                ServerConnectionListImages serverConnection = new ServerConnectionListImages();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
                 Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_DOCUMENT, token, ServerConnection.METHOD_POST,imageF,"");
                 if (arrayResponse[1] != null) {

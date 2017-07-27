@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="@string/contract_reference_pay_confirmation" />
+            android:text="@string/payment_reference_pay_confirmation" />
 
         <EditText
             android:id="@+id/et_contract_reference_pay_confirm"
@@ -32,6 +32,39 @@
             android:inputType="number"
             android:maxLength="20"
             android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tv_peyment_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vertical_separator_form"
+            android:text="Tipo de pago" />
+        <RadioGroup android:id="@+id/toggleGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+            <ToggleButton android:id="@+id/tgg_btn_cash"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textOn="Efectivo"
+                android:textOff="Efectivo"
+                android:checked="true"
+                />
+            <ToggleButton android:id="@+id/tgg_btn_card"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textOn="Tarjeta"
+                android:textOff="Tarjeta"
+                />
+        </RadioGroup>
+
         <TextView
             android:id="@+id/tv_pay_amount"
             android:layout_width="match_parent"
@@ -43,13 +76,45 @@
             android:id="@+id/et_pay_amount_pay_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/vertical_separator_pay_confirm"
             android:clickable="true"
             android:focusableInTouchMode="true"
             android:inputType="number"
             android:digits="0123456789"
             android:maxLength="20"
             android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tv_peyment_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vertical_separator_form"
+            android:text="Resultado del pago" />
+        <RadioGroup android:id="@+id/toggleGroupPaymentOk"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/vertical_separator_pay_confirm"
+            >
+
+            <ToggleButton android:id="@+id/tgg_btn_pay_ok"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textOn="Ok"
+                android:textOff="Ok"
+                android:checked="true"
+                />
+            <ToggleButton android:id="@+id/tgg_btn_pay_error"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textOn="Error"
+                android:textOff="Error"
+                />
+        </RadioGroup>
 
     </LinearLayout>
     <Button

@@ -20,6 +20,14 @@ public class SharedPreferencesUtils {
     public static final String URL_ID_SCAN = "url_id_scan_settings";
     public static final String LICENSE_ID_SCAN = "license_id_scan_settings";
     public static final String URL_TEKNEI = "url_teknei_settings";
+    //JSON de respuesta MobbScan frontal y trasera
+    public static final String JSON_CREDENTIALS_RESPONSE = "json_mabbscan_front";
+    //TimeStamp para tiempos de guardado
+    public static final String TIMESTAMP_CREDENTIALS = "timestamp_credential";
+    public static final String TIMESTAMP_FACE = "timestamp_face";
+    public static final String TIMESTAMP_DOCUMENT = "timestamp_document";
+    public static final String TIMESTAMP_FINGERPRINTS = "timestamp_fingerprints";
+
 
     public static void saveToPreferencesString(Context contex, String preferenceName, String preferenceValue) {
         SharedPreferences sharedPreferences = contex.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);

@@ -8,19 +8,25 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teknei.bid.R;
+import com.teknei.bid.activities.IdScanActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.ServerConnection;
+import com.teknei.bid.ws.ServerConnectionListImages;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.util.List;
 
 public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     //    private String newToken;
     private String token;
     private String jsonS;
+    private List<File> jsonF;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -33,10 +39,11 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public CredentialsCaptured(Activity context, String tokenOld, String jsonString/*, int action*/) {
+    public CredentialsCaptured(Activity context, String tokenOld, String jsonString, List<File> jsonFile) {
         this.activityOrigin = context;
         this.token = tokenOld;
         this.jsonS = jsonString;
+        this.jsonF = jsonFile;
     }
 
     @Override
@@ -63,9 +70,9 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         if (hasConecction) {
             try {
-                ServerConnection serverConnection = new ServerConnection();
+                ServerConnectionListImages serverConnection = new ServerConnectionListImages();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_CREDENTIALS, token, ServerConnection.METHOD_POST,null,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_CREDENTIALS, token, ServerConnection.METHOD_POST, jsonF, "");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -113,18 +120,98 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
         //BORRAR
-        String scanAUX1 =  SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+        String scanAUX1 = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "666");
         SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX1);
 
         if (hasConecction) {
             if (responseOk) {
+                String messageComplete = "";
                 String messageResp = "";
+                String jsonResult = "";
                 try {
-                    messageResp = responseJSONObject.getString("errorMessage");
+                    messageComplete = responseJSONObject.getString("errorMessage");
+                    String messageSplit[] = messageComplete.split("\\|");
+                    messageResp = messageSplit[0];
+                    Log.d("Response Message", "complete:" + messageComplete);
+                    Log.d("Response Message", "message:" + messageResp);
+                    if (messageSplit.length > 1) {
+                        Log.d("Response Message", "json:" + jsonResult);
+                        String name = "";
+                        String apPat = "";
+                        String apMat = "";
+                        String address = "";
+                        String mrz = "";
+                        String validity = "";
+                        String curp = "";
+                        jsonResult = messageSplit[1];
+                        if (jsonF.size() == 1) {
+                            //MOBBSCAN
+
+                        }
+                        if (jsonF.size() == 3) {
+                            //ICAR
+                            JSONObject respJSON = new JSONObject(jsonResult);
+                            JSONObject dataObjectJSON = respJSON.getJSONObject("document");
+                            try {
+                                name = dataObjectJSON.getString("name");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                apPat = dataObjectJSON.getString("firstSurname");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                apMat = dataObjectJSON.getString("secondSurname");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                address = dataObjectJSON.getString("address");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                mrz = dataObjectJSON.getString("MRZ");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                validity = dataObjectJSON.getString("section");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                curp = dataObjectJSON.getString("curp");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        //***Contruye el json con datos que no obtiene MobbScan Falta comprobar Icar
+                        String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+
+                        try {
+                            JSONObject jsonData = new JSONObject(jsonString);
+                            jsonData.put("name", name );
+                            jsonData.put("appat", apPat);
+                            jsonData.put("apmat", apMat );
+                            if (!curp.equals(""))
+                                jsonData.put("curp", curp);
+                            jsonData.put("mrz", mrz);
+                            jsonData.put("address", address);
+                            jsonData.put("validity", validity );
+                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String scanAUX =  SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+
+
+                String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
                 SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
 
                 AlertDialog dialogoAlert;
@@ -133,6 +220,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
             } else {
+
                 Log.i("Message logout", "logout: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);

@@ -43,7 +43,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
-        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION)
+        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
             okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
         if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
             cancelButton.setVisibility(View.VISIBLE);

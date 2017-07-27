@@ -8,13 +8,12 @@
     android:background="@color/colorPrimary"
     >
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/teknei_logo"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:src="@drawable/buro"
+        android:scaleType="centerCrop"
         android:layout_above="@+id/lay_user_pass_section"
-        android:layout_centerHorizontal="true"
-
-        />
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:id="@+id/lay_user_pass_section"

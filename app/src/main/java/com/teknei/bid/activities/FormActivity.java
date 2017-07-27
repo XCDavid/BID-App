@@ -1,6 +1,7 @@
 package com.teknei.bid.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -17,6 +18,7 @@ import com.teknei.bid.R;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;
+import com.teknei.bid.utils.PermissionsUtils;
 import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
@@ -112,7 +114,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         etMail.setFilters(new InputFilter[]{filterMail, new InputFilter.LengthFilter(40)});
         etRefContract.setFilters(new InputFilter[]{filterBasic, new InputFilter.LengthFilter(20)});
 
-        phoneID = PhoneSimUtils.getImei(this);
+        //Check Permissions For Android 6.0 up
+        PermissionsUtils.checkPermissionPhoneState(this);
+
+//        phoneID = PhoneSimUtils.getImei(this);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
@@ -235,26 +240,17 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
-        /*if (id == R.id.main_options_action) {
-            Toast.makeText(this, "Trabajando...opciones", Toast.LENGTH_SHORT).show();
-        }*/
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         AlertDialog dialogoAlert;
         dialogoAlert = new AlertDialog(FormActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
         dialogoAlert.setCancelable(false);
         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialogoAlert.show();
     }
-
-//    @Override
-//    public void logOut() {
-//
-//    }
 
     public String buildJSON() {
         String name = etName.getText().toString();
@@ -265,7 +261,20 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         String phone = etPhone.getText().toString();
         String numContract = etRefContract.getText().toString();
 
+        //***Contruye el json con datos que no obtiene MobbScan Falta comprobar Icar
+        JSONObject jsonData = new JSONObject();
+        try {
+            jsonData.put("curp", curp);
+            SharedPreferencesUtils.saveToPreferencesString(FormActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,jsonData.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        //***
+
         String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this,SharedPreferencesUtils.USERNAME,"default");
+        phoneID = PhoneSimUtils.getImei(this);
         //Construimos el JSON con los datos del formulario
         JSONObject jsonObject = new JSONObject();
         try {
@@ -286,8 +295,6 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void sendPetition() {
-//        super.sendPetition();
-
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         if(operationID.equals("")){
@@ -300,8 +307,29 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(FormActivity.this, SelectIdTypeActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermissionsUtils.WRITE_READ_EXTERNAL_STORAGE_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    //Check AGAIN Permissions For Android 6.0 up
+                    PermissionsUtils.checkPermissionPhoneState(FormActivity.this);
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

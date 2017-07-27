@@ -49,7 +49,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.message_face_scan_check));
+                activityOrigin.getString(R.string.message_figerprints_check));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -71,7 +71,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnectionListImages serverConnection = new ServerConnectionListImages();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_DOCUMENT, token, ServerConnection.METHOD_POST,imageF,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_FINGERS, token, ServerConnection.METHOD_POST,imageF,"");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {

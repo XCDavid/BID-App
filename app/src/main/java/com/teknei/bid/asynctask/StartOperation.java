@@ -113,7 +113,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
         //BORRAR
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "666");
+        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "23");
 
         if (hasConecction) {
             if (responseOk) {

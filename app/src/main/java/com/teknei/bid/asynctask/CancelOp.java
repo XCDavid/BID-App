@@ -113,6 +113,12 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
         SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
 
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FACE);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
+
         if (hasConecction) {
             if (responseOk) {
                 SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
@@ -122,6 +128,12 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
                 SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
                 SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
                 SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FACE);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
+                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
+
                 if (ACTION == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();
                 }else if(ACTION == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION){

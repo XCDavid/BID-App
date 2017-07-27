@@ -20,6 +20,7 @@
             android:textSize="30sp"
             />
         <TextView
+            android:id="@+id/tv_operation_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="3012213321"

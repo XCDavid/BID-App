@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.teknei.bid.R;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -12,6 +13,7 @@ import com.teknei.bid.utils.SharedPreferencesUtils;
 public class ResultOperationActivity extends AppCompatActivity implements View.OnClickListener{
     Button finishOperation;
     Button tryAgainOperation;
+    TextView tvOperationResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +24,15 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
             invalidateOptionsMenu();
         }
 
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.OPERATION_ID,"");
+
         finishOperation = (Button) findViewById(R.id.b_end_result_operation);
         tryAgainOperation = (Button) findViewById(R.id.b_end_result_operation);
+        tvOperationResult = (TextView) findViewById(R.id.tv_operation_result);
         finishOperation.setOnClickListener(this);
         tryAgainOperation.setOnClickListener(this);
 
+        tvOperationResult.setText(operationID);
     }
 
     @Override
@@ -53,5 +59,10 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
         SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.DOCUMENT_OPERATION);
         SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.FINGERS_OPERATION);
         SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.PAY_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_FACE);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
+        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
     }
 }

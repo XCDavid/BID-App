@@ -19,6 +19,7 @@ import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
 import cz.msebera.android.httpclient.entity.mime.content.StringBody;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
@@ -47,7 +48,7 @@ public class ServerConnectionListImages {
 
     private String tokenID = "";
     private String basicAutho = "";
-    public static final int TIME_OUT = 5000;
+    public static final int TIME_OUT = 10000;
     Integer statusResponse = null;
 
 
@@ -106,36 +107,48 @@ public class ServerConnectionListImages {
 //        }
 
         //Image attaching
+        // creates a unique boundary based on time stamp
+        String boundary = "===" + System.currentTimeMillis() + "===";
         MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        multipartEntity.setBoundary(boundary);
 //        File fileOut = file;
         if (files != null) {
-            for (File image : files) {
-                multipartEntity.addBinaryBody("file", image, ContentType.create("image/jpeg"), image.getName());
+            for (int i=0; i<files.size();i++) {
+                File auxF = files.get(i);
+                if (i==0) {
+                    multipartEntity.addBinaryBody("json", auxF,ContentType.APPLICATION_JSON,auxF.getName());
+                }else{
+                    multipartEntity.addBinaryBody("file", auxF, ContentType.create("image/jpeg"), auxF.getName());
+                }
             }
 
         }
-        //Json string attaching
-        if (sendJSON != null) {
-            multipartEntity.addPart("json", new StringBody(sendJSON, ContentType.APPLICATION_JSON));
-            if (httpPOST != null) {
-                httpPOST.setEntity(multipartEntity.build());
-            }
+        if (httpPOST != null) {
+            multipartEntity.setStrictMode();
+            httpPOST.setEntity(multipartEntity.build());
         }
+//        //Json string attaching
+//        if (sendJSON != null) {
+//            multipartEntity.addPart("json", new StringBody(sendJSON, ContentType.APPLICATION_JSON));
+//            if (httpPOST != null) {
+//                httpPOST.setEntity(multipartEntity.build());
+//            }
+//        }
 
         // Ejecuta la peticion HTTP POST / GET / DELETE al servidor
+        Log.i("request -> ", ":" + serverMethod);
         try {
             if (httpPOST != null) {
                 //User aget add
 //                httpPOST.addHeader(HEADER_USER_AGENT, System.getProperty(ANDROID_USER_AGENT));
                 //Normal headers add
                 httpPOST.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
-                httpResponse = clienteHTTP.execute(httpPOST);
+                httpPOST.setHeader(HTTP.CONTENT_TYPE, "multipart/form-data; boundary="+boundary);
+
                 /****///Token add       //Authorization      //Token" "token_del_login *****************************
                 httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
-                if (basicAutho != null) {
-                    //*///Basic Authorization add       //Authorization      //Basic" "code
-                    httpPOST.setHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
-                }
+                httpResponse = clienteHTTP.execute(httpPOST);
             } else if (httpGet != null) {
                 //User aget add
 //                httpGet.addHeader(HEADER_USER_AGENT, System.getProperty(ANDROID_USER_AGENT));

@@ -81,6 +81,9 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     File fileJson;
     List<File> fileList;
 
+    int resolution=0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,6 +224,8 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                         idFrontButton.setImageBitmap(bitmap);
                         photoBuffer = bitmapToByteArray(bitmap);
                         Log.d("REsolution", "rResolution: w->" + bitmap.getWidth() + " , h->" + bitmap.getHeight());
+                        resolution = bitmap.getWidth() * bitmap.getHeight();
+                        Log.d("REsolution", "rResolution: total->" + resolution);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -435,7 +440,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             jsonObject.put("operationId", Integer.valueOf(operationID));
 //            jsonObject.put("scanId", "");
             jsonObject.put("credentialType", stringCredentialType);
-            jsonObject.put("imageResolution", 560);
+            jsonObject.put("imageResolution", resolution);
             jsonObject.put("contentType", "image/jpeg");
         } catch (JSONException e) {
             e.printStackTrace();

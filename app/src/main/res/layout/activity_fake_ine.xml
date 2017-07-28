@@ -171,7 +171,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:paddingRight="10dp"
-                    android:text="OCR/CIC :"
+                    android:text="OCR :"
                     android:textSize="18sp" />
 
                 <TextView

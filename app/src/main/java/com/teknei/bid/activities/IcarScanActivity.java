@@ -427,7 +427,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
 //        String scanID = scandIdOperation;
         //BORRAR
-        String scanID = "c670040a-a13e-4ad5-81ae-a49bd9c7c6a3";
+//        String scanID = "c670040a-a13e-4ad5-81ae-a49bd9c7c6a3";
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {

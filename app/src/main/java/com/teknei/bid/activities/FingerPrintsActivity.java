@@ -53,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,13 +167,13 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         boolean permission = USBManager.getInstance().isDevicesHasPermission();
-        if (!permission) {
-            try {
-                onBackPressed();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
+//        if (!permission) {
+//            try {
+//                onBackPressed();
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -261,9 +262,9 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     }
 
     public static String encodeTobase64(Bitmap image) {
-        Bitmap imagex = image;
+//        Bitmap imagex = image;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imagex.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
+        image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
         byte[] b = outputStream.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
         return imageEncoded;
@@ -272,6 +273,10 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     public void setImageToRightFinger() {
         if (imgFP != null) {
             Bitmap msoBitMap = MSOConnection.getInstance().getBitMap();
+            Log.d("base64","lenght:"+imgFPBuff.length);
+
+            photoBuffer = imgFPBuff;
+            imgFP.setImageBitmap(msoBitMap);
 
             String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
             String dir = Environment.getExternalStorageDirectory() + File.separator;
@@ -281,61 +286,57 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 case R.id.b_pinky_left_arm:
                     finger = "I5";
                     fingerSelect = 10;
-                    base64PinkyLeft = encodeTobase64(msoBitMap);
-                    Log.d("FingerJSON", "base 64 ll:" + base64PinkyLeft);
+//                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+//                    Log.d("base64","lenght tools:"+base64PinkyLeft.length());
                     break;
                 case R.id.b_ring_left_arm:
                     finger = "I4";
                     fingerSelect = 9;
-                    base64RingLeft = encodeTobase64(msoBitMap);
-                    Log.d("FingerJSON", "base 64 lr:" + base64PinkyLeft);
+                    base64RingLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_middle_left_arm:
                     finger = "I3";
                     fingerSelect = 8;
-                    base64MiddleLeft = encodeTobase64(msoBitMap);
-                    Log.d("FingerJSON", "base 64 lm:" + base64PinkyLeft);
+                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_index_left_arm:
                     finger = "I2";
                     fingerSelect = 7;
-                    base64IndexLeft = encodeTobase64(msoBitMap);
-                    Log.d("FingerJSON", "base 64 li:" + base64PinkyLeft);
+                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_thumb_left_arm:
                     finger = "I1";
                     fingerSelect = 6;
-                    base64ThumbLeft = encodeTobase64(msoBitMap);
-                    Log.d("FingerJSON", "base 64 lt:" + base64PinkyLeft);
+                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_pinky_right_arm:
                     finger = "D5";
                     fingerSelect = 5;
-                    base64PinkyRight = encodeTobase64(msoBitMap);
+                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_ring_riht_arm:
                     finger = "D4";
                     fingerSelect = 4;
-                    base64RingRight = encodeTobase64(msoBitMap);
+                    base64RingRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_middle_right_arm:
                     finger = "D3";
                     fingerSelect = 3;
-                    base64MiddleRight = encodeTobase64(msoBitMap);
+                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_index_right_arm:
                     finger = "D2";
                     fingerSelect = 2;
-                    base64IndexRight = encodeTobase64(msoBitMap);
+                    base64IndexRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
                 case R.id.b_thumb_right_arm:
                     finger = "D1";
                     fingerSelect = 1;
-                    base64ThumbRight = encodeTobase64(msoBitMap);
+                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
             }
-            imgFP.setImageBitmap(msoBitMap);
-            photoBuffer = bitmapToByteArray(msoBitMap);
+
             //Guarda nueva imagen del dedo
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + "_" + operationID + ".jpg");
             if (f.exists()) {
@@ -389,12 +390,11 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    public byte[] bitmapToByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //Tipo de imagen
-        return stream.toByteArray();
+    public String encodeTo64(byte[] bitmapByre) {
+        String fingerAux = Base64.encodeToString(bitmapByre, Base64.DEFAULT);
+        Log.d("base64","encoded:"+fingerAux.length());
+        return fingerAux;
     }
-
 
     @Override
     public void sendPetition() {

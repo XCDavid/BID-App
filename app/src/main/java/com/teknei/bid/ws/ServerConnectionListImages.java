@@ -175,6 +175,7 @@ public class ServerConnectionListImages {
         String responseJSONString = null;
         if (httpResponse != null) {
             statusResponse = httpResponse.getStatusLine().getStatusCode();
+            Log.i("Status response -> ", "estatus : " + statusResponse);
             HttpEntity entity = httpResponse.getEntity();
             try {
                 responseJSONString = EntityUtils.toString(entity);

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.morpho.morphosmart.sdk.MorphoDevice;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.LogIn;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -38,7 +39,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
         //Borrar
         SharedPreferencesUtils.deleteFromPreferences(this, SharedPreferencesUtils.OPERATION_ID);
-
+        MorphoDevice morphoDevice = new MorphoDevice();
     }
 
     @Override

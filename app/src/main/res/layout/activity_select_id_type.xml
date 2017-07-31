@@ -14,7 +14,7 @@
         android:textOff="MobbScan"
         android:checked="true"
         android:layout_alignParentRight="true"
-        android:visibility="gone"
+        android:visibility="visible"
         />
     <LinearLayout
         android:layout_width="match_parent"

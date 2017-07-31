@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
-//import com.mobbeel.mobbscan.api.MobbScanDocumentType;
+import com.mobbeel.mobbscan.api.MobbScanDocumentType;
 import com.teknei.bid.R;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;
@@ -71,7 +71,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 if (credentialProvider) {
                     bundle.putString("id_type", "IFE");
                 } else {
-//                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
                 }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
@@ -80,7 +80,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 if (credentialProvider) {
                     bundle.putString("id_type", "IFE");
                 } else {
-//                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
                 }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
@@ -89,7 +89,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 if (credentialProvider) {
                     bundle.putString("id_type", "INE");
                 } else {
-//                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardE.toString());
+                    bundle.putString("id_type", MobbScanDocumentType.MEXIDCardE.toString());
                 }
                 //Add the bundle to the intent
                 i.putExtras(bundle);
@@ -98,7 +98,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 if (credentialProvider) {
                     bundle.putString("id_type", "PASAPORTE");
                 } else {
-//                    bundle.putString("id_type", MobbScanDocumentType.Passport_TD3.toString());
+                    bundle.putString("id_type", MobbScanDocumentType.Passport_TD3.toString());
                 }
                 //Add the bundle to the intent
                 i.putExtras(bundle);

@@ -440,12 +440,15 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             jsonObject.put("operationId", Integer.valueOf(operationID));
 //            jsonObject.put("scanId", "");
             jsonObject.put("credentialType", stringCredentialType);
-            jsonObject.put("imageResolution", resolution);
+            jsonObject.put("imageResolution", 560);
             jsonObject.put("contentType", "image/jpeg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
+            String sendJSON = jsonObject.toString();
+            sendJSON = sendJSON.replaceAll("\\\\", "");
+
             Writer output = null;
             fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
             if (fileJson.exists()) {
@@ -453,7 +456,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                 fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
             }
             output = new BufferedWriter(new FileWriter(fileJson));
-            output.write(jsonObject.toString());
+            output.write(sendJSON);
             output.close();
         } catch (Exception e) {
             e.printStackTrace();

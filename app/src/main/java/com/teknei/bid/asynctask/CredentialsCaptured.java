@@ -141,15 +141,84 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                         String apMat = "";
                         String address = "";
                         String mrz = "";
+                        String ocr = "";
                         String validity = "";
                         String curp = "";
                         jsonResult = messageSplit[1];
                         if (jsonF.size() == 1) {
-                            //MOBBSCAN
+                            //MOBBSCAN Unicamente INE *************************************************************************
+                            JSONObject respJSON = new JSONObject(jsonResult);
+                            JSONObject dataObjectJSON = respJSON.getJSONObject("document");
+                            try {
+                                name = dataObjectJSON.getString("name");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                apPat = dataObjectJSON.getString("firstSurname");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                apMat = dataObjectJSON.getString("secondSurname");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                address = dataObjectJSON.getString("address");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                mrz = dataObjectJSON.getString("mrz");
+                                Log.w("MRZ","MRZ : "+mrz);
+//                                String mrz = "IDMEX1587903166<<4499068496638\\n8512246M2712310MEX<02<<12416<4\\nHERNANDEZ<ERAZO<<MONICA<<<<<<<";
+                                String uno = "\\\n";
+                                String dos = "\\n";
+                                String tres = "\n";
+                                String cuatro = "\\\\n";
+                                String mrzSplit1[] = mrz.split(uno);
+                                String mrzSplit2[] = mrz.split(dos);
+                                String mrzSplit3 ="";
+                                if (mrz.length()>31) {
+                                    mrzSplit3 = mrz.substring(0, 30);
+                                }
 
+                                String mrzSplit4[] = mrz.split(cuatro);
+                                Log.w("MRZ split","MRZ split 1: "+mrzSplit1.toString());
+                                Log.w("MRZ split","MRZ split 2: "+mrzSplit2.toString());
+                                Log.w("MRZ split","MRZ split 3: "+mrzSplit3);
+                                Log.w("MRZ split","MRZ split 4: "+mrzSplit4.toString());
+
+                                String firstLine = mrzSplit4[0];
+                                String firstSplit[] = firstLine.split("\\<\\<");
+                                String firstSplit2[] = mrzSplit3.split("\\<\\<");
+//                String ocr;
+                                if (firstSplit.length > 1) {
+//                                    String ocr = firstSplit[1];
+                                    Log.w("MRZ OCR","OCR: "+ocr);
+                                }
+                                if (firstSplit2.length > 1) {
+                                    ocr = firstSplit2[1];
+                                    Log.w("MRZ OCR 2","OCR 2: "+ocr);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                validity = dataObjectJSON.getString("dateOfExpiry");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+//                            try {
+                                //Muchas veces el curp es incorrecto
+                                //curp = dataObjectJSON.getString("curp");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                         if (jsonF.size() == 3) {
-                            //ICAR
+                            //ICAR Unicamente INE *************************************************************************
                             JSONObject respJSON = new JSONObject(jsonResult);
                             JSONObject dataObjectJSON = respJSON.getJSONObject("document");
                             try {
@@ -178,7 +247,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                 e.printStackTrace();
                             }
                             try {
-                                validity = dataObjectJSON.getString("section");
+                                validity = dataObjectJSON.getString("vigencia");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -199,6 +268,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             if (!curp.equals(""))
                                 jsonData.put("curp", curp);
                             jsonData.put("mrz", mrz);
+                            jsonData.put("ocr", ocr);
                             jsonData.put("address", address);
                             jsonData.put("validity", validity );
                             SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());

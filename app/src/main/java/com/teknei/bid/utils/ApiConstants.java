@@ -5,10 +5,6 @@ package com.teknei.bid.utils;
  */
 
 public class ApiConstants {
-    /**
-     * HTTP GET USER
-     * user from TAS validate
-     */
     public static final int ACTION_LOG_OUT = 0;
     public static final int ACTION_TRY_AGAIN = 1;
     public static final int ACTION_CANCEL_OPERATION = 2;
@@ -25,4 +21,17 @@ public class ApiConstants {
     public static final String METHOD_FINGERS = "rest/v1/minucias";
     public static final String METHOD_PAY_CONFIRM = "rest/v1/end";
 
+    //Strings values
+    public static final String STRING_INE = "INE";
+    public static final String STRING_IFE = "IFE";
+    public static final String STRING_PASSPORT = "PASAPORTE";
+    //Icar INE/IFE Values
+    public static final String ICAR_NAME = "name";
+    public static final String ICAR_FIRST_SURNAME = "firstSurname";
+    public static final String ICAR_SECOND_SURNAME = "secondSurname";
+    public static final String ICAR_ADDRESS = "address";
+    public static final String ICAR_MRZ = "MRZ";
+    public static final String ICAR_OCR = "CRC_SECTION";
+    public static final String ICAR_VALIDITY = "vigencia";
+    public static final String ICAR_CURP = "curp";
 }

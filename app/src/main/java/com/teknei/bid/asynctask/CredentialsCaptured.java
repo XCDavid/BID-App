@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Switch;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.IdScanActivity;
@@ -27,6 +28,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     private String token;
     private String jsonS;
     private List<File> jsonF;
+    private String idType;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -39,11 +41,12 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public CredentialsCaptured(Activity context, String tokenOld, String jsonString, List<File> jsonFile) {
+    public CredentialsCaptured(Activity context, String tokenOld, String jsonString, List<File> jsonFile, String idTypeIn) {
         this.activityOrigin = context;
         this.token = tokenOld;
         this.jsonS = jsonString;
         this.jsonF = jsonFile;
+        this.idType = idTypeIn;
     }
 
     @Override
@@ -171,36 +174,36 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             }
                             try {
                                 mrz = dataObjectJSON.getString("mrz");
-                                Log.w("MRZ","MRZ : "+mrz);
+                                Log.w("MRZ", "MRZ : " + mrz);
 //                                String mrz = "IDMEX1587903166<<4499068496638\\n8512246M2712310MEX<02<<12416<4\\nHERNANDEZ<ERAZO<<MONICA<<<<<<<";
-                                String uno = "\\\n";
-                                String dos = "\\n";
-                                String tres = "\n";
-                                String cuatro = "\\\\n";
-                                String mrzSplit1[] = mrz.split(uno);
-                                String mrzSplit2[] = mrz.split(dos);
-                                String mrzSplit3 ="";
-                                if (mrz.length()>31) {
+//                                String uno = "\\\n";
+//                                String dos = "\\n";
+//                                String tres = "\n";
+//                                String cuatro = "\\\\n";
+//                                String mrzSplit1[] = mrz.split(uno);
+//                                String mrzSplit2[] = mrz.split(dos);
+                                String mrzSplit3 = "";
+                                if (mrz.length() > 31) {
                                     mrzSplit3 = mrz.substring(0, 30);
                                 }
 
-                                String mrzSplit4[] = mrz.split(cuatro);
-                                Log.w("MRZ split","MRZ split 1: "+mrzSplit1.toString());
-                                Log.w("MRZ split","MRZ split 2: "+mrzSplit2.toString());
-                                Log.w("MRZ split","MRZ split 3: "+mrzSplit3);
-                                Log.w("MRZ split","MRZ split 4: "+mrzSplit4.toString());
+//                                String mrzSplit4[] = mrz.split(cuatro);
+//                                Log.w("MRZ split","MRZ split 1: "+mrzSplit1.toString());
+//                                Log.w("MRZ split","MRZ split 2: "+mrzSplit2.toString());
+                                Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
+//                                Log.w("MRZ split","MRZ split 4: "+mrzSplit4.toString());
 
-                                String firstLine = mrzSplit4[0];
-                                String firstSplit[] = firstLine.split("\\<\\<");
+//                                String firstLine = mrzSplit4[0];
+//                                String firstSplit[] = firstLine.split("\\<\\<");
                                 String firstSplit2[] = mrzSplit3.split("\\<\\<");
 //                String ocr;
-                                if (firstSplit.length > 1) {
-//                                    String ocr = firstSplit[1];
-                                    Log.w("MRZ OCR","OCR: "+ocr);
-                                }
+//                                if (firstSplit.length > 1) {
+////                                    String ocr = firstSplit[1];
+//                                    Log.w("MRZ OCR","OCR: "+ocr);
+//                                }
                                 if (firstSplit2.length > 1) {
                                     ocr = firstSplit2[1];
-                                    Log.w("MRZ OCR 2","OCR 2: "+ocr);
+                                    Log.w("MRZ OCR", "OCR: " + ocr);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -211,66 +214,54 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                 e.printStackTrace();
                             }
 //                            try {
-                                //Muchas veces el curp es incorrecto
-                                //curp = dataObjectJSON.getString("curp");
+                            //Muchas veces el curp es incorrecto
+                            //curp = dataObjectJSON.getString("curp");
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
                         }
                         if (jsonF.size() == 3) {
-                            //ICAR Unicamente INE *************************************************************************
+                            //ICAR
                             JSONObject respJSON = new JSONObject(jsonResult);
                             JSONObject dataObjectJSON = respJSON.getJSONObject("document");
-                            try {
-                                name = dataObjectJSON.getString("name");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                apPat = dataObjectJSON.getString("firstSurname");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                apMat = dataObjectJSON.getString("secondSurname");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                address = dataObjectJSON.getString("address");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                mrz = dataObjectJSON.getString("MRZ");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                validity = dataObjectJSON.getString("vigencia");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                curp = dataObjectJSON.getString("curp");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            switch (idType) {
+                                case ApiConstants.STRING_INE:
+                                    name = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_NAME);
+                                    apPat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_FIRST_SURNAME);
+                                    apMat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_SECOND_SURNAME);
+                                    address = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_ADDRESS);
+                                    mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);
+                                    ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
+                                    validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_VALIDITY);
+                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP);
+                                    break;
+                                case ApiConstants.STRING_IFE:
+                                    name = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_NAME);
+                                    apPat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_FIRST_SURNAME);
+                                    apMat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_SECOND_SURNAME);
+                                    address = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_ADDRESS);
+                                    mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //IFE Tipo B y C no tiene mrz
+                                    ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
+                                    validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_VALIDITY); //IFE Tipo B no tiene vigencia
+//                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); IFE no tiene dato curp
+                                    break;
+                                case ApiConstants.STRING_PASSPORT:
+                                    break;
                             }
                         }
-                        //***Contruye el json con datos que no obtiene MobbScan Falta comprobar Icar
+                        //***Contruye el json con datos que no obtiene MobbScan e Icar con INE Falta comprobar IFE y Pasaporte
                         String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
 
                         try {
                             JSONObject jsonData = new JSONObject(jsonString);
-                            jsonData.put("name", name );
+                            jsonData.put("name", name);
                             jsonData.put("appat", apPat);
-                            jsonData.put("apmat", apMat );
-                            if (!curp.equals(""))
-                                jsonData.put("curp", curp);
+                            jsonData.put("apmat", apMat);
+                            jsonData.put("curp", curp);
                             jsonData.put("mrz", mrz);
                             jsonData.put("ocr", ocr);
                             jsonData.put("address", address);
-                            jsonData.put("validity", validity );
+                            jsonData.put("validity", validity);
                             SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -291,7 +282,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             } else {
 
-                Log.i("Message logout", "logout: " + errorMessage);
+                Log.i("Message credentials", "credentials: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                 dialogoAlert.setCancelable(false);
@@ -299,13 +290,35 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             }
         } else {
-            Log.i("Message logout", "logout: " + errorMessage);
+            Log.i("Message credentials", "credentials: " + errorMessage);
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
+    }
+
+    public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
+        String objString = "";
+        try {
+            objString = jsonObject.getString(jsonName);
+//            if (jsonName.equals(ApiConstants.ICAR_MRZ)) {
+//                String mrzSplit3 = "";
+//                if (objString.length() > 31) {
+//                    mrzSplit3 = objString.substring(0, 30);
+//                }
+//                Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
+//                String firstSplit2[] = mrzSplit3.split("\\<\\<");
+//                if (firstSplit2.length > 1) {
+//                    objString = firstSplit2[1];
+//                    Log.w("MRZ OCR", "OCR: " + objString);
+//                }
+//            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return objString;
     }
 
 }

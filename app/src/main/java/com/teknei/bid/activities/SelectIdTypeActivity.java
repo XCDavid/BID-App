@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.mobbeel.mobbscan.api.MobbScanDocumentType;
@@ -69,7 +68,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.b_ife_c_select_id:
                 if (credentialProvider) {
-                    bundle.putString("id_type", "IFE");
+                    bundle.putString("id_type", ApiConstants.STRING_IFE);
                 } else {
                     bundle.putString("id_type", MobbScanDocumentType.MEXIDCardC.toString());
                 }
@@ -78,7 +77,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.b_ife_d_select_id:
                 if (credentialProvider) {
-                    bundle.putString("id_type", "IFE");
+                    bundle.putString("id_type", ApiConstants.STRING_IFE);
                 } else {
                     bundle.putString("id_type", MobbScanDocumentType.MEXIDCardD.toString());
                 }
@@ -87,7 +86,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.b_ine_select_id:
                 if (credentialProvider) {
-                    bundle.putString("id_type", "INE");
+                    bundle.putString("id_type", ApiConstants.STRING_INE);
                 } else {
                     bundle.putString("id_type", MobbScanDocumentType.MEXIDCardE.toString());
                 }
@@ -96,7 +95,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.b_passport_select_id:
                 if (credentialProvider) {
-                    bundle.putString("id_type", "PASAPORTE");
+                    bundle.putString("id_type", ApiConstants.STRING_PASSPORT);
                 } else {
                     bundle.putString("id_type", MobbScanDocumentType.Passport_TD3.toString());
                 }

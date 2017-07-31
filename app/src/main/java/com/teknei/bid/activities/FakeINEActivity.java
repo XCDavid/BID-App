@@ -72,7 +72,16 @@ public class FakeINEActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
             try {
-                curp = jsonObject.getString("curp");
+                curp = jsonObject.optString("curp");
+                if (curp.equals("")) {
+                    String jsonFormString = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.JSON_INIT_FORM, "{}");
+                    JSONObject jsonFormObject = new JSONObject(jsonFormString);
+                    try {
+                        curp = jsonFormObject.getString("curp");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,21 +92,21 @@ public class FakeINEActivity extends AppCompatActivity implements View.OnClickLi
             }
             try {
                 String mrz = jsonObject.getString("mrz");
-                Log.w("MRZ","MRZ : "+mrz);
+                Log.w("MRZ", "MRZ : " + mrz);
 //                                String mrz = "IDMEX1587903166<<4499068496638\\n8512246M2712310MEX<02<<12416<4\\nHERNANDEZ<ERAZO<<MONICA<<<<<<<";
-                                String uno = "\\\n";
-                                String dos = "\\n";
-                                String tres = "\n";
+                String uno = "\\\n";
+                String dos = "\\n";
+                String tres = "\n";
                 String cuatro = "\\\\n";
-                                String mrzSplit1[] = mrz.split(uno);
-                                String mrzSplit2[] = mrz.split(dos);
-                                String mrzSplit3[] = mrz.split(tres);
+                String mrzSplit1[] = mrz.split(uno);
+                String mrzSplit2[] = mrz.split(dos);
+                String mrzSplit3[] = mrz.split(tres);
 
                 String mrzSplit4[] = mrz.split(cuatro);
-                Log.w("MRZ split","MRZ split 1: "+mrzSplit1);
-                Log.w("MRZ split","MRZ split 2: "+mrzSplit2);
-                Log.w("MRZ split","MRZ split 3: "+mrzSplit3);
-                Log.w("MRZ split","MRZ split 4: "+mrzSplit4);
+                Log.w("MRZ split", "MRZ split 1: " + mrzSplit1);
+                Log.w("MRZ split", "MRZ split 2: " + mrzSplit2);
+                Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
+                Log.w("MRZ split", "MRZ split 4: " + mrzSplit4);
 
                 String firstLine = mrzSplit4[0];
                 String firstSplit[] = firstLine.split("\\<\\<");

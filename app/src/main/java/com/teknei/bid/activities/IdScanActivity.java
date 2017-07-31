@@ -161,13 +161,13 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     private void modifyLayoutByIdSelected(MobbScanDocumentType idType) {
         if (idType == MobbScanDocumentType.Passport_TD3) {
         posteriorLayout.setVisibility(View.GONE);
-        stringCredentialType = "PASAPORTE";
+        stringCredentialType = ApiConstants.STRING_PASSPORT;
     } else if (idType == MobbScanDocumentType.MEXIDCardE) {
         posteriorLayout.setVisibility(View.VISIBLE);
-        stringCredentialType = "INE";
+        stringCredentialType = ApiConstants.STRING_INE;
     } else {
         posteriorLayout.setVisibility(View.VISIBLE);
-        stringCredentialType = "IFE";
+        stringCredentialType = ApiConstants.STRING_IFE;
     }
 
 }
@@ -321,21 +321,21 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 //            String address = document.getAddress();
 
             //***Contruye el json con datos que no obtiene MobbScan
-            String jsonString = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,"{}");
-
-            try {
-                JSONObject jsonData = new JSONObject(jsonString);
-                jsonData.put("name", nameS+"");
-                jsonData.put("appat", apPatS+"");
-                jsonData.put("apmat", apMatS+"");
-//                jsonData.put("curp", curpS);
-                jsonData.put("ocr", OCR+"");
-                jsonData.put("validity", validity+"");
-                jsonData.put("address", "");
-                SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,jsonData.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            String jsonString = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,"{}");
+//
+//            try {
+//                JSONObject jsonData = new JSONObject(jsonString);
+//                jsonData.put("name", nameS+"");
+//                jsonData.put("appat", apPatS+"");
+//                jsonData.put("apmat", apMatS+"");
+////                jsonData.put("curp", curpS);
+//                jsonData.put("ocr", OCR+"");
+//                jsonData.put("validity", validity+"");
+//                jsonData.put("address", "");
+//                SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,jsonData.toString());
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
             ((TextView) findViewById(R.id.tvPeronalNumber)).setText(document.getPersonalNumber());
             ((TextView) findViewById(R.id.tvDocumentNumber)).setText(document.getDocumentNumber());
@@ -435,7 +435,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
-            new CredentialsCaptured(IdScanActivity.this, token, jsonString, fileList).execute();
+            new CredentialsCaptured(IdScanActivity.this, token, jsonString, fileList,stringCredentialType).execute();
         }
     }
 

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.activities.ResultOperationActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
@@ -105,34 +106,11 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
         //BORRAR
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.ID_SCAN);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.SCAN_SAVE_ID);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FACE_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
-
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FACE);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
 
         if (hasConecction) {
             if (responseOk) {
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.OPERATION_ID);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.ID_SCAN);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.SCAN_SAVE_ID);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FACE_OPERATION);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.FINGERS_OPERATION);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.PAY_OPERATION);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FACE);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
-                SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
+                SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
 
                 if (ACTION == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();

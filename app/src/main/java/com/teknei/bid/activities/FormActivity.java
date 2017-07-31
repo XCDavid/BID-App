@@ -261,18 +261,6 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         String phone = etPhone.getText().toString();
         String numContract = etRefContract.getText().toString();
 
-        //***Contruye el json con datos que no obtiene MobbScan Falta comprobar Icar
-        JSONObject jsonData = new JSONObject();
-        try {
-            jsonData.put("curp", curp);
-            SharedPreferencesUtils.saveToPreferencesString(FormActivity.this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE,jsonData.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        //***
-
         String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this,SharedPreferencesUtils.USERNAME,"default");
         phoneID = PhoneSimUtils.getImei(this);
         //Construimos el JSON con los datos del formulario
@@ -287,6 +275,8 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             jsonObject.put("segundoApellido", app2);
             jsonObject.put("telefono", phone);
             jsonObject.put("refContrato", numContract);
+            //***Almacena Json con los datos del formulario
+            SharedPreferencesUtils.saveToPreferencesString(FormActivity.this,SharedPreferencesUtils.JSON_INIT_FORM,jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

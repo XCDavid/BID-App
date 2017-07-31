@@ -412,10 +412,10 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             String jsonString = buildJSON();
             fileList.add(fileJson);
             fileList.add(imageFile);
-            if ( !stringCredentialType.equals("PASAPORTE") ) {
+            if ( !stringCredentialType.equals(ApiConstants.STRING_PASSPORT) ) {
                 fileList.add(imageFileBack);
             }
-            new CredentialsCaptured(IcarScanActivity.this, token, jsonString, fileList).execute();
+            new CredentialsCaptured(IcarScanActivity.this, token, jsonString, fileList,stringCredentialType).execute();
         }
     }
 

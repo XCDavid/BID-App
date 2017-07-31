@@ -1,5 +1,6 @@
 package com.teknei.bid.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -20,6 +21,8 @@ public class SharedPreferencesUtils {
     public static final String URL_ID_SCAN = "url_id_scan_settings";
     public static final String LICENSE_ID_SCAN = "license_id_scan_settings";
     public static final String URL_TEKNEI = "url_teknei_settings";
+    //JSON de Formulario inicial
+    public static final String JSON_INIT_FORM = "json_init_form";
     //JSON de respuesta MobbScan frontal y trasera
     public static final String JSON_CREDENTIALS_RESPONSE = "json_mabbscan_front";
     //TimeStamp para tiempos de guardado
@@ -57,5 +60,20 @@ public class SharedPreferencesUtils {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(preferenceName);
         editor.apply();
+    }
+    public static void cleanSharedPreferencesOperation(Activity context) {
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.OPERATION_ID);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.ID_SCAN);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.SCAN_SAVE_ID);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.FACE_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.DOCUMENT_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.FINGERS_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.PAY_OPERATION);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.JSON_INIT_FORM);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_FACE);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
     }
 }

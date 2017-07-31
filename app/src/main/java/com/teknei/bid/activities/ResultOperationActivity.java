@@ -39,7 +39,7 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.b_end_result_operation:
-                cleanSharedPreferences();
+                SharedPreferencesUtils.cleanSharedPreferencesOperation(ResultOperationActivity.this);
 
                 Intent end = new Intent(ResultOperationActivity.this, FormActivity.class);
                 end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -49,20 +49,5 @@ public class ResultOperationActivity extends AppCompatActivity implements View.O
             case R.id.b_try_again_result_operation:
                 break;
         }
-    }
-
-    private void cleanSharedPreferences() {
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.OPERATION_ID);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.ID_SCAN);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.SCAN_SAVE_ID);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.FACE_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.DOCUMENT_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.FINGERS_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.PAY_OPERATION);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_FACE);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
-        SharedPreferencesUtils.deleteFromPreferences(this,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
     }
 }

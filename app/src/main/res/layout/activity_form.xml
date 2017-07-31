@@ -22,7 +22,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vertical_top_separator_form"
+                android:layout_marginTop="0dp"
+                android:text="Ingresa los campos obligatorios y presiona el botón continuar, para iniciar la operación."
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:text="@string/required_text_form"
                 android:textSize="@dimen/notice_required_form" />
 

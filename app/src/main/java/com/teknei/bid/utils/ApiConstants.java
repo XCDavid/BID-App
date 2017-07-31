@@ -20,6 +20,7 @@ public class ApiConstants {
     public static final String METHOD_DOCUMENT = "rest/v1/comprobante";
     public static final String METHOD_FINGERS = "rest/v1/minucias";
     public static final String METHOD_PAY_CONFIRM = "rest/v1/end";
+    public static final String METHOD_GET_CONTRACT = "rest/v1/end";
 
     //Strings values
     public static final String STRING_INE = "INE";

@@ -27,6 +27,9 @@
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
     <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
     <string name="default_url_teknei">http://192.168.1.200:28080/BIDServer/</string>
+    <!-- MobbSign -->
+    <string name="default_url_mobbsign">https://192.168.1.100:28443/DemoServer/</string>
+    <string name="default_license_mobbsign">56a03255-7bd3-49f2-8b32-2a62f1a867b9</string>
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
@@ -94,4 +97,8 @@
     <!--Form strings-->
     <string name="fake_ine_activity_name">Resultado: Comprobación de identificación</string>
     <string name="continue_fake_ine">Continuar</string>
+    <!--Contract strings-->
+    <string name="contract_activity_name">Contrato</string>
+    <string name="continue_contract">Continuar</string>
+    <string name="message_load_contract">Obteniendo contrato</string>
 </resources>

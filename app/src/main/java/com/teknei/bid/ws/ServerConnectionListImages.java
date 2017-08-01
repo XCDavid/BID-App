@@ -156,7 +156,7 @@ public class ServerConnectionListImages {
                 httpGet.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 //Token add
 //                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
-                if (basicAutho != null) {
+                if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
                     httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
                 }

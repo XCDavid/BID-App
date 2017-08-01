@@ -21,6 +21,9 @@ public class SharedPreferencesUtils {
     public static final String URL_ID_SCAN = "url_id_scan_settings";
     public static final String LICENSE_ID_SCAN = "license_id_scan_settings";
     public static final String URL_TEKNEI = "url_teknei_settings";
+    //MOBBSIGN
+    public static final String URL_MOBBSIGN = "url_mobbsign";
+    public static final String MOBBSIGN_LICENSE = "mobbsign_license";
     //JSON de Formulario inicial
     public static final String JSON_INIT_FORM = "json_init_form";
     //JSON de respuesta MobbScan frontal y trasera

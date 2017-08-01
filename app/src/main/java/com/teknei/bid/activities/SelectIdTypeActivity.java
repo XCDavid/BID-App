@@ -1,7 +1,10 @@
 package com.teknei.bid.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,10 +12,19 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.mobbeel.mobblicense.IOUtils;
 import com.mobbeel.mobbscan.api.MobbScanDocumentType;
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.GetContract;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.mobbsign.MobbSignActivity;
 import com.teknei.bid.utils.ApiConstants;
+import com.teknei.bid.utils.SharedPreferencesUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class SelectIdTypeActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     Button ifeCButton;
@@ -25,6 +37,8 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
     Switch mySwitch;
 
     boolean credentialProvider = true;
+
+    String operationID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +77,8 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         } else {
             i = new Intent(this, IdScanActivity.class);
         }
+        //Borrar
+        boolean flag = true;
         //Create the bundle
         Bundle bundle = new Bundle();
         switch (view.getId()) {
@@ -109,11 +125,14 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.b_icar_select_id:
                 //Add the bundle to the intent
-//                i.putExtras(bundle);
-//                i = new Intent(this, IcarScanActivity.class);
+                String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+                operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
+                flag = false;
+                new GetContract(SelectIdTypeActivity.this, token, Integer.valueOf(operationID)).execute();
                 break;
         }
-        startActivity(i);
+        if (flag)
+            startActivity(i);
     }
 
     //menu actions
@@ -150,5 +169,31 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         } else {
             credentialProvider = false;
         }
+    }
+
+    @Override
+    public void goNext() {
+//        super.goNext();
+        File file = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "contract_" + operationID + ".pdf");
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//        startActivity(intent);
+
+//        InputStream inputStream;
+        String DOC_ID = "0000013ee31c54e348a98eaed7d221858a40";
+        int RC_MOBBSIGN = 1;
+        Intent intent = new Intent(SelectIdTypeActivity.this, MobbSignActivity.class);
+        try {
+            InputStream targetStream = new FileInputStream(file);
+            intent.putExtra(MobbSignActivity.EXTRA_DOCUMENT, IOUtils.toByteArray(targetStream));
+            intent.putExtra(MobbSignActivity.EXTRA_DOC_ID, DOC_ID);
+            intent.putExtra("id_operation", operationID);
+            targetStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        startActivityForResult(intent, RC_MOBBSIGN);
     }
 }

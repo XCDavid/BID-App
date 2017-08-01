@@ -164,10 +164,10 @@ public class ServerConnection {
                 //Normal headers add
                 httpGet.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 //Token add
-//                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
+                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
                 if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
-                    httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
+                    httpGet.setHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
                 }
                 httpResponse = clienteHTTP.execute(httpGet);
             } else if (httpDelete != null) {

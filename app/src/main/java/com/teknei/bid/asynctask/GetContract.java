@@ -9,22 +9,21 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.ServerConnection;
+import com.teknei.bid.ws.ServerConnectionDownloadFile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GetContract extends AsyncTask<String, Void, Void> {
     private String token;
-    private String authorization;
-
-    private String userToCheck;
-
+    private int idOperation;
     private Activity activityOrigin;
-    private JSONObject responseJSONObject;
+//    private JSONObject responseJSONObject;
     private String errorMessage;
     private boolean responseOk = false;
     private ProgressDialog progressDialog;
@@ -34,18 +33,17 @@ public class GetContract extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public GetContract(Activity context, String userString, String passString, String tokenOld, String autho) {
+    public GetContract(Activity context, String tokenOld,int idOperationIn) {
         this.activityOrigin = context;
-        this.userToCheck = userString;
         this.token = tokenOld;
-        this.authorization = autho;
+        this.idOperation = idOperationIn;
     }
 
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.get_user_log_in));
+                activityOrigin.getString(R.string.message_load_contract));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -65,9 +63,9 @@ public class GetContract extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         if (hasConecction) {
             try {
-                ServerConnection serverConnection = new ServerConnection();
+                ServerConnectionDownloadFile serverConnection = new ServerConnectionDownloadFile();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_IN_USER , token, ServerConnection.METHOD_GET,null,authorization);
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.METHOD_GET_CONTRACT +idOperation, token, ServerConnection.METHOD_GET,null,null,idOperation+"");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -88,20 +86,11 @@ public class GetContract extends AsyncTask<String, Void, Void> {
 
 
     private void manageResponse(Object arrayResponse[]) {
-        responseJSONObject = (JSONObject) arrayResponse[0];
+//        responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
         String tokenGet = null;
         if (responseStatus >= 200 && responseStatus < 300) {
-            try {
-                tokenGet = responseJSONObject.getString("token"); //obtiene los datos del json de respuesta
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (tokenGet != null && !tokenGet.equals("")) {
                 responseOk = true;
-            } else {
-                errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-            }
         } else if (responseStatus >= 300 && responseStatus < 400) {
             errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
@@ -116,35 +105,25 @@ public class GetContract extends AsyncTask<String, Void, Void> {
         progressDialog.dismiss();
         if (hasConecction) {
             if (responseOk) {
-                String tokenGet = "";
-                try {
-                    tokenGet = responseJSONObject.getString("token");
-                    SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.TOKEN_APP,tokenGet);
-                    SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.USERNAME,userToCheck);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 ((BaseActivity) activityOrigin).goNext();
             } else {
-                //Borrar
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.TOKEN_APP,"123");
+                //BORRAR
                 ((BaseActivity) activityOrigin).goNext();
-//                AlertDialog dialogoAlert;
-//                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
-//                dialogoAlert.setCancelable(false);
-//                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//                dialogoAlert.show();
+                AlertDialog dialogoAlert;
+                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
+                dialogoAlert.setCancelable(false);
+                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogoAlert.show();
             }
         } else {
-            //Borrar
-            SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.TOKEN_APP,"123");
+            //BORRAR
             ((BaseActivity) activityOrigin).goNext();
-//            errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
-//            AlertDialog dialogoAlert;
-//            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
-//            dialogoAlert.setCancelable(false);
-//            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//            dialogoAlert.show();
+            errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
         }
 
     }

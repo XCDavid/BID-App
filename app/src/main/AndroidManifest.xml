@@ -62,7 +62,13 @@
             android:name=".activities.ConsultActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.FakeINEActivity"></activity>
+        <activity
+            android:name=".activities.FakeINEActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".mobbsign.MobbSignActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

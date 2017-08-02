@@ -302,7 +302,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
         String objString = "";
         try {
-            objString = jsonObject.getString(jsonName);
+             objString = jsonObject.getString(jsonName);
 //            if (jsonName.equals(ApiConstants.ICAR_MRZ)) {
 //                String mrzSplit3 = "";
 //                if (objString.length() > 31) {

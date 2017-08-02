@@ -58,6 +58,8 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     LinearLayout sectionResultData;
     ImageView indicatorResultShow;
     ConstraintLayout posteriorLayout;
+    TextView instructionsTV;
+    LinearLayout resultLayout;
 
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL = 661;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR = 662;
@@ -99,11 +101,14 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
         indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
         posteriorLayout = (ConstraintLayout) findViewById(R.id.cl_posterior);
+        instructionsTV = (TextView) findViewById(R.id.tv_id_scan_instructions);
+        resultLayout = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
         idFrontButton.setOnClickListener(this);
         idPosteriorButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
         buttonShowHideResultData.setOnClickListener(this);
 
+        resultLayout.setVisibility(View.GONE);
 //        progressDialog = new ProgressDialog(this, getString(R.string.get_info_process_id_scan));
 //        progressDialog.setCancelable(false);
 //        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -124,6 +129,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         Bundle bundle = getIntent().getExtras();
         //Extract the data…
         stringCredentialType = bundle.getString("id_type");
+        Log.w("Option selected",stringCredentialType);
 //        stringCredentialType = "INE";
         modifyLayoutByIdSelected(stringCredentialType);
 
@@ -138,12 +144,14 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     private void modifyLayoutByIdSelected(String idType) {
         if ( idType.equals( "PASAPORTE" ) ) {
             posteriorLayout.setVisibility(View.GONE);
+            instructionsTV.setText(getString(R.string.id_scan_instructions_one_side));
 //            stringCredentialType = "PASAPORTE";
         /*} else if (idType == "INE") {
             posteriorLayout.setVisibility(View.VISIBLE);
 //            stringCredentialType = "INE";
         */} else {
             posteriorLayout.setVisibility(View.VISIBLE);
+            instructionsTV.setText(getString(R.string.id_scan_instructions_both_sides));
 //            stringCredentialType = "IFE";
         }
 

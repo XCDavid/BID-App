@@ -49,6 +49,7 @@
     <!--Select Id Scan strings-->
     <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
     <string name="ine_select_id_type">INE</string>
+    <string name="ife_select_id_type">IFE</string>
     <string name="ife_c_select_id_type">IFE tipo C</string>
     <string name="ife_d_select_id_type">IFE tipo D</string>
     <string name="pasaporte_select_id_type">Pasaporte</string>
@@ -57,8 +58,8 @@
     <!--Id Scan strings-->
     <string name="id_scan_activity_name">Identificación</string>
     <string name="continue_id_scan">Continuar</string>
-    <string name="identification_frontal_id_scan">Identificación - Frontal</string>
-    <string name="identification_posterior_id_scan">Identificación - Posterior</string>
+    <string name="identification_frontal_id_scan">Identificación - Anverso</string>
+    <string name="identification_posterior_id_scan">Identificación - Reverso</string>
     <string name="start_scan_process_id_scan">Iniciando escáner...</string>
     <string name="load_id_scan">Cargando...</string>
     <string name="get_info_process_id_scan">Extrayendo información...</string>
@@ -70,6 +71,8 @@
     <string name="gender">Sexo</string>
     <string name="name">Nombre</string>
     <string name="nationality">Nacionalidad</string>
+    <string name="id_scan_instructions_both_sides">Toma las fotos de la identificación por ambos lados para continuar.</string>
+    <string name="id_scan_instructions_one_side">Toma la foto de la identificación para continuar.</string>
     <!--Face Scan strings-->
     <string name="face_scan_activity_name">Fotografía</string>
     <string name="picture_face_face_scan">Fotografía - Rostro</string>
@@ -101,4 +104,6 @@
     <string name="contract_activity_name">Contrato</string>
     <string name="continue_contract">Continuar</string>
     <string name="message_load_contract">Obteniendo contrato</string>
+    <string name="message_load_send_contract">Enviando contrato</string>
+
 </resources>

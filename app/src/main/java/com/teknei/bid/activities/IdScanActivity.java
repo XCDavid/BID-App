@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -123,6 +124,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         Bundle bundle = getIntent().getExtras();
         //Extract the data…
         String idType = bundle.getString("id_type");
+        Log.w("Option selected",idType);
         idTypeSelected = MobbScanDocumentType.getMobbScanDocumentType(idType);
         modifyLayoutByIdSelected(idTypeSelected);
 

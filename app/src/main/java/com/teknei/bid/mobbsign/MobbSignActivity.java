@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mobbeel.mobbscan.api.ui.MobbScanActivity;
 import com.mobbeel.mobbsign.license.LicenseStatusListener;
 import com.mobbeel.mobbsign.license.MobbSignLicenseResult;
 import com.mobbeel.mobbsign.view.MobbSignBackButtonPressedListener;
@@ -20,6 +21,10 @@ import com.mobbeel.mobbsign.view.MobbSignProcessEndListener;
 import com.mobbeel.mobbsign.view.MobbSignResultCodes;
 import com.mobbeel.mobbsign.view.MobbSignView;
 import com.teknei.bid.R;
+import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.activities.LogInActivity;
+import com.teknei.bid.asynctask.LogIn;
+import com.teknei.bid.asynctask.SendContract;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;
@@ -36,10 +41,12 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
-public class MobbSignActivity extends AppCompatActivity {
+public class MobbSignActivity extends BaseActivity {
 
     private MobbSignView mobbSignView;
     public static final String EXTRA_DOC_ID = "EXTRA_DOC_ID";
@@ -135,6 +142,12 @@ public class MobbSignActivity extends AppCompatActivity {
                 @Override
                 public void onProcessEnd(byte[] bytes) {
 //                    uploadDocument(bytes);
+                    List<byte []> filesToSend = new ArrayList<byte[]>();
+                    filesToSend.add(bytes);
+                    String token = SharedPreferencesUtils.readFromPreferencesString(MobbSignActivity.this, SharedPreferencesUtils.TOKEN_APP, "");
+                    String operationID = SharedPreferencesUtils.readFromPreferencesString(MobbSignActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+                    new SendContract(MobbSignActivity.this, token, Integer.valueOf(operationID),filesToSend).execute();
+
                     File file = new File(Environment.getExternalStorageDirectory()
                             + File.separator + "contract_" + idOperation + ".pdf");
                     try {
@@ -152,7 +165,7 @@ public class MobbSignActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(MobbSignActivity.this, "opcion upload document", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MobbSignActivity.this, "opcion upload document", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -237,5 +250,11 @@ public class MobbSignActivity extends AppCompatActivity {
         if (mobbSignView != null) {
             mobbSignView.purgeMemory();
         }
+    }
+
+    @Override
+    public void goNext() {
+        Toast.makeText(this, "Documento almacenado correctamente", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

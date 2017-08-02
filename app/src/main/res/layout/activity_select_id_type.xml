@@ -5,13 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <TextView
+        android:id="@+id/tv_id_selection_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_alignParentRight="true"
+        android:visibility="visible"
+        android:text="Selecciona un tipo de identificación para continuar."
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
     <Switch
         android:id="@+id/sw_id_provider"
-        android:layout_width="70dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_margin="15dp"
         android:textOn="Icar"
         android:textOff="MobbScan"
+        android:text="Tipo de tecnologia"
+        android:textSize="10sp"
         android:checked="true"
         android:layout_alignParentRight="true"
         android:visibility="visible"
@@ -23,6 +37,7 @@
         android:gravity="center"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
+        android:layout_below="@+id/tv_id_selection_instructions"
         >
         <Button
             android:id="@+id/b_ine_select_id"

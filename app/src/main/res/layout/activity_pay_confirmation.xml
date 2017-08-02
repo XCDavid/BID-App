@@ -5,15 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <TextView
+        android:id="@+id/tv_pay_confirm_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/horizontal_margin_form"
+        android:layout_marginRight="@dimen/horizontal_margin_form"
+        android:text="Ingresa el número de referencia de pago, el tipo de pago, el importe y si la operación de pago presento algún inconveniente para concluir la operación."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical|left"
+        android:layout_alignParentTop="true"
+        android:paddingTop="@dimen/margin_top_bottom_id_scan"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/horizontal_margin_form"
         android:layout_marginRight="@dimen/horizontal_margin_form"
-        android:layout_marginTop="@dimen/margin_top_form"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
         android:layout_above="@+id/b_continue_pay_confirm"
+        android:layout_below="@+id/tv_pay_confirm_instructions"
         >
         <TextView
             android:id="@+id/tv_contract_reference"

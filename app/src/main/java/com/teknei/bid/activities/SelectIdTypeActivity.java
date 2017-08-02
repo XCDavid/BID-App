@@ -67,6 +67,14 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         //set the switch to ON
         mySwitch.setChecked(true);
         mySwitch.setOnCheckedChangeListener(this);
+
+        if (credentialProvider){
+            ifeDButton.setVisibility(View.GONE);
+            ifeCButton.setText(getString(R.string.ife_select_id_type));
+        }else{
+            ifeDButton.setVisibility(View.VISIBLE);
+            ifeCButton.setText(getString(R.string.ife_c_select_id_type));
+        }
     }
 
     @Override
@@ -166,8 +174,12 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         if (isChecked) {
             credentialProvider = true;
+            ifeDButton.setVisibility(View.GONE);
+            ifeCButton.setText(getString(R.string.ife_select_id_type));
         } else {
             credentialProvider = false;
+            ifeDButton.setVisibility(View.VISIBLE);
+            ifeCButton.setText(getString(R.string.ife_c_select_id_type));
         }
     }
 

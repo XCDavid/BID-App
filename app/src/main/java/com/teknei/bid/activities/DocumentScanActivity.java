@@ -110,7 +110,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
                 e.printStackTrace();
             }
 
-            //Guarda nueva imagen del rostro de la persona
+            //Guarda nueva imagen del documento: comprobante de domicilio
             String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
             String dir = Environment.getExternalStorageDirectory()+ File.separator;
             File f = new File(Environment.getExternalStorageDirectory()+ File.separator + "document_"+operationID+".jpg");

@@ -9,23 +9,21 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
-import com.teknei.bid.activities.ResultOperationActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.ServerConnection;
+import com.teknei.bid.ws.ServerConnectionDownloadFile;
+import com.teknei.bid.ws.ServerConnectionUploadFileBytes;
 
-import org.json.JSONObject;
+import java.util.List;
 
-public class CancelOp extends AsyncTask<String, Void, Void> {
-    //    private String newToken;
+public class SendContract extends AsyncTask<String, Void, Void> {
     private String token;
-    private String operationID;
-    private int ACTION;
-
+    private int idOperation;
+    private List<byte []> filesList;
     private Activity activityOrigin;
-    private JSONObject responseJSONObject;
     private String errorMessage;
     private boolean responseOk = false;
     private ProgressDialog progressDialog;
@@ -34,19 +32,18 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
     private Integer responseStatus = 0;
 
     private long endTime;
-
-    public CancelOp(Activity context, String operationString, String tokenOld, int action) {
+    public SendContract(Activity context, String tokenOld, int idOperationIn, List<byte []> filesIn) {
         this.activityOrigin = context;
-        this.operationID = operationString;
         this.token = tokenOld;
-        this.ACTION = action;
+        this.idOperation = idOperationIn;
+        this.filesList = filesIn;
     }
 
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.message_cancel_operation));
+                activityOrigin.getString(R.string.message_load_send_contract));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -66,9 +63,9 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         if (hasConecction) {
             try {
-                ServerConnection serverConnection = new ServerConnection();
-                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.METHOD_CANCEL_OPERATION+operationID, token, ServerConnection.METHOD_DELETE,null,"");
+                ServerConnectionUploadFileBytes serverConnection = new ServerConnectionUploadFileBytes();
+                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, endPoint + ApiConstants.METHOD_SEND_CONTRACT +idOperation, token, ServerConnection.METHOD_POST,filesList);
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -89,10 +86,10 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
 
 
     private void manageResponse(Object arrayResponse[]) {
-        responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
+        String tokenGet = null;
         if (responseStatus >= 200 && responseStatus < 300) {
-            responseOk = true;
+                responseOk = true;
         } else if (responseStatus >= 300 && responseStatus < 400) {
             errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
@@ -105,34 +102,29 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR -Revisar
-        SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
-
         if (hasConecction) {
             if (responseOk) {
-                SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
-
-                if (ACTION == ApiConstants.ACTION_CANCEL_OPERATION) {
-                    ((BaseActivity) activityOrigin).cancelOperation();
-                }else if(ACTION == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION){
-                    ((BaseActivity) activityOrigin).logOut();
-                }
+                ((BaseActivity) activityOrigin).goNext();
             } else {
-                Log.i("Message logout","logout: "+errorMessage);
+                //BORRAR
+                ((BaseActivity) activityOrigin).goNext();
                 AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ACTION);
+                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
                 dialogoAlert.setCancelable(false);
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
             }
         } else {
-            Log.i("Message logout","logout: "+errorMessage);
+            //BORRAR
+            ((BaseActivity) activityOrigin).goNext();
+            errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ACTION);
+            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
+
     }
 
 }

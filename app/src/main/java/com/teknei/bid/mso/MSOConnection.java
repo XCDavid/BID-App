@@ -32,11 +32,11 @@ public class MSOConnection extends FingerPrintsActivity implements Observer, MSO
 
     MorphoDevice morphoDevice;
 
-    private String fingerPrint;
+//    private String fingerPrint;
 
     private Bitmap imageBmp;
 
-    private String coded;
+//    private String coded;
 
     private String sensorName;
 
@@ -287,29 +287,29 @@ public class MSOConnection extends FingerPrintsActivity implements Observer, MSO
 //
 //                    morphoImage.getCompressedImage();
 //
-                    fingerPrint = imageBmp.toString();
+//                    fingerPrint = imageBmp.toString();
 //
-                    coded = Base64.encode(image);
-
-                    Log.e("a ver", "bytes:"+image);
-                    Log.e("a ver", "bytes L:"+image.length);
-                    Log.e("a ver", "SHOW ME:"+coded);
-                    File f = new File(Environment.getExternalStorageDirectory()
-                            + File.separator + "finger.jpg");
-                    if (f.exists()) {
-                        f.delete();
-                        f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger.jpg");
-                    }
-                    try {
-                        f.createNewFile();
-                        //write the bytes in file
-                        FileOutputStream fo = new FileOutputStream(f);
-                        fo.write(image);
-                        // remember close de FileOutput
-                        fo.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    coded = Base64.encode(image);
+//
+//                    Log.e("a ver", "bytes:"+image);
+//                    Log.e("a ver", "bytes L:"+image.length);
+//                    Log.e("a ver", "SHOW ME:"+coded);
+//                    File f = new File(Environment.getExternalStorageDirectory()
+//                            + File.separator + "finger.jpg");
+//                    if (f.exists()) {
+//                        f.delete();
+//                        f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger.jpg");
+//                    }
+//                    try {
+//                        f.createNewFile();
+//                        //write the bytes in file
+//                        FileOutputStream fo = new FileOutputStream(f);
+//                        fo.write(image);
+//                        // remember close de FileOutput
+//                        fo.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 
 
                     if (msoShower != null) {

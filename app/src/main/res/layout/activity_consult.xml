@@ -13,9 +13,11 @@
         android:layout_alignParentTop="true"
         >
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
             android:text="Ingresa la operación que desees consultar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
 
             />
         <LinearLayout

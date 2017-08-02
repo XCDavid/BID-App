@@ -197,7 +197,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
             case R.id.b_index_right_arm:
             case R.id.b_thumb_right_arm:
 //                imgFP = (ImageButton)view;
-                dialogScan = new FingerScanDialog(this, "Esperando escaneo", "Instrucciones");
+                dialogScan = new FingerScanDialog(this, "Esperando escaneo", "Coloca el dedo seleccionado en el escaner biométrico mientras esta la luz roja.");
                 dialogScan.setCancelable(false);
                 dialogScan.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogScan.show();
@@ -416,7 +416,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
 
                 String jsonString = buildJSON();
-                Log.d("FingerJSON", "JSON FINGERs:" + jsonString);
+//                Log.d("FingerJSON", "JSON FINGERs:" + jsonString);
                 fileList.add(fileJson);
                 if (imageFileIndexLeft != null){
                     fileList.add(imageFileIndexLeft);
@@ -529,7 +529,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.d("JSON FINGERS","JSON SEND -> " + jsonObject.toString());
+//        Log.d("JSON FINGERS","JSON SEND -> " + jsonObject.toString());
         return jsonObject.toString();
     }
 
@@ -605,7 +605,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 e.printStackTrace();
             }
         }
-        Log.d("JSON FINGERS","JSON MIDDLE -> " + jsonObject.toString());
+//        Log.d("JSON FINGERS","JSON MIDDLE -> " + jsonObject.toString());
         return jsonObject;
     }
 
@@ -641,7 +641,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void updateSensorMessage(String sensorMessage) {
-        TextView txtMensaje2 = (TextView) dialogScan.findViewById(R.id.tv_message);
+        TextView txtMensaje2 = (TextView) dialogScan.findViewById(R.id.tv_message_move_finger);
         Log.i("updateMessage", "message update");
         try {
             txtMensaje2.setText(sensorMessage);

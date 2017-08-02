@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -34,6 +36,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.scanlibrary.ScanActivity;
+import com.scanlibrary.ScanConstants;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.CredentialsCaptured;
 import com.teknei.bid.asynctask.FaceFileSend;
@@ -47,15 +51,14 @@ import org.json.JSONObject;
 
 public class FaceScanActivity extends BaseActivity implements View.OnClickListener/*, SurfaceHolder.Callback, CompoundButton.OnCheckedChangeListener*/ {
     ImageButton ibFacePictureButton;
+    ImageView faceDefaultImgV;
     Button continueFaceScan;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE = 663;
     String encodedStringFace;
 
     private byte[] photoBuffer;
-
     File imageFile;
     File fileJson;
-
     List<File> fileList;
 
     @Override
@@ -69,6 +72,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 
         ibFacePictureButton = (ImageButton) findViewById(R.id.ib_face_scan);
         continueFaceScan = (Button) findViewById(R.id.b_continue_face_scan);
+        faceDefaultImgV = (ImageView) findViewById(R.id.imageViewFace);
         ibFacePictureButton.setOnClickListener(this);
         continueFaceScan.setOnClickListener(this);
 
@@ -79,7 +83,8 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_face_scan:
-                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
+//                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
+                startScan(ScanConstants.OPEN_CAMERA,CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
                 break;
             case R.id.b_continue_face_scan:
 //                if (validatePictureEncoded()){
@@ -96,18 +101,34 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         startActivityForResult(cameraIntent, REQUEST_CODE);
     }
 
+    protected void startScan(int preference,int REQUEST_CODE ) {
+        Intent intent = new Intent(this, ScanActivity.class);
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE:
                 if (resultCode == RESULT_OK && data != null) {
-                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
+//                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                    Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+                    Bitmap bmp = null;
+                    try {
+                        bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                        getContentResolver().delete(uri, null, null);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                     photoBuffer = bitmapToByteArray(bmp);
                     String encodedString = encodeTobase64(bmp);
                     encodedStringFace = encodedString;
                     ibFacePictureButton.setImageBitmap(bmp);
 
+                    faceDefaultImgV.setVisibility(View.INVISIBLE);
                     //Guarda nueva imagen del rostro de la persona
                     String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
                     String dir = Environment.getExternalStorageDirectory() + File.separator;
@@ -130,7 +151,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
                         f = null;
                         imageFile = null;
                     }
-
                 }
                 break;
         }

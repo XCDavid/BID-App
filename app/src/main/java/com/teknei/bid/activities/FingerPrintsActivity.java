@@ -402,16 +402,16 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         String fingerOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERS_OPERATION, "");
         boolean bitMapTake = false;
 
-        if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable()instanceof BitmapDrawable) {
+        if (bIndexLeft.getDrawable() instanceof BitmapDrawable || bIndexRight.getDrawable()instanceof BitmapDrawable) {
             bitMapTake = true;
-        } else if (bIndexLeft.getDrawable() instanceof VectorDrawableCompat || bIndexRight.getDrawable() instanceof VectorDrawableCompat){
+        }/* else if (bIndexLeft.getDrawable() instanceof VectorDrawableCompat || bIndexRight.getDrawable() instanceof VectorDrawableCompat){
             bitMapTake = false;
-        }
+        }*/
 //        if (fingerOperation.equals("")) {
             //DES_COMENTAR
-            //if(bitMapTake){
+            if(bitMapTake){
             //BORRAR
-            if (true) {
+//            if (true) {
                 String localTime = PhoneSimUtils.getLocalDateAndTime();
                 SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
 
@@ -427,8 +427,8 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 Log.d("ArrayList Files", "Files:" + fileList.size());
                 new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
             } else {
-//            Toast.makeText(FingerPrintsActivity.this, "Escanea los dedos indices para continuar", Toast.LENGTH_SHORT).show();
-                goNext();
+                Toast.makeText(FingerPrintsActivity.this, "Escanea minimo un dedo índice para continuar", Toast.LENGTH_SHORT).show();
+//                goNext();
             }
 //        }else{
 //            goNext();

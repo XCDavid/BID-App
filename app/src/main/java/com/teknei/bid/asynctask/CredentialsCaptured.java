@@ -11,6 +11,7 @@ import android.widget.Switch;
 import com.teknei.bid.R;
 import com.teknei.bid.activities.IdScanActivity;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.dialogs.CredentialResumeDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -243,7 +244,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                     mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //IFE Tipo B y C no tiene mrz
                                     ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
                                     validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_VALIDITY); //IFE Tipo B no tiene vigencia
-//                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); IFE no tiene dato curp
+                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
                                     break;
                                 case ApiConstants.STRING_PASSPORT:
                                     break;
@@ -257,7 +258,8 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             jsonData.put("name", name);
                             jsonData.put("appat", apPat);
                             jsonData.put("apmat", apMat);
-                            jsonData.put("curp", curp);
+                            if (!curp.equals(""))
+                                jsonData.put("curp", curp);
                             jsonData.put("mrz", mrz);
                             jsonData.put("ocr", ocr);
                             jsonData.put("address", address);
@@ -275,8 +277,8 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
                 SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
 
-                AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);
+                CredentialResumeDialog dialogoAlert;
+                dialogoAlert = new CredentialResumeDialog(activityOrigin);
                 dialogoAlert.setCancelable(false);
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
@@ -301,8 +303,8 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
     public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
         String objString = "";
-        try {
-             objString = jsonObject.getString(jsonName);
+//        try {
+        objString = jsonObject.optString(jsonName);
 //            if (jsonName.equals(ApiConstants.ICAR_MRZ)) {
 //                String mrzSplit3 = "";
 //                if (objString.length() > 31) {
@@ -315,9 +317,9 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 //                    Log.w("MRZ OCR", "OCR: " + objString);
 //                }
 //            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         return objString;
     }
 

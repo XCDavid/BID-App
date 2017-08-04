@@ -189,5 +189,7 @@
     <string name="tv_title_finger_dialog">Esperando Escaneo</string>
     <string name="b_cancel_finger_dialog">Cancelar</string>
     <string name="tv_title_resume_dialog_ine">Resumen</string>
+    <string name="tv_url_server_mobbsign_settings">Url servidor para firma digital</string>
+    <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
 
 </resources>

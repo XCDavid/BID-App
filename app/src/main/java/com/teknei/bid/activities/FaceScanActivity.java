@@ -96,11 +96,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void dispatchTakePictureIntent(int REQUEST_CODE) {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, REQUEST_CODE);
-    }
-
     protected void startScan(int preference,int REQUEST_CODE ) {
         Intent intent = new Intent(this, ScanActivity.class);
         intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
@@ -231,7 +226,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(FaceScanActivity.this, DocumentScanActivity.class);
         startActivity(i);
     }

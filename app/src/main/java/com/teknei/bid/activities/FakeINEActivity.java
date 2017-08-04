@@ -92,30 +92,6 @@ public class FakeINEActivity extends AppCompatActivity implements View.OnClickLi
             }
             try {
                 String mrz = jsonObject.getString("mrz");
-                Log.w("MRZ", "MRZ : " + mrz);
-//                                String mrz = "IDMEX1587903166<<4499068496638\\n8512246M2712310MEX<02<<12416<4\\nHERNANDEZ<ERAZO<<MONICA<<<<<<<";
-                String uno = "\\\n";
-                String dos = "\\n";
-                String tres = "\n";
-                String cuatro = "\\\\n";
-                String mrzSplit1[] = mrz.split(uno);
-                String mrzSplit2[] = mrz.split(dos);
-                String mrzSplit3[] = mrz.split(tres);
-
-                String mrzSplit4[] = mrz.split(cuatro);
-                Log.w("MRZ split", "MRZ split 1: " + mrzSplit1);
-                Log.w("MRZ split", "MRZ split 2: " + mrzSplit2);
-                Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
-                Log.w("MRZ split", "MRZ split 4: " + mrzSplit4);
-
-                String firstLine = mrzSplit4[0];
-                String firstSplit[] = firstLine.split("\\<\\<");
-//                String ocr;
-                if (firstSplit.length > 1) {
-                    if (ocr.equals("")) {
-                        ocr = firstSplit[1];
-                    }
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

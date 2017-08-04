@@ -112,7 +112,6 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
             //Guarda nueva imagen del documento: comprobante de domicilio
             String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
-            String dir = Environment.getExternalStorageDirectory()+ File.separator;
             File f = new File(Environment.getExternalStorageDirectory()+ File.separator + "document_"+operationID+".jpg");
             if(f.exists()){
                 f.delete();
@@ -132,10 +131,6 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
                 imageFile = null;
             }
         }
-    }
-
-    private Bitmap convertByteArrayToBitmap(byte[] data) {
-        return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
     public byte[] bitmapToByteArray(Bitmap bitmap) {

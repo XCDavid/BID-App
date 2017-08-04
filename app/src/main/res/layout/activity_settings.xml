@@ -63,6 +63,38 @@
             android:inputType="text"
             android:maxLength="40"
             android:maxLines="1" />
+        <TextView
+            android:id="@+id/tv_settings_url_mobbsign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/tv_url_server_mobbsign_settings" />
+
+        <EditText
+            android:id="@+id/et_settings_url_mobbsign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="text"
+            android:maxLength="40"
+            android:maxLines="1" />
+        <TextView
+            android:id="@+id/tv_settings_licence_mobbsign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/tv_licence_mobbsign_settings" />
+
+        <EditText
+            android:id="@+id/et_settings_licence_mobbsign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="text"
+            android:maxLength="40"
+            android:maxLines="1" />
 
     </LinearLayout>
 

@@ -16,13 +16,13 @@
         android:orderInCategory="200"
         app:showAsAction="always">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/i_settings_menu"
                 android:icon="@drawable/ic_settings_menu"
                 android:orderInCategory="100"
                 android:title="Ajustes"
                 app:showAsAction="always">
-            </item>
+            </item>-->
             <item
                 android:id="@+id/i_log_out_menu"
                 android:icon="@drawable/ic_exit_to_app_menu"

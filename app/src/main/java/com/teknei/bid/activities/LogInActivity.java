@@ -73,7 +73,12 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     public void sendPetition() {
 //        String authorization = new String(Base64.encodeBase64(new String(user + ":" + pass).getBytes()));
         String authorization = Base64.encodeToString(new String(user + ":" + pass).getBytes(), Base64.DEFAULT);
-        new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
+        if (user.equals("admin")) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
+        }else{
+            new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
+        }
     }
 
     @Override

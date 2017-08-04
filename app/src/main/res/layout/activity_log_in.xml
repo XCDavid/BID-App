@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -29,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Usuario"
+            android:text="@string/tv_user_login"
             android:textColor="@color/text_color_white"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -47,14 +45,14 @@
             android:layout_marginBottom="@dimen/vertical_separator_form"
             android:textColor="@color/text_color_white"
             android:textColorHint="@color/text_color_white"
-            android:hint="Usuario"
+            android:hint="@string/tv_hint_user_login"
             />
         <TextView
             android:id="@+id/tv_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Contraseña"
+            android:text="@string/tv_pass_login"
             android:textColor="@color/text_color_white"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -72,14 +70,14 @@
             android:layout_marginBottom="@dimen/vertical_separator_form"
             android:textColor="@color/text_color_white"
             android:textColorHint="@color/text_color_white"
-            android:hint="Contraseña"
+            android:hint="@string/tv_hint_pass_login"
             />
     </LinearLayout>
     <Button
         android:id="@+id/b_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresar"
+        android:text="@string/b_in_login"
         android:textSize="16sp"
         android:textColor="@color/text_color_white"
         android:background="@drawable/selector_rounded_rectangle_login"

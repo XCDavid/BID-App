@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Url servidor de escaneo de identificación" />
+            android:text="@string/tv_url_server_id_settings" />
 
         <EditText
             android:id="@+id/et_settings_url_id_scan"
@@ -37,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Licencia para escaneo de identificación" />
+            android:text="@string/licence_id_scan_settings" />
 
         <EditText
             android:id="@+id/et_settings_license_id_scan"
@@ -54,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Url servidor Teknei" />
+            android:text="@string/tv_url_server_teknei_settings" />
 
         <EditText
             android:id="@+id/et_settings_url_teknei"
@@ -74,6 +72,6 @@
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_primary_button"
-        android:text="Actualizar"
+        android:text="@string/b_update_settings"
         android:textColor="@color/text_color_white" />
 </RelativeLayout>

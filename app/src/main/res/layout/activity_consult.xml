@@ -11,14 +11,17 @@
         android:orientation="vertical"
         android:layout_margin="20dp"
         android:layout_alignParentTop="true"
+
         >
         <TextView
-            android:text="Ingresa la operación que desees consultar"
+            android:text="@string/instructions_search_operation_consult_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:hint="Número de operación"
+                android:hint="@string/hint_search_consult_operation"
                 android:layout_margin="5dp"
                 />
             <Button
@@ -37,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Buscar"
+                android:text="@string/button_search_consult_operation"
                 android:textColor="@color/text_color_white"
                 android:background="@drawable/selector_rounded_button"
                 android:layout_margin="10dp"

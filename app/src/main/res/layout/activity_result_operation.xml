@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -24,7 +23,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Operación"
+            android:text="@string/tv_operation_result_operation"
             android:gravity="center"
             android:textSize="30sp"
             />
@@ -32,7 +31,7 @@
             android:id="@+id/tv_operation_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="3012213321"
+            android:hint="@string/hitn_operation_result_operation"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/colorAccent"
@@ -40,7 +39,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Resultado"
+            android:text="@string/tv_result_result_operation"
             android:gravity="center"
             android:textSize="30sp"
             android:layout_marginTop="20dp"
@@ -48,7 +47,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Operación exitosa"
+            android:text="@string/tv_operation_ok_result_operation"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/colorAccent"
@@ -77,7 +76,7 @@
             android:textColor="@color/text_color_white"
             android:background="@drawable/selector_rounded_rectangle_login"
             android:layout_weight="1"
-            android:text="Generar contrato" />
+            android:text="@string/b_generate_contract_result_operation" />
 
     </LinearLayout>
 

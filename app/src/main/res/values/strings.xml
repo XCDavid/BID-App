@@ -13,6 +13,14 @@
     <string name="message_face_scan_check">Comprobando imagen</string>
     <string name="message_figerprints_check">Almacenando huellas dactilares</string>
     <string name="message_pay_confirm_operation">Confirmando operación</string>
+
+    <!--LogIn Activity string-->
+    <string name="tv_user_login">Usuario</string>
+    <string name="tv_hint_user_login">Usuario</string>
+    <string name="tv_pass_login">Contraseña</string>
+    <string name="tv_hint_pass_login">Contraseña</string>
+    <string name="b_in_login">Ingresar</string>
+
     <!--Server strings-->
     <string name="message_ws_notice">Aviso</string>
     <string name="message_ws_tray_again">Reintentar</string>
@@ -45,6 +53,8 @@
     <string name="last_name_form">* Apellido paterno</string>
     <string name="name_form">* Nombre(s)</string>
     <string name="required_text_form">* Campos obligatorios</string>
+    <string name="instructions_form">Ingresa los campos obligatorios y presiona el botón continuar, para iniciar la operación.</string>
+    <string name="tv_curp_form">* CURP</string>
 
     <!--Select Id Scan strings-->
     <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
@@ -54,6 +64,7 @@
     <string name="ife_d_select_id_type">IFE tipo D</string>
     <string name="pasaporte_select_id_type">Pasaporte</string>
     <string name="licencia_select_id_type">Licencia</string>
+    <string name="instruction_id_type">Selecciona un tipo de identificación para continuar.</string>
 
     <!--Id Scan strings-->
     <string name="id_scan_activity_name">Identificación</string>
@@ -73,9 +84,15 @@
     <string name="nationality">Nacionalidad</string>
     <string name="id_scan_instructions_both_sides">Toma las fotos de la identificación por ambos lados para continuar.</string>
     <string name="id_scan_instructions_one_side">Toma la foto de la identificación para continuar.</string>
+    <string name="instruction_clue_id_scan">Toca aquí para tomar la fotografía</string>
+    <string name="result_id_scan">Resultado</string>
+
+
     <!--Face Scan strings-->
     <string name="face_scan_activity_name">Fotografía</string>
     <string name="picture_face_face_scan">Fotografía - Rostro</string>
+    <string name="instructions_face_scan">Toma una foto del rostro del cliente y encuadrala para continuar.</string>
+    <string name="instruction_clue_face_scan">Toca aquí para tomar la fotografía</string>
     <!--Fingerprints strings-->
     <string name="fingerprints_activity_name">Huellas Dactilares</string>
     <string name="instruction_begin_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
@@ -84,18 +101,38 @@
     <string name="document_scan_activity_name">Comprobante</string>
     <string name="continue_document_scan">Continuar</string>
     <string name="document_instruction_document_scan">Fotografía - Documento</string>
+    <string name="instructions_document_scan">Toma una foto del comprobante de domicilio y encuadrala para continuar.</string>
+    <string name="instruction_clue_document_scan">Toca aquí para tomar la fotografía</string>
     <!--Pay Confirm strings-->
     <string name="pay_confirm_activity_name">Confirmación de pago</string>
     <string name="continue_pay_confirm">Continuar</string>
     <string name="contract_reference_pay_confirmation">Número de referencia de contrato</string>
     <string name="payment_reference_pay_confirmation">Número de referencia</string>
     <string name="amount_pay_confirmation">Importe $</string>
+    <string name="instruction_pay_confirm">Ingresa el número de referencia de pago, el tipo de pago, el importe y si la operación de pago presento algún inconveniente para concluir la operación.</string>
+    <string name="tv_pay_type_pay_confirm">Tipo de pago</string>
+    <string name="toggle_cash_pay_confirm">Efectivo</string>
+    <string name="toggle_card_pay_confirm">Tarjeta</string>
+    <string name="tv_pay_status_pay_confirm">Resultado del pago</string>
+    <string name="toggle_ok_pay_confirm">Ok</string>
+    <string name="toggle_error_pay_confirm">Error</string>
+
     <!--Result operation strings-->
     <string name="result_operation_activity_name">Resultado</string>
     <string name="end_result_operation">Terminar</string>
+    <string name="tv_operation_result_operation">Operación</string>
+    <string name="hitn_operation_result_operation">3012213321</string>
+    <string name="tv_result_result_operation">Resultado</string>
+    <string name="tv_operation_ok_result_operation">Operación exitosa</string>
+    <string name="b_generate_contract_result_operation">Generar contrato</string>
 
     <!--Settings strings-->
     <string name="settings_activity_name">Ajustes</string>
+    <string name="tv_url_server_id_settings">Url servidor de escaneo de identificación</string>
+    <string name="licence_id_scan_settings">Licencia para escaneo de identificación</string>
+    <string name="tv_url_server_teknei_settings">Url servidor Teknei</string>
+    <string name="b_update_settings">Actualizar</string>
+
 
     <!--Form strings-->
     <string name="fake_ine_activity_name">Resultado: Comprobación de identificación</string>
@@ -105,5 +142,52 @@
     <string name="continue_contract">Continuar</string>
     <string name="message_load_contract">Obteniendo contrato</string>
     <string name="message_load_send_contract">Enviando contrato</string>
+
+    <!--Search Operation strings-->
+    <string name="instructions_search_operation_consult_operation">Ingresa la operación que desees consultar</string>
+    <string name="hint_search_consult_operation">Número de operación</string>
+    <string name="button_search_consult_operation">Buscar</string>
+
+    <!--Validation INE strings-->
+    <string name="tv_name_validation_ine">Nombre(s) :</string>
+    <string name="tv_name_example_validation_ine">Rocio</string>
+    <string name="tv_fs_validation_ine">Apellido paterno :</string>
+    <string name="tv_fs_example_validation_ine">Perez</string>
+    <string name="tv_ss_validation_ine">Apellido materno :</string>
+    <string name="tv_ss_example_validation_ine">Aguilar</string>
+    <string name="tv_curp_validation_ine">CURP :</string>
+    <string name="tv_curp_example_validation_ine">AESA130698MDFCLRV08</string>
+    <string name="tv_ocr_validation_ine">OCR :</string>
+    <string name="tv_ocr_example_validation_ine">102452015</string>
+    <string name="tv_validity_validation_ine">Fecha de vigencia de credencial :</string>
+    <string name="tv_validity_example_validation_ine">102452015</string>
+    <string name="tv_address_validation_ine">Dirección :</string>
+    <string name="tv_address_example_validation_ine">102452015</string>
+    <string name="tv_coincidence_validation_ine">Puntuación de coincidencia :</string>
+    <string name="tv_coincidence_example_validation_ine">102452015</string>
+    <string name="b_resume_validation_ine">Resumen</string>
+
+    <!--Credential Dialog strings-->
+    <string name="tv_title_credential_dialog">Resultado de escaneo</string>
+    <string name="tv_name_credential_dialog">Nombre</string>
+    <string name="tv_hint_name_credential_dialog">nombre</string>
+    <string name="tv_fs_credential_dialog">Apellido paterno</string>
+    <string name="tv_hitns_fs_credential_dialog">Apellido paterno</string>
+    <string name="tv_ss_credential_dialog">Apellido materno</string>
+    <string name="tv_hitn_ss_credential_dialog">Apellido materno</string>
+    <string name="tv_curp_credential_dialog">Curp</string>
+    <string name="tv_hint_curp_credential_dialog">Curp</string>
+    <string name="tv_mrz_credential_dialog">MRZ</string>
+    <string name="tv_hitn_mrz_credential_dialog">MRZ</string>
+    <string name="tv_ocr_credential_dialog">OCR</string>
+    <string name="tv_hint_ocr_credential_dialog">OCR</string>
+    <string name="tv_address_credential_dialog">Dirección</string>
+    <string name="tv_hint_address_credential_dialog">Dirección</string>
+    <string name="tv_validity_credential_dialog">Vigencia</string>
+    <string name="tv_hint_validity_credential_dialog">Vigencia</string>
+    <string name="b_continue_credential_dialog">Continuar</string>
+    <string name="tv_title_finger_dialog">Esperando Escaneo</string>
+    <string name="b_cancel_finger_dialog">Cancelar</string>
+    <string name="tv_title_resume_dialog_ine">Resumen</string>
 
 </resources>

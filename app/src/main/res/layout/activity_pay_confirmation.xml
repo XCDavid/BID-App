@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -11,10 +9,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/horizontal_margin_form"
         android:layout_marginRight="@dimen/horizontal_margin_form"
-        android:text="Ingresa el número de referencia de pago, el tipo de pago, el importe y si la operación de pago presento algún inconveniente para concluir la operación."
+        android:text="@string/instruction_pay_confirm"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:gravity="center_vertical|left"
+        android:gravity="center_vertical|start"
         android:layout_alignParentTop="true"
         android:paddingTop="@dimen/margin_top_bottom_id_scan"
         />
@@ -51,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Tipo de pago" />
+            android:text="@string/tv_pay_type_pay_confirm" />
         <RadioGroup android:id="@+id/toggleGroup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -64,8 +62,8 @@
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textOn="Efectivo"
-                android:textOff="Efectivo"
+                android:textOn="@string/toggle_cash_pay_confirm"
+                android:textOff="@string/toggle_cash_pay_confirm"
                 android:checked="true"
                 />
             <ToggleButton android:id="@+id/tgg_btn_card"
@@ -73,8 +71,8 @@
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textOn="Tarjeta"
-                android:textOff="Tarjeta"
+                android:textOn="@string/toggle_card_pay_confirm"
+                android:textOff="@string/toggle_card_pay_confirm"
                 />
         </RadioGroup>
 
@@ -101,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="Resultado del pago" />
+            android:text="@string/tv_pay_status_pay_confirm" />
         <RadioGroup android:id="@+id/toggleGroupPaymentOk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -115,8 +113,8 @@
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textOn="Ok"
-                android:textOff="Ok"
+                android:textOn="@string/toggle_ok_pay_confirm"
+                android:textOff="@string/toggle_ok_pay_confirm"
                 android:checked="true"
                 />
             <ToggleButton android:id="@+id/tgg_btn_pay_error"
@@ -124,8 +122,8 @@
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textOn="Error"
-                android:textOff="Error"
+                android:textOn="@string/toggle_error_pay_confirm"
+                android:textOff="@string/toggle_error_pay_confirm"
                 />
         </RadioGroup>
 

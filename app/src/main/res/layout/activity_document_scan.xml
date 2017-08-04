@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="Toma una foto del comprobante de domicilio y encuadrala para continuar."
+        android:text="@string/instructions_document_scan"
         android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -51,7 +51,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageView
             android:layout_width="100dp"
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Toca aquí para tomar la fotografía"
+            android:text="@string/instruction_clue_document_scan"
             android:layout_marginTop="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/imageViewCameraDocument"
             android:layout_marginLeft="8dp"

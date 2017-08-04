@@ -59,9 +59,9 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 }
                 if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
                     //BORRAR
-                    ((BaseActivity) activityOrigin).goNext();
+//                    ((BaseActivity) activityOrigin).goNext();
                     //DES - COMENTAR
-//                ((BaseActivity) activityOrigin).sendPetition();
+                ((BaseActivity) activityOrigin).sendPetition();
                 }
                 if (actionIn == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();

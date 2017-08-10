@@ -229,10 +229,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             Intent i = new Intent(this, ConsultActivity.class);
             startActivity(i);
         }
-        if (id == R.id.i_settings_menu) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
-        }
+//        if (id == R.id.i_settings_menu) {
+//            Intent i = new Intent(this, SettingsActivity.class);
+//            startActivity(i);
+//        }
         if (id == R.id.i_log_out_menu) {
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(FormActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);

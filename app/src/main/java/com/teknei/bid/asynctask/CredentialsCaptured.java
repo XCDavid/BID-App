@@ -221,7 +221,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 //                                e.printStackTrace();
 //                            }
                         }
-                        if (jsonF.size() == 3) {
+                        if (jsonF.size() == 3 || jsonF.size() == 2) {
                             //ICAR
                             JSONObject respJSON = new JSONObject(jsonResult);
                             JSONObject dataObjectJSON = respJSON.getJSONObject("document");
@@ -247,43 +247,70 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                     curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
                                     break;
                                 case ApiConstants.STRING_PASSPORT:
-                                    break;
+                                    name = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_NAME);
+                                    String completeSurname = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_SURNAME);
+                                    if (completeSurname != null && !completeSurname.equals("")) {
+                                        String[] splited = completeSurname.split("\\s+");
+                                        if (splited.length > 0) {
+                                            apPat = splited[0];
+                                            if (splited.length > 1) {
+                                                apMat = splited[1];
+                                            }
+                                        }
+                                    }
+//                                        apPat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_FIRST_SURNAME);
+//                                        apMat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_SECOND_SURNAME);
+//                                        address = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_ADDRESS);
+                                        mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //
+//                                        ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
+                                        ocr = mrz;
+                                        validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_PASSPORT_VALIDITY);
+                                        curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
+                                        break;
+                                    }
+                            }
+                            //***Contruye el json con datos que no obtiene MobbScan e Icar con INE Falta comprobar IFE y Pasaporte
+                            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+
+                            try {
+                                JSONObject jsonData = new JSONObject(jsonString);
+                                jsonData.put("name", name);
+                                jsonData.put("appat", apPat);
+                                jsonData.put("apmat", apMat);
+                                if (!curp.equals(""))
+                                    jsonData.put("curp", curp);
+                                jsonData.put("mrz", mrz);
+                                jsonData.put("ocr", ocr);
+                                jsonData.put("address", address);
+                                jsonData.put("validity", validity);
+                                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                        //***Contruye el json con datos que no obtiene MobbScan e Icar con INE Falta comprobar IFE y Pasaporte
-                        String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
-
-                        try {
-                            JSONObject jsonData = new JSONObject(jsonString);
-                            jsonData.put("name", name);
-                            jsonData.put("appat", apPat);
-                            jsonData.put("apmat", apMat);
-                            if (!curp.equals(""))
-                                jsonData.put("curp", curp);
-                            jsonData.put("mrz", mrz);
-                            jsonData.put("ocr", ocr);
-                            jsonData.put("address", address);
-                            jsonData.put("validity", validity);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } catch(JSONException e){
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+
+                    String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+                    SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
+
+                    CredentialResumeDialog dialogoAlert;
+                    dialogoAlert = new CredentialResumeDialog(activityOrigin);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
+                } else{
+
+                    Log.i("Message credentials", "credentials: " + errorMessage);
+                    AlertDialog dialogoAlert;
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
                 }
-
-
-                String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
-
-                CredentialResumeDialog dialogoAlert;
-                dialogoAlert = new CredentialResumeDialog(activityOrigin);
-                dialogoAlert.setCancelable(false);
-                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogoAlert.show();
             } else {
-
                 Log.i("Message credentials", "credentials: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
@@ -291,15 +318,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
             }
-        } else {
-            Log.i("Message credentials", "credentials: " + errorMessage);
-            AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-            dialogoAlert.setCancelable(false);
-            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogoAlert.show();
         }
-    }
 
     public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
         String objString = "";

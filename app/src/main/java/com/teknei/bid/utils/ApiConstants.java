@@ -29,6 +29,7 @@ public class ApiConstants {
     public static final String STRING_PASSPORT = "PASAPORTE";
     //Icar INE/IFE Values
     public static final String ICAR_NAME = "name";
+    public static final String ICAR_SURNAME = "surname";
     public static final String ICAR_FIRST_SURNAME = "firstSurname";
     public static final String ICAR_SECOND_SURNAME = "secondSurname";
     public static final String ICAR_ADDRESS = "address";
@@ -36,4 +37,6 @@ public class ApiConstants {
     public static final String ICAR_OCR = "CRC_SECTION";
     public static final String ICAR_VALIDITY = "vigencia";
     public static final String ICAR_CURP = "curp";
+    public static final String ICAR_PASSPORT_VALIDITY = "dateOfExpiry";
+
 }

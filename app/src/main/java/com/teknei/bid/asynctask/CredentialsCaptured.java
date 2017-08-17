@@ -100,6 +100,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
         responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
         boolean dataExist = false;
+        String resultString = "";
         if (responseStatus >= 200 && responseStatus < 300) {
             try {
                 dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
@@ -112,11 +113,26 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 errorMessage = activityOrigin.getString(R.string.message_ws_response_fail);
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
+
             errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
+
         } else if (responseStatus >= 400 && responseStatus < 500) {
-            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
+
+//            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
+            resultString = responseJSONObject.optString("resultOK");
+            String errorResponse = "Credencial no reconocida.";
+            if (resultString.equals("false")) {
+                errorResponse = responseJSONObject.optString("errorMessage");
+                if (errorResponse.equals("JSONObject[\"document\"] not found.")) {
+                    errorResponse = "Credencial no reconocida.";
+                }
+            }
+            errorMessage = responseStatus + " - " + errorResponse;
+
         } else if (responseStatus >= 500 && responseStatus < 600) {
+
             errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
+
         }
     }
 
@@ -132,6 +148,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 String messageComplete = "";
                 String messageResp = "";
                 String jsonResult = "";
+                boolean resolution = false;
                 try {
                     messageComplete = responseJSONObject.getString("errorMessage");
                     String messageSplit[] = messageComplete.split("\\|");
@@ -243,6 +260,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                     address = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_ADDRESS);
                                     mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //IFE Tipo B y C no tiene mrz
                                     ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
+//                                    ocr = "";
                                     validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_VALIDITY); //IFE Tipo B no tiene vigencia
                                     curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
                                     break;
@@ -261,15 +279,20 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 //                                        apPat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_FIRST_SURNAME);
 //                                        apMat = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_SECOND_SURNAME);
 //                                        address = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_ADDRESS);
-                                        mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //
+                                    mrz = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_MRZ);  //
 //                                        ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
-                                        ocr = mrz;
-                                        validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_PASSPORT_VALIDITY);
-                                        curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
-                                        break;
-                                    }
+                                    ocr = mrz;
+                                    validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_PASSPORT_VALIDITY);
+                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
+                                    break;
                             }
-                            //***Contruye el json con datos que no obtiene MobbScan e Icar con INE Falta comprobar IFE y Pasaporte
+                        }
+
+                        if ((!mrz.equals("") || !ocr.equals("")) && !name.equals("")) {
+                            resolution = true;
+                        }
+
+                        if (resolution) {
                             String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
 
                             try {
@@ -288,11 +311,12 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                 e.printStackTrace();
                             }
                         }
-                    } catch(JSONException e){
-                        e.printStackTrace();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-
+                if (resolution) {
                     String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
                     SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
 
@@ -301,9 +325,8 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
-                } else{
-
-                    Log.i("Message credentials", "credentials: " + errorMessage);
+                }else{
+                    errorMessage = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);
@@ -311,6 +334,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     dialogoAlert.show();
                 }
             } else {
+
                 Log.i("Message credentials", "credentials: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
@@ -318,7 +342,15 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
             }
+        } else {
+            Log.i("Message credentials", "credentials: " + errorMessage);
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
         }
+    }
 
     public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
         String objString = "";

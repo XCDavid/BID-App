@@ -142,7 +142,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private boolean validateDataForm() {
-        if (etName.getText().toString().equals("")) {
+        /*if (etName.getText().toString().equals("")) {
             Toast.makeText(this, "El campo ( Nombre ) es obligatorio", Toast.LENGTH_SHORT).show();
             etName.clearFocus();
             if (etName.requestFocus()) {
@@ -163,7 +163,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etMotherLastName, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else if (etCurp.getText().toString().equals("")) {
+        } else*/ if (etCurp.getText().toString().equals("")) {
             Toast.makeText(this, "El campo ( CURP ) es obligatorio", Toast.LENGTH_SHORT).show();
             etCurp.clearFocus();
             if (etCurp.requestFocus()) {

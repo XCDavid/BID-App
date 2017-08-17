@@ -36,7 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_vertical_separator_form"
-                android:text="@string/name_form" />
+                android:text="@string/name_form"
+                android:visibility="gone"
+                />
 
             <EditText
                 android:id="@+id/et_name_form"
@@ -46,14 +48,18 @@
                 android:focusableInTouchMode="true"
                 android:inputType="text"
                 android:maxLength="30"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/tv_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/last_name_form" />
+                android:text="@string/last_name_form"
+                android:visibility="gone"
+                />
 
             <EditText
                 android:id="@+id/et_last_name_form"
@@ -63,14 +69,18 @@
                 android:focusableInTouchMode="true"
                 android:inputType="textPersonName"
                 android:maxLength="30"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/tv_mother_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/mother_last_name_form" />
+                android:text="@string/mother_last_name_form"
+                android:visibility="gone"
+                />
 
             <EditText
                 android:id="@+id/et_mother_last_name_form"
@@ -80,7 +90,9 @@
                 android:focusableInTouchMode="true"
                 android:inputType="textPersonName"
                 android:maxLength="30"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:visibility="gone"
+                />
             <TextView
                 android:id="@+id/tv_curp"
                 android:layout_width="match_parent"
@@ -137,7 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/contract_reference_pay_confirmation" />
+                android:text="@string/contract_reference_pay_confirmation"
+                android:visibility="gone"
+                />
 
             <EditText
                 android:id="@+id/et_contract_ref_form"
@@ -149,6 +163,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:layout_marginBottom="@dimen/vertical_separator_form"
+                android:visibility="gone"
                 />
 
         </LinearLayout>

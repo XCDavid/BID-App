@@ -225,10 +225,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.i_search_menu) {
-            Intent i = new Intent(this, ConsultActivity.class);
-            startActivity(i);
-        }
+//        if (id == R.id.i_search_menu) {
+//            Intent i = new Intent(this, ConsultActivity.class);
+//            startActivity(i);
+//        }
 //        if (id == R.id.i_settings_menu) {
 //            Intent i = new Intent(this, SettingsActivity.class);
 //            startActivity(i);

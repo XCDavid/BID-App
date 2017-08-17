@@ -30,6 +30,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
     private String jsonS;
     private List<File> jsonF;
     private String idType;
+    boolean resolution = false;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -126,7 +127,14 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 if (errorResponse.equals("JSONObject[\"document\"] not found.")) {
                     errorResponse = "Credencial no reconocida.";
                 }
+
             }
+
+            if (responseStatus == 422){
+                errorResponse = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
+            }
+
+
             errorMessage = responseStatus + " - " + errorResponse;
 
         } else if (responseStatus >= 500 && responseStatus < 600) {
@@ -148,7 +156,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 String messageComplete = "";
                 String messageResp = "";
                 String jsonResult = "";
-                boolean resolution = false;
+
                 try {
                     messageComplete = responseJSONObject.getString("errorMessage");
                     String messageSplit[] = messageComplete.split("\\|");
@@ -326,7 +334,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
                 }else{
-                    errorMessage = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
+//                    errorMessage = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);

@@ -180,10 +180,10 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("operationId", Integer.valueOf(operationID));
-            jsonObject.put("tipoPago", "no");
+            jsonObject.put("tipoPago", "efectivo");
             jsonObject.put("referencia", "0");
             jsonObject.put("importe", "0");
-            jsonObject.put("resultadoPago", "no");
+            jsonObject.put("resultadoPago", "ok");
         } catch (JSONException e) {
             e.printStackTrace();
         }

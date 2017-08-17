@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.ConfirmPayOperation;
 import com.teknei.bid.dialogs.INEResumeDialog;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-public class FakeINEActivity extends AppCompatActivity implements View.OnClickListener {
+public class FakeINEActivity extends BaseActivity implements View.OnClickListener {
     TextView tvName;
     TextView tvLastName;
     TextView tvMotherLastNAme;
@@ -142,12 +143,50 @@ public class FakeINEActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_continue_fake_ine:
-                Intent i = new Intent(FakeINEActivity.this, PayConfirmationActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(FakeINEActivity.this, PayConfirmationActivity.class);
+//                startActivity(i);
+                sendPetition();
                 break;
             case R.id.b_resume_fake_ine:
                 resumeDialog.show();
                 break;
         }
+    }
+
+    //LLamada fake a finalizar la operación para no presentar la pantalla de CONFIRMACION DE PAGO
+
+    @Override
+    public void sendPetition() {
+        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        String payOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.PAY_OPERATION, "");
+        if (payOperation.equals("")) {
+            String jsonString = buildJSON();
+            new ConfirmPayOperation(FakeINEActivity.this, token, jsonString).execute();
+        } else {
+            goNext();
+        }
+    }
+
+    @Override
+    public void goNext() {
+//        super.goNext();
+        Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
+        startActivity(i);
+    }
+
+    public String buildJSON() {
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        //Construimos el JSON
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("operationId", Integer.valueOf(operationID));
+            jsonObject.put("tipoPago", "no");
+            jsonObject.put("referencia", "0");
+            jsonObject.put("importe", "0");
+            jsonObject.put("resultadoPago", "no");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 }

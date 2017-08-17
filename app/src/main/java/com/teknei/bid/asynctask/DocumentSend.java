@@ -95,6 +95,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
         responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
         boolean dataExist = false;
+        String resultString = "";
         if (responseStatus >= 200 && responseStatus < 300) {
             try {
                 dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
@@ -111,7 +112,13 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
         } else if (responseStatus >= 400 && responseStatus < 500) {
             errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
         } else if (responseStatus >= 500 && responseStatus < 600) {
-            errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
+            resultString = responseJSONObject.optString("resultOK");
+            String errorResponse = "";
+            if (resultString.equals("false")) {
+                errorResponse = responseJSONObject.optString("errorMessage");
+            }
+            errorMessage = responseStatus + " - " + errorResponse;
+//            errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
         }
     }
 

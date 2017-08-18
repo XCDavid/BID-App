@@ -33,7 +33,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public StartOperation(Activity context, String tokenOld, String jsonString/*, int action*/) {
+    public StartOperation(Activity context, String tokenOld, String jsonString) {
         this.activityOrigin = context;
         this.token = tokenOld;
         this.jsonS = jsonString;
@@ -47,7 +47,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -110,7 +110,6 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 //            if (resultString.equals("false")) {
 //                errorResponse = responseJSONObject.optString("errorMessage");
 //            }
-
             if (responseStatus == 422){
                 errorResponse = responseJSONObject.optString("errorMessage");
             }
@@ -124,9 +123,6 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR
-//        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "23");
-
         if (hasConecction) {
             if (responseOk) {
                 int operationINT=-1;

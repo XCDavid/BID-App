@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.activities.ResultOperationActivity;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -42,7 +43,7 @@ public class LogOut extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1000;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -60,7 +61,7 @@ public class LogOut extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnection serverConnection = new ServerConnection();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_OUT_USER, token, ServerConnection.METHOD_GET,null,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_OUT_USER, token, ServerConnection.METHOD_GET, null, "");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -97,16 +98,18 @@ public class LogOut extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.TOKEN_APP);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin, SharedPreferencesUtils.TOKEN_APP);
+        SharedPreferencesUtils.deleteFromPreferences(activityOrigin, SharedPreferencesUtils.USERNAME);
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
         if (hasConecction) {
             if (responseOk) {
                 ((BaseActivity) activityOrigin).logOut();
             } else {
-                Log.i("Message logout","logout: "+errorMessage);
+                Log.i("Message logout", "logout: " + errorMessage);
                 ((BaseActivity) activityOrigin).logOut();
             }
         } else {
-            Log.i("Message logout","logout: "+errorMessage);
+            Log.i("Message logout", "logout: " + errorMessage);
             ((BaseActivity) activityOrigin).logOut();
         }
     }

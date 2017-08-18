@@ -35,11 +35,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         bLogIn = (Button) findViewById(R.id.b_login);
         bLogIn.setOnClickListener(this);
 
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(this);
         saveSharedPreferenceByDefault();
-
-        //Borrar
-        SharedPreferencesUtils.deleteFromPreferences(this, SharedPreferencesUtils.OPERATION_ID);
-        MorphoDevice morphoDevice = new MorphoDevice();
     }
 
     @Override
@@ -71,7 +68,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void sendPetition() {
-//        String authorization = new String(Base64.encodeBase64(new String(user + ":" + pass).getBytes()));
         String authorization = Base64.encodeToString(new String(user + ":" + pass).getBytes(), Base64.DEFAULT);
         if (user.equals("admin")) {
             Intent i = new Intent(this, SettingsActivity.class);

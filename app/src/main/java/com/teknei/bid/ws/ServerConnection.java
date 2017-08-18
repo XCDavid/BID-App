@@ -33,29 +33,18 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
 public class ServerConnection {
-    /**
-     * HTTP Header User-Agent
-     */
-    public static final String HEADER_USER_AGENT = "User-Agent";
-    /**
-     * Android User Agent
-     */
-    public static final String ANDROID_USER_AGENT = "http.agent";
-    public static final String APPLICATION_JSON = "application/json";
-    public static final String HEADER_TOKEN_CODE = "Authorization";
-    public static final String HEADER_TOKEN_AUX_VALUE = "Token ";
-    public static final String HEADER_BASIC_AUX_VALUE = "Basic ";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String HEADER_TOKEN_CODE = "Authorization";
+    private static final String HEADER_TOKEN_AUX_VALUE = "Token ";
+    private static final String HEADER_BASIC_AUX_VALUE = "Basic ";
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
     public static final String METHOD_DELETE = "DELETE";
 
-    private String tokenID = "";
-    private String basicAutho = "";
-    public static final int TIME_OUT = 10000;
-    Integer statusResponse = null;
+    private static final int TIME_OUT = 10000;
+    private Integer statusResponse = null;
 
-
-    public Object[] connection(Context context, String stringJSON, String serverMethod, String token, String method, File file, String autho) {
+    public Object[] connection(Context context, String stringJSON, String serverMethod, String token, String method, File file, String basicAutho) {
         // Creamos la peticion http
         HttpParams httpParameters = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpParameters, TIME_OUT);
@@ -66,9 +55,10 @@ public class ServerConnection {
         HttpPost httpPOST = null;
         HttpGet httpGet = null;
         HttpDelete httpDelete = null;
-        this.tokenID = token;
-        this.basicAutho = autho;
-//		this.tokenID = HerApplication.HEADER_APPLICATION_KEY;
+
+        Log.w("http URL SEND", "http: " + serverMethod);
+        Log.w("json SEND NO File", "json no file: " + stringJSON);
+
         //Selecciona que tipo de metodo crear
         switch (method) {
             case ServerConnection.METHOD_POST:
@@ -86,10 +76,6 @@ public class ServerConnection {
         String sendJSON = stringJSON;
         if (sendJSON != null) {
             sendJSON = stringJSON.replaceAll("\\\\", "");
-//            int i = sendJSON.indexOf("{");
-//            sendJSON = sendJSON.substring(i);
-//            sendJSON = stringJSON.replaceAll("\"", "\\\\\"");
-//            sendJSON = "\\\"" +sendJSON + "\\\"";
         }
         StringEntity entityData = null;
         try {
@@ -100,7 +86,7 @@ public class ServerConnection {
             e1.printStackTrace();
         }
         //Si hay entidad de datos se agrega al Post en caso de que el metodo POST tambien exista
-        if ( entityData != null && file == null && !serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential")) {
+        if (entityData != null && file == null && !serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential")) {
             entityData.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON));
             if (httpPOST != null) {
                 httpPOST.setEntity(entityData);
@@ -113,37 +99,16 @@ public class ServerConnection {
         MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
         multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         multipartEntity.setBoundary(boundary);
-        File fileOut = file;
-        File fileAux = new File(Environment.getExternalStorageDirectory()+File.separator+ "face_14.jpg");
-        if (!fileAux.exists()) {
-            try {
-                fileAux.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (file != null) {
+            multipartEntity.addBinaryBody("json", file, ContentType.APPLICATION_JSON, file.getName());
+        }
+        //Json string attaching
+        if (sendJSON != null) {
+            multipartEntity.setStrictMode();
+            if (httpPOST != null && (serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential") || serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential"))) {
+                httpPOST.setEntity(multipartEntity.build());
             }
         }
-        if (fileOut != null  ) {
-//            multipartEntity.addBinaryBody("file", fileAux, ContentType.create("image/jpeg"), fileAux.getName());
-            multipartEntity.addBinaryBody("json", fileOut,ContentType.APPLICATION_JSON,fileOut.getName());
-
-//            ContentBody cbFile = new FileBody(file, "multipart/form-data");
-//            multipartEntity.addPart("json", cbFile);
-        }
-            //Json string attaching
-            if (sendJSON != null) {
-                JSONObject jsonObj = null;
-                try {
-                    jsonObj = new JSONObject(stringJSON);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-//                multipartEntity.addTextBody("json2", sendJSON, ContentType.TEXT_PLAIN);
-                multipartEntity.setStrictMode();
-                if (httpPOST != null && (serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential") || serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential"))) {
-                    httpPOST.setEntity(multipartEntity.build());
-                }
-            }
-//        }
         // Ejecuta la peticion HTTP POST / GET / DELETE al servidor
 
         try {
@@ -151,10 +116,10 @@ public class ServerConnection {
                 //Normal headers add
                 httpPOST.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 if (serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential") || serverMethod.equals("http://192.168.1.200:28080/BIDServer/rest/v1/credential")) {
-                    httpPOST.setHeader(HTTP.CONTENT_TYPE, "multipart/form-data; boundary="+boundary);
+                    httpPOST.setHeader(HTTP.CONTENT_TYPE, "multipart/form-data; boundary=" + boundary);
                 }
                 /****///Token add       //Authorization      //Token" "token_del_login *****************************
-                httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
+                httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + token);
                 if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
                     httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
@@ -164,7 +129,7 @@ public class ServerConnection {
                 //Normal headers add
                 httpGet.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
                 //Token add
-                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
+                httpGet.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + token);
                 if (basicAutho != null && !basicAutho.equals("")) {
                     //*///Basic Authorization add       //Authorization      //Basic" "code
                     httpGet.setHeader(HEADER_TOKEN_CODE, HEADER_BASIC_AUX_VALUE + basicAutho);
@@ -173,12 +138,12 @@ public class ServerConnection {
             } else if (httpDelete != null) {
                 //Normal headers add
                 httpDelete.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
-                httpDelete.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
+                httpDelete.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + token);
                 httpResponse = clienteHTTP.execute(httpDelete);
             }
         } catch (Exception ee) {
             ee.printStackTrace();
-            Log.d("error Response","Response: "+ ee.getMessage());
+            Log.d("error Response", "Response: " + ee.getMessage());
         }
 
         String responseJSONString = null;
@@ -202,6 +167,6 @@ public class ServerConnection {
                 e.printStackTrace();
             }
         }
-        return new Object[]{respuestaJSONObject, statusResponse, tokenID};
+        return new Object[]{respuestaJSONObject, statusResponse, token};
     }
 }

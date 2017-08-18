@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.List;
 
 public class DocumentSend extends AsyncTask<String, Void, Void> {
-    //    private String newToken;
     private String token;
     private String jsonS;
     private List<File> imageF;
@@ -53,7 +52,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -71,7 +70,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnectionListImages serverConnection = new ServerConnectionListImages();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_DOCUMENT, token, ServerConnection.METHOD_POST,imageF,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_DOCUMENT, token, ServerConnection.METHOD_POST, imageF, "");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -118,15 +117,12 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 errorResponse = responseJSONObject.optString("errorMessage");
             }
             errorMessage = responseStatus + " - " + errorResponse;
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
         }
     }
 
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "ok");
         if (hasConecction) {
             if (responseOk) {
                 String messageResp = "";
@@ -159,5 +155,4 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
             dialogoAlert.show();
         }
     }
-
 }

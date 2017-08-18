@@ -54,7 +54,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     ImageView faceDefaultImgV;
     Button continueFaceScan;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE = 663;
-    String encodedStringFace;
 
     private byte[] photoBuffer;
     File imageFile;
@@ -83,20 +82,17 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_face_scan:
-//                dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
-                startScan(ScanConstants.OPEN_CAMERA,CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
+                startScan(ScanConstants.OPEN_CAMERA, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE);
                 break;
             case R.id.b_continue_face_scan:
-//                if (validatePictureEncoded()){
-                    /*Intent i = new Intent(this,FingerPrintsActivity.class);
-                    startActivity(i);*/
-                sendPetition();
-//                }
+                if (validatePictureTake()) {
+                    sendPetition();
+                }
                 break;
         }
     }
 
-    protected void startScan(int preference,int REQUEST_CODE ) {
+    protected void startScan(int preference, int REQUEST_CODE) {
         Intent intent = new Intent(this, ScanActivity.class);
         intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
         startActivityForResult(intent, REQUEST_CODE);
@@ -108,33 +104,26 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         switch (requestCode) {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FACE:
                 if (resultCode == RESULT_OK && data != null) {
-//                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
                     Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
                     Bitmap bmp = null;
                     try {
                         bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                         getContentResolver().delete(uri, null, null);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     photoBuffer = bitmapToByteArray(bmp);
-                    String encodedString = encodeTobase64(bmp);
-                    encodedStringFace = encodedString;
                     ibFacePictureButton.setImageBitmap(bmp);
 
                     faceDefaultImgV.setVisibility(View.INVISIBLE);
                     //Guarda nueva imagen del rostro de la persona
                     String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
-                    String dir = Environment.getExternalStorageDirectory() + File.separator;
-                    File f = new File(Environment.getExternalStorageDirectory()
-                            + File.separator + "face_" + operationID + ".jpg");
+                    File f = new File(Environment.getExternalStorageDirectory() + File.separator + "face_" + operationID + ".jpg");
                     if (f.exists()) {
                         f.delete();
                         f = new File(Environment.getExternalStorageDirectory() + File.separator + "face_" + operationID + ".jpg");
                     }
                     try {
-                        f.createNewFile();
                         //write the bytes in file
                         FileOutputStream fo = new FileOutputStream(f);
                         fo.write(photoBuffer);
@@ -143,7 +132,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
                         imageFile = f;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        f = null;
                         imageFile = null;
                     }
                 }
@@ -151,34 +139,15 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    public boolean validatePictureEncoded() {
-        if (encodedStringFace == null) {
-            Toast.makeText(this, "Debes tomar una fotografía del rostro del usuario para continuar.", Toast.LENGTH_SHORT).show();
+    public boolean validatePictureTake() {
+        boolean bitMapTake = false;
+        if (ibFacePictureButton.getDrawable() instanceof BitmapDrawable) {
+            bitMapTake = true;
         } else {
-            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
-            return true;
+            bitMapTake = false;
+            Toast.makeText(this, "Debes tomar una fotografía del rostro del usuario para continuar.", Toast.LENGTH_SHORT).show();
         }
-        return false;
-    }
-
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap imagex = image;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imagex.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
-        byte[] b = outputStream.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
-    }
-
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-
-    public Bitmap RotateBitmap(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        return bitMapTake;
     }
 
     public byte[] bitmapToByteArray(Bitmap bitmap) {
@@ -191,23 +160,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String faceOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FACE_OPERATION, "");
-
-//        Bitmap mapAux = ibFacePictureButton.getDrawable().getBitMap();
-        boolean bitMapTake = false;
-        Bitmap bitmap;
-
-        if (ibFacePictureButton.getDrawable() instanceof BitmapDrawable) {
-            bitMapTake = true;
-            bitmap = ((BitmapDrawable) ibFacePictureButton.getDrawable()).getBitmap();
-        } else if (ibFacePictureButton.getDrawable() instanceof VectorDrawableCompat) {
-            bitMapTake = false;
-        }
-
-//        if (faceOperation.equals("")) {
-        //Des comentar
-//        if(bitMapTake){
-        //BORRAR
-        if (true) {
+        if (faceOperation.equals("")) {
             String localTime = PhoneSimUtils.getLocalDateAndTime();
             SharedPreferencesUtils.saveToPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.TIMESTAMP_FACE, localTime);
 
@@ -216,12 +169,8 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
             fileList.add(imageFile);
             new FaceFileSend(FaceScanActivity.this, token, jsonString, fileList).execute();
         } else {
-            Toast.makeText(FaceScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
-//            goNext();
+            goNext();
         }
-//        }else{
-//            goNext();
-//        }
     }
 
     @Override
@@ -240,9 +189,8 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         try {
-            Writer output = null;
+            Writer output;
             fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
             if (fileJson.exists()) {
                 fileJson.delete();
@@ -254,7 +202,6 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return jsonObject.toString();
     }
 

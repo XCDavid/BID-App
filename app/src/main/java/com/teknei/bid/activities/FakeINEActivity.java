@@ -27,7 +27,6 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
     TextView tvValidity;
     TextView tvAddress;
     TextView tvCoincidencePoints;
-
     Button continueFake;
     Button resumeFake;
 
@@ -154,7 +153,6 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
     }
 
     //LLamada fake a finalizar la operación para no presentar la pantalla de CONFIRMACION DE PAGO
-
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
@@ -169,7 +167,6 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
         startActivity(i);
     }

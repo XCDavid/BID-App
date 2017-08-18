@@ -25,7 +25,6 @@ import java.io.File;
 import java.util.List;
 
 public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
-    //    private String newToken;
     private String token;
     private String jsonS;
     private List<File> jsonF;
@@ -59,7 +58,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -125,38 +124,27 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
             if (resultString.equals("false")) {
                 errorResponse = responseJSONObject.optString("errorMessage");
                 if (errorResponse.equals("JSONObject[\"document\"] not found.")) {
-                    errorResponse = "Credencial no reconocida.";
+                    errorResponse = "Credencial no reconocida.\nCaptura de nuevo la identificación e intentalo otra vez.";
                 }
-
             }
-
-            if (responseStatus == 422){
+            if (responseStatus == 422) {
                 errorResponse = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
             }
-
-
             errorMessage = responseStatus + " - " + errorResponse;
 
         } else if (responseStatus >= 500 && responseStatus < 600) {
-
             errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
-
         }
     }
 
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR
-        String scanAUX1 = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "666");
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX1);
-
         if (hasConecction) {
             if (responseOk) {
                 String messageComplete = "";
                 String messageResp = "";
                 String jsonResult = "";
-
                 try {
                     messageComplete = responseJSONObject.getString("errorMessage");
                     String messageSplit[] = messageComplete.split("\\|");
@@ -201,32 +189,12 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             try {
                                 mrz = dataObjectJSON.getString("mrz");
                                 Log.w("MRZ", "MRZ : " + mrz);
-//                                String mrz = "IDMEX1587903166<<4499068496638\\n8512246M2712310MEX<02<<12416<4\\nHERNANDEZ<ERAZO<<MONICA<<<<<<<";
-//                                String uno = "\\\n";
-//                                String dos = "\\n";
-//                                String tres = "\n";
-//                                String cuatro = "\\\\n";
-//                                String mrzSplit1[] = mrz.split(uno);
-//                                String mrzSplit2[] = mrz.split(dos);
                                 String mrzSplit3 = "";
                                 if (mrz.length() > 31) {
                                     mrzSplit3 = mrz.substring(0, 30);
                                 }
-
-//                                String mrzSplit4[] = mrz.split(cuatro);
-//                                Log.w("MRZ split","MRZ split 1: "+mrzSplit1.toString());
-//                                Log.w("MRZ split","MRZ split 2: "+mrzSplit2.toString());
                                 Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
-//                                Log.w("MRZ split","MRZ split 4: "+mrzSplit4.toString());
-
-//                                String firstLine = mrzSplit4[0];
-//                                String firstSplit[] = firstLine.split("\\<\\<");
                                 String firstSplit2[] = mrzSplit3.split("\\<\\<");
-//                String ocr;
-//                                if (firstSplit.length > 1) {
-////                                    String ocr = firstSplit[1];
-//                                    Log.w("MRZ OCR","OCR: "+ocr);
-//                                }
                                 if (firstSplit2.length > 1) {
                                     ocr = firstSplit2[1];
                                     Log.w("MRZ OCR", "OCR: " + ocr);
@@ -239,12 +207,6 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-//                            try {
-                            //Muchas veces el curp es incorrecto
-                            //curp = dataObjectJSON.getString("curp");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
                         }
                         if (jsonF.size() == 3 || jsonF.size() == 2) {
                             //ICAR
@@ -295,14 +257,11 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                                     break;
                             }
                         }
-
                         if ((!mrz.equals("") || !ocr.equals("")) && !name.equals("")) {
                             resolution = true;
                         }
-
                         if (resolution) {
                             String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
-
                             try {
                                 JSONObject jsonData = new JSONObject(jsonString);
                                 jsonData.put("name", name);
@@ -323,7 +282,6 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (resolution) {
                     String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
                     SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
@@ -333,8 +291,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
-                }else{
-//                    errorMessage = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
+                } else {
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);
@@ -362,23 +319,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
     public String getStringObjectJSON(JSONObject jsonObject, String jsonName) {
         String objString = "";
-//        try {
         objString = jsonObject.optString(jsonName);
-//            if (jsonName.equals(ApiConstants.ICAR_MRZ)) {
-//                String mrzSplit3 = "";
-//                if (objString.length() > 31) {
-//                    mrzSplit3 = objString.substring(0, 30);
-//                }
-//                Log.w("MRZ split", "MRZ split 3: " + mrzSplit3);
-//                String firstSplit2[] = mrzSplit3.split("\\<\\<");
-//                if (firstSplit2.length > 1) {
-//                    objString = firstSplit2[1];
-//                    Log.w("MRZ OCR", "OCR: " + objString);
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         return objString;
     }
 

@@ -196,7 +196,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
                 showHideResultData();
                 break;
             case R.id.b_continue_id_scan:
-//                if (validatePictureEncoded()){
+//                if (validatePictureTake()){
 //                Intent i = new Intent(this, FaceScanActivity.class);
 //                startActivity(i);
                 sendPetition();

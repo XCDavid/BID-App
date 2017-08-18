@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,7 +28,6 @@ import com.scanlibrary.ScanConstants;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.CredentialsCaptured;
 import com.teknei.bid.dialogs.AlertDialog;
-import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PermissionsUtils;
 import com.teknei.bid.utils.PhoneSimUtils;
@@ -43,12 +43,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class IcarScanActivity extends BaseActivity implements View.OnClickListener {
     ImageButton idFrontButton;
@@ -64,13 +60,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL = 661;
     final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR = 662;
 
-    private String encodedStringFrontal = null;
-    private String encodedStringPosterior = null;
-
-//    ProgressDialog progressDialog;
-//    ProgressDialog progressDialogToScan;
-//    ProgressDialog progressDialogStartLoad;
-
     String scandIdOperation = null;
 
     String stringCredentialType = "";
@@ -83,8 +72,9 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     File fileJson;
     List<File> fileList;
 
-    int resolution=0;
+    int resolution = 0;
 
+    boolean onePicture = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,29 +97,13 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         idPosteriorButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
         buttonShowHideResultData.setOnClickListener(this);
-
         resultLayout.setVisibility(View.GONE);
-//        progressDialog = new ProgressDialog(this, getString(R.string.get_info_process_id_scan));
-//        progressDialog.setCancelable(false);
-//        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//
-//        progressDialogToScan = new ProgressDialog(this, getString(R.string.start_scan_process_id_scan));
-//        progressDialogToScan.setCancelable(false);
-//        progressDialogToScan.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//
-//        progressDialogStartLoad = new ProgressDialog(this, getString(R.string.load_id_scan));
-//        progressDialogStartLoad.setCancelable(false);
-//        progressDialogStartLoad.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        progressDialogStartLoad.show();
-
-        encodedStringFrontal = null;
-        encodedStringPosterior = null;
 
         fileList = new ArrayList<File>();
         Bundle bundle = getIntent().getExtras();
         //Extract the data…
         stringCredentialType = bundle.getString("id_type");
-        Log.w("Option selected",stringCredentialType);
+        Log.w("Option selected", stringCredentialType);
 //        stringCredentialType = "INE";
         modifyLayoutByIdSelected(stringCredentialType);
 
@@ -142,48 +116,32 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void modifyLayoutByIdSelected(String idType) {
-        if ( idType.equals( "PASAPORTE" ) ) {
+        if (idType.equals("PASAPORTE")) {
+            onePicture = true;
             posteriorLayout.setVisibility(View.GONE);
             instructionsTV.setText(getString(R.string.id_scan_instructions_one_side));
-//            stringCredentialType = "PASAPORTE";
-        /*} else if (idType == "INE") {
-            posteriorLayout.setVisibility(View.VISIBLE);
-//            stringCredentialType = "INE";
-        */} else {
+        } else {
             posteriorLayout.setVisibility(View.VISIBLE);
             instructionsTV.setText(getString(R.string.id_scan_instructions_both_sides));
-//            stringCredentialType = "IFE";
         }
-
     }
-
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_frontal_id_scan:
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL);
-//                scanFront();
-//                if (idTypeSelected == MobbScanDocumentType.Passport_TD3) {
-//                    scanFront();
-//                } else {
-//                    scanBoth();
-//                }
                 break;
             case R.id.ib_posterior_id_scan:
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
-//                scanBack();
-//                scanBoth();
                 break;
             case R.id.ly_button_reult_data_id_scan:
                 showHideResultData();
                 break;
             case R.id.b_continue_id_scan:
-//                if (validatePictureEncoded()){
-//                Intent i = new Intent(this, FaceScanActivity.class);
-//                startActivity(i);
-                sendPetition();
-//                }
+                if (validatePictureTake()) {
+                    sendPetition();
+                }
                 break;
         }
     }
@@ -196,13 +154,9 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             sectionResultData.setVisibility(View.VISIBLE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_up_black_48dp));
         }
-
     }
 
     private void dispatchTakePictureIntent(int REQUEST_CODE) {
-//        Intent cameraIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(cameraIntent, REQUEST_CODE);
-
         Intent intent = new Intent(this, ScanActivity.class);
         intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, ScanConstants.OPEN_CAMERA);
         startActivityForResult(intent, REQUEST_CODE);
@@ -220,12 +174,8 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         switch (requestCode) {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL:
                 if (resultCode == RESULT_OK && data != null) {
-//                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
-//                    String encodedString = encodeTobase64(bmp);
-//                    encodedStringFrontal = encodedString;
-//                    bmp.recycle();
                     Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-                    Bitmap bitmap = null;
+                    Bitmap bitmap;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                         getContentResolver().delete(uri, null, null);
@@ -237,17 +187,14 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-//                    idFrontButton.setImageBitmap(bmp);
                     //Guarda nueva imagen del rostro de la persona
                     String operationID = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
-                    String dir = Environment.getExternalStorageDirectory() + File.separator;
                     File f = new File(Environment.getExternalStorageDirectory() + File.separator + "icar_front" + operationID + ".jpg");
                     if (f.exists()) {
                         f.delete();
                         f = new File(Environment.getExternalStorageDirectory() + File.separator + "icar_front" + operationID + ".jpg");
                     }
                     try {
-                        f.createNewFile();
                         //write the bytes in file
                         FileOutputStream fo = new FileOutputStream(f);
                         fo.write(photoBuffer);
@@ -256,19 +203,14 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                         imageFile = f;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        f = null;
                         imageFile = null;
                     }
                 }
                 break;
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR:
                 if (resultCode == RESULT_OK && data != null) {
-//                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
-//                    String encodedString = encodeTobase64(bmp);
-//                    encodedStringPosterior = encodedString;
-//                    idPosteriorButton.setImageBitmap(bmp);
                     Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-                    Bitmap bitmap = null;
+                    Bitmap bitmap;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                         getContentResolver().delete(uri, null, null);
@@ -278,7 +220,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-//                    idFrontButton.setImageBitmap(bmp);
                     //Guarda nueva imagen del rostro de la persona
                     String operationID = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
                     String dir = Environment.getExternalStorageDirectory() + File.separator;
@@ -288,7 +229,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                         f = new File(Environment.getExternalStorageDirectory() + File.separator + "icar_back" + operationID + ".jpg");
                     }
                     try {
-                        f.createNewFile();
                         //write the bytes in file
                         FileOutputStream fo = new FileOutputStream(f);
                         fo.write(photoBufferBack);
@@ -297,7 +237,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                         imageFileBack = f;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        f = null;
                         imageFileBack = null;
                     }
                 }
@@ -305,58 +244,23 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    public boolean validatePictureEncoded() {
-        if (encodedStringFrontal == null) {
-            Toast.makeText(this, "Debes tomar una fotografía de la identificación por la parte Frontal", Toast.LENGTH_SHORT).show();
-        } else if (encodedStringPosterior == null) {
-            Toast.makeText(this, "Debes tomar una fotografía de la identificación por la parte Posterior", Toast.LENGTH_SHORT).show();
+    public boolean validatePictureTake() {
+        boolean bitMapTake = false;
+        if (idFrontButton.getDrawable() instanceof BitmapDrawable) {
+            bitMapTake = true;
         } else {
-//            Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
-            return true;
+            bitMapTake = false;
+            Toast.makeText(this, "Debes tomar una fotografía de la identificación por la parte Frontal", Toast.LENGTH_SHORT).show();
         }
-        return false;
-    }
-
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap imagex = image;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imagex.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] b = outputStream.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
-    }
-
-    //
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-//
-//    private void refreshUI(IDDocument document) {
-//        if (document != null) {
-//            ((TextView) findViewById(R.id.tvPeronalNumber)).setText(document.getPersonalNumber());
-//            ((TextView) findViewById(R.id.tvDocumentNumber)).setText(document.getDocumentNumber());
-//            ((TextView) findViewById(R.id.tvNameAndSurname)).setText(document.getName() + " " + document.getSurname());
-//            ((TextView) findViewById(R.id.tvDateOfBirth)).setText(document.getDateOfBirth());
-//            ((TextView) findViewById(R.id.tvGender)).setText(document.getGender());
-//            ((TextView) findViewById(R.id.tvValidTo)).setText(document.getDateOfExpiry());
-//            ((TextView) findViewById(R.id.tvNationality)).setText(document.getNationality());
-//        } else {
-//            ((TextView) findViewById(R.id.tvPeronalNumber)).setText("");
-//            ((TextView) findViewById(R.id.tvDocumentNumber)).setText("");
-//            ((TextView) findViewById(R.id.tvNameAndSurname)).setText("");
-//            ((TextView) findViewById(R.id.tvDateOfBirth)).setText("");
-//            ((TextView) findViewById(R.id.tvGender)).setText("");
-//            ((TextView) findViewById(R.id.tvValidTo)).setText("");
-//            ((TextView) findViewById(R.id.tvNationality)).setText("");
-//        }
-//
-//    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        MobbScanAPI.getInstance().release();
+        if (!onePicture) {
+            if (idPosteriorButton.getDrawable() instanceof BitmapDrawable) {
+                bitMapTake = true;
+            } else {
+                bitMapTake = false;
+                Toast.makeText(this, "Debes tomar una fotografía de la identificación por la parte Posterior", Toast.LENGTH_SHORT).show();
+            }
+        }
+        return bitMapTake;
     }
 
     @Override
@@ -405,48 +309,36 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void sendPetition() {
-        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-
         String scanSave = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
-
-//        if (!scanSave.equals("")) {
-        //BORRAR
-        if (false) {
-            goNext();
-        } else {
+        if (scanSave.equals("")) {
+            String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-            SharedPreferencesUtils.saveToPreferencesString(IcarScanActivity.this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS,localTime);
+            SharedPreferencesUtils.saveToPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.TIMESTAMP_CREDENTIALS, localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
             fileList.add(imageFile);
-            if ( !stringCredentialType.equals(ApiConstants.STRING_PASSPORT) ) {
+            if (!stringCredentialType.equals(ApiConstants.STRING_PASSPORT)) {
                 fileList.add(imageFileBack);
             }
-            new CredentialsCaptured(IcarScanActivity.this, token, jsonString, fileList,stringCredentialType).execute();
+            new CredentialsCaptured(IcarScanActivity.this, token, jsonString, fileList, stringCredentialType).execute();
+        } else {
+            goNext();
         }
     }
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(IcarScanActivity.this, FaceScanActivity.class);
         startActivity(i);
     }
 
     public String buildJSON() {
-
         String operationID = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "23");
-
-//        String scanID = scandIdOperation;
-        //BORRAR
-//        String scanID = "c670040a-a13e-4ad5-81ae-a49bd9c7c6a3";
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
-
             jsonObject.put("operationId", Integer.valueOf(operationID));
-//            jsonObject.put("scanId", "");
             jsonObject.put("credentialType", stringCredentialType);
             jsonObject.put("imageResolution", 560);
             jsonObject.put("contentType", "image/jpeg");
@@ -457,7 +349,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             String sendJSON = jsonObject.toString();
             sendJSON = sendJSON.replaceAll("\\\\", "");
 
-            Writer output = null;
+            Writer output;
             fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
             if (fileJson.exists()) {
                 fileJson.delete();
@@ -469,7 +361,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return jsonObject.toString();
     }
 
@@ -484,18 +375,18 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
-            AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
-            dialogoAlert.setCancelable(false);
-            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogoAlert.show();
+            AlertDialog dialogAlert;
+            dialogAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogAlert.setCancelable(false);
+            dialogAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogAlert.show();
         }
         if (id == R.id.i_log_out_menu) {
-            AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
-            dialogoAlert.setCancelable(false);
-            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogoAlert.show();
+            AlertDialog dialogAlert;
+            dialogAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
+            dialogAlert.setCancelable(false);
+            dialogAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogAlert.show();
         }
         return super.onOptionsItemSelected(item);
     }

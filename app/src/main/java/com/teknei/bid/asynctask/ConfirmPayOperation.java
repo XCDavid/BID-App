@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
-    //    private String newToken;
     private String token;
     private String jsonS;
 
@@ -47,7 +46,7 @@ public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -112,9 +111,6 @@ public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.PAY_OPERATION, "ok");
-
         if (hasConecction) {
             if (responseOk) {
                 String messageResp = "";

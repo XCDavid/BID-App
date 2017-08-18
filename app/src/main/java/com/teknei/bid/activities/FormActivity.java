@@ -116,9 +116,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionPhoneState(this);
-
-//        phoneID = PhoneSimUtils.getImei(this);
-
+        //Hide keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
@@ -126,17 +124,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_continue_form:
-//                if (validateDataForm()){
-
-                //Borrar
-//                SharedPreferencesUtils.saveToPreferencesString(FormActivity.this,SharedPreferencesUtils.OPERATION_ID,"666");
-
-//                Intent i = new Intent(this, SelectIdTypeActivity.class);
-//                startActivity(i);
-
-
-                sendPetition();
-//                }
+                if (validateDataForm()) {
+                    sendPetition();
+                }
                 break;
         }
     }
@@ -163,21 +153,22 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etMotherLastName, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else*/ if (etCurp.getText().toString().equals("")) {
+        } else*/
+        if (etCurp.getText().toString().equals("")) {
             Toast.makeText(this, "El campo ( CURP ) es obligatorio", Toast.LENGTH_SHORT).show();
             etCurp.clearFocus();
             if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else if (etCurp.getText().toString().length() < 18) {
+        } /*else if (etCurp.getText().toString().length() < 18) {
             Toast.makeText(this, "El campo ( CURP ) debe tener 18 digitos", Toast.LENGTH_SHORT).show();
             etCurp.clearFocus();
             if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else if (etPhone.getText().toString().equals("")) {
+        } *//*else if (etPhone.getText().toString().equals("")) {
             Toast.makeText(this, "El campo ( Teléfono ) es obligatorio", Toast.LENGTH_SHORT).show();
             etPhone.clearFocus();
             if (etPhone.requestFocus()) {
@@ -203,7 +194,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 //                Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
                 return true;
             }
-        } else {
+        }*/ else {
 //            Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -261,7 +252,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         String phone = etPhone.getText().toString();
         String numContract = etRefContract.getText().toString();
 
-        String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this,SharedPreferencesUtils.USERNAME,"default");
+        String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.USERNAME, "default");
         phoneID = PhoneSimUtils.getImei(this);
         //Construimos el JSON con los datos del formulario
         JSONObject jsonObject = new JSONObject();
@@ -276,7 +267,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             jsonObject.put("telefono", phone);
             jsonObject.put("refContrato", numContract);
             //***Almacena Json con los datos del formulario
-            SharedPreferencesUtils.saveToPreferencesString(FormActivity.this,SharedPreferencesUtils.JSON_INIT_FORM,jsonObject.toString());
+            SharedPreferencesUtils.saveToPreferencesString(FormActivity.this, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -287,10 +278,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
-        if(operationID.equals("")){
+        if (operationID.equals("")) {
             String jsonString = buildJSON();
             new StartOperation(FormActivity.this, token, jsonString).execute();
-        }else {
+        } else {
             goNext();
         }
     }

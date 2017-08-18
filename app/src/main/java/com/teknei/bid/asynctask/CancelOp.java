@@ -50,7 +50,7 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1000;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -111,14 +111,13 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
         if (hasConecction) {
             if (responseOk) {
                 SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
-
                 if (ACTION == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();
                 }else if(ACTION == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION){
                     ((BaseActivity) activityOrigin).logOut();
                 }
             } else {
-                Log.i("Message logout","logout: "+errorMessage);
+                Log.i("Message cancel op","cancel: "+errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ACTION);
                 dialogoAlert.setCancelable(false);
@@ -126,7 +125,7 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             }
         } else {
-            Log.i("Message logout","logout: "+errorMessage);
+            Log.i("Message cancel op","cancel: "+errorMessage);
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ACTION);
             dialogoAlert.setCancelable(false);

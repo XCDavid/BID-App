@@ -46,7 +46,7 @@
 
     <!--Form strings-->
     <string name="form_activity_name">Formulario</string>
-    <string name="phone_form">* Teléfono</string>
+    <string name="phone_form">Teléfono</string>
     <string name="continue_form">Continuar</string>
     <string name="mail_form">Correo electrónico</string>
     <string name="mother_last_name_form">* Apellido materno</string>

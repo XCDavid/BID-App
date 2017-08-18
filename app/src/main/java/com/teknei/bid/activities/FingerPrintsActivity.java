@@ -60,7 +60,6 @@ import java.util.List;
 public class FingerPrintsActivity extends BaseActivity implements View.OnClickListener, MSOShower {
     MorphoDevice morphoDevice;
     MSOConnection msoConnection;
-//    private DeviceDetectionMode detectionMode = DeviceDetectionMode.SdkDetection;
 
     Button continueButton;
     //Left Hand
@@ -82,7 +81,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     private byte[] imgFPBuff = null;
     private ImageButton imgFP;
     private List<File> fingersFileArray = null;
-//    private TextView txtMensaje;
 
     private byte[] photoBuffer;
     //Left Hand
@@ -180,11 +178,9 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_continue_fingerprints:
-//                Intent i = new Intent(this, PayConfirmationActivity.class);
-
-//                Intent i = new Intent(this, PayConfirmationActivity.class);
-//                startActivity(i);
-                sendPetition();
+                if (validateIndexFingers()) {
+                    sendPetition();
+                }
                 break;
             case R.id.b_pinky_left_arm:
             case R.id.b_ring_left_arm:
@@ -206,89 +202,41 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    public boolean validateIndexFingers() {
+        boolean bitMapTake;
+        if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable()instanceof BitmapDrawable) {
+            bitMapTake = true;
+        }else{
+            bitMapTake = false;
+            Toast.makeText(FingerPrintsActivity.this, "Capture minimo los dos dedos índice para continuar", Toast.LENGTH_SHORT).show();
+        }
+        return bitMapTake;
+    }
+
     public void mso1300(View v) {
         imgFP = ((ImageButton) v);
-
-//        int cnt = countDevices();
-//        detectionMode = DeviceDetectionMode.SdkDetection;
         try {
-//            MSOConnection.getInstance().tkn_mso_connect();
-//            MSOConnection.getInstance().setMsoShower(this);
             MSOConnection.getInstance().tkn_mso_capture(FingerPrintsActivity.this);
         } catch (TKN_MSO_ERROR e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getErrorMsg(), Toast.LENGTH_LONG).show();
         }
-//        /*try {
-//
-//        }catch (TKN_MSO_ERROR e){
-//            e.printStackTrace();
-//            Toast.makeText(getApplicationContext(), e.getErrorMsg(), Toast.LENGTH_LONG).show();
-//        }*/
-//        ImageView tv1;
-//        tv1= (ImageView) findViewById(R.id.b_pinky_left_arm);
-        //Old
-//        ((ImageButton)v).setImageBitmap( MSOConnection.getInstance().getBitMap() );
-    }
-
-//    synchronized int countDevices() {
-//        int count = 0;
-//        UsbManager usbManager = (UsbManager) this.getSystemService(Context.USB_SERVICE);
-//        HashMap<String, UsbDevice> usbDeviceList = usbManager.getDeviceList();
-//
-//        Iterator<UsbDevice> usbDeviceIterator = usbDeviceList.values().iterator();
-//        while (usbDeviceIterator.hasNext()) {
-//            UsbDevice usbDevice = usbDeviceIterator.next();
-//            if (MorphoTools.isSupported(usbDevice.getVendorId(), usbDevice.getProductId())) {
-//                boolean hasPermission = usbManager.hasPermission(usbDevice);
-//                if (!hasPermission) {
-//                    // Request permission for using the device
-//                    usbManager.requestPermission(usbDevice, PendingIntent.getBroadcast(this, 0, new Intent("com.morpho.android.usb.USB_PERMISSION"), 0));
-//                } else {
-//                    count++;
-//                }
-//            }
-//        }
-//        return count;
-//    }
-
-    private boolean hasImage(@NonNull ImageView view) {
-        Drawable drawable = view.getDrawable();
-        boolean hasImage = (drawable != null);
-        if (hasImage && (drawable instanceof BitmapDrawable)) {
-            hasImage = ((BitmapDrawable) drawable).getBitmap() != null;
-        }
-        return hasImage;
-    }
-
-    public static String encodeTobase64(Bitmap image) {
-//        Bitmap imagex = image;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); //Tipo de imagen
-        byte[] b = outputStream.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
     }
 
     public void setImageToRightFinger() {
         if (imgFP != null) {
             Bitmap msoBitMap = MSOConnection.getInstance().getBitMap();
-            Log.d("base64","lenght:"+imgFPBuff.length);
-
             photoBuffer = imgFPBuff;
             imgFP.setImageBitmap(msoBitMap);
 
             String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
-            String dir = Environment.getExternalStorageDirectory() + File.separator;
             String finger = "";
             int fingerSelect = 0;
             switch (imgFP.getId()) {
                 case R.id.b_pinky_left_arm:
                     finger = "I5";
                     fingerSelect = 10;
-//                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
-//                    Log.d("base64","lenght tools:"+base64PinkyLeft.length());
                     break;
                 case R.id.b_ring_left_arm:
                     finger = "I4";
@@ -336,7 +284,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                     base64ThumbRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
             }
-
             //Guarda nueva imagen del dedo
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + "_" + operationID + ".jpg");
             if (f.exists()) {
@@ -344,7 +291,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + "_" + operationID + ".jpg");
             }
             try {
-                f.createNewFile();
                 //write the bytes in file
                 FileOutputStream fo = new FileOutputStream(f);
                 fo.write(photoBuffer);
@@ -385,38 +331,19 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                f = null;
             }
         }
-    }
-
-    public String encodeTo64(byte[] bitmapByre) {
-        String fingerAux = Base64.encodeToString(bitmapByre, Base64.DEFAULT);
-        Log.d("base64","encoded:"+fingerAux.length());
-        return fingerAux;
     }
 
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String fingerOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERS_OPERATION, "");
-        boolean bitMapTake = false;
-
-        if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable()instanceof BitmapDrawable) {
-            bitMapTake = true;
-        }/* else if (bIndexLeft.getDrawable() instanceof VectorDrawableCompat || bIndexRight.getDrawable() instanceof VectorDrawableCompat){
-            bitMapTake = false;
-        }*/
-//        if (fingerOperation.equals("")) {
-            //DES_COMENTAR
-            if(bitMapTake){
-            //BORRAR
-//            if (true) {
+        if (fingerOperation.equals("")) {
                 String localTime = PhoneSimUtils.getLocalDateAndTime();
                 SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
 
                 String jsonString = buildJSON();
-//                Log.d("FingerJSON", "JSON FINGERs:" + jsonString);
                 fileList.add(fileJson);
                 if (imageFileIndexLeft != null){
                     fileList.add(imageFileIndexLeft);
@@ -427,17 +354,12 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 Log.d("ArrayList Files", "Files:" + fileList.size());
                 new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
             } else {
-                Toast.makeText(FingerPrintsActivity.this, "Capture minimo los dos dedos índice para continuar", Toast.LENGTH_SHORT).show();
-//                goNext();
+                goNext();
             }
-//        }else{
-//            goNext();
-//        }
     }
 
     @Override
     public void goNext() {
-//        Intent i = new Intent(FingerPrintsActivity.this, PayConfirmationActivity.class);
         Intent i = new Intent(FingerPrintsActivity.this, FakeINEActivity.class);
         startActivity(i);
     }
@@ -450,7 +372,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
             jsonObject = addBase64Fingers(jsonObject);
-//            jsonObject.put("contentType", "image/jpeg");
             if (imageFileThumbLeft != null){
                 jsonObject.put("dedo1I", true);
                 fingersFileArray.add(imageFileThumbLeft);
@@ -517,7 +438,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }
 
         try {
-            Writer output = null;
+            Writer output ;
             fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
             if(fileJson.exists()){
                 fileJson.delete();
@@ -529,7 +450,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }catch (Exception e){
             e.printStackTrace();
         }
-//        Log.d("JSON FINGERS","JSON SEND -> " + jsonObject.toString());
         return jsonObject.toString();
     }
 
@@ -605,7 +525,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 e.printStackTrace();
             }
         }
-//        Log.d("JSON FINGERS","JSON MIDDLE -> " + jsonObject.toString());
         return jsonObject;
     }
 
@@ -632,7 +551,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
             pgDrawable.getPaint().setColor(color);
             ClipDrawable progress = new ClipDrawable(pgDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
             progressBar.setProgressDrawable(progress);
-            //progressBar.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
             progressBar.setProgress(level);
         } catch (Exception e) {
             e.getMessage();

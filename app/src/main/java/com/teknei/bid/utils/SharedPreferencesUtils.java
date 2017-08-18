@@ -3,6 +3,11 @@ package com.teknei.bid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
+
+import com.teknei.bid.activities.IcarScanActivity;
+
+import java.io.File;
 
 
 public class SharedPreferencesUtils {
@@ -65,6 +70,52 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
     public static void cleanSharedPreferencesOperation(Activity context) {
+        //DeleteFiles
+        //ICAR FILES
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(context, SharedPreferencesUtils.OPERATION_ID, "");
+        File fIdFront = new File(Environment.getExternalStorageDirectory() + File.separator + "icar_front" + operationID + ".jpg");
+        if (fIdFront.exists()) {
+            fIdFront.delete();
+        }
+        File fIdBack = new File(Environment.getExternalStorageDirectory() + File.separator + "icar_back" + operationID + ".jpg");
+        if (fIdBack.exists()) {
+            fIdBack.delete();
+        }
+        File fileIdJson = new File(Environment.getExternalStorageDirectory() + File.separator + "json" + ".json");
+        if (fileIdJson.exists()) {
+            fileIdJson.delete();
+        }
+        //FACE FILES
+        File faceJPG = new File(Environment.getExternalStorageDirectory() + File.separator + "face_" + operationID + ".jpg");
+        if (faceJPG.exists()) {
+            faceJPG.delete();
+        }
+        File fileFaceJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
+        if (fileFaceJson.exists()) {
+            fileFaceJson.delete();
+        }
+        //DOCUMENT FILES
+        File documentJPG = new File(Environment.getExternalStorageDirectory()+ File.separator + "document_"+operationID+".jpg");
+        if(documentJPG.exists()){
+            documentJPG.delete();
+        }
+        File fileDocumentJson = new File(Environment.getExternalStorageDirectory() + File.separator + "document" + ".json");
+        if (fileDocumentJson.exists()) {
+            fileDocumentJson.delete();
+        }
+        //FINGERS FILES
+        String fingersNames[] = new String[]{"I5","I4","I3","I2","I1","D5","D4","D3","D2","D1"};
+        for (int i=0; i<fingersNames.length;i++) {
+            File fileFingerJPG = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + fingersNames[i] + "_" + operationID + ".jpg");
+            if (fileFingerJPG.exists()) {
+                fileFingerJPG.delete();
+            }
+        }
+        File fileFingerJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
+        if(fileFingerJson.exists()){
+            fileFingerJson.delete();
+        }
+        //Delete Preferences
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.OPERATION_ID);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.ID_SCAN);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.SCAN_SAVE_ID);
@@ -78,5 +129,7 @@ public class SharedPreferencesUtils {
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_FACE);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
+
+
     }
 }

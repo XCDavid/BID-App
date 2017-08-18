@@ -51,7 +51,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1000;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -81,13 +81,12 @@ public class LogIn extends AsyncTask<String, Void, Void> {
             }
             Log.i("Wait", "timer after DO: " + System.currentTimeMillis());
             while (System.currentTimeMillis() < endTime) {
-                //espera hasta que pasen los 2 segundos en caso de que halla terminado muy rapido el hilo
+                //espera hasta que pasen 1 segundo en caso de que halla terminado muy rapido el hilo
             }
             Log.i("Wait", "timer finish : " + System.currentTimeMillis());
         }
         return null;
     }
-
 
     private void manageResponse(Object arrayResponse[]) {
         responseJSONObject = (JSONObject) arrayResponse[0];
@@ -128,9 +127,6 @@ public class LogIn extends AsyncTask<String, Void, Void> {
                 }
                 ((BaseActivity) activityOrigin).goNext();
             } else {
-                //Borrar
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.TOKEN_APP,"123");
-//                ((BaseActivity) activityOrigin).goNext();
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
                 dialogoAlert.setCancelable(false);
@@ -138,9 +134,6 @@ public class LogIn extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             }
         } else {
-            //Borrar
-            SharedPreferencesUtils.saveToPreferencesString(activityOrigin,SharedPreferencesUtils.TOKEN_APP,"123");
-//            ((BaseActivity) activityOrigin).goNext();
             errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);

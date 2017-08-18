@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DocumentScanActivity extends BaseActivity implements View.OnClickListener{
+public class DocumentScanActivity extends BaseActivity implements View.OnClickListener {
     private static final int REQUEST_CODE = 99;
     ImageButton takeDocumentPicture;
     Button bContinue;
@@ -55,6 +55,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
     File fileJson;
 
     List<File> fileList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +78,27 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ib_document_scan:
                 startScan(ScanConstants.OPEN_CAMERA);
                 break;
             case R.id.b_continue_document_scan:
-//                Intent i = new Intent(this, FingerPrintsActivity.class);
-//                startActivity(i);
-                sendPetition();
+                if (validatePictureTake()) {
+                    sendPetition();
+                }
                 break;
         }
+    }
+
+    public boolean validatePictureTake() {
+        boolean bitMapTake = false;
+        if (takeDocumentPicture.getDrawable() instanceof BitmapDrawable) {
+            bitMapTake = true;
+        } else {
+            bitMapTake = false;
+            Toast.makeText(this, "Debes tomar una fotografía del documento para continuar.", Toast.LENGTH_SHORT).show();
+        }
+        return bitMapTake;
     }
 
     protected void startScan(int preference) {
@@ -100,7 +112,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 getContentResolver().delete(uri, null, null);
@@ -109,16 +121,14 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             //Guarda nueva imagen del documento: comprobante de domicilio
-            String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
-            File f = new File(Environment.getExternalStorageDirectory()+ File.separator + "document_"+operationID+".jpg");
-            if(f.exists()){
+            String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+            File f = new File(Environment.getExternalStorageDirectory() + File.separator + "document_" + operationID + ".jpg");
+            if (f.exists()) {
                 f.delete();
-                f = new File(Environment.getExternalStorageDirectory()+ File.separator + "document_"+operationID+".jpg");
+                f = new File(Environment.getExternalStorageDirectory() + File.separator + "document_" + operationID + ".jpg");
             }
             try {
-                f.createNewFile();
                 //write the bytes in file
                 FileOutputStream fo = new FileOutputStream(f);
                 fo.write(photoBuffer);
@@ -127,7 +137,6 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
                 imageFile = f;
             } catch (IOException e) {
                 e.printStackTrace();
-                f = null;
                 imageFile = null;
             }
         }
@@ -143,45 +152,27 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String documentOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.DOCUMENT_OPERATION, "");
-        boolean bitMapTake = false;
-        Bitmap bitmap;
+        if (documentOperation.equals("")) {
+            String localTime = PhoneSimUtils.getLocalDateAndTime();
+            SharedPreferencesUtils.saveToPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.TIMESTAMP_DOCUMENT, localTime);
 
-        if (takeDocumentPicture.getDrawable() instanceof BitmapDrawable) {
-            bitMapTake = true;
-            bitmap = ((BitmapDrawable)takeDocumentPicture.getDrawable()).getBitmap();
-        } else if (takeDocumentPicture.getDrawable() instanceof VectorDrawableCompat){
-            bitMapTake = false;
+            String jsonString = buildJSON();
+            fileList.add(fileJson);
+            fileList.add(imageFile);
+            new DocumentSend(DocumentScanActivity.this, token, jsonString, fileList).execute();
+        } else {
+            goNext();
         }
-//        if (documentOperation.equals("")) {
-            //DES comentar
-//        if(bitMapTake){
-            //BORRAR
-            if (true) {
-                String localTime = PhoneSimUtils.getLocalDateAndTime();
-                SharedPreferencesUtils.saveToPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.TIMESTAMP_DOCUMENT, localTime);
-
-                String jsonString = buildJSON();
-                fileList.add(fileJson);
-                fileList.add(imageFile);
-                new DocumentSend(DocumentScanActivity.this, token, jsonString, fileList).execute();
-            } else {
-                Toast.makeText(DocumentScanActivity.this, "Toma una foto para poder continuar", Toast.LENGTH_SHORT).show();
-//            goNext();
-            }
-//        }else{
-//            goNext();
-//        }
     }
 
     @Override
     public void goNext() {
-//        super.goNext();
         Intent i = new Intent(DocumentScanActivity.this, FingerPrintsActivity.class);
         startActivity(i);
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
@@ -192,15 +183,15 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         }
         try {
             Writer output = null;
-            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
-            if(fileJson.exists()){
+            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "document" + ".json");
+            if (fileJson.exists()) {
                 fileJson.delete();
-                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "rostro" + ".json");
+                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "document" + ".json");
             }
             output = new BufferedWriter(new FileWriter(fileJson));
             output.write(jsonObject.toString());
             output.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return jsonObject.toString();
@@ -215,7 +206,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                } else{
+                } else {
                     //Check AGAIN Permissions For Android 6.0 up
                     PermissionsUtils.checkPermissionWriteExternalStorage(DocumentScanActivity.this);
                 }
@@ -224,7 +215,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                }else {
+                } else {
                     //Check AGAIN Permissions For Android 6.0 up
                     PermissionsUtils.checkPermissionReadExternalStorage(DocumentScanActivity.this);
                     // permission denied, boo! Disable the

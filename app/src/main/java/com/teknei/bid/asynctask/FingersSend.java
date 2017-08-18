@@ -53,7 +53,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        endTime = System.currentTimeMillis() + 2000;
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -71,7 +71,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnectionListImages serverConnection = new ServerConnectionListImages();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_FINGERS, token, ServerConnection.METHOD_POST,imageF,"");
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_FINGERS, token, ServerConnection.METHOD_POST, imageF, "");
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {
@@ -107,23 +107,14 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                 errorMessage = activityOrigin.getString(R.string.message_ws_response_fail);
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
-
             errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
-
-
         } else if (responseStatus >= 400 && responseStatus < 500) {
-
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
             String errorResponse = "";
-            if (responseStatus == 409){
+            if (responseStatus == 409) {
                 errorResponse = "El usuario ya se encuentra registrado.";
             }
-
-
             errorMessage = responseStatus + " - " + errorResponse;
-
         } else if (responseStatus >= 500 && responseStatus < 600) {
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
             errorMessage = responseStatus + " - " + "Ocurrió un problema con el servidor";
         }
     }
@@ -131,8 +122,6 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         progressDialog.dismiss();
-        //BORRAR
-        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FINGERS_OPERATION, "ok");
         if (hasConecction) {
             if (responseOk) {
                 String messageResp = "";

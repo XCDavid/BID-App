@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.FindOperation;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.utils.ApiConstants;
@@ -125,7 +126,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.b_continue_form:
                 if (validateDataForm()) {
-                    sendPetition();
+//                    sendPetition();
+                    String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+                    new FindOperation(FormActivity.this, token, etCurp.getText().toString()).execute();
                 }
                 break;
         }
@@ -281,6 +284,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         if (operationID.equals("")) {
             String jsonString = buildJSON();
             new StartOperation(FormActivity.this, token, jsonString).execute();
+//            new FindOperation(FormActivity.this, token, etCurp.getText().toString()).execute();
         } else {
             goNext();
         }
@@ -311,6 +315,36 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             }
             // other 'case' lines to check for other
             // permissions this app might request
+        }
+    }
+
+    @Override
+    public void goStep(int flowStep) {
+        switch (flowStep){
+            case 1:
+                //Paso uno es el formulario no deberia JAMAS devolver que se quedo ahi
+                break;
+            case 2:
+                Intent iId = new Intent(FormActivity.this, SelectIdTypeActivity.class);
+                startActivity(iId);
+                break;
+            case 3:
+                Intent iFace = new Intent(FormActivity.this, FaceScanActivity.class);
+                startActivity(iFace);
+                break;
+            case 4:
+                Intent iDoct = new Intent(FormActivity.this, DocumentScanActivity.class);
+                startActivity(iDoct);
+                break;
+            case 5:
+                Intent iFinger = new Intent(FormActivity.this, FingerPrintsActivity.class);
+                startActivity(iFinger);
+                break;
+            case 6:
+                Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
+                startActivity(iFirma);
+                break;
+
         }
     }
 }

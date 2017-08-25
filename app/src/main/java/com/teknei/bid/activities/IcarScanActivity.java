@@ -107,7 +107,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 //        stringCredentialType = "INE";
         modifyLayoutByIdSelected(stringCredentialType);
 
-        scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, null);
+//        scandIdOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, null);
 
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionCamera(this);

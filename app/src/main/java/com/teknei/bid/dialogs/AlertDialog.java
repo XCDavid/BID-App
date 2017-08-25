@@ -21,6 +21,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
     String titleIn;
     String menssageIn;
     int actionIn;
+    int flowStep;
 
     public AlertDialog(Activity context, String title, String message, int action) {
         super(context);
@@ -33,6 +34,33 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         this.titleIn = title;
         this.menssageIn = message;
         this.actionIn = action;
+
+        txvTitle = (TextView) findViewById(R.id.alert_title);
+        txvMessage = (TextView) findViewById(R.id.alert_message);
+        okButton = (Button) findViewById(R.id.ok_buttom);
+        cancelButton = (Button) findViewById(R.id.cancel_buttom);
+        okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
+
+        txvTitle.setText(titleIn);
+        txvMessage.setText(menssageIn);
+        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
+            okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
+        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
+            cancelButton.setVisibility(View.VISIBLE);
+    }
+    public AlertDialog(Activity context, String title, String message, int action,int flowStep) {
+        super(context);
+        activityOrigin = context;
+        /** 'Window.FEATURE_NO_TITLE' - Used to hide the title */
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        /** Design the dialog in main.xml file */
+        setContentView(R.layout.alert_dialog);
+
+        this.titleIn = title;
+        this.menssageIn = message;
+        this.actionIn = action;
+        this.flowStep = flowStep;
 
         txvTitle = (TextView) findViewById(R.id.alert_title);
         txvMessage = (TextView) findViewById(R.id.alert_message);
@@ -68,6 +96,9 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 }
                 if (actionIn == ApiConstants.ACTION_GO_NEXT) {
                     ((BaseActivity) activityOrigin).goNext();
+                }
+                if (actionIn == ApiConstants.ACTION_GO_STEP) {
+                    ((BaseActivity) activityOrigin).goStep(flowStep);
                 }
                 break;
             case R.id.cancel_buttom:

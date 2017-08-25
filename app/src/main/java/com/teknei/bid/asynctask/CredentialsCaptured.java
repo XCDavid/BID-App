@@ -283,7 +283,8 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     e.printStackTrace();
                 }
                 if (resolution) {
-                    String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+//                    String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+                    String scanAUX = "okCredentials";
                     SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
 
                     CredentialResumeDialog dialogoAlert;

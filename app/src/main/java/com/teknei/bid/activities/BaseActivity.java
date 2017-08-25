@@ -75,4 +75,8 @@ public class BaseActivity extends AppCompatActivity implements BaseAction {
     public void sendPetition() {
 
     }
+    @Override
+    public void goStep(int flowStep) {
+
+    }
 }

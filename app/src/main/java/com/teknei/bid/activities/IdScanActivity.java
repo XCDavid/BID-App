@@ -425,7 +425,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
 
         String scanSave = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
-        String scanActual = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, "");
+//        String scanActual = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_SCAN, "");
 
 //        if (!scanSave.equals("")) {}
         //BORRAR

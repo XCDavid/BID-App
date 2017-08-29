@@ -330,14 +330,15 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(iFace);
                 break;
             case 3:
-                Intent iDoct = new Intent(FormActivity.this, DocumentScanActivity.class);
-                startActivity(iDoct);
+                Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
+                startActivity(iDocu);
                 break;
             case 4:
                 Intent iFinger = new Intent(FormActivity.this, FingerPrintsActivity.class);
                 startActivity(iFinger);
                 break;
             case 5:
+            case 6:
                 Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
                 startActivity(iFirma);
                 break;

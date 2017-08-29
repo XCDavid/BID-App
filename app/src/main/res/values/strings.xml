@@ -27,9 +27,9 @@
     <string name="message_ws_no_internet">No tienes conexi\u00F3n a internet</string>
     <string name="message_ws_petition_fail">Ocurri\u00F3 un error al establecer conexi\u00F3n con el servidor</string>
     <string name="message_ws_response_fail">La operación no puede ser procesada por el servidor</string>
-    <string name="message_ws_response_300">300 - El archivo se encuentra en otra direcci\u00F3n</string>
-    <string name="message_ws_response_400">400 - La consulta no puede ser procesada</string>
-    <string name="message_ws_response_500">500 - No se pudo consultar el servidor</string>
+    <string name="message_ws_response_300">El archivo se encuentra en otra direcci\u00F3n</string>
+    <string name="message_ws_response_400">La consulta no puede ser procesada</string>
+    <string name="message_ws_response_500">No se pudo consultar el servidor</string>
     <!--Default Values strings-->
 
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
@@ -192,4 +192,7 @@
     <string name="tv_url_server_mobbsign_settings">Url servidor para firma digital</string>
     <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
 
+    <!--Serach and check operation-->
+    <string name="message_search_operation">Comprobando operación pendiente</string>
+    <string name="message_get_detail_operation">Recuperando operación pendiente</string>
 </resources>

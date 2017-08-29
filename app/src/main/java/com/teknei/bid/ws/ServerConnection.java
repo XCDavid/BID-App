@@ -56,8 +56,10 @@ public class ServerConnection {
         HttpGet httpGet = null;
         HttpDelete httpDelete = null;
 
-        Log.w("http URL SEND", "http: " + serverMethod);
-        Log.w("json SEND NO File", "json no file: " + stringJSON);
+        Log.v("method", "method: " + method);
+        Log.v("token", "token: " + token);
+        Log.v("http URL SEND", "http: " + serverMethod);
+        Log.v("json SEND NO File", "json no file: " + stringJSON);
 
         //Selecciona que tipo de metodo crear
         switch (method) {

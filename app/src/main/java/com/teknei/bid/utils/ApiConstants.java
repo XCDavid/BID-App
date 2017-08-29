@@ -23,6 +23,8 @@ public class ApiConstants {
     public static final String METHOD_PAY_CONFIRM = "rest/v1/end";
     public static final String METHOD_GET_CONTRACT = "rest/v1/contrato/";
     public static final String METHOD_SEND_CONTRACT = "rest/v1/contrato/add/";
+    public static final String METHOD_CHECK_PENDING_OPERATION = "rest/v1/step";
+    public static final String METHOD_GET_PENDING_OPERATION = "rest/v1/detail";
 
     //Strings values
     public static final String STRING_INE = "INE";

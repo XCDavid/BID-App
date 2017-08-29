@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.activities.FormActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.utils.ApiConstants;
@@ -23,6 +24,7 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
     private String token;
     private String curp;
     private int stepOperation;
+    private int operationID;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -45,7 +47,7 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(
                 activityOrigin,
-                activityOrigin.getString(R.string.message_start_operation));
+                activityOrigin.getString(R.string.message_search_operation));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
@@ -67,12 +69,19 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
             try {
                 ServerConnection serverConnection = new ServerConnection();
                 String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-//                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.METHOD_START_OPERATION, token, ServerConnection.METHOD_POST,null,"");
-//                if (arrayResponse[1] != null) {
-                    manageResponse(null);
-//                } else {
-//                    errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-//                }
+                //Construimos el JSON con el curp
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("curp", curp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonObject.toString(), endPoint + ApiConstants.METHOD_CHECK_PENDING_OPERATION, token, ServerConnection.METHOD_POST,null,"");
+                if (arrayResponse[1] != null) {
+                    manageResponse(arrayResponse);
+                } else {
+                    errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
@@ -88,132 +97,24 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
 
 
     private void manageResponse(Object arrayResponse[]) {
-//        responseJSONObject = (JSONObject) arrayResponse[0];
-//        responseStatus = (Integer) arrayResponse[1];
-        responseJSONObject = null;
-        responseStatus = 200;
+        responseJSONObject = (JSONObject) arrayResponse[0];
+        responseStatus = (Integer) arrayResponse[1];
+//        responseJSONObject = null;
+//        responseStatus = 200;
         boolean dataExist = false;
         String resultString = "";
         int operationLevel = 0;
-        String operationId = "";
+        int operationIdJson = 0;
         if (responseStatus >= 200 && responseStatus < 300) {
             try {
-//                dataExist = responseJSONObject.getBoolean("resultOK"); //Descomentar
-//                operationLevel = responseJSONObject.getInt("operationLevel");//Descomentar
-//                operationId = responseJSONObject.getString("operationId");//Descomentar
+                operationLevel = responseJSONObject.getInt("step");//Descomentar
+                operationIdJson = responseJSONObject.getInt("operationId");//Descomentar
                 dataExist = true;
-                operationLevel = Integer.valueOf(curp);
-                operationId="123";
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationId);
+//                operationLevel = Integer.valueOf(curp);
+//                operationId="123";
                 stepOperation = operationLevel;
-                switch (stepOperation){
-                    case 1:
-                        //AQUI VA SE VAN A RECIORRER LAS OPCIONES EN CASO DE QUE ME ENVIE SU PROPIA NUMERACION Y EMPIEZE A CONTAR DESDE EL UNO COMO EL PASO PARA TOMAR LAS FOTOS DE LA CREDENCIAL
-
-//                        //Datos a almacenar:
-//                        JSONObject jsonObject = new JSONObject();
-//                        try {
-////                            jsonObject.put("deviceId", phoneID);
-////                            jsonObject.put("employee", employee);
-//                            jsonObject.put("curp", curp);
-////                            jsonObject.put("email", mail);
-////                            jsonObject.put("nombre", name);
-////                            jsonObject.put("primerApellido", app1);
-////                            jsonObject.put("segundoApellido", app2);
-////                            jsonObject.put("telefono", phone);
-////                            jsonObject.put("refContrato", numContract);
-//                            //***Almacena Json con los datos del formulario
-//
-//                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject.toString());
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-                        break;
-                    case 2:
-                        //Del paso 2 en adelante hay que almacenar
-                        // 1.- el curp                                          - Ok Paso 1 ( Formulario ok -> continuo en paso 2 'Id Fotos' )
-                        // 2.- el dato SCAN_SAVE_ID de SharedPreferences        - Ok Paso 2 ( Id fotos   ok -> continuo en paso 3 'Foto face' )
-                        // 3.- el dato FACE_OPERATION de SharedPreferences      - Ok Paso 3 ( Foto face  ok -> continuo en paso 4 'Foto doc' )
-                        // 4.- el dato DOCUMENT_OPERATION de SharedPreferences  - Ok Paso 4 ( Foto doc   ok -> continuo en paso 5 'Fingerprints' )
-                        // 5.- el dato FINGERS_OPERATION de SharedPreferences   - Ok Paso 4 (Fingerprints ok -> continuo en paso 5.1 'Foto doc' )
-                        // 5.1- el dato PAY_OPERATION de SharedPreferences      - ( Pantalla Fake INE ) Es parte del paso 5 Fingerprints -> continuo en paso 6 'Ok y Firma' al terminar muestra la pantalla de operación exitosa y firma de contrato
-                        // No hay mas datos almacenados, solo hay que firmar contrato y enviarlo al server para terminar.
-
-                        // 1.
-                        JSONObject jsonObject2 = new JSONObject();
-                        try {
-                            jsonObject2.put("curp", curp);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject2.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case 3:
-                        // 1.
-                        JSONObject jsonObject3 = new JSONObject();
-                        try {
-                            jsonObject3.put("curp", curp);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject3.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // 2.
-                        String scanAUX3 = "okCredentials";
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX3);
-                        break;
-                    case 4:
-                        // 1.
-                        JSONObject jsonObject4 = new JSONObject();
-                        try {
-                            jsonObject4.put("curp", curp);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject4.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // 2.
-                        String scanAUX4 = "okCredentials";
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX4);
-                        // 3.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
-                        break;
-                    case 5:
-                        // 1.
-                        JSONObject jsonObject5 = new JSONObject();
-                        try {
-                            jsonObject5.put("curp", curp);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject5.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // 2.
-                        String scanAUX5 = "okCredentials";
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX5);
-                        // 3.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
-                        // 4.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "ok");
-                        break;
-                    case 6:
-                        // 1.
-                        JSONObject jsonObject6 = new JSONObject();
-                        try {
-                            jsonObject6.put("curp", curp);
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject6.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // 2.
-                        String scanAUX6 = "okCredentials";
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX6);
-                        // 3.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
-                        // 4.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "ok");
-                        // 5.
-                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FINGERS_OPERATION, "ok");
-                        break;
-                }
-
+                operationID = operationIdJson;
+                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationID+"");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -221,14 +122,14 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
             if (dataExist) {
                 responseOk = true;
             } else {
-                errorMessage = activityOrigin.getString(R.string.message_ws_response_fail);
+                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_fail);
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
-            errorMessage = activityOrigin.getString(R.string.message_ws_response_300);
+            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
 //            resultString = responseJSONObject.optString("resultOK");
             String errorResponse = "";
+            errorResponse = activityOrigin.getString(R.string.message_ws_response_400);
 //            if (resultString.equals("false")) {
 //                errorResponse = responseJSONObject.optString("errorMessage");
 //            }
@@ -238,7 +139,7 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
 
             errorMessage = responseStatus + " - " + errorResponse;
         } else if (responseStatus >= 500 && responseStatus < 600) {
-            errorMessage = activityOrigin.getString(R.string.message_ws_response_500);
+            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
         }
     }
 
@@ -248,18 +149,13 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
         if (hasConecction) {
             if (responseOk) {
 
-                if (stepOperation>1) { //La operacion se recupero -> continua en el paso necesario
-                    String messageResp = "La operación se recupero correctamente, seras posicionado en el último paso que quedo pendiente.";
-                    AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_STEP,stepOperation);
-                    dialogoAlert.setCancelable(false);
-                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialogoAlert.show();
+                if (stepOperation>0) { //Existe una operacion pendeinte -> ir a recuperar la info de la operacion
+                    new GetDetailFindOperation(activityOrigin, token,stepOperation, curp).execute();
                 }else{
                     ((BaseActivity) activityOrigin).sendPetition();
                 }
             } else {
-                Log.i("Message logout", "logout: " + errorMessage);
+                Log.i("Message find operation", "message: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                 dialogoAlert.setCancelable(false);
@@ -267,7 +163,7 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             }
         } else {
-            Log.i("Message logout", "logout: " + errorMessage);
+            Log.i("Message find operation", "message: " + errorMessage);
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
             dialogoAlert.setCancelable(false);

@@ -322,25 +322,22 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     public void goStep(int flowStep) {
         switch (flowStep){
             case 1:
-                //Paso uno es el formulario no deberia JAMAS devolver que se quedo ahi
-                break;
-            case 2:
                 Intent iId = new Intent(FormActivity.this, SelectIdTypeActivity.class);
                 startActivity(iId);
                 break;
-            case 3:
+            case 2:
                 Intent iFace = new Intent(FormActivity.this, FaceScanActivity.class);
                 startActivity(iFace);
                 break;
-            case 4:
+            case 3:
                 Intent iDoct = new Intent(FormActivity.this, DocumentScanActivity.class);
                 startActivity(iDoct);
                 break;
-            case 5:
+            case 4:
                 Intent iFinger = new Intent(FormActivity.this, FingerPrintsActivity.class);
                 startActivity(iFinger);
                 break;
-            case 6:
+            case 5:
                 Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
                 startActivity(iFirma);
                 break;

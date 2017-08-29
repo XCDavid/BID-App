@@ -627,4 +627,9 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

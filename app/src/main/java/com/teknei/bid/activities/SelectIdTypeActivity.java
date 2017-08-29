@@ -216,4 +216,9 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
             // permissions this app might request
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

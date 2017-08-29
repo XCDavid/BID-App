@@ -115,6 +115,11 @@ public class SharedPreferencesUtils {
         if(fileFingerJson.exists()){
             fileFingerJson.delete();
         }
+        //CONTRACT FILE
+        File fileContract = new File(Environment.getExternalStorageDirectory() + File.separator + "contract_" + operationID + ".pdf");
+        if(fileContract.exists()){
+            fileContract.delete();
+        }
         //Delete Preferences
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.OPERATION_ID);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.ID_SCAN);

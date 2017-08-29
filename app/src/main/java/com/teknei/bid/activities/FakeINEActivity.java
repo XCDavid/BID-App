@@ -186,4 +186,9 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         }
         return jsonObject.toString();
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

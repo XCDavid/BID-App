@@ -231,4 +231,9 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

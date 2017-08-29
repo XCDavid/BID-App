@@ -93,4 +93,9 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
         }
         startActivityForResult(intent, RC_MOBBSIGN);
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

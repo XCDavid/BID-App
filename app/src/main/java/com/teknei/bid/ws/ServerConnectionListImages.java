@@ -69,6 +69,8 @@ public class ServerConnectionListImages {
         Log.v("method", "method: " + method);
         Log.v("token", "token: " + token);
         Log.v("http URL SEND", "http: " + serverMethod);
+        if (files!=null)
+        Log.v("num files", "# files: " + files.size());
         Log.v("json SEND NO File", "json no file: " + stringJSON);
 
         //Selecciona que tipo de metodo crear

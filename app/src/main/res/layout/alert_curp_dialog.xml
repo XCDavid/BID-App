@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="100dp"
+    android:background="@drawable/rounded_rectangle">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCurpDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <!--<ImageView -->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/info"-->
+            <!--android:layout_margin="0dp"-->
+            <!--android:padding="5dp"-->
+            <!--/>-->
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="20dp"
+                app2:srcCompat="@drawable/ic_warning" />
+
+            <TextView
+                android:id="@+id/alert_titleCurpDialog"
+                style="@style/LargeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/title_curp_alert_dialog"
+                android:textColor="@color/text_color_white" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/alert_messageCurpDialog"
+            style="@style/NormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:maxEms="15"
+            android:text="@string/message_curp_alert_dialog"
+            android:textColor="@color/text_color_white"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#D1D6D6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel_buttomCurpDialog"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/cancel_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/ok_buttomCurpDialog"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/continue_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

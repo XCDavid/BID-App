@@ -33,10 +33,12 @@ public class BaseActivity extends AppCompatActivity implements BaseAction {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         if (!operationID.equals("")) {
-            new CancelOp(this, operationID, token, ApiConstants.ACTION_CANCEL_OPERATION).execute();
-            return;
+//            new CancelOp(this, operationID, token, ApiConstants.ACTION_CANCEL_OPERATION).execute();
+            SharedPreferencesUtils.cleanSharedPreferencesOperation(this);
+//            return;
         }
-        if (operationID.equals("")) {
+        String operationIDAux = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
+        if (operationIDAux.equals("")) {
             Intent end = new Intent(this, FormActivity.class);
             end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(end);
@@ -54,8 +56,9 @@ public class BaseActivity extends AppCompatActivity implements BaseAction {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         if (!operationID.equals("")) {
-            new CancelOp(this, operationID, token, ApiConstants.ACTION_BLOCK_CANCEL_OPERATION).execute();
-            return;
+//            new CancelOp(this, operationID, token, ApiConstants.ACTION_BLOCK_CANCEL_OPERATION).execute();
+            SharedPreferencesUtils.cleanSharedPreferencesOperation(this);
+//            return;
         }
         if (!token.equals("")) {
             new LogOut(this, token).execute();

@@ -161,8 +161,9 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String faceOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FACE_OPERATION, "");
         if (faceOperation.equals("")) {
+            fileList.clear();
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-            SharedPreferencesUtils.saveToPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.TIMESTAMP_FACE, localTime);
+//            SharedPreferencesUtils.saveToPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.TIMESTAMP_FACE, localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
@@ -217,7 +218,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(FaceScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert = new AlertDialog(FaceScanActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();

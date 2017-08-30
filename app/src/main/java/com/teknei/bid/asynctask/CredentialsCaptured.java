@@ -9,7 +9,9 @@ import android.util.Log;
 import android.widget.Switch;
 
 import com.teknei.bid.R;
+import com.teknei.bid.activities.FakeINEActivity;
 import com.teknei.bid.activities.IdScanActivity;
+import com.teknei.bid.dialogs.AlertCurpDialog;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.CredentialResumeDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
@@ -145,6 +147,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 String messageComplete = "";
                 String messageResp = "";
                 String jsonResult = "";
+                String auxCurp = "";
                 try {
                     messageComplete = responseJSONObject.getString("errorMessage");
                     String messageSplit[] = messageComplete.split("\\|");
@@ -253,7 +256,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 //                                        ocr = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_OCR);
                                     ocr = mrz;
                                     validity = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_PASSPORT_VALIDITY);
-                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP); //IFE no tiene dato curp
+                                    curp = getStringObjectJSON(dataObjectJSON, ApiConstants.ICAR_CURP);
                                     break;
                             }
                         }
@@ -261,6 +264,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             resolution = true;
                         }
                         if (resolution) {
+                            auxCurp = curp;
                             String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
                             try {
                                 JSONObject jsonData = new JSONObject(jsonString);
@@ -283,16 +287,40 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     e.printStackTrace();
                 }
                 if (resolution) {
-//                    String scanAUX = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.ID_SCAN, "");
+                    boolean errorCurp = false;
                     String scanAUX = "okCredentials";
                     SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.SCAN_SAVE_ID, scanAUX);
+                    if (!auxCurp.equals("")) {
+                        String jsonFormString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, "{}");
+                        JSONObject jsonFormObject = null;
+                        String formCurp = "";
+                        try {
+                            jsonFormObject = new JSONObject(jsonFormString);
+                            formCurp = jsonFormObject.optString("curp");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (!auxCurp.equals(formCurp)) {
+                            //Show te Warning Dialog
+                            errorCurp = true;
+                        }
 
-                    CredentialResumeDialog dialogoAlert;
-                    dialogoAlert = new CredentialResumeDialog(activityOrigin);
-                    dialogoAlert.setCancelable(false);
-                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialogoAlert.show();
+                    }
+                    if (errorCurp) {
+                        AlertCurpDialog dialogoAlert;
+                        dialogoAlert = new AlertCurpDialog(activityOrigin, "", "", ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+                    } else {
+                        CredentialResumeDialog dialogoAlert;
+                        dialogoAlert = new CredentialResumeDialog(activityOrigin);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+                    }
                 } else {
+                    errorMessage = responseStatus + " - " + "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);

@@ -8,6 +8,8 @@
     <string name="message_cancel_operation_title">Cancelar operación</string>
     <string name="message_cancel_operation">Cancelando operación</string>
     <string name="message_cancel_operation_alert">La operación actual será cancelada y regresarás a la pantalla principal\n¿Desea cancelar la operación actual?</string>
+    <string name="message_close_operation_title">Salir de la operación</string>
+    <string name="message_close_operation_alert">La operación actual será dejada pendiente y regresarás a la pantalla principal.\nPara continuar la operación ingresa el CURP de la operación pendeinte en la pantalla del formulario y da click en continuar.\n¿Deseas salir de la operación actual?</string>
     <string name="message_start_operation">Iniciando operación</string>
     <string name="message_credentials_captured">Comprobando credenciales</string>
     <string name="message_face_scan_check">Comprobando imagen</string>
@@ -134,9 +136,10 @@
     <string name="b_update_settings">Actualizar</string>
 
 
-    <!--Form strings-->
+    <!--Fake INE strings-->
     <string name="fake_ine_activity_name">Resultado: Comprobación de identificación</string>
     <string name="continue_fake_ine">Continuar</string>
+    <string name="message_get_timestamp_operation">Obteniendo tiempos</string>
     <!--Contract strings-->
     <string name="contract_activity_name">Contrato</string>
     <string name="continue_contract">Continuar</string>
@@ -195,4 +198,8 @@
     <!--Serach and check operation-->
     <string name="message_search_operation">Comprobando operación pendiente</string>
     <string name="message_get_detail_operation">Recuperando operación pendiente</string>
+
+    <!--Alert curp dialog-->
+    <string name="title_curp_alert_dialog">Aviso</string>
+    <string name="message_curp_alert_dialog">El CURP ingresado en el formulario no es el mismo recuperado de la identificación proporcionada.</string>
 </resources>

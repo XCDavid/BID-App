@@ -433,7 +433,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
             goNext();
         } else {
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-            SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS,localTime);
+//            SharedPreferencesUtils.saveToPreferencesString(IdScanActivity.this,SharedPreferencesUtils.TIMESTAMP_CREDENTIALS,localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);

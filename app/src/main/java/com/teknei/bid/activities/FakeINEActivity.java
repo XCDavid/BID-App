@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.ConfirmPayOperation;
+import com.teknei.bid.asynctask.GetTimeStamp;
 import com.teknei.bid.dialogs.INEResumeDialog;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
@@ -136,6 +137,18 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
 //        resumeDialog.setCancelable(false);
         resumeDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        //obtiene los timestamp
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String jsonFormStringAux = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.JSON_INIT_FORM, "{}");
+        String curpAux = "";
+        try {
+            JSONObject jsonFormObject = new JSONObject(jsonFormStringAux);
+            curpAux = jsonFormObject.getString("curp");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        new GetTimeStamp(FakeINEActivity.this, curpAux, operationID, token).execute();
     }
 
     @Override

@@ -153,8 +153,9 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String documentOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.DOCUMENT_OPERATION, "");
         if (documentOperation.equals("")) {
+            fileList.clear();
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-            SharedPreferencesUtils.saveToPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.TIMESTAMP_DOCUMENT, localTime);
+//            SharedPreferencesUtils.saveToPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.TIMESTAMP_DOCUMENT, localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
@@ -240,7 +241,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(DocumentScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert = new AlertDialog(DocumentScanActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();

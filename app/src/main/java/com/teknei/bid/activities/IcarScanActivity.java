@@ -311,9 +311,10 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     public void sendPetition() {
         String scanSave = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.SCAN_SAVE_ID, "");
         if (scanSave.equals("")) {
+            fileList.clear();
             String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-            SharedPreferencesUtils.saveToPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.TIMESTAMP_CREDENTIALS, localTime);
+//            SharedPreferencesUtils.saveToPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.TIMESTAMP_CREDENTIALS, localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
@@ -376,7 +377,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
             AlertDialog dialogAlert;
-            dialogAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogAlert = new AlertDialog(IcarScanActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
             dialogAlert.setCancelable(false);
             dialogAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogAlert.show();

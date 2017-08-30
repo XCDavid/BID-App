@@ -114,7 +114,6 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
 //                operationId="123";
                 stepOperation = operationLevel;
                 operationID = operationIdJson;
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationID+"");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -150,6 +149,7 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
             if (responseOk) {
 
                 if (stepOperation>0) { //Existe una operacion pendeinte -> ir a recuperar la info de la operacion
+                    SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationID+"");
                     new GetDetailFindOperation(activityOrigin, token,stepOperation, curp).execute();
                 }else{
                     ((BaseActivity) activityOrigin).sendPetition();

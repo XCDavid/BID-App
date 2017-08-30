@@ -24,4 +24,8 @@
     <color name="button_login_disabled">#B6B6B6</color>
     <color name="button_login_pressed">#4BB3FD</color>
     <color name="button_login_active">#00769F</color>
+
+
+    <!--Alert curp dialog-->
+    <color name="alert_icon">#FAA916</color>
 </resources>

@@ -204,9 +204,9 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
     public boolean validateIndexFingers() {
         boolean bitMapTake;
-        if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable()instanceof BitmapDrawable) {
+        if (bIndexLeft.getDrawable() instanceof BitmapDrawable && bIndexRight.getDrawable() instanceof BitmapDrawable) {
             bitMapTake = true;
-        }else{
+        } else {
             bitMapTake = false;
             Toast.makeText(FingerPrintsActivity.this, "Capture minimo los dos dedos índice para continuar", Toast.LENGTH_SHORT).show();
         }
@@ -340,22 +340,23 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String fingerOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERS_OPERATION, "");
         if (fingerOperation.equals("")) {
-                String localTime = PhoneSimUtils.getLocalDateAndTime();
-                SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
+            fileList.clear();
+            String localTime = PhoneSimUtils.getLocalDateAndTime();
+//            SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
 
-                String jsonString = buildJSON();
-                fileList.add(fileJson);
-                if (imageFileIndexLeft != null){
-                    fileList.add(imageFileIndexLeft);
-                }
-                if (imageFileIndexRight != null){
-                    fileList.add(imageFileIndexRight);
-                }
-                Log.d("ArrayList Files", "Files:" + fileList.size());
-                new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
-            } else {
-                goNext();
+            String jsonString = buildJSON();
+            fileList.add(fileJson);
+            if (imageFileIndexLeft != null) {
+                fileList.add(imageFileIndexLeft);
             }
+            if (imageFileIndexRight != null) {
+                fileList.add(imageFileIndexRight);
+            }
+            Log.d("ArrayList Files", "Files:" + fileList.size());
+            new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
+        } else {
+            goNext();
+        }
     }
 
     @Override
@@ -365,71 +366,71 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this,SharedPreferencesUtils.OPERATION_ID,"");
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
             jsonObject = addBase64Fingers(jsonObject);
-            if (imageFileThumbLeft != null){
+            if (imageFileThumbLeft != null) {
                 jsonObject.put("dedo1I", true);
                 fingersFileArray.add(imageFileThumbLeft);
-            }else{
+            } else {
                 jsonObject.put("dedo1I", false);
             }
-            if (imageFileThumbRight != null){
+            if (imageFileThumbRight != null) {
                 jsonObject.put("dedo1D", true);
                 fingersFileArray.add(imageFileThumbRight);
-            }else{
+            } else {
                 jsonObject.put("dedo1D", false);
             }
-            if (imageFileIndexLeft != null){
+            if (imageFileIndexLeft != null) {
                 jsonObject.put("dedo2I", true);
                 fingersFileArray.add(imageFileIndexLeft);
-            }else{
+            } else {
                 jsonObject.put("dedo2I", false);
             }
-            if (imageFileIndexRight != null){
+            if (imageFileIndexRight != null) {
                 jsonObject.put("dedo2D", true);
                 fingersFileArray.add(imageFileIndexRight);
-            }else{
+            } else {
                 jsonObject.put("dedo2D", false);
             }
-            if (imageFileMiddleLeft != null){
+            if (imageFileMiddleLeft != null) {
                 jsonObject.put("dedo3I", true);
                 fingersFileArray.add(imageFileMiddleLeft);
-            }else{
+            } else {
                 jsonObject.put("dedo3I", false);
             }
-            if (imageFileMiddleRight != null){
+            if (imageFileMiddleRight != null) {
                 jsonObject.put("dedo3D", true);
                 fingersFileArray.add(imageFileMiddleRight);
-            }else{
+            } else {
                 jsonObject.put("dedo3D", false);
             }
-            if (imageFileRingLeft != null){
+            if (imageFileRingLeft != null) {
                 jsonObject.put("dedo4I", true);
                 fingersFileArray.add(imageFileRingLeft);
-            }else{
+            } else {
                 jsonObject.put("dedo4I", false);
             }
-            if (imageFileRingRight != null){
+            if (imageFileRingRight != null) {
                 jsonObject.put("dedo4D", true);
                 fingersFileArray.add(imageFileRingRight);
-            }else{
+            } else {
                 jsonObject.put("dedo4D", false);
             }
-            if (imageFilePinkyLeft != null){
+            if (imageFilePinkyLeft != null) {
                 jsonObject.put("dedo5I", true);
                 fingersFileArray.add(imageFilePinkyLeft);
-            }else{
+            } else {
                 jsonObject.put("dedo5I", false);
             }
-            if (imageFilePinkyRight != null){
+            if (imageFilePinkyRight != null) {
                 jsonObject.put("dedo5D", true);
                 fingersFileArray.add(imageFilePinkyRight);
-            }else{
+            } else {
                 jsonObject.put("dedo5D", false);
             }
 
@@ -438,16 +439,16 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         }
 
         try {
-            Writer output ;
+            Writer output;
             fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
-            if(fileJson.exists()){
+            if (fileJson.exists()) {
                 fileJson.delete();
                 fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "fingers" + ".json");
             }
             output = new BufferedWriter(new FileWriter(fileJson));
             output.write(jsonObject.toString());
             output.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return jsonObject.toString();
@@ -613,7 +614,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(FingerPrintsActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert = new AlertDialog(FingerPrintsActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();

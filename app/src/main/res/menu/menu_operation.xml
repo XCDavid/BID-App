@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/i_close_operation_menu"
-        android:icon="@drawable/ic_cancel_menu"
+        android:icon="@drawable/ic_pause_circle"
         android:orderInCategory="100"
         android:title="Cancelar operación"
         app:showAsAction="always">

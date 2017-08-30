@@ -338,6 +338,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(iFinger);
                 break;
             case 5:
+//                Intent iFake = new Intent(FormActivity.this, FakeINEActivity.class);
+//                startActivity(iFake);
+//                break;
             case 6:
                 Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
                 startActivity(iFirma);

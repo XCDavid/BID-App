@@ -145,7 +145,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         int id = item.getItemId();
         if (id == R.id.i_close_operation_menu) {
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(SelectIdTypeActivity.this, getString(R.string.message_cancel_operation_title), getString(R.string.message_cancel_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert = new AlertDialog(SelectIdTypeActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();

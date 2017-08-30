@@ -49,7 +49,8 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
             cancelButton.setVisibility(View.VISIBLE);
     }
-    public AlertDialog(Activity context, String title, String message, int action,int flowStep) {
+
+    public AlertDialog(Activity context, String title, String message, int action, int flowStep) {
         super(context);
         activityOrigin = context;
         /** 'Window.FEATURE_NO_TITLE' - Used to hide the title */
@@ -87,9 +88,9 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 }
                 if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
                     //BORRAR
-                    ((BaseActivity) activityOrigin).goNext();
+//                    ((BaseActivity) activityOrigin).goNext();
                     //DES - COMENTAR
-//                ((BaseActivity) activityOrigin).sendPetition();
+                    ((BaseActivity) activityOrigin).sendPetition();
                 }
                 if (actionIn == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();

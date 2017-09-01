@@ -128,7 +128,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
                 ((BaseActivity) activityOrigin).goNext();
             } else {
                 AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
+                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                 dialogoAlert.setCancelable(false);
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
@@ -136,7 +136,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
         } else {
             errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
             AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
+            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
             dialogoAlert.setCancelable(false);
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();

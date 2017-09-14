@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -257,6 +258,12 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
         String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.USERNAME, "default");
         phoneID = PhoneSimUtils.getImei(this);
+
+//        if (phoneID==null){
+//            phoneID= "12345";
+//        }else if(phoneID.equals("")){
+//            phoneID= "12345";
+//        }
         //Construimos el JSON con los datos del formulario
         JSONObject jsonObject = new JSONObject();
         try {

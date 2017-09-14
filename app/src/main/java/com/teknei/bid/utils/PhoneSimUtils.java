@@ -1,6 +1,7 @@
 package com.teknei.bid.utils;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -14,8 +15,17 @@ public class PhoneSimUtils {
 
     public static String getImei(Context context) {
         TelephonyManager mTelephonyMgr = getTelephonyManager(context);
-        String imei = mTelephonyMgr.getDeviceId();
-        return imei;
+//        String imei = mTelephonyMgr.getDeviceId();
+        String deviceId = "";
+
+        if (mTelephonyMgr.getDeviceId() != null){
+            deviceId = mTelephonyMgr.getDeviceId();
+            Log.w("device ID","imei:"+deviceId);
+        }else{
+            deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            Log.w("device ID","android id:"+deviceId);
+        }
+        return deviceId;
     }
 
 //    public static String getImsi(Context context) {

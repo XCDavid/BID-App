@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/ly_section_option"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/b_continue_id_scan"
@@ -12,6 +14,15 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_top_bottom_id_scan"
         android:paddingTop="@dimen/margin_top_bottom_id_scan">
+
+        <Switch
+            android:id="@+id/sw_id_type_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textOn="@string/switch_act"
+            android:textOff="@string/switch_desc"
+            android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/tv_id_scan_instructions"
@@ -345,6 +356,44 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ly_section_camara"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/b_continue_id_scan"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_top_bottom_id_scan"
+        android:paddingTop="@dimen/margin_top_bottom_id_scan" >
+
+        <TextView
+            android:id="@+id/tv_id_scan_permission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/id_scan_message_permission"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <io.fotoapparat.view.CameraView
+                android:id="@+id/camera_view"
+                android:layout_width="400dp"
+                android:layout_height="650dp"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                tools:visibility="visible"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/b_continue_id_scan"
         android:layout_width="match_parent"
@@ -353,4 +402,5 @@
         android:background="@drawable/selector_primary_button"
         android:text="@string/continue_id_scan"
         android:textColor="@color/text_color_white" />
+
 </RelativeLayout>

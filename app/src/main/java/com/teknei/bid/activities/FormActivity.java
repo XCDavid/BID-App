@@ -3,8 +3,10 @@ package com.teknei.bid.activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import com.teknei.bid.R;
 import com.teknei.bid.asynctask.FindOperation;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.dialogs.DataValidation;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PermissionsUtils;
 import com.teknei.bid.utils.PhoneSimUtils;
@@ -45,6 +48,15 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+
+    public static final Pattern VALID_CURP_REGEX =
+            Pattern.compile("[A-Z]{1}[AEIOU]{1}[A-Z]{2}" +
+                            "[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])" +
+                            "[HM]{1}" +
+                            "(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)" +
+                            "[B-DF-HJ-NP-TV-Z]{3}" +
+                            "[0-9A-Z]{1}" +
+                            "[0-9]{1}", Pattern.CASE_INSENSITIVE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +132,14 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         PermissionsUtils.checkPermissionPhoneState(this);
         //Hide keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        etCurp.clearFocus();
+
+        if (etCurp.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
+        }
+
     }
 
     @Override
@@ -159,20 +179,46 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             }
         } else*/
         if (etCurp.getText().toString().equals("")) {
-            Toast.makeText(this, "El campo ( CURP ) es obligatorio", Toast.LENGTH_SHORT).show();
+
+            DataValidation dataValidation;
+            dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_obligatory_field_curp));
+            dataValidation.setCancelable(false);
+            dataValidation.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dataValidation.show();
+
             etCurp.clearFocus();
             if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        } /*else if (etCurp.getText().toString().length() < 18) {
-            Toast.makeText(this, "El campo ( CURP ) debe tener 18 digitos", Toast.LENGTH_SHORT).show();
+        } else if (!validateCURP(etCurp.getText().toString())) {
+
+            DataValidation dataValidation;
+            dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_error_curp_format));
+            dataValidation.setCancelable(false);
+            dataValidation.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dataValidation.show();
+
             etCurp.clearFocus();
             if (etCurp.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        } *//*else if (etPhone.getText().toString().equals("")) {
+        }/* else if (etCurp.getText().toString().length() < 18) {
+
+            DataValidation dataValidation;
+            dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_error_length_curp));
+            dataValidation.setCancelable(false);
+            dataValidation.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dataValidation.show();
+
+            etCurp.clearFocus();
+            if (etCurp.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }*/
+        /*else if (etPhone.getText().toString().equals("")) {
             Toast.makeText(this, "El campo ( Teléfono ) es obligatorio", Toast.LENGTH_SHORT).show();
             etPhone.clearFocus();
             if (etPhone.requestFocus()) {
@@ -207,6 +253,11 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    public static boolean validateCURP(String curpStr) {
+        Matcher matcher = VALID_CURP_REGEX.matcher(curpStr);
         return matcher.find();
     }
 

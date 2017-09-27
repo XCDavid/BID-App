@@ -16,6 +16,11 @@
     <string name="message_figerprints_check">Almacenando huellas dactilares</string>
     <string name="message_pay_confirm_operation">Confirmando operación</string>
 
+    <string name="message_data_validation">Validación de campo</string>
+    <string name="message_error_curp_format">El formato del campo ( CURP ) es erroneo. </string>
+    <string name="message_error_length_curp">El campo ( CURP ) debe tener 18 digitos.</string>
+    <string name="message_obligatory_field_curp">El campo ( CURP ) es obligatorio.</string>
+
     <!--LogIn Activity string-->
     <string name="tv_user_login">Usuario</string>
     <string name="tv_hint_user_login">Usuario</string>
@@ -67,6 +72,8 @@
     <string name="pasaporte_select_id_type">Pasaporte</string>
     <string name="licencia_select_id_type">Licencia</string>
     <string name="instruction_id_type">Selecciona un tipo de identificación para continuar.</string>
+    <string name="switch_act">Autofocus</string>
+    <string name="switch_desc">Manual</string>
 
     <!--Id Scan strings-->
     <string name="id_scan_activity_name">Identificación</string>
@@ -88,7 +95,7 @@
     <string name="id_scan_instructions_one_side">Toma la foto de la identificación para continuar.</string>
     <string name="instruction_clue_id_scan">Toca aquí para tomar la fotografía</string>
     <string name="result_id_scan">Resultado</string>
-
+    <string name="id_scan_message_permission">La aplicación no cuenta con permisos\npara usar la camara.</string>
 
     <!--Face Scan strings-->
     <string name="face_scan_activity_name">Fotografía</string>

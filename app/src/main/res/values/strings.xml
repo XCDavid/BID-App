@@ -96,6 +96,8 @@
     <string name="instruction_clue_id_scan">Toca aquí para tomar la fotografía</string>
     <string name="result_id_scan">Resultado</string>
     <string name="id_scan_message_permission">La aplicación no cuenta con permisos\npara usar la camara.</string>
+    <string name="id_scan_photo_side_front">Captura de Lado Frontal</string>
+    <string name="id_scan_photo_side_back">Captura de Lado Posterior</string>
 
     <!--Face Scan strings-->
     <string name="face_scan_activity_name">Fotografía</string>

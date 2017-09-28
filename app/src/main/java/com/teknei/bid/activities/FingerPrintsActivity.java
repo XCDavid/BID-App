@@ -353,6 +353,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 fileList.add(imageFileIndexRight);
             }
             Log.d("ArrayList Files", "Files:" + fileList.size());
+
             new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
         } else {
             goNext();

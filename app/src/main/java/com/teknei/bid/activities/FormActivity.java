@@ -384,13 +384,13 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(iId);
                 break;
             case 2:
-                Intent iFace = new Intent(FormActivity.this, FaceScanActivity.class);
+                /*Intent iFace = new Intent(FormActivity.this, FaceScanActivity.class);
                 startActivity(iFace);
-                break;
+                break;*/
             case 3:
-                Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
+                /*Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
                 startActivity(iDocu);
-                break;
+                break;*/
             case 4:
                 Intent iFinger = new Intent(FormActivity.this, FingerPrintsActivity.class);
                 startActivity(iFinger);
@@ -400,10 +400,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 //                startActivity(iFake);
 //                break;
             case 6:
-                Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
+                Intent iFirma = new Intent(FormActivity.this, FakeINEActivity.class);
                 startActivity(iFirma);
                 break;
-
         }
     }
 }

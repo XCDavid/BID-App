@@ -158,6 +158,7 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
 //                Intent i = new Intent(FakeINEActivity.this, PayConfirmationActivity.class);
 //                startActivity(i);
                 sendPetition();
+
                 break;
             case R.id.b_resume_fake_ine:
                 resumeDialog.show();
@@ -180,8 +181,15 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void goNext() {
-        Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
-        startActivity(i);
+        //Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
+        //startActivity(i);
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(FakeINEActivity.this);
+
+        Intent end = new Intent(FakeINEActivity.this, FormActivity.class);
+        end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(end);
+        finish();
+
     }
 
     public String buildJSON() {

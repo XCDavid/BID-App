@@ -366,6 +366,18 @@
         android:paddingTop="@dimen/margin_top_bottom_id_scan" >
 
         <TextView
+            android:id="@+id/tv_id_scan_id_photo_side"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/id_scan_photo_side_front"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
             android:id="@+id/tv_id_scan_permission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -385,10 +397,21 @@
                 android:id="@+id/camera_view"
                 android:layout_width="400dp"
                 android:layout_height="650dp"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                tools:visibility="visible"/>
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/i_take_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/selector_image_button"
+                app:srcCompat="@drawable/ic_photo_camera_v1"
+                />
 
         </RelativeLayout>
 

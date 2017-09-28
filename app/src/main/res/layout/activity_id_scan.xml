@@ -377,6 +377,17 @@
             android:gravity="center"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/tv_id_scan_id_photo_side"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/identification_frontal_id_scan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

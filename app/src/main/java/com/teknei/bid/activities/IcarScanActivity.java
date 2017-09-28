@@ -90,6 +90,9 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     TextView instructionsTV;
     LinearLayout resultLayout;
 
+    TextView            photoSideTV;
+    ImageView           takeImage;
+
     LinearLayout        optionLayout;
     LinearLayout        camaraLayout;
     CameraView          cameraView;
@@ -143,9 +146,13 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         buttonShowHideResultData.setOnClickListener(this);
         resultLayout.setVisibility(View.GONE);
 
+        photoSideTV  = (TextView)     findViewById(R.id.tv_id_scan_id_photo_side);
         camaraLayout = (LinearLayout) findViewById(R.id.ly_section_camara);
         optionLayout = (LinearLayout) findViewById(R.id.ly_section_option);
         cameraView   = (CameraView)   findViewById(R.id.camera_view);
+
+        //takeImage = (ImageView) findViewById(R.id.i_take_image);
+        //takeImage.setOnClickListener(this);
 
         // initiate a Switch
         simpleSwitch = (Switch) findViewById(R.id.sw_id_type_photo);
@@ -170,6 +177,11 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         PermissionsUtils.checkPermissionReadWriteExternalStorage(this);
 
         hasCameraPermission = PermissionsUtils.hasCameraPermission(this);
+
+        setupFotoapparat();
+        focusOnLongClick();
+        cameraView.setOnClickListener(this);
+
     }
 
     private void modifyLayoutByIdSelected(String idType) {
@@ -187,10 +199,12 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_frontal_id_scan:
+                photoSideTV.setText(R.string.identification_frontal_id_scan);
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONTAL);
                 break;
 
             case R.id.ib_posterior_id_scan:
+                photoSideTV.setText(R.string.identification_posterior_id_scan);
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
                 break;
 
@@ -240,9 +254,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                 camaraLayout.setVisibility(View.VISIBLE);
                 optionLayout.setVisibility(View.INVISIBLE);
                 cameraView.setVisibility(View.VISIBLE);
-                setupFotoapparat();
-                focusOnLongClick();
-                cameraView.setOnClickListener(this);
                 backFotoapparat.start();
             }
         }
@@ -601,9 +612,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                         optionLayout.setVisibility(View.VISIBLE);
 
                     }
-
-
-
                 });
     }
 

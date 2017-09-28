@@ -151,8 +151,8 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         optionLayout = (LinearLayout) findViewById(R.id.ly_section_option);
         cameraView   = (CameraView)   findViewById(R.id.camera_view);
 
-        //takeImage = (ImageView) findViewById(R.id.i_take_image);
-        //takeImage.setOnClickListener(this);
+        takeImage = (ImageView) findViewById(R.id.i_take_image);
+        takeImage.setOnClickListener(this);
 
         // initiate a Switch
         simpleSwitch = (Switch) findViewById(R.id.sw_id_type_photo);
@@ -180,7 +180,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
         setupFotoapparat();
         focusOnLongClick();
-        cameraView.setOnClickListener(this);
 
     }
 
@@ -218,7 +217,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
 
-            case R.id.camera_view:
+            case R.id.i_take_image:
 
                 takePicture();
 
@@ -622,4 +621,11 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backFotoapparat.isAvailable() && camaraLayout.getVisibility() == View.VISIBLE) {
+            backFotoapparat.stop();
+        }
+        super.onBackPressed();
+    }
 }

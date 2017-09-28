@@ -401,6 +401,17 @@
                 android:layout_centerHorizontal="true"
                 tools:visibility="visible"/>
 
+            <ImageView
+                android:id="@+id/i_take_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/selector_image_button"
+                app:srcCompat="@drawable/ic_photo_camera_v1"
+                />
+
         </RelativeLayout>
 
     </LinearLayout>

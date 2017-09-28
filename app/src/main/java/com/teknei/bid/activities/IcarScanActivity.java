@@ -181,8 +181,6 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
         setupFotoapparat();
         focusOnLongClick();
-        cameraView.setOnClickListener(this);
-
     }
 
     private void modifyLayoutByIdSelected(String idType) {
@@ -435,7 +433,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void goNext() {
-        Intent i = new Intent(IcarScanActivity.this, FingerPrintsActivity.class);
+        Intent i = new Intent(IcarScanActivity.this, FaceScanActivity.class);
         startActivity(i);
     }
 
@@ -516,7 +514,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     private Fotoapparat createFotoapparat(LensPosition position) {
         Log.d ("ICARScanActivity","createFotoapparat");
         return Fotoapparat.with(this).into(cameraView).previewScaleType(ScaleType.CENTER_CROP)
-                .photoSize(standardRatio(smallestSize()))
+                .photoSize(standardRatio(biggestSize()))
                 .lensPosition(lensPosition(position))
                 .focusMode(firstAvailable(continuousFocus(), autoFocus(), fixed()))
                 .flash(firstAvailable(autoRedEye(), autoFlash(), torch(), off()))
@@ -532,6 +530,8 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void takePicture() {
+        backFotoapparat.focus();
+
         PhotoResult photoResult = backFotoapparat.takePicture();
 
         photoResult.toBitmap(scaled(0.25f)).whenAvailable(new PendingResult.Callback<BitmapPhoto>() {

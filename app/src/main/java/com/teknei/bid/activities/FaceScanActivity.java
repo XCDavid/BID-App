@@ -176,7 +176,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void goNext() {
-        Intent i = new Intent(FaceScanActivity.this, DocumentScanActivity.class);
+        Intent i = new Intent(FaceScanActivity.this, FingerPrintsActivity.class);
         startActivity(i);
     }
 

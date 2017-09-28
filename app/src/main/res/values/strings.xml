@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Enrolamiento</string>
+    <string name="app_name">Enrolamiento\nExpress</string>
     <!--LogIn LogOut Load Strings-->
     <string name="get_user_log_in">Autenticando</string>
     <string name="message_log_out">Saliendo</string>

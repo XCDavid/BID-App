@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentCallbacks2;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,15 +38,32 @@ public class ScanActivity extends Activity implements IScanner, ComponentCallbac
 
     @Override
     public void onBitmapSelect(Uri uri) {
-        ScanFragment fragment = new ScanFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ScanConstants.SELECTED_BITMAP, uri);
-        fragment.setArguments(bundle);
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content, fragment);
-        fragmentTransaction.addToBackStack(ScanFragment.class.toString());
-        fragmentTransaction.commit();
+        //ScanFragment fragment = new ScanFragment();
+        //Bundle bundle = new Bundle();
+        //bundle.putParcelable(ScanConstants.SELECTED_BITMAP, uri);
+        //fragment.setArguments(bundle);
+        //android.app.FragmentManager fragmentManager = getFragmentManager();
+        //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.add(R.id.content, fragment);
+        //fragmentTransaction.addToBackStack(ScanFragment.class.toString());
+        //fragmentTransaction.commit();
+
+        try {
+            Intent data = new Intent();
+
+            data.putExtra(ScanConstants.SCANNED_RESULT, uri);
+            this.setResult(Activity.RESULT_OK, data);
+            System.gc();
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //dismissDialog();
+                    finish();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

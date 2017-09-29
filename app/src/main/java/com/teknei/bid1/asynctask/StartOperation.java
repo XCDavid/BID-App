@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teknei.bid1.R;
+import com.teknei.bid1.activities.BaseActivity;
 import com.teknei.bid1.activities.LogInActivity;
 import com.teknei.bid1.dialogs.AlertDialog;
 import com.teknei.bid1.dialogs.ProgressDialog;
@@ -136,7 +137,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
                 }
                 SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationINT+"");
 
-                ((LogInActivity) activityOrigin).selectionActivity();
+                ((BaseActivity) activityOrigin).goNextTwo();
 
                 //AlertDialog dialogoAlert;
                 //dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);

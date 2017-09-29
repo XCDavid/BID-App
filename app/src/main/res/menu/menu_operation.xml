@@ -6,7 +6,8 @@
         android:icon="@drawable/ic_pause_circle"
         android:orderInCategory="100"
         android:title="Cancelar operación"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:visible="false">
     </item>
     <item
         android:id="@+id/main_options_action"

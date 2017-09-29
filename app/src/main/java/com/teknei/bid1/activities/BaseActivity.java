@@ -91,4 +91,11 @@ public class BaseActivity extends AppCompatActivity implements BaseAction {
     public void goStep(int flowStep) {
 
     }
+
+    @Override
+    public void goNextTwo() {
+
+    }
+
+
 }

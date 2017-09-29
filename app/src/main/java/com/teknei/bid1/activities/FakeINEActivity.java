@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.teknei.bid1.R;
 import com.teknei.bid1.asynctask.ConfirmPayOperation;
 import com.teknei.bid1.asynctask.GetTimeStamp;
+import com.teknei.bid1.asynctask.StartOperation;
 import com.teknei.bid1.dialogs.INEResumeDialog;
+import com.teknei.bid1.utils.PhoneSimUtils;
 import com.teknei.bid1.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
@@ -177,19 +179,6 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    public void goNext() {
-        //Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
-        //startActivity(i);
-        SharedPreferencesUtils.cleanSharedPreferencesOperation(FakeINEActivity.this);
-
-        Intent end = new Intent(FakeINEActivity.this, FormActivity.class);
-        end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(end);
-        finish();
-
-    }
-
     public String buildJSON() {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         //Construimos el JSON
@@ -207,7 +196,72 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    public void goNext() {
+        //Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
+        //startActivity(i);
+//        SharedPreferencesUtils.cleanSharedPreferencesOperation(FakeINEActivity.this);
+//
+//        Intent end = new Intent(FakeINEActivity.this, SelectIdTypeActivity.class);
+//        end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(end);
+//        finish();
+        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
+        String jsonString = buildJSON2();
+        new StartOperation(FakeINEActivity.this, token, jsonString).execute();
+    }
+
+    public String buildJSON2() {
+        String name  = "NOMBRE";
+        String app1  = "AP1";
+        String app2  = "AP2";
+        String curp  = randomCURP() + "";
+        String mail  = "MAIL";
+        String phone = "PHONE";
+        String numContract = "123";
+        String phoneID = PhoneSimUtils.getImei(this);
+
+        String employee = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.USERNAME, "default");
+
+        //Construimos el JSON con los datos del formulario
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("deviceId", phoneID);
+            jsonObject.put("employee", employee);
+            jsonObject.put("curp", curp);
+            jsonObject.put("email", mail);
+            jsonObject.put("nombre", name);
+            jsonObject.put("primerApellido", app1);
+            jsonObject.put("segundoApellido", app2);
+            jsonObject.put("telefono", phone);
+            jsonObject.put("refContrato", numContract);
+            //***Almacena Json con los datos del formulario
+            SharedPreferencesUtils.saveToPreferencesString(this, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    public int randomCURP () {
+        int dig7 = new Random().nextInt(9000000)+1000000;
+        return dig7;
+    }
+
+    @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+    }
+
+    @Override
+    public void goNextTwo() {
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(FakeINEActivity.this);
+
+        Intent end = new Intent(FakeINEActivity.this, SelectIdTypeActivity.class);
+        end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(end);
+        finish();
     }
 }

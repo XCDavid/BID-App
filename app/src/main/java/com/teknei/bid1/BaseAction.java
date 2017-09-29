@@ -10,4 +10,5 @@ public interface BaseAction {
     void sendPetition();
     void cancelOperation();
     void goStep(int flowStep);
+    void goNextTwo();
 }

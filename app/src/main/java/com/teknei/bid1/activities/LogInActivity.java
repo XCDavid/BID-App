@@ -147,9 +147,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         return dig7;
     }
 
-    public void selectionActivity () {
+    @Override
+    public void goNextTwo() {
         Intent i = new Intent(LogInActivity.this, SelectIdTypeActivity.class);
         startActivity(i);
     }
-
 }

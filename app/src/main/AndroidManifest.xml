@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.teknei.bid">
+    package="com.teknei.bid1">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.LogInActivity"
+            android:name="com.teknei.bid1.activities.LogInActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,44 +29,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.IdScanActivity"
+            android:name="com.teknei.bid1.activities.IdScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.IcarScanActivity"
+            android:name="com.teknei.bid1.activities.IcarScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.FaceScanActivity"
+            android:name="com.teknei.bid1.activities.FaceScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.FingerPrintsActivity"
+            android:name="com.teknei.bid1.activities.FingerPrintsActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".activities.DocumentScanActivity"
+            android:name="com.teknei.bid1.activities.DocumentScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SelectIdTypeActivity"
+            android:name="com.teknei.bid1.activities.SelectIdTypeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PayConfirmationActivity"
+            android:name="com.teknei.bid1.activities.PayConfirmationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.FormActivity"
+            android:name="com.teknei.bid1.activities.FormActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ResultOperationActivity"
+            android:name="com.teknei.bid1.activities.ResultOperationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.teknei.bid1.activities.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ConsultActivity"
+            android:name="com.teknei.bid1.activities.ConsultActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.BaseActivity" />
+        <activity android:name="com.teknei.bid1.activities.BaseActivity" />
         <activity
-            android:name=".activities.FakeINEActivity"
+            android:name="com.teknei.bid1.activities.FakeINEActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".mobbsign.MobbSignActivity"
+            android:name="com.teknei.bid1.mobbsign.MobbSignActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme" />
     </application>

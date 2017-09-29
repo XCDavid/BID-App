@@ -191,7 +191,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else if (!validateCURP(etCurp.getText().toString())) {
+        }/* else if (!validateCURP(etCurp.getText().toString())) {
 
             DataValidation dataValidation;
             dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_error_curp_format));
@@ -204,7 +204,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
             }
-        }/* else if (etCurp.getText().toString().length() < 18) {
+        } else if (etCurp.getText().toString().length() < 18) {
 
             DataValidation dataValidation;
             dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_error_length_curp));

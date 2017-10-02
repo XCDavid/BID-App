@@ -304,8 +304,13 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
                     }
                     if (errorCurp) {
-                        AlertCurpDialog dialogoAlert;
-                        dialogoAlert = new AlertCurpDialog(activityOrigin, "", "", ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+//                        AlertCurpDialog dialogoAlert;
+//                        dialogoAlert = new AlertCurpDialog(activityOrigin, "", "", ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+//                        dialogoAlert.setCancelable(false);
+//                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//                        dialogoAlert.show();
+                        CredentialResumeDialog dialogoAlert;
+                        dialogoAlert = new CredentialResumeDialog(activityOrigin);
                         dialogoAlert.setCancelable(false);
                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                         dialogoAlert.show();

@@ -44,10 +44,21 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
-        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
-            okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
-        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
+
+        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
+                    actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
+            okButton.setText    (activityOrigin.getString(R.string.message_ws_tray_again));
+
+        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ) {
+
             cancelButton.setVisibility(View.VISIBLE);
+
+        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
+
+            cancelButton.setVisibility(View.VISIBLE);
+            cancelButton.setText(activityOrigin.getString(R.string.continue_message_dialog));
+
+        }
     }
 
     public AlertDialog(Activity context, String title, String message, int action, int flowStep) {
@@ -86,6 +97,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).logOut();
                 }
+
                 if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
                     //BORRAR
 //                    ((BaseActivity) activityOrigin).goNext();
@@ -104,6 +116,11 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 break;
             case R.id.cancel_buttom:
                 dismiss();
+
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
+                    ((BaseActivity) activityOrigin).goNext();
+                }
+
                 break;
         }
     }

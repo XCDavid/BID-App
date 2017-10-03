@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.common.api.Api;
 import com.teknei.bid.R;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
@@ -18,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StartOperation extends AsyncTask<String, Void, Void> {
+
     //    private String newToken;
     private String token;
     private String jsonS;
@@ -89,32 +91,47 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
         responseJSONObject = (JSONObject) arrayResponse[0];
         responseStatus = (Integer) arrayResponse[1];
         boolean dataExist = false;
+        int     msgError  = 0;
         String resultString = "";
-        if (responseStatus >= 200 && responseStatus < 300) {
+
+        Log.d("RESPUESTA WEB SERVICES", "-----"+responseStatus +"-----");
+
+        if ((responseStatus >= 200 && responseStatus < 300)) {
             try {
                 dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                msgError  = responseJSONObject.getInt    ("errorMessage");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (dataExist) {
+
                 responseOk = true;
+
             } else {
-                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_fail);
+
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
-//            resultString = responseJSONObject.optString("resultOK");
-            String errorResponse = "";
-//            if (resultString.equals("false")) {
-//                errorResponse = responseJSONObject.optString("errorMessage");
-//            }
+            //errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
+            //resultString = responseJSONObject.optString("resultOK");
+            //String errorResponse = "";
+            //if (resultString.equals("false")) {
+            //errorResponse = responseJSONObject.optString("errorMessage");
+            //}
             if (responseStatus == 422){
-                errorResponse = responseStatus + " - " + responseJSONObject.optString("errorMessage");
-            }
+                try {
+                    dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                    msgError  = responseJSONObject.getInt    ("errorMessage");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-            errorMessage = responseStatus + " - " + errorResponse;
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+            }
         } else if (responseStatus >= 500 && responseStatus < 600) {
             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
         }

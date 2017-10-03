@@ -103,16 +103,26 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
         responseStatus = (Integer) arrayResponse[1];
         boolean dataExist = false;
         String resultString = "";
-        if (responseStatus >= 200 && responseStatus < 300) {
+        int     msgError  = 0;
+
+        Log.d("RESPUESTA WEB SERVICES", "-----"+responseStatus +"-----");
+
+        if ((responseStatus >= 200 && responseStatus < 300)) {
             try {
                 dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                msgError  = responseJSONObject.getInt    ("errorMessage");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (dataExist) {
+
                 responseOk = true;
+
             } else {
-                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_fail);
+
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
 
@@ -120,19 +130,28 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
 
         } else if (responseStatus >= 400 && responseStatus < 500) {
 
-//            errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
-            resultString = responseJSONObject.optString("resultOK");
-            String errorResponse = "Credencial no reconocida.";
-            if (resultString.equals("false")) {
-                errorResponse = responseJSONObject.optString("errorMessage");
-                if (errorResponse.equals("JSONObject[\"document\"] not found.")) {
-                    errorResponse = "Credencial no reconocida.\nCaptura de nuevo la identificación e intentalo otra vez.";
-                }
-            }
+            //errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
+            //resultString = responseJSONObject.optString("resultOK");
+            //String errorResponse = "Credencial no reconocida.";
+
+            //if (resultString.equals("false")) {
+            //    errorResponse = responseJSONObject.optString("errorMessage");
+            //    if (errorResponse.equals("JSONObject[\"document\"] not found.")) {
+            //        errorResponse = "Credencial no reconocida.\nCaptura de nuevo la identificación e intentalo otra vez.";
+            //    }
+            //}
+
             if (responseStatus == 422) {
-                errorResponse = "La fotografía es de mala calidad.\nCaptura de nuevo la identificación e intentalo otra vez.";
+                try {
+                    dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                    msgError  = responseJSONObject.getInt    ("errorMessage");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+            } else {
+                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
             }
-            errorMessage = responseStatus + " - " + errorResponse;
 
         } else if (responseStatus >= 500 && responseStatus < 600) {
             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);

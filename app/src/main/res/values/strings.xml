@@ -37,8 +37,25 @@
     <string name="message_ws_response_300">El archivo se encuentra en otra direcci\u00F3n</string>
     <string name="message_ws_response_400">La consulta no puede ser procesada</string>
     <string name="message_ws_response_500">No se pudo consultar el servidor</string>
-    <!--Default Values strings-->
 
+    <!--Server strings errors-->
+    <string name="message_ws_response_10001">Error al digitalizar o verificar\nel documento identificativo</string>
+    <string name="message_ws_response_10002">Error al almacenar el documento\nidentificativo en expediente digital</string>
+    <string name="message_ws_response_10003">Error al presistir proceso identificativo\nsobre Base de Datos</string>
+
+    <string name="message_ws_response_20001">Error al almacenar fotografia facial en expediente digital</string>
+    <string name="message_ws_response_20002">Error al persistir proceso de captura facial\nsobre Base de Datos</string>
+
+    <string name="message_ws_response_30001">Error al digitalizar o verificar el comprobante de domicilio</string>
+    <string name="message_ws_response_30002">Error al lamacenar comprobante de domicilio en expediente digital</string>
+    <string name="message_ws_response_30003">Error al persistir proceso de comprobante de domicilio sobre Base de Datos</string>
+
+    <string name="message_ws_response_40001">Error al almacenar minucias dactilares en expediente digital</string>
+    <string name="message_ws_response_40002">Error al almacenar minucias dactilares y facilaes en Motor Biométrico</string>
+    <string name="message_ws_response_40003">Error, biométricos dactilares o faciales duplicados</string>
+    <string name="message_ws_response_40004">Error al persistir proceso de registro\nBiométrico sobre Base de Datos</string>
+
+    <!--Default Values strings-->
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
     <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
     <string name="default_url_teknei">http://192.168.1.200:28080/BIDServer/</string>

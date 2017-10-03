@@ -95,21 +95,41 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
         responseStatus = (Integer) arrayResponse[1];
         boolean dataExist = false;
         String resultString = "";
-        if (responseStatus >= 200 && responseStatus < 300) {
+        int     msgError  = 0;
+
+        Log.d("RESPUESTA WEB SERVICES", "-----"+responseStatus +"-----");
+
+        if ((responseStatus >= 200 && responseStatus < 300)) {
             try {
                 dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                msgError  = responseJSONObject.getInt    ("errorMessage");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (dataExist) {
+
                 responseOk = true;
+
             } else {
-                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_fail);
+
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+
             }
         } else if (responseStatus >= 300 && responseStatus < 400) {
             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
         } else if (responseStatus >= 400 && responseStatus < 500) {
-            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
+            if (responseStatus == 422) {
+                try {
+                    dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
+                    msgError  = responseJSONObject.getInt    ("errorMessage");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                errorMessage = ApiConstants.managerErrorServices (msgError,activityOrigin);
+            } else {
+                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
+            }
         } else if (responseStatus >= 500 && responseStatus < 600) {
             resultString = responseJSONObject.optString("resultOK");
             String errorResponse = "";

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.morpho.contactless.view.activity.BaseFingerCameraActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_CameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <morpho.urt.msc.mscengine.MorphoSurfaceView
+            android:id="@+id/morpho_surface_view_finger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/finger_template"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_fingerprint_template"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

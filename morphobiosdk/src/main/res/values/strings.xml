@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Morpho MRZ</string>
+    <string name="loading_capture">Loading capture handler...</string>
+    <string name="loading_matcher">Loading matcher handler...</string>
+
+    <string name="label_doc_info_blur">BLUR detected</string>
+    <string name="label_doc_info_bad_framing">Bad framing detected</string>
+    <string name="label_doc_info_star_still">Start point and shoot capture</string>
+    <string name="label_doc_info_end_still">Point and shoot capture done</string>
+    <string name="label_image_is_to_close">Image is too close</string>
+    <string name="label_image_is_to_far">Image is too far</string>
+</resources>

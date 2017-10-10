@@ -54,5 +54,6 @@
     <dimen name="vertical_top_separator_pay_confirm">10dp</dimen>
     <dimen name="vertical_separator_pay_confirm">30dp</dimen>
     <dimen name="horizontal_margin_pay_confirm">20dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

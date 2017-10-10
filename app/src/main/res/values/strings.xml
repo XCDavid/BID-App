@@ -143,6 +143,12 @@
     <string name="toggle_ok_pay_confirm">Ok</string>
     <string name="toggle_error_pay_confirm">Error</string>
 
+    <!--Finger BioSDK string -->
+    <string name="bio_sdk_activity_name">Huellas Dactilares</string>
+    <string name="bio_sdk_continue">Continuar</string>
+    <string name="bio_sdk_message_right">Toma de huellas mano derecha.</string>
+    <string name="bio_sdk_message_left">Toma de huellas mano izquierda.</string>
+
     <!--Result operation strings-->
     <string name="result_operation_activity_name">Resultado</string>
     <string name="end_result_operation">Terminar</string>
@@ -226,4 +232,5 @@
     <!--Alert curp dialog-->
     <string name="title_curp_alert_dialog">Aviso</string>
     <string name="message_curp_alert_dialog">El CURP ingresado en el formulario no es el mismo recuperado de la identificación proporcionada.</string>
+    <string name="title_activity_finger_bio_sdk">FingerBioSdkActivity</string>
 </resources>

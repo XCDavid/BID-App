@@ -1,0 +1,90 @@
+ext{
+    /// ==================== Libs Versions ====================== ///
+    ANDROID_SUPPORT_VERSION = '25.3.1'
+    RETROFIT_VERSION = '2.3.0'
+    BUTTERKNIFE_VERSION = '8.6.0'
+    CONSTRAINT_LAYOUT_VERSION = '1.0.2'
+    JUNIT_VERSION = '4.12'
+    KOTLIN_VERSION = '1.1.2-4'
+    SCANBOT_VERSION = '1.22.3'
+    PLAY_SERVICES_VERSION = '11.0.2'
+    GPU_IMAGE_VERSION = '1.4.1'
+    OK_HTTP_VERSION = '3.4.2'
+    CALIGRAPHY_VERSION = '2.2.0'
+
+    // Libs Versions for TESTING
+    SUPPORT_TEST_VERSION = '0.5'
+    UI_AUTOMATOR_VERSION = '2.1.2'
+    BUILD_VERSION = '25.0.3'
+    SQL_CIPHER_VERSION = '3.5.2'
+
+
+    /// ========================= PACKAGES ======================= ///
+    supportPackage = 'com.android.support'
+    supportPackageTest = 'com.android.support.test'
+
+    // Butterfknife
+    jakeWhartonPackage = 'com.jakewharton'
+
+    // TESTING
+    junitPackage = 'junit'
+
+    // KOTLIN
+    kotlinPackage = 'org.jetbrains.kotlin'
+
+    // Scanbot
+    scanbotPackage = 'io.scanbot'
+
+    // Play Services
+    playServices = 'com.google.android.gms'
+
+    // cyberagent
+    cyberAgentPackage = 'jp.co.cyberagent.android.gpuimage'
+
+    //ok Http
+    okHttpPackage = 'com.squareup.okhttp3'
+
+    // Caligraphy
+    caligraphyPackage = 'uk.co.chrisjenx'
+
+    // SQL Cipher
+    sqlCipherPackage = 'net.zetetic'
+
+    //Support Libraries dependencies
+    supportDependencies = [
+            design              : buildDependency(supportPackage, 'design', ANDROID_SUPPORT_VERSION),
+            appCompat           : buildDependency(supportPackage, 'appcompat-v7', ANDROID_SUPPORT_VERSION),
+            supportAnnotation   : buildDependency(supportPackage, 'support-annotations', ANDROID_SUPPORT_VERSION),
+            constraintLayout    : buildDependency(supportPackage + '.constraint', 'constraint-layout', CONSTRAINT_LAYOUT_VERSION),
+            percent             : buildDependency(supportPackage, 'percent', ANDROID_SUPPORT_VERSION),
+            supportv4           : buildDependency(supportPackage, 'support-v4', ANDROID_SUPPORT_VERSION),
+
+            // TESTING
+            runner              : buildDependency(supportPackageTest , 'runner', SUPPORT_TEST_VERSION),
+            rules               : buildDependency(supportPackageTest , 'rules', SUPPORT_TEST_VERSION),
+            uiautomator              : buildDependency(supportPackageTest + ".uiautomator" , 'uiautomator-v18', UI_AUTOMATOR_VERSION),
+    ]
+
+
+    //Testing
+    testingDependencies = [
+            junit      : buildDependency(junitPackage, 'junit', JUNIT_VERSION),
+    ]
+
+    playServices = [
+            gms     : buildDependency(playServices, 'play-services-vision', PLAY_SERVICES_VERSION)
+    ]
+
+    butterknife = buildDependency(jakeWhartonPackage, 'butterknife', BUTTERKNIFE_VERSION)
+    butterknifeProcessor = buildDependency(jakeWhartonPackage, 'butterknife-compiler', BUTTERKNIFE_VERSION)
+    kotlin = buildDependency(kotlinPackage, 'kotlin-stdlib-jre7', KOTLIN_VERSION )
+    scanbot = buildDependency(scanbotPackage, 'sdk-package-2' , SCANBOT_VERSION )
+    gpuImage = buildDependency(cyberAgentPackage, 'gpuimage-library', GPU_IMAGE_VERSION)
+    okhttp3 = buildDependency(okHttpPackage, 'okhttp', OK_HTTP_VERSION)
+    caligraphy = buildDependency(caligraphyPackage,'calligraphy',CALIGRAPHY_VERSION)
+    sqlcipher = buildDependency(sqlCipherPackage, 'android-database-sqlcipher', SQL_CIPHER_VERSION)
+}
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}

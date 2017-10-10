@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.teknei.bid">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +10,38 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="true" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+
+    <!-- Define new permissions >
+    <permission
+        android:name="com.teknei.bid.NEW_READ_LKMS_LICENSE_PROVIDER"
+        android:protectionLevel="signature" /> <unless otherwise required, set the maximum security permission -->
+    <!--permission
+        android:name="com.teknei.bid.NEW_WRITE_LKMS_LICENSE_PROVIDER"
+        android:protectionLevel="signature" /> <unless otherwise required, set the maximum security permission -->
+
+    <!--permission
+        android:name="com.teknei.bid.NEW_READ_MPH_BIO_SDK_PROVIDER"
+        android:protectionLevel="signature" /> <unless otherwise required, set the maximum security permission -->
+    <!--permission
+        android:name="com.teknei.bid.NEW_WRITE_MPH_BIO_SDK_PROVIDER"
+        android:protectionLevel="signature" /> < unless otherwise required, set the maximum security permission -->
+
+    <!-- Remove old permissions -->
+    <!--permission
+        android:name="com.morpho.mph_bio_sdk.android.sdk.content_provider.BioStoreProvider.READ_MPH_BIO_SDK_PROVIDER"
+        tools:node="remove" /> < unless otherwise required, set the maximum security permission -->
+    <!--permission
+        android:name="com.morpho.mph_bio_sdk.android.sdk.content_provider.BioStoreProvider.WRITE_MPH_BIO_SDK_PROVIDER"
+        tools:node="remove" /> < unless otherwise required, set the maximum security permission -->
+
+    <!--permission
+        android:name="com.morpho.lkms.android.sdk.lkms_core.content_provider.LkmsStoreProvider.WRITE_LKMS_LICENSE_PROVIDER"
+        tools:node="remove" />
+    <permission
+        android:name="com.morpho.lkms.android.sdk.lkms_core.content_provider.LkmsStoreProvider.READ_LKMS_LICENSE_PROVIDER"
+        tools:node="remove" /-->
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -19,6 +51,7 @@
         android:roundIcon="@drawable/movi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.LogInActivity"
             android:screenOrientation="portrait">
@@ -28,6 +61,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.IdScanActivity"
             android:screenOrientation="portrait" />
@@ -64,11 +98,30 @@
         <activity android:name=".activities.BaseActivity" />
         <activity
             android:name=".activities.FakeINEActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mobbsign.MobbSignActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".activities.FingerBioSdkActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Providers >
+        <provider
+            android:name="com.morpho.mph_bio_sdk.android.sdk.content_provider.BioStoreProvider"
+            android:authorities="com.teknei.bid.sample_app.bio_store"
+            android:readPermission="com.teknei.bid.NEW_READ_MPH_BIO_SDK_PROVIDER"
+            android:writePermission="com.teknei.bid.NEW_WRITE_MPH_BIO_SDK_PROVIDER"
+            tools:replace="android:authorities, android:readPermission, android:writePermission" />
+        <provider
+            android:name="com.morpho.lkms.android.sdk.lkms_core.content_provider.LkmsStoreProvider"
+            android:authorities="com.teknei.bid.lkms"
+            android:readPermission="com.teknei.bid.NEW_READ_LKMS_LICENSE_PROVIDER"
+            android:writePermission="com.teknei.bid.NEW_WRITE_LKMS_LICENSE_PROVIDER"
+            tools:replace="android:authorities, android:readPermission, android:writePermission" /-->
+
     </application>
 
 </manifest>

@@ -33,11 +33,11 @@ android {
         maven { url 'https://jitpack.io' }
     }
 
-    sourceSets.main
-            {
-                jni.srcDirs = []
-                jniLibs.srcDir 'src/main/jniLibs'
-            }
+    //sourceSets.main
+    //        {
+    //            jni.srcDirs = []
+    //            jniLibs.srcDir 'src/main/jniLibs'
+    //        }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -98,10 +98,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':scanlibrary')
-
-    compile(name:"AndroidBiometricSDK-4.3.0-biometry_document",ext:'aar')
-
-    compile(name:"lkms_core-1.2.5",ext:'aar')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 

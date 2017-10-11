@@ -1,4 +1,4 @@
-apply from: 'gradle-scripts/dependencies.gradle'
+apply from:   'gradle-scripts/dependencies.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
@@ -21,7 +21,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi"
         }
 
     }
@@ -58,18 +58,22 @@ class FileFilter implements FilenameFilter {
 }
 
 dependencies {
-    File srcDir
-    FileCollection collection = files { srcDir.listFiles(new FileFilter()) }
-    srcDir = file('libs')
-    collection.collect { relativePath(it) }.sort().each {
-        if (it.endsWith("aar")) {
-            compile(name: it.replaceFirst(~/\.[^\.]+$/, '').replaceFirst(/libs[\/\\]/, ''), ext: 'aar')
-        }
-    }
+    //File srcDir
+    //FileCollection collection = files { srcDir.listFiles(new FileFilter()) }
+    //srcDir = file('libs')
+    //collection.collect { relativePath(it) }.sort().each {
+    //    if (it.endsWith("aar")) {
+    //        compile(name: it.replaceFirst(~/\.[^\.]+$/, '').replaceFirst(/libs[\/\\]/, ''), ext: 'aar')
+    //    }
+    //}
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    compile(name: "AndroidBiometricSDK-4.3.0-biometry_document", ext: 'aar')
+    compile(name: "lkms_core-1.2.5", ext: 'aar')
 
     // Android
     compile supportDependencies.appCompat

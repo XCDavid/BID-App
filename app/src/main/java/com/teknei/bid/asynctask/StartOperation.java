@@ -145,19 +145,22 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
                 int operationINT=-1;
                 String messageResp = "";
                 try {
-                    operationINT = responseJSONObject.getInt("operationId");
-                    messageResp = responseJSONObject.getString("errorMessage");
+                    operationINT = responseJSONObject.getInt   ("operationId");
+                    messageResp  = responseJSONObject.getString("errorMessage");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationINT+"");
 
+                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationINT+"");
+                Log.i("Message logout", "logout: " + messageResp);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);
                 dialogoAlert.setCancelable(false);
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
+
             } else {
+
                 Log.i("Message logout", "logout: " + errorMessage);
                 AlertDialog dialogoAlert;
                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
@@ -166,6 +169,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
                 dialogoAlert.show();
             }
         } else {
+
             Log.i("Message logout", "logout: " + errorMessage);
             AlertDialog dialogoAlert;
             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);

@@ -42,18 +42,19 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
-        txvTitle.setText(titleIn);
+        txvTitle.setText  (titleIn);
         txvMessage.setText(menssageIn);
 
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
                     actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
             okButton.setText    (activityOrigin.getString(R.string.message_ws_tray_again));
 
-        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ) {
+        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ||
+                actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL ) {
 
             cancelButton.setVisibility(View.VISIBLE);
 
-        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
+        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
 
             cancelButton.setVisibility(View.VISIBLE);
             cancelButton.setText(activityOrigin.getString(R.string.continue_message_dialog));
@@ -117,7 +118,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
             case R.id.cancel_buttom:
                 dismiss();
 
-                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
                     ((BaseActivity) activityOrigin).goNext();
                 }
 

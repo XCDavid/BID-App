@@ -151,9 +151,12 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         morphoDevice = new MorphoDevice();
         // ---------- Aqui se inicia la conexion con el lector(ya no se hace en el metodo mso1300
         USBManager.getInstance().initialize(this, "com.morpho.morphosample.USB_ACTION");
+
         try {
+
             MSOConnection.getInstance().tkn_mso_connect();
             Log.i(this.getClass().getName(), "Conexion Realizada");
+            MSOConnection.getInstance().setMsoShower(this);
         } catch (TKN_MSO_ERROR e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getErrorMsg(), Toast.LENGTH_LONG).show();
@@ -162,7 +165,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
             startActivity(i);
 
         }
-        MSOConnection.getInstance().setMsoShower(this);
+
     }
 
     @Override

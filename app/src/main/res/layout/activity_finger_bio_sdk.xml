@@ -13,6 +13,17 @@
         android:paddingBottom="@dimen/margin_top_bottom_id_scan"
         android:paddingTop="@dimen/margin_top_bottom_id_scan">
 
+        <Switch
+            android:id="@+id/sw_id_hand_side"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/fragment"
+            android:layout_gravity="end"
+            android:textColor="#000000"
+            android:textOff="Derecha"
+            android:textOn="Izquierda" />
+
         <TextView
             android:id="@+id/tv_hand_bio_sdk"
             android:layout_width="match_parent"
@@ -31,7 +42,7 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <!--fragment class="com.morpho.contactless.view.fragment.BaseFingerCameraFragment"
+            <fragment class="com.morpho.contactless.view.fragment.BaseFingerCameraFragment"
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,7 +55,7 @@
                 app:layout_constraintVertical_bias="1.0"
                 android:layout_marginTop="@dimen/margin_top_bottom_id_scan"
                 android:layout_marginRight="4dp"
-                android:layout_marginLeft="4dp" /-->
+                android:layout_marginLeft="4dp"/>
 
             <ImageView
                 android:id="@+id/i_take_image_bio_sdk"

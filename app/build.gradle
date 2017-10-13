@@ -1,15 +1,5 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-
-    flatDir {
-        dirs 'libs'
-    }
-
-    maven { url 'https://jitpack.io' }
-}
-
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
@@ -35,11 +25,21 @@ android {
         }
     }
 
-    //sourceSets.main
-    //        {
-    //            jni.srcDirs = []
-    //            jniLibs.srcDir 'src/main/jniLibs'
-    //        }
+    repositories {
+        mavenCentral()
+
+        flatDir {
+            dirs 'libs'
+        }
+
+        maven { url 'https://jitpack.io' }
+    }
+
+    sourceSets.main
+            {
+                jni.srcDirs = []
+                jniLibs.srcDir 'src/main/jniLibs'
+            }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

@@ -11,11 +11,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.morpho.common.data.LicenseService;
@@ -57,6 +62,8 @@ import com.morpho.mph_bio_sdk.android.sdk.msc.listeners.BioCaptureTrackingListen
 import com.morpho.mph_bio_sdk.android.sdk.utils.image.ImageUtils;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.FingersSend;
+import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
@@ -71,6 +78,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,7 +94,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     protected IBioMatcherHandler matcherHandler;
     private CountDownTimer timer = null;
 
-    private static final String TAG = "Main_Activity";
+    private static final String TAG = "FingerBioSdkActivity";
     private LicensePresenter licensePresenter;
     private FingersPresenter fingersPresenter;
 
@@ -123,8 +131,12 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     List<File> fileList;
 
     RelativeLayout takeFingerLinearLayout;
-    Switch         handSideSwitch;
     ImageView      takeImage;
+    TextView       takeSideText;
+    Switch         sdkBioSideHand;
+    Button         sdkBioContinue;
+    boolean        isTakeLeft;
+    boolean        isTakeRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,16 +148,40 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
             invalidateOptionsMenu();
         }
 
+        isTakeRight = false;
+
+        isTakeLeft  = false;
+
+        fingersFileArray = new ArrayList<File>();
+        fileList         = new ArrayList<File>();
+
         takeFingerLinearLayout = (RelativeLayout) findViewById(R.id.ln_take_finger);
 
-        takeImage = (ImageView) findViewById(R.id.i_take_image_bio_sdk);
+        takeSideText           = (TextView) findViewById(R.id.tv_hand_bio_sdk);
 
-        takeImage.setOnClickListener(this);
+        takeImage              = (ImageView) findViewById(R.id.i_take_image_bio_sdk);
+
+        sdkBioContinue         = (Button)    findViewById(R.id.b_continue_bio_sdk);
+
+        sdkBioSideHand         = (Switch)    findViewById(R.id.sw_id_hand_side);
+
+        sdkBioContinue.setOnClickListener(FingerBioSdkActivity.this);
+        takeImage.setOnClickListener(FingerBioSdkActivity.this);
+
+        sdkBioSideHand.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (sdkBioSideHand.isChecked()){
+                    takeSideText.setText(R.string.bio_sdk_message_left);
+                } else {
+                    takeSideText.setText(R.string.bio_sdk_message_right);
+                }
+            }
+        });
 
         licensePresenter = new LicensePresenter(new LicenseInteractor( new LicenseService(this,
                 "http://201.99.117.119:8081/ServiceProviderLicense/LicenseRequest",
                 "https://service-intg.dictao.com/lkms-server-app")));
-        licensePresenter.setView(this);
+        licensePresenter.setView(FingerBioSdkActivity.this);
 
         checkLicense();
 
@@ -237,7 +273,9 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
     public void onPrepareActivity() {
         try{
+
             cameraPreview = (MorphoSurfaceView) findViewById(surfaceViewLayout());
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "No Surface View found!", Toast.LENGTH_LONG).show();
         }
@@ -284,7 +322,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         captureHandler.startPreview();
     }
 
-    protected void onBioCaptureInitialized(IBioCaptureHandler iBioCaptureHandler){
+    protected void onBioCaptureInitialized(IBioCaptureHandler iBioCaptureHandler) {
 
         captureHandler = iBioCaptureHandler;
         captureHandler.setBioCaptureResultListener  (this);
@@ -384,7 +422,6 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         Log.e(TAG, "", e);
         Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         setResult(RESULT_CANCELED);
-
     }
 
     protected void bindViews(){
@@ -427,9 +464,6 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     @Override
     public void showImages(List<byte[]> jpgImages) {
 
-        captureHandler.stopPreview();
-
-        byte[] imgFPBuff = null;
         int numImage     = 0;
         int fingerSelect = 0;
         String operationID  = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
@@ -444,27 +478,27 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                 switch (numImage) {
 
                     case 0:
-                        if (handSideSwitch.isChecked()) { finger = "D2"; } else { finger = "I2"; };
+                        if (!sdkBioSideHand.isChecked()) { finger = "D2"; } else { finger = "I2"; };
                         fingerSelect = 2;
-                        base64IndexRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                        base64IndexRight = com.teknei.bid.tools.Base64.encode(image);
                         break;
 
                     case 1:
-                        if (handSideSwitch.isChecked()) { finger = "D3"; } else { finger = "I3"; };
+                        if (!sdkBioSideHand.isChecked()) { finger = "D3"; } else { finger = "I3"; };
                         fingerSelect = 3;
-                        base64MiddleRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                        base64MiddleRight = com.teknei.bid.tools.Base64.encode(image);
                         break;
 
                     case 2:
-                        if (handSideSwitch.isChecked()) { finger = "D4"; } else { finger = "I4"; };
+                        if (!sdkBioSideHand.isChecked()) { finger = "D4"; } else { finger = "I4"; };
                         fingerSelect = 4;
-                        base64RingRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                        base64RingRight = com.teknei.bid.tools.Base64.encode(image);
                         break;
 
                     case 3:
-                        if (handSideSwitch.isChecked()) { finger = "D5"; } else { finger = "I5"; };
+                        if (!sdkBioSideHand.isChecked()) { finger = "D5"; } else { finger = "I5"; };
                         fingerSelect = 5;
-                        base64PinkyRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                        base64PinkyRight = com.teknei.bid.tools.Base64.encode(image);
                         break;
                 }
 
@@ -501,6 +535,23 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                 }
                 numImage++;
             }
+
+            if (!sdkBioSideHand.isChecked() && numImage >= 4) {
+                isTakeLeft = true;
+            }
+
+            if (sdkBioSideHand.isChecked() && numImage >= 4) {
+                isTakeRight = true;
+            }
+
+            if (isTakeLeft && isTakeRight) {
+
+                captureHandler.stopPreview();
+
+            } else {
+                onPreparePresenter();
+                onPrepareActivity();
+            }
         }
     }
 
@@ -517,10 +568,8 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
     @Override
     public void showBadImageQuality(final int quality) {
-        Toast.makeText(getApplicationContext(),"Tu imagen es de baja calidad: " +
-                quality, Toast.LENGTH_LONG).show();
         Toast.makeText(getApplicationContext(),
-                "Puedes realizar otra captura para mejorar la toma de imagen", Toast.LENGTH_LONG).show();
+                "Tu imagen es de baja calidad\nPuedes realizar otra captura para mejorar la toma de imagen", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -565,8 +614,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
     @Override
     public void onCaptureFinish() {
-        takeFingerLinearLayout.setVisibility(View.INVISIBLE);
-        captureHandler.destroy();
+
     }
 
     @Override
@@ -579,6 +627,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
             case R.id.b_continue_bio_sdk:
                 if (validateIndexFingers()) {
+                    Log.d(TAG,"SEND PETICION TRUE");
                     sendPetition();
                 }
                 break;
@@ -586,8 +635,14 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     }
 
     public boolean validateIndexFingers() {
-        boolean bitMapTake = true;
+        boolean bitMapTake;
 
+        if (isTakeLeft && isTakeRight) {
+            bitMapTake = true;
+        } else {
+            bitMapTake = false;
+            Toast.makeText(FingerBioSdkActivity.this, "Debe capturar ambas manos para continuar", Toast.LENGTH_SHORT).show();
+        }
         return bitMapTake;
     }
 
@@ -598,7 +653,6 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         if (fingerOperation.equals("")) {
             fileList.clear();
             String localTime = PhoneSimUtils.getLocalDateAndTime();
-//            SharedPreferencesUtils.saveToPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS, localTime);
 
             String jsonString = buildJSON();
             fileList.add(fileJson);
@@ -783,6 +837,38 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
             }
         }
         return jsonObject;
+    }
+
+    //menu actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_operation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.i_close_operation_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FingerBioSdkActivity.this, getString(R.string.message_close_operation_title), getString(R.string.message_close_operation_alert), ApiConstants.ACTION_CANCEL_OPERATION);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        if (id == R.id.i_log_out_menu) {
+            AlertDialog dialogoAlert;
+            dialogoAlert = new AlertDialog(FingerBioSdkActivity.this, getString(R.string.message_title_logout), getString(R.string.message_message_logout), ApiConstants.ACTION_LOG_OUT);
+            dialogoAlert.setCancelable(false);
+            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogoAlert.show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 }
 

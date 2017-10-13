@@ -156,14 +156,17 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
             MSOConnection.getInstance().tkn_mso_connect();
             Log.i(this.getClass().getName(), "Conexion Realizada");
+
             MSOConnection.getInstance().setMsoShower(this);
+
         } catch (TKN_MSO_ERROR e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getErrorMsg(), Toast.LENGTH_LONG).show();
 
+            MSOConnection.getInstance().setMsoShower(this);
+
             Intent i = new Intent(FingerPrintsActivity.this, FingerBioSdkActivity.class);
             startActivity(i);
-
         }
 
     }

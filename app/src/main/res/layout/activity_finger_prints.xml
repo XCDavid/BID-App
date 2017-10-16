@@ -15,11 +15,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_top_bottom_fingerprints"
-            android:layout_marginTop="@dimen/margin_top_bottom_fingerprints"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/instruction_begin_fingerprints_scan"
             android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/sw_change_biosdk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/fragment"
+            android:layout_gravity="end"
+            android:textColor="#000000"
+            android:textOff="Actual"
+            android:textOn ="BioSDK" />
+
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout

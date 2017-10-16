@@ -21,9 +21,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +78,8 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     ImageButton bThumbRight;
 
     FingerScanDialog dialogScan;
+
+    Switch  swChangeBiosdk;
 
     //Uso para MSOShower
     private byte[] imgFPBuff = null;
@@ -144,6 +148,19 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         bMiddleRight.setOnClickListener(this);
         bIndexRight.setOnClickListener(this);
         bThumbRight.setOnClickListener(this);
+
+        swChangeBiosdk = (Switch) findViewById(R.id.sw_change_biosdk);
+
+        swChangeBiosdk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (swChangeBiosdk.isChecked()){
+
+                    Intent i = new Intent(FingerPrintsActivity.this, FingerBioSdkActivity.class);
+                    startActivity(i);
+
+                }
+            }
+        });
 
         fingersFileArray = new ArrayList<File>();
         fileList = new ArrayList<File>();

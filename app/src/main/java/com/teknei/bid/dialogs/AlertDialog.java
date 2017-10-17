@@ -46,7 +46,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         txvMessage.setText(menssageIn);
 
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
-                    actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
+                    actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE )
             okButton.setText    (activityOrigin.getString(R.string.message_ws_tray_again));
 
         if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ||
@@ -99,7 +99,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                     ((BaseActivity) activityOrigin).logOut();
                 }
 
-                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL) {
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
                     //BORRAR
 //                    ((BaseActivity) activityOrigin).goNext();
                     //DES - COMENTAR

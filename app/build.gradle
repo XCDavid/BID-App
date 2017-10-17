@@ -3,10 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
+
     dexOptions {
         maxProcessCount 5
         javaMaxHeapSize "3g"
     }
+
     defaultConfig {
         applicationId "com.teknei.bid"
         minSdkVersion 19
@@ -16,6 +18,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        ndk
+                {
+                    abiFilters "armeabi"
+                }
+
     }
 
     buildTypes {
@@ -92,8 +99,4 @@ dependencies {
     compile 'io.fotoapparat.fotoapparat:library:1.3.0'
 
     compile project(':scanlibrary')
-}
-
-repositories {
-    mavenCentral()
 }

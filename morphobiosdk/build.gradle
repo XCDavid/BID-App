@@ -2,13 +2,6 @@ apply from:   'gradle-scripts/dependencies.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-    mavenCentral()
-}
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -20,11 +13,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
-
+        ndk
+                {
+                    abiFilters "armeabi-v7a"
+                }
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+        mavenCentral()
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,7 +33,6 @@ android {
         }
     }
 }
-
 
 def Properties versionProperties = new Properties()
 def versionPropertiesFile = new File(rootProject.projectDir, '../version.properties')
@@ -50,22 +50,7 @@ if (versionPropertiesFile.canRead()){
     android.defaultConfig.versionName = "1.0.0-SNAPSHOT"
 }
 
-
-class FileFilter implements FilenameFilter {
-    public boolean accept(File f, String filename) {
-        return !filename.contains("replay")
-    }
-}
-
 dependencies {
-    //File srcDir
-    //FileCollection collection = files { srcDir.listFiles(new FileFilter()) }
-    //srcDir = file('libs')
-    //collection.collect { relativePath(it) }.sort().each {
-    //    if (it.endsWith("aar")) {
-    //        compile(name: it.replaceFirst(~/\.[^\.]+$/, '').replaceFirst(/libs[\/\\]/, ''), ext: 'aar')
-    //    }
-    //}
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

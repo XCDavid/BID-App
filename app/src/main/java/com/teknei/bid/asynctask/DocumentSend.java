@@ -158,6 +158,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 dialogoAlert.setCancelable(false);
                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialogoAlert.show();
+
             } else {
                 Log.i("Message logout", "logout: " + errorMessage);
                 AlertDialog dialogoAlert;

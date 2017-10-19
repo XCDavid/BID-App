@@ -218,12 +218,46 @@
     <string name="tv_hint_address_credential_dialog">Dirección</string>
     <string name="tv_validity_credential_dialog">Vigencia</string>
     <string name="tv_hint_validity_credential_dialog">Vigencia</string>
-    <string name="b_continue_credential_dialog">Continuar</string>
+    <string name="b_continue_credential_dialog">Confirmar Datos</string>
     <string name="tv_title_finger_dialog">Esperando Escaneo</string>
     <string name="b_cancel_finger_dialog">Cancelar</string>
     <string name="tv_title_resume_dialog_ine">Resumen</string>
     <string name="tv_url_server_mobbsign_settings">Url servidor para firma digital</string>
     <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
+
+    <string name="tv_street_credential_dialog">Calle</string>
+    <string name="tv_hint_street_credential_dialog">Calle y Número</string>
+    <string name="tv_suburb_credential_dialog">Colonia</string>
+    <string name="tv_hint_suburb_credential_dialog">Colonia</string>
+    <string name="tv_postcode_credential_dialog">Codigo Postal</string>
+    <string name="tv_hint_postcode_credential_dialog">Codigo Postal</string>
+    <string name="tv_locality_credential_dialog">Localidad</string>
+    <string name="tv_hint_locality_credential_dialog">Localidad</string>
+    <string name="tv_state_credential_dialog">Estado</string>
+    <string name="tv_hint_state_credential_dialog">Estado</string>
+
+    <!--Document Dialog strings-->
+    <string name="tv_title_document_dialog">Resultado de escaneo</string>
+    <string name="tv_name_document_dialog">Nombre</string>
+    <string name="tv_hint_name_document_dialog">nombre</string>
+    <string name="tv_fs_document_dialog">Apellido paterno</string>
+    <string name="tv_hitns_fs_document_dialog">Apellido paterno</string>
+    <string name="tv_ss_document_dialog">Apellido materno</string>
+    <string name="tv_hitn_ss_document_dialog">Apellido materno</string>
+    <string name="tv_address_document_dialog">Dirección</string>
+    <string name="tv_hint_address_document_dialog">Dirección</string>
+    <string name="b_continue_document_dialog">Confirmar Datos</string>
+
+    <string name="tv_street_document_dialog">Calle</string>
+    <string name="tv_hint_street_document_dialog">Calle y Número</string>
+    <string name="tv_suburb_document_dialog">Colonia</string>
+    <string name="tv_hint_suburb_document_dialog">Colonia</string>
+    <string name="tv_postcode_document_dialog">Codigo Postal</string>
+    <string name="tv_hint_postcode_document_dialog">Codigo Postal</string>
+    <string name="tv_locality_document_dialog">Localidad</string>
+    <string name="tv_hint_locality_document_dialog">Localidad</string>
+    <string name="tv_state_document_dialog">Estado</string>
+    <string name="tv_hint_state_document_dialog">Estado</string>
 
     <!--Serach and check operation-->
     <string name="message_search_operation">Comprobando operación pendiente</string>

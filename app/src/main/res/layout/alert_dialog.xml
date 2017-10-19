@@ -75,6 +75,19 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/retry_buttom"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/retry_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/cancel_buttom"
                 style="@style/NormalText"
                 android:layout_width="0dp"
@@ -97,7 +110,7 @@
                 android:padding="5dp"
                 android:text="@string/continue_message_dialog"
                 android:textColor="@color/text_color_white"
-                android:textStyle="normal" />
+                android:textStyle="normal"/>
         </LinearLayout>
 
 

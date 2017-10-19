@@ -66,6 +66,7 @@
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
     <string name="cancel_message_dialog">Cancelar</string>
+    <string name="retry_message_dialog">Reintentar</string>
     <string name="message_dialog">Mensaje</string>
 
     <!--Form strings-->

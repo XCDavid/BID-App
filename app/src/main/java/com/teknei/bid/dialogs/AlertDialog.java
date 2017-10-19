@@ -2,6 +2,7 @@ package com.teknei.bid.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import com.teknei.bid.utils.ApiConstants;
 public class AlertDialog extends Dialog implements View.OnClickListener {
     Button okButton;
     Button cancelButton;
+    Button retryButton;
+
     TextView txvTitle;
     TextView txvMessage;
     Activity activityOrigin;
@@ -39,26 +42,49 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         txvMessage = (TextView) findViewById(R.id.alert_message);
         okButton = (Button) findViewById(R.id.ok_buttom);
         cancelButton = (Button) findViewById(R.id.cancel_buttom);
+        retryButton  = (Button) findViewById(R.id.retry_buttom);
+
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        retryButton.setOnClickListener(this);
 
         txvTitle.setText  (titleIn);
         txvMessage.setText(menssageIn);
 
-        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
-                    actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE )
-            okButton.setText    (activityOrigin.getString(R.string.message_ws_tray_again));
+        Log.d ("-------------- Action -","--"+actionIn+"--");
 
-        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ||
-                actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL ) {
+        switch (actionIn) {
 
-            cancelButton.setVisibility(View.VISIBLE);
+            case ApiConstants.ACTION_TRY_AGAIN:
+                retryButton.setVisibility (View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
 
-        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
+            case ApiConstants.ACTION_BLOCK_CANCEL_OPERATION:
+                retryButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
 
-            cancelButton.setVisibility(View.VISIBLE);
-            cancelButton.setText(activityOrigin.getString(R.string.continue_message_dialog));
+            case ApiConstants.ACTION_TRY_AGAIN_CANCEL:
+                retryButton.setVisibility (View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
 
+            case ApiConstants.ACTION_TRY_AGAIN_CONTINUE:
+                retryButton.setVisibility (View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                break;
+
+            case ApiConstants.ACTION_LOG_OUT:
+                cancelButton.setVisibility(View.VISIBLE);
+                break;
+
+            case ApiConstants.ACTION_CANCEL_OPERATION:
+                cancelButton.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -84,10 +110,37 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
-        if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
-            okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
-        if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL)
-            cancelButton.setVisibility(View.VISIBLE);
+
+        Log.d ("----------- Action FS -","--"+actionIn+"--");
+
+        switch (actionIn) {
+
+            case ApiConstants.ACTION_TRY_AGAIN:
+                retryButton.setVisibility (View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
+
+            case ApiConstants.ACTION_BLOCK_CANCEL_OPERATION:
+                retryButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
+
+            case ApiConstants.ACTION_TRY_AGAIN_CANCEL:
+                retryButton.setVisibility (View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                okButton.setVisibility(View.GONE);
+                break;
+
+            case ApiConstants.ACTION_LOG_OUT:
+                cancelButton.setVisibility(View.VISIBLE);
+                break;
+
+            case ApiConstants.ACTION_CANCEL_OPERATION:
+                cancelButton.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override
@@ -95,31 +148,41 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.ok_buttom:
                 dismiss();
-                if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION) {
+
+                if (actionIn == ApiConstants.ACTION_LOG_OUT ||
+                        actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).logOut();
                 }
 
-                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
-                    //BORRAR
-//                    ((BaseActivity) activityOrigin).goNext();
-                    //DES - COMENTAR
-                    ((BaseActivity) activityOrigin).sendPetition();
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN ||
+                        actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE)     {
+                    ((BaseActivity) activityOrigin).goNext();
                 }
+
                 if (actionIn == ApiConstants.ACTION_CANCEL_OPERATION) {
                     ((BaseActivity) activityOrigin).cancelOperation();
                 }
+
                 if (actionIn == ApiConstants.ACTION_GO_NEXT) {
                     ((BaseActivity) activityOrigin).goNext();
                 }
+
                 if (actionIn == ApiConstants.ACTION_GO_STEP) {
                     ((BaseActivity) activityOrigin).goStep(flowStep);
                 }
                 break;
+
             case R.id.cancel_buttom:
                 dismiss();
+                break;
 
-                if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
-                    ((BaseActivity) activityOrigin).goNext();
+            case R.id.retry_buttom:
+                dismiss();
+
+                if (actionIn == ApiConstants.ACTION_TRY_AGAIN ||
+                        actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL ||
+                            actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {
+                    ((BaseActivity) activityOrigin).sendPetition();
                 }
 
                 break;

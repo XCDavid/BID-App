@@ -258,7 +258,7 @@ public class GetDetailFindOperation extends AsyncTask<String, Void, Void> {
             if (responseOk) {
 
                 if (stepOperation>0) { //La operacion se recupero -> continua en el paso necesario
-                    String messageResp = "La operación se recupero correctamente, seras posicionado en el último paso que quedo pendiente.";
+                    String messageResp = "La operación se recupero correctamente, serás posicionado en el último paso que quedo pendiente.";
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_STEP,stepOperation);
                     dialogoAlert.setCancelable(false);

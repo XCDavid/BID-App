@@ -18,6 +18,7 @@ public class ApiConstants {
     public static final int ACTION_TRY_AGAIN_CANCEL = 5;
     public static final int ACTION_GO_STEP = 6;
     public static final int ACTION_TRY_AGAIN_CONTINUE = 7;
+
     public static final String LOG_IN_USER = "login";
     public static final String LOG_OUT_USER = "logout";
     public static final String METHOD_CANCEL_OPERATION = "rest/v2/cancel?operationId=";

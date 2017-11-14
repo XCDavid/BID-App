@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/morphobiosdk/morphobiosdk.iml" filepath="$PROJECT_DIR$/morphobiosdk/morphobiosdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/scanlibrary/scanlibrary.iml" filepath="$PROJECT_DIR$/scanlibrary/scanlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/watson-mini/watson-mini.iml" filepath="$PROJECT_DIR$/watson-mini/watson-mini.iml" />
     </modules>
   </component>
 </project>

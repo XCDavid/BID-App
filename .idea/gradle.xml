@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/morphobiosdk" />
             <option value="$PROJECT_DIR$/scanlibrary" />
+            <option value="$PROJECT_DIR$/watson-mini" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

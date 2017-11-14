@@ -182,10 +182,9 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
             MSOConnection.getInstance().setMsoShower(this);
 
-            Intent i = new Intent(FingerPrintsActivity.this, FingerBioSdkActivity.class);
+            Intent i = new Intent(FingerPrintsActivity.this, FingerWatsonActivity.class);
             startActivity(i);
         }
-
     }
 
     @Override
@@ -265,46 +264,55 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                     fingerSelect = 10;
                     base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_ring_left_arm:
                     finger = "I4";
                     fingerSelect = 9;
                     base64RingLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_middle_left_arm:
                     finger = "I3";
                     fingerSelect = 8;
                     base64MiddleLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_index_left_arm:
                     finger = "I2";
                     fingerSelect = 7;
                     base64IndexLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_thumb_left_arm:
                     finger = "I1";
                     fingerSelect = 6;
                     base64ThumbLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_pinky_right_arm:
                     finger = "D5";
                     fingerSelect = 5;
                     base64PinkyRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_ring_riht_arm:
                     finger = "D4";
                     fingerSelect = 4;
                     base64RingRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_middle_right_arm:
                     finger = "D3";
                     fingerSelect = 3;
                     base64MiddleRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_index_right_arm:
                     finger = "D2";
                     fingerSelect = 2;
                     base64IndexRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
                     break;
+
                 case R.id.b_thumb_right_arm:
                     finger = "D1";
                     fingerSelect = 1;
@@ -340,6 +348,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                     case 6:
                         imageFileThumbLeft = f;
                         break;
+
                     case 5:
                         imageFilePinkyRight = f;
                         break;
@@ -380,7 +389,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 fileList.add(imageFileIndexRight);
             }
             Log.d("ArrayList Files", "Files:" + fileList.size());
-            new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList).execute();
+            new FingersSend(FingerPrintsActivity.this, token, jsonString, fileList, ApiConstants.TYPE_ACT_BASIC).execute();
         } else {
             goNext();
         }
@@ -393,73 +402,100 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(FingerPrintsActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
-            jsonObject = addBase64Fingers(jsonObject);
+
             if (imageFileThumbLeft != null) {
+                Log.d ("FingerPrintsActivity", "imageFileThumbLeft not null");
                 jsonObject.put("dedo1I", true);
                 fingersFileArray.add(imageFileThumbLeft);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileThumbLeft is null");
                 jsonObject.put("dedo1I", false);
             }
             if (imageFileThumbRight != null) {
+                Log.d ("FingerPrintsActivity", "imageFileThumbRight not null");
                 jsonObject.put("dedo1D", true);
                 fingersFileArray.add(imageFileThumbRight);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileThumbRight is null");
                 jsonObject.put("dedo1D", false);
             }
             if (imageFileIndexLeft != null) {
+                Log.d ("FingerPrintsActivity", "imageFileIndexLeft not null");
                 jsonObject.put("dedo2I", true);
                 fingersFileArray.add(imageFileIndexLeft);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileIndexLeft is null");
                 jsonObject.put("dedo2I", false);
             }
             if (imageFileIndexRight != null) {
+                Log.d ("FingerPrintsActivity", "imageFileIndexRight not null");
                 jsonObject.put("dedo2D", true);
                 fingersFileArray.add(imageFileIndexRight);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileIndexRight is null");
                 jsonObject.put("dedo2D", false);
             }
             if (imageFileMiddleLeft != null) {
+                Log.d ("FingerPrintsActivity", "imageFileMiddleLeft not null");
                 jsonObject.put("dedo3I", true);
                 fingersFileArray.add(imageFileMiddleLeft);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileMiddleLeft is null");
                 jsonObject.put("dedo3I", false);
             }
             if (imageFileMiddleRight != null) {
+                Log.d ("FingerPrintsActivity", "imageFileMiddleRight not null");
                 jsonObject.put("dedo3D", true);
                 fingersFileArray.add(imageFileMiddleRight);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileMiddleRight is null");
                 jsonObject.put("dedo3D", false);
             }
             if (imageFileRingLeft != null) {
+                Log.d ("FingerPrintsActivity", "imageFileRingLeft not null");
                 jsonObject.put("dedo4I", true);
                 fingersFileArray.add(imageFileRingLeft);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileRingLeft is null");
                 jsonObject.put("dedo4I", false);
             }
             if (imageFileRingRight != null) {
+                Log.d ("FingerPrintsActivity", "imageFileRingRight not null");
                 jsonObject.put("dedo4D", true);
                 fingersFileArray.add(imageFileRingRight);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFileRingRight is null");
                 jsonObject.put("dedo4D", false);
             }
             if (imageFilePinkyLeft != null) {
+                Log.d ("FingerPrintsActivity", "imageFilePinkyLeft not null");
                 jsonObject.put("dedo5I", true);
                 fingersFileArray.add(imageFilePinkyLeft);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFilePinkyLeft is null");
                 jsonObject.put("dedo5I", false);
             }
             if (imageFilePinkyRight != null) {
+                Log.d ("FingerPrintsActivity", "imageFilePinkyRight not null");
                 jsonObject.put("dedo5D", true);
                 fingersFileArray.add(imageFilePinkyRight);
             } else {
+                Log.d ("FingerPrintsActivity", "imageFilePinkyRight is null");
                 jsonObject.put("dedo5D", false);
             }
+
+            jsonObject = addBase64Fingers(jsonObject);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -482,6 +518,7 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private JSONObject addBase64Fingers(JSONObject jsonObject) {
+
         if (base64PinkyLeft != null && !base64PinkyLeft.equals("")) {
             try {
                 jsonObject.put("ll", base64PinkyLeft);

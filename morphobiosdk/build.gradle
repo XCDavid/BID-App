@@ -15,9 +15,15 @@ android {
 
         ndk
                 {
-                    abiFilters "armeabi-v7a"
+                    abiFilters "armeabi-v7a", "armeabi"
                 }
     }
+
+    sourceSets.main
+            {
+                jni.srcDirs = []
+                jniLibs.srcDir 'src/main/libs'
+            }
 
     repositories {
         flatDir {

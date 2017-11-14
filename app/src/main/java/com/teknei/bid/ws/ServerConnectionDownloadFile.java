@@ -69,6 +69,13 @@ public class ServerConnectionDownloadFile {
         this.tokenID = token;
         this.basicAutho = autho;
         this.operationId = operationID;
+
+        Log.v("method            ", "method:        " + method);
+        Log.v("token             ", "token:         " + token);
+        Log.v("http URL SEND     ", "http:          " + serverMethod);
+        Log.v("json SEND NO File ", "json no file:  " + stringJSON);
+        Log.v("Autho             ", "Autho:         " + autho);
+
 //		this.tokenID = HerApplication.HEADER_APPLICATION_KEY;
         //Selecciona que tipo de metodo crear
         switch (method) {
@@ -201,21 +208,25 @@ public class ServerConnectionDownloadFile {
 //                    directory.mkdir();
 //                }
                 if (f.exists()) {
+
                     f.delete();
 //                    f = new File(Environment.getExternalStorageDirectory() + File.separator + "contract_" + operationId + ".pdf");
+                } else {
+
+                    FileOutputStream fi = new FileOutputStream(Environment.getExternalStorageDirectory()
+                            + File.separator + "contract_" + operationId + ".pdf");
+
+                    byte[] buf = new byte[8 * 1024];
+                    int len = 0;
+                    while ((len = is.read(buf)) > 0) {
+                        fi.write(buf, 0, len);
+                    }
+                    fi.close();
                 }
 
-                FileOutputStream fi = new FileOutputStream(Environment.getExternalStorageDirectory()
-                        + File.separator + "contract_" + operationId + ".pdf");
-
-                byte[] buf = new byte[8 * 1024];
-                int len = 0;
-                while ((len = is.read(buf)) > 0) {
-                    fi.write(buf, 0, len);
-                }
-                fi.close();
                 is.close();
                 System.out.println("Hurra!! : D");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

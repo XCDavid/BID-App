@@ -3,16 +3,26 @@ package com.teknei.bid.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.morpho.morphosmart.sdk.MorphoDevice;
 import com.teknei.bid.R;
-import com.teknei.bid.asynctask.LogIn;
+import com.teknei.bid.response.OAuthAccessToken;
+import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.services.OAuthApi;
+import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
+import com.teknei.bid.ws.RetrofitSingleton;
+
+import android.provider.Settings.Secure;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LogInActivity extends BaseActivity implements View.OnClickListener {
     Button bLogIn;
@@ -21,13 +31,22 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     String user;
     String pass;
 
+    private OAuthApi api;
+    private OAuthAccessToken accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        String uuid = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+
+        Log.d("LogInActivity--",uuid);
 
         setContentView(R.layout.activity_log_in);
         etUser = (EditText) findViewById(R.id.et_user_log_in);
@@ -37,6 +56,10 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
         SharedPreferencesUtils.cleanSharedPreferencesOperation(this);
         saveSharedPreferenceByDefault();
+
+        SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.ID_ENTERPRICE,"1");
+        SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.CUSTOMER_TYPE,"2");
+        SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.ID_DEVICE,uuid);
     }
 
     @Override
@@ -73,7 +96,60 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
             Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
         }else{
-            new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
+            //new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
+
+            String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
+
+            Log.d("................",urlAuthAccess);
+
+            api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
+
+            Call<OAuthAccessToken> call = api.getAccessTokenByPassword(user, pass);
+
+            call.enqueue(new Callback<OAuthAccessToken>() {
+
+                @Override
+                public void onResponse(Call<OAuthAccessToken> call, Response<OAuthAccessToken> response) {
+
+                    Log.d("................", "onResponse");
+
+                    if (response.isSuccessful()) {
+
+                        accessToken = response.body();
+
+                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.TOKEN_APP,accessToken.getAccessToken());
+                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.USERNAME,user);
+
+                        goNext();
+                    } else {
+
+                        String errorMessage = "Error al autenticar verifique datos de usuario y contraseña";
+
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OAuthAccessToken> call, Throwable t) {
+
+                    Log.d("................", "onFailure");
+
+                    t.printStackTrace();
+
+                    String errorMessage = "Error al conectarse con servidor, verifique conexión";
+
+                    AlertDialog dialogoAlert;
+                    dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
+                }
+            });
         }
     }
 
@@ -90,11 +166,13 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         String urlTeknei = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
         String urlMobbSign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_MOBBSIGN, getString(R.string.default_url_mobbsign));
         String licenseMobbSign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
+        String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_ID_SCAN, urlIdScan);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.LICENSE_ID_SCAN, licenseIdScan);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_TEKNEI, urlTeknei);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_MOBBSIGN, urlMobbSign);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.MOBBSIGN_LICENSE, licenseMobbSign);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_AUTHACCESS, urlAuthAccess);
     }
 
 }

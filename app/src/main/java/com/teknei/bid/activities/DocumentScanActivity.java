@@ -173,10 +173,15 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
         } catch (JSONException e) {

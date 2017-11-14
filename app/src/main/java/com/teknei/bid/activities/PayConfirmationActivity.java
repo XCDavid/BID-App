@@ -161,6 +161,9 @@ public class PayConfirmationActivity extends BaseActivity implements View.OnClic
 
     public String buildJSON() {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(PayConfirmationActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(PayConfirmationActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(PayConfirmationActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
         String reference = etContractreference.getText().toString();
         String amount = etPayAmount.getText().toString();
 
@@ -188,6 +191,8 @@ public class PayConfirmationActivity extends BaseActivity implements View.OnClic
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("tipoPago", payType);
             jsonObject.put("referencia", reference);

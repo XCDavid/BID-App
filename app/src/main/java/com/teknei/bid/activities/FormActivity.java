@@ -22,6 +22,7 @@ import com.teknei.bid.asynctask.FindOperation;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.DataValidation;
+import com.teknei.bid.domain.StartOperationDTO;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PermissionsUtils;
 import com.teknei.bid.utils.PhoneSimUtils;
@@ -43,8 +44,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     EditText etRefContract;
 
     Button buttonContinue;
-
     String phoneID;
+
+    StartOperationDTO startOperationDTO;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
@@ -307,7 +309,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         String phone = etPhone.getText().toString();
         String numContract = etRefContract.getText().toString();
 
-        String employee = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.USERNAME, "default");
+        String employee     = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.USERNAME, "default");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
         phoneID = PhoneSimUtils.getImei(this);
 
 //        if (phoneID==null){
@@ -316,8 +321,13 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 //            phoneID= "12345";
 //        }
         //Construimos el JSON con los datos del formulario
+
+        startOperationDTO = new StartOperationDTO(Long.parseLong(idEnterprice), Long.parseLong(customerType), employee, phoneID,curp);
+
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("deviceId", phoneID);
             jsonObject.put("employee", employee);
             jsonObject.put("curp", curp);
@@ -341,7 +351,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         if (operationID.equals("")) {
             String jsonString = buildJSON();
-            new StartOperation(FormActivity.this, token, jsonString).execute();
+            new StartOperation(FormActivity.this, token, jsonString, startOperationDTO).execute();
 //            new FindOperation(FormActivity.this, token, etCurp.getText().toString()).execute();
         } else {
             goNext();

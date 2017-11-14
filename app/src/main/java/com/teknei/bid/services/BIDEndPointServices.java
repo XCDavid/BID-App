@@ -1,0 +1,111 @@
+package com.teknei.bid.services;
+
+import com.teknei.bid.domain.AddressDTO;
+import com.teknei.bid.domain.CredentialDTO;
+import com.teknei.bid.domain.SearchDTO;
+import com.teknei.bid.domain.StartOperationDTO;
+import com.teknei.bid.response.OAuthAccessToken;
+import com.teknei.bid.response.ResponseDetail;
+import com.teknei.bid.response.ResponseDocument;
+import com.teknei.bid.response.ResponseServicesBID;
+import com.teknei.bid.response.ResponseStartOpe;
+import com.teknei.bid.response.ResponseStep;
+import com.teknei.bid.response.ResponseTimeStamp;
+
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
+/**
+ * Created by rgarciav on 25/10/2017.
+ */
+
+public interface BIDEndPointServices {
+
+    @GET("rest/v3/enrollment/address/address/find/{id}")
+    Call<ResponseDocument> enrollmentAddressFind(@Path("id") Integer addressId);
+
+    /*
+    @Multipart
+    @POST("rest/v3/enrollment/credentials/credential")
+    Call<ResponseDocument> credential (@Header("Authorization") String authorization,
+                                       @Part MultipartBody.Part jsonFile,
+                                       @Part MultipartBody.Part imageFileFront,
+                                       @Part MultipartBody.Part imageFileBack);
+    */
+
+    @GET("rest/v3/enrollment/address/findDetail/{id}")
+    Call<ResponseServicesBID> enrollmentAddressFindDetail(@Path("id") Integer addressId);
+
+    @DELETE("rest/v3/enrollment/status/cancel?operationId=idOperation")
+    Call<ResponseServicesBID> enrollmentStatusCancelOperation(@Query("idOperation") String id);
+
+    @POST("rest/v3/enrollment/client/detail/step")
+    Call<ResponseStep> enrollmentClientDetailStep (@Body SearchDTO searchDTO);
+
+    @POST("rest/v3/enrollment/status/start")
+    Call<ResponseStartOpe> enrollmentStatusStart (@Body StartOperationDTO startOperationDTO);
+
+    @POST("rest/v3/enrollment/client/detail/detail")
+    Call<ResponseDetail> enrollmentClientDetail (@Body SearchDTO searchDTO);
+
+    @Multipart
+    @POST("rest/v3/enrollment/credentials/credential")
+    Call<ResponseServicesBID> enrollmentCredential (@Part MultipartBody.Part jsonFile,
+                                                    @Part MultipartBody.Part imageFileFront,
+                                                    @Part MultipartBody.Part imageFileBack);
+
+    @Multipart
+    @POST("rest/v3/enrollment/facial/face")
+    Call<ResponseServicesBID> enrollmentFacialFace (@Part MultipartBody.Part jsonFile,
+                                          @Part MultipartBody.Part imageFile);
+
+    @Multipart
+    @POST("rest/v3/enrollment/address/comprobanteParsed")
+    Call<ResponseDocument> enrollmentAddressComprobanteParsed (@Part MultipartBody.Part jsonFile,
+                                                               @Part MultipartBody.Part imageFile);
+
+    @Multipart
+    @POST("rest/v3/enrollment/biometric/minucias")
+    Call<ResponseServicesBID> enrollmentBiometricMinucias (@Part MultipartBody.Part jsonFile);
+
+    @Multipart
+    @POST("rest/v3/enrollment/status/end")
+    Call<ResponseServicesBID> enrollmentStatusEnd (@Part MultipartBody.Part jsonFile);
+
+    @GET("rest/v3/enrollment/contract/contrato")
+    Call<ResponseBody> enrollmentContract (@Query("id") String id);
+
+    @Multipart
+    @POST("rest/v3/enrollment/contract/contrato/add/")
+    Call<ResponseServicesBID> enrollmentContractAdd (@Part MultipartBody.Part jsonFile,
+                                                     @Part MultipartBody.Part pdfFile);
+
+    @GET("rest/v3/enrollment/client/detail/search/cusomer/ts")
+    Call<ResponseTimeStamp> enrollmentClientDetailSearchCustomerTs
+                                                    (@Query("operationId") String idOpe,
+                                                     @Query("curp") String curp);
+
+    @PUT("rest/v3/enrollment/credentials/credential/update/{type}/{id}")
+    Call<ResponseServicesBID> enrollmentCredentialUpdate(@Path("type")   String type,
+                                                         @Path("id")     String id,
+                                                         @Body CredentialDTO ineDTO);
+
+    @POST("rest/v3/enrollment/address/updateManually/{id}/{type}")
+    Call<ResponseServicesBID> enrollmentAddressUpdate(@Path("id")      String id,
+                                                      @Path("type")    String type,
+                                                      @Body AddressDTO addressDTO);
+
+}

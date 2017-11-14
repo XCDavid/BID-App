@@ -24,6 +24,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
     private String authorization;
 
     private String userToCheck;
+    private String passToCheck;
 
     private Activity activityOrigin;
     private JSONObject responseJSONObject;
@@ -38,9 +39,10 @@ public class LogIn extends AsyncTask<String, Void, Void> {
 
     public LogIn(Activity context, String userString,String passString, String tokenOld, String autho) {
         this.activityOrigin = context;
-        this.userToCheck = userString;
-        this.token = tokenOld;
-        this.authorization = autho;
+        this.userToCheck    = userString;
+        this.passToCheck    = passString;
+        this.token          = tokenOld;
+        this.authorization  = autho;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class LogIn extends AsyncTask<String, Void, Void> {
         endTime = System.currentTimeMillis() + 1000;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
+
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] info = check.getAllNetworkInfo();
         for (int i = 0; i < info.length; i++) {
@@ -141,7 +144,5 @@ public class LogIn extends AsyncTask<String, Void, Void> {
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
-
     }
-
 }

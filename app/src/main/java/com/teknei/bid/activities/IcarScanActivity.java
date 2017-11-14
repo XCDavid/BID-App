@@ -438,10 +438,20 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "23");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(IcarScanActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
+        Log.d("ICARSCANACtivity"," Operation  id " + operationID);
+        Log.d("ICARSCANACtivity"," Enterprice id " + idEnterprice);
+        Log.d("ICARSCANACtivity"," Customer Type " + customerType);
+
+
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("credentialType", stringCredentialType);
             jsonObject.put("imageResolution", 560);

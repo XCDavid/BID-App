@@ -71,7 +71,8 @@ public class ServerConnectionListImages {
         Log.v("http URL SEND", "http: " + serverMethod);
         if (files!=null)
         Log.v("num files", "# files: " + files.size());
-        Log.v("json SEND NO File", "json no file: " + stringJSON);
+        Log.e("json SEND NO File", "json no file: " + stringJSON);
+        Log.v("Autho ", "Autho: " + autho);
 
         //Selecciona que tipo de metodo crear
         switch (method) {
@@ -97,6 +98,7 @@ public class ServerConnectionListImages {
         if (sendJSON != null) {
             sendJSON = stringJSON.replaceAll("\\\\", "");
         }
+
         StringEntity entityData = null;
         try {
             if (sendJSON != null) {
@@ -115,14 +117,20 @@ public class ServerConnectionListImages {
 
         //Image attaching
         // creates a unique boundary based on time stamp
-        String boundary = "===" + System.currentTimeMillis() + "===";
+        String boundary =  System.currentTimeMillis()+"";
+
         MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+
         multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
         multipartEntity.setBoundary(boundary);
-//        File fileOut = file;
+
         if (files != null) {
             for (int i=0; i<files.size();i++) {
                 File auxF = files.get(i);
+
+                Log.d("ServerConnectionListIm", auxF.getPath());
+
                 if (i==0) {
                     multipartEntity.addBinaryBody("json", auxF,ContentType.APPLICATION_JSON,auxF.getName());
                 }else{
@@ -135,16 +143,7 @@ public class ServerConnectionListImages {
             multipartEntity.setStrictMode();
             httpPOST.setEntity(multipartEntity.build());
         }
-//        //Json string attaching
-//        if (sendJSON != null) {
-//            multipartEntity.addPart("json", new StringBody(sendJSON, ContentType.APPLICATION_JSON));
-//            if (httpPOST != null) {
-//                httpPOST.setEntity(multipartEntity.build());
-//            }
-//        }
 
-        // Ejecuta la peticion HTTP POST / GET / DELETE al servidor
-        Log.i("request -> ", ":" + serverMethod);
         try {
             if (httpPOST != null) {
                 //User aget add
@@ -155,7 +154,9 @@ public class ServerConnectionListImages {
 
                 /****///Token add       //Authorization      //Token" "token_del_login *****************************
                 httpPOST.addHeader(HEADER_TOKEN_CODE, HEADER_TOKEN_AUX_VALUE + tokenID);
+
                 httpResponse = clienteHTTP.execute(httpPOST);
+
             } else if (httpGet != null) {
                 //User aget add
 //                httpGet.addHeader(HEADER_USER_AGENT, System.getProperty(ANDROID_USER_AGENT));

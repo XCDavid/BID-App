@@ -76,7 +76,8 @@
             android:textColor="@color/text_color_white"
             android:background="@drawable/selector_rounded_rectangle_login"
             android:layout_weight="1"
-            android:text="@string/b_generate_contract_result_operation" />
+            android:text="@string/b_generate_contract_result_operation"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

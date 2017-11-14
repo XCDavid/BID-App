@@ -699,7 +699,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                 fileList.add(imageFileIndexRight);
             }
             Log.d("ArrayList Files", "Files:" + fileList.size());
-            new FingersSend(FingerBioSdkActivity.this, token, jsonString, fileList).execute();
+            new FingersSend(FingerBioSdkActivity.this, token, jsonString, fileList, ApiConstants.TYPE_ACT_BASIC).execute();
         } else {
             goNext();
         }
@@ -713,9 +713,14 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
     public String buildJSON() {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
             jsonObject = addBase64Fingers(jsonObject);

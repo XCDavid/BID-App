@@ -449,7 +449,10 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 
     public String buildJSON() {
 
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "666");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "666");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(IdScanActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
 
         String scanID = scandIdOperation;
         //BORRAR
@@ -457,7 +460,8 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
-
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("scanId", scanID);
             jsonObject.put("credentialType", stringCredentialType);

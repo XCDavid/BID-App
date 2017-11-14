@@ -18,11 +18,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        ndk
-                {
-                    abiFilters "armeabi"
-                }
 
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
 
     buildTypes {
@@ -70,21 +69,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //compile(name: "AndroidBiometricSDK-4.3.0-biometry_document", ext: 'aar')
-    //compile(name: "lkms_core-1.2.5", ext: 'aar')
-
     compile project(':morphobiosdk')
-
-
 
     compile(name: "mobbscan-sdk-android-2.1.1", ext: 'aar')
     compile(name: "mobbsign-sdk-android-3.2.0", ext: 'aar')
     compile(name: "mobb-commons-android-1.3.0", ext: 'aar')
     compile files('libs/MorphoSmart_SDK_6.16.0.0.jar')
 
-
-
     compile project(':scanlibrary')
+
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -93,9 +86,15 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.madgag:scpkix-jdk15on:1.47.0.2'
     compile 'com.madgag:scprov-jdk15on:1.47.0.2'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.google.android.gms:play-services-vision:11.0.1'
     compile 'cz.msebera.android:httpclient:4.4.1.2'
     compile 'io.fotoapparat.fotoapparat:library:1.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     testCompile 'junit:junit:4.12'
+
+    // Butterknife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile project(':watson-mini')
 }

@@ -11,6 +11,7 @@ import java.io.File;
 
 
 public class SharedPreferencesUtils {
+    public static final String ID_DEVICE      = "id_device";
     public static final String PREF_FILE_NAME = "pref_teknei";
     public static final String TOKEN_APP = "token_app";
     public static final String USERNAME = "username";
@@ -29,6 +30,9 @@ public class SharedPreferencesUtils {
     //MOBBSIGN
     public static final String URL_MOBBSIGN = "url_mobbsign";
     public static final String MOBBSIGN_LICENSE = "mobbsign_license";
+    //MOBBSIGN
+    public static final String URL_AUTHACCESS = "url_authaccess";
+
     //JSON de Formulario inicial
     public static final String JSON_INIT_FORM = "json_init_form";
     //JSON de respuesta MobbScan frontal y trasera
@@ -38,6 +42,10 @@ public class SharedPreferencesUtils {
     public static final String TIMESTAMP_FACE = "timestamp_face";
     public static final String TIMESTAMP_DOCUMENT = "timestamp_document";
     public static final String TIMESTAMP_FINGERPRINTS = "timestamp_fingerprints";
+
+    //Empresa
+    public static final String ID_ENTERPRICE = "id_enterprice";
+    public static final String CUSTOMER_TYPE = "customer_type";
 
 
     public static void saveToPreferencesString(Context contex, String preferenceName, String preferenceValue) {

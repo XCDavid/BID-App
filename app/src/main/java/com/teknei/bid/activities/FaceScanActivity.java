@@ -76,6 +76,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
         continueFaceScan.setOnClickListener(this);
 
         fileList = new ArrayList<File>();
+
     }
 
     @Override
@@ -181,10 +182,19 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.OPERATION_ID, "23");
+        String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
+        String customerType = SharedPreferencesUtils.readFromPreferencesString(FaceScanActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
+
+        Log.d("FaceScanActivity"," Operation  id " + operationID);
+        Log.d("FaceScanActivity"," Enterprice id " + idEnterprice);
+        Log.d("FaceScanActivity"," Customer Type " + customerType);
+
         //Construimos el JSON
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("emprId", idEnterprice);
+            jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
         } catch (JSONException e) {

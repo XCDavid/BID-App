@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Enrolamiento</string>
+
     <!--LogIn LogOut Load Strings-->
     <string name="get_user_log_in">Autenticando</string>
     <string name="message_log_out">Saliendo</string>
@@ -15,6 +16,8 @@
     <string name="message_face_scan_check">Comprobando imagen</string>
     <string name="message_figerprints_check">Almacenando huellas dactilares</string>
     <string name="message_pay_confirm_operation">Confirmando operación</string>
+    <string name="message_send_data_credential">Enviando datos de credencial</string>
+    <string name="message_send_data_document">Enviando datos de comprobante</string>
 
     <string name="message_data_validation">Validación de campo</string>
     <string name="message_error_curp_format">El formato del campo ( CURP ) es erroneo. </string>
@@ -58,10 +61,13 @@
     <!--Default Values strings-->
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
     <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
-    <string name="default_url_teknei">http://192.168.1.200:28080/BIDServer/</string>
+    <string name="default_url_teknei">http://192.168.1.190:28080/tkn-bid-invoker-unauth/enrollment/</string>
     <!-- MobbSign -->
     <string name="default_url_mobbsign">https://192.168.1.100:28443/DemoServer/</string>
     <string name="default_license_mobbsign">56a03255-7bd3-49f2-8b32-2a62f1a867b9</string>
+    <!-- Retrofit OAuthAccess -->
+    <string name="default_url_oauthaccess">http://192.168.1.190:8081</string>
+    <!--string name="default_url_oauthaccess">http://201.99.106.95:8081</string-->
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
@@ -149,6 +155,24 @@
     <string name="bio_sdk_message_right">Toma de huellas mano derecha.</string>
     <string name="bio_sdk_message_left">Toma de huellas mano izquierda.</string>
 
+    <!--Fingerprints strings-->
+    <string name="bio_watson_continue">Continuar</string>
+    <string name="bio_watson_activity_name">Huellas Dactilares</string>
+    <string name="bio_watson_close_device">Cerrar Dispositivo</string>
+    <string name="bio_watson_open_device">Abrir Dispositivo</string>
+    <string name="bio_watson_start_capture">Iniciar Captura</string>
+    <string name="bio_watson_stop_capture">Detener Captura</string>
+    <string name="bio_watson_left_thumb">Pulgar Izquierdo</string>
+    <string name="bio_watson_left_index">Índice Izquierdo</string>
+    <string name="bio_watson_left_middle">Medio Izquierdo</string>
+    <string name="bio_watson_left_ring">Anular Izquierdo</string>
+    <string name="bio_watson_left_little">Meñique Izquierdo</string>
+    <string name="bio_watson_right_thumb">Pulgar Derecho</string>
+    <string name="bio_watson_right_index">Índice Derecho</string>
+    <string name="bio_watson_right_middle">Medio Derecho</string>
+    <string name="bio_watson_right_ring">Anular Derecho</string>
+    <string name="bio_watson_right_little">Meñique Derecho</string>
+
     <!--Result operation strings-->
     <string name="result_operation_activity_name">Resultado</string>
     <string name="end_result_operation">Terminar</string>
@@ -229,8 +253,8 @@
     <string name="tv_hint_street_credential_dialog">Calle y Número</string>
     <string name="tv_suburb_credential_dialog">Colonia</string>
     <string name="tv_hint_suburb_credential_dialog">Colonia</string>
-    <string name="tv_postcode_credential_dialog">Codigo Postal</string>
-    <string name="tv_hint_postcode_credential_dialog">Codigo Postal</string>
+    <string name="tv_zipcode_credential_dialog">Codigo Postal</string>
+    <string name="tv_hint_zipcode_credential_dialog">Codigo Postal</string>
     <string name="tv_locality_credential_dialog">Localidad</string>
     <string name="tv_hint_locality_credential_dialog">Localidad</string>
     <string name="tv_state_credential_dialog">Estado</string>
@@ -252,8 +276,8 @@
     <string name="tv_hint_street_document_dialog">Calle y Número</string>
     <string name="tv_suburb_document_dialog">Colonia</string>
     <string name="tv_hint_suburb_document_dialog">Colonia</string>
-    <string name="tv_postcode_document_dialog">Codigo Postal</string>
-    <string name="tv_hint_postcode_document_dialog">Codigo Postal</string>
+    <string name="tv_zipcode_document_dialog">Codigo Postal</string>
+    <string name="tv_hint_zipcode_document_dialog">Codigo Postal</string>
     <string name="tv_locality_document_dialog">Localidad</string>
     <string name="tv_hint_locality_document_dialog">Localidad</string>
     <string name="tv_state_document_dialog">Estado</string>

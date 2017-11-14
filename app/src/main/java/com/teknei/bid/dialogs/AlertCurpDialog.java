@@ -64,7 +64,7 @@ public class AlertCurpDialog extends Dialog implements View.OnClickListener {
 //                    ((BaseActivity) activityOrigin).sendPetition();
 //                }
 //                if (actionIn == ApiConstants.ACTION_CANCEL_OPERATION) {
-//                    ((BaseActivity) activityOrigin).cancelOperation();
+//                    ((BaseActivity) activityOrigin).enrollmentStatusCancelOperation();
 //                }
 //                if (actionIn == ApiConstants.ACTION_GO_NEXT) {
 //                    ((BaseActivity) activityOrigin).goNext();

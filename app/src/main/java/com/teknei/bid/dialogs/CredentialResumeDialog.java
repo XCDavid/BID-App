@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
+import com.teknei.bid.asynctask.DataCredencialSend;
+import com.teknei.bid.asynctask.GetDetailFindOperation;
+import com.teknei.bid.domain.CredentialDTO;
+import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
@@ -28,11 +32,13 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
 
     EditText txvStreet;
     EditText txvSuburb;
-    EditText txvPostcode;
+    EditText txvZipCode;
     EditText txvLocality;
     EditText txvState;
 
     Activity activityOrigin;
+
+    CredentialDTO   credentialDTO;
 
     public CredentialResumeDialog(Activity context) {
         super(context);
@@ -51,7 +57,7 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
 
         txvStreet   = (EditText) findViewById(R.id.tv_street_credential_result_resume);
         txvSuburb   = (EditText) findViewById(R.id.tv_suburb_credential_result_resume);
-        txvPostcode = (EditText) findViewById(R.id.tv_postcode_credential_result_resume);
+        txvZipCode = (EditText) findViewById(R.id.tv_zipcode_credential_result_resume);
         txvLocality = (EditText) findViewById(R.id.tv_locality_credential_result_resume);
         txvState    = (EditText) findViewById(R.id.tv_state_credential_result_resume);
 
@@ -69,7 +75,7 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
         String address  = "";
         String street   = "";
         String suburb   = "";
-        String postCode = "";
+        String zipCode = "";
         String locality = "";
         String state    = "";
 
@@ -86,7 +92,7 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
 
             street   = jsonObject.optString("street");      // Calle
             suburb   = jsonObject.optString("suburb");      // Colonia
-            postCode = jsonObject.optString("postCode");    // Codigo Postal
+            zipCode = jsonObject.optString("zipCode");     // Codigo Postal
             locality = jsonObject.optString("locality");    // Localidad
             state    = jsonObject.optString("state");       // Estado
 
@@ -100,12 +106,12 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
         txvCurp.setText(curp);
         txvMRZ.setText(mrz);
         txvOCR.setText(ocr);
-        txvAddress.setText(address);
+        //txvAddress.setText(address);
         txvValidity.setText(validity);
 
         txvStreet.setText(street);
         txvSuburb.setText(suburb);
-        txvPostcode.setText(postCode);
+        txvZipCode.setText(zipCode);
         txvLocality.setText(locality);
         txvState.setText(state);
     }
@@ -114,7 +120,54 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
     public void onClick(View v) {
         dismiss();
         if (v == continueButton) {
-            ((BaseActivity) activityOrigin).goNext();
+
+            credentialDTO = new CredentialDTO();
+
+            credentialDTO.setNomb  (txvName.getText().toString());
+
+            credentialDTO.setApeMat(txvApPat.getText().toString());
+
+            credentialDTO.setApePat(txvApMat.getText().toString());
+
+            credentialDTO.setCall  (txvStreet.getText().toString());
+
+            credentialDTO.setClavElec("");
+
+            credentialDTO.setCol(txvSuburb.getText().toString());
+
+            credentialDTO.setCp(txvZipCode.getText().toString());
+
+            credentialDTO.setDist("");
+
+            credentialDTO.setEsta(txvState.getText().toString());
+
+            credentialDTO.setFoli("");
+
+            credentialDTO.setLoca("");
+
+            credentialDTO.setMrz(txvMRZ.getText().toString());
+
+            credentialDTO.setMuni(txvLocality.getText().toString());
+
+            credentialDTO.setNoExt("");
+
+            credentialDTO.setNoInt("");
+
+            credentialDTO.setOcr(txvOCR.getText().toString()) ;
+
+            credentialDTO.setSecc("");
+
+            credentialDTO.setUser("");
+
+            credentialDTO.setVige(txvValidity.getText().toString());
+
+            //txvCurp.setText(curp);
+
+            String operationID = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "");
+            String token       = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.TOKEN_APP, "");
+
+            new DataCredencialSend(activityOrigin, token, ApiConstants.TYPE_INE+"", operationID, credentialDTO).execute();
+
         }
     }
 }

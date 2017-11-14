@@ -10,33 +10,65 @@ import com.teknei.bid.R;
  */
 
 public class ApiConstants {
-    public static final int ACTION_LOG_OUT = 0;
-    public static final int ACTION_TRY_AGAIN = 1;
-    public static final int ACTION_CANCEL_OPERATION = 2;
-    public static final int ACTION_BLOCK_CANCEL_OPERATION = 3;
-    public static final int ACTION_GO_NEXT = 4;
-    public static final int ACTION_TRY_AGAIN_CANCEL = 5;
-    public static final int ACTION_GO_STEP = 6;
-    public static final int ACTION_TRY_AGAIN_CONTINUE = 7;
-    public static final String LOG_IN_USER = "login";
+
+    public static final int TYPE_ACT_BASIC = 0;
+    public static final int TYPE_ACT_LOCAL = 1;
+
+    public static final int ACTION_LOG_OUT                  = 0;
+    public static final int ACTION_TRY_AGAIN                = 1;
+    public static final int ACTION_CANCEL_OPERATION         = 2;
+    public static final int ACTION_BLOCK_CANCEL_OPERATION   = 3;
+    public static final int ACTION_GO_NEXT                  = 4;
+    public static final int ACTION_TRY_AGAIN_CANCEL         = 5;
+    public static final int ACTION_GO_STEP                  = 6;
+    public static final int ACTION_TRY_AGAIN_CONTINUE       = 7;
+
+    public static final int ACTION_LOG_OUT_LOCAL                = 10;
+    public static final int ACTION_TRY_AGAIN_LOCAL              = 11;
+    public static final int ACTION_CANCEL_OPERATION_LOCAL       = 12;
+    public static final int ACTION_BLOCK_CANCEL_OPERATION_LOCAL = 13;
+    public static final int ACTION_GO_NEXT_LOCAL                = 14;
+    public static final int ACTION_TRY_AGAIN_CANCEL_LOCAL       = 15;
+    public static final int ACTION_GO_STEP_LOCAL                = 16;
+    public static final int ACTION_TRY_AGAIN_CONTINUE_LOCAL     = 17;
+
+    public static final int TYPE_INE      = 1;
+    public static final int TYPE_PASSPORT = 2;
+
+    public static final String LOG_IN_USER  = "login";
     public static final String LOG_OUT_USER = "logout";
-    public static final String METHOD_CANCEL_OPERATION = "rest/v2/cancel?operationId=";
-    public static final String METHOD_START_OPERATION = "rest/v2/start";
-    public static final String METHOD_CREDENTIALS = "rest/v2/credential";
-    public static final String METHOD_FACE = "rest/v2/face";
-    public static final String METHOD_DOCUMENT = "rest/v2/comprobante";
-    public static final String METHOD_FINGERS = "rest/v2/minucias";
-    public static final String METHOD_PAY_CONFIRM = "rest/v2/end";
-    public static final String METHOD_GET_CONTRACT = "rest/v2/contrato/";
-    public static final String METHOD_SEND_CONTRACT = "rest/v2/contrato/add/";
-    public static final String METHOD_CHECK_PENDING_OPERATION = "rest/v2/step";
-    public static final String METHOD_GET_PENDING_OPERATION = "rest/v2/detail";
-    public static final String METHOD_GET_TIMESTAMP = "rest/v2/search/customer/ts/";
+
+    //public static final String METHOD_CANCEL_OPERATION = "rest/v2/cancel?operationId=";
+    //public static final String METHOD_START_OPERATION = "rest/v2/start";
+    //public static final String METHOD_CREDENTIALS = "rest/v2/credential";
+    //public static final String METHOD_FACE = "rest/v2/face";
+    //public static final String METHOD_DOCUMENT = "rest/v2/comprobante";
+    //public static final String METHOD_FINGERS = "rest/v2/minucias";
+    //public static final String METHOD_PAY_CONFIRM = "rest/v2/end";
+    //public static final String METHOD_GET_CONTRACT = "rest/v2/contrato/";
+    //public static final String METHOD_SEND_CONTRACT = "rest/v2/contrato/add/";
+    //public static final String METHOD_CHECK_PENDING_OPERATION = "rest/v2/step";
+    //public static final String METHOD_GET_PENDING_OPERATION = "rest/v2/detail";
+    //public static final String METHOD_GET_TIMESTAMP = "rest/v2/search/customer/ts/";
+
+    public static final String METHOD_CANCEL_OPERATION          = "rest/v3/enrollment/status/cancel?operationId=";
+    public static final String METHOD_START_OPERATION           = "rest/v3/enrollment/status/start";
+    public static final String METHOD_CREDENTIALS               = "rest/v3/enrollment/credentials/credential";
+    public static final String METHOD_FACE                      = "rest/v3/enrollment/facial/face";
+    public static final String METHOD_DOCUMENT                  = "rest/v3/enrollment/address/comprobanteParsed";
+    public static final String METHOD_FINGERS                   = "rest/v3/enrollment/biometric/minucias/";
+    public static final String METHOD_PAY_CONFIRM               = "rest/v3/enrollment/status/end";
+    public static final String METHOD_GET_CONTRACT              = "rest/v3/enrollment/contract/contrato/";
+    public static final String METHOD_SEND_CONTRACT             = "rest/v3/enrollment/contract/contrato/add/";
+    public static final String METHOD_CHECK_PENDING_OPERATION   = "rest/v3/enrollment/client/detail/step";
+    public static final String METHOD_GET_PENDING_OPERATION     = "rest/v3/enrollment/client/detail/detail";
+    public static final String METHOD_GET_TIMESTAMP             = "rest/v3/enrollment/client/detail/search/cusomer/ts";
 
     //Strings values
     public static final String STRING_INE = "INE";
     public static final String STRING_IFE = "IFE";
     public static final String STRING_PASSPORT = "PASAPORTE";
+
     //Icar INE/IFE Values
     public static final String ICAR_NAME = "name";
     public static final String ICAR_SURNAME = "surname";
@@ -48,6 +80,12 @@ public class ApiConstants {
     public static final String ICAR_VALIDITY = "vigencia";
     public static final String ICAR_CURP = "curp";
     public static final String ICAR_PASSPORT_VALIDITY = "dateOfExpiry";
+
+    public static final String ICAR_STREET    = "street";
+    public static final String ICAR_SUBURB    = "suburb";
+    public static final String ICAR_ZIPCODE  = "zipCode";
+    public static final String ICAR_LOCALITY  = "locality";
+    public static final String ICAR_STATE     = "state";
 
     //Excepciones en captura identificativa (INE/IFE/PASAPORTE)
     private static final int errorResponse10001 = 10001;  //ICAR. ERROR AL DIGITALIZAR O VERIFICAR EL DOCUMENTO IDENTIFICATIVO.

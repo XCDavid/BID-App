@@ -113,15 +113,11 @@ public class SendContract extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            MultipartBody.Part jsonBody =
-                    MultipartBody.Part.createFormData("String", "id",
-                            RequestBody.create(MediaType.parse("text/plain"), idOperation+""));
-
             MultipartBody.Part jsonFront =
                     MultipartBody.Part.createFormData("file", "file",
                             RequestBody.create (MediaType.parse("image/jpg"), filesList.get(0)));
 
-            Call<ResponseServicesBID> call = api.enrollmentContractAdd(jsonBody, jsonFront);
+            Call<ResponseServicesBID> call = api.enrollmentContractAdd(token, idOperation+"", jsonFront);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -129,14 +125,13 @@ public class SendContract extends AsyncTask<String, Void, Void> {
                 public void onResponse(Call<ResponseServicesBID> call, Response<ResponseServicesBID> response) {
                     progressDialog.dismiss();
 
-                    Log.d(CLASS_NAME, "complete:" + response.code());
+                    Log.d(CLASS_NAME, response.code() + " ");
 
                     responseStatus = response.code();
 
                     if(response.body() != null) {
                         responseLocal = response.body();
                     }
-
 
                     if (responseStatus >= 200 && responseStatus < 300) {
 
@@ -168,7 +163,6 @@ public class SendContract extends AsyncTask<String, Void, Void> {
 
                         }
 
-                        errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
                         AlertDialog dialogoAlert;
                         dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
                         dialogoAlert.setCancelable(false);

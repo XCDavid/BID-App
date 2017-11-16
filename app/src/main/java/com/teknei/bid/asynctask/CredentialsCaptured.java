@@ -138,7 +138,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                             RequestBody.create (MediaType.parse("image/jpg"), jsonF.get(2)));
 
 
-            Call<ResponseServicesBID> call = api.enrollmentCredential(jsonBody, jsonFront, jsonBack);
+            Call<ResponseServicesBID> call = api.enrollmentCredential(token, jsonBody, jsonFront, jsonBack);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -146,13 +146,13 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                 public void onResponse(Call<ResponseServicesBID> call, Response<ResponseServicesBID> response) {
                     progressDialog.dismiss();
 
+                    Log.d(CLASS_NAME, response.code() + " ");
+
                     responseStatus = response.code();
 
                     if (response.body() != null) {
                         responseCredential = response.body();
                     }
-
-                    Log.d(CLASS_NAME,"RESPUESTA WEB SERVICES -----"+responseStatus +"-----");
 
                     if ((responseStatus >= 200 && responseStatus < 300)) {
                         dataExist = responseCredential.isResultOK();
@@ -461,7 +461,7 @@ public class CredentialsCaptured extends AsyncTask<String, Void, Void> {
                     t.printStackTrace();
 
                     AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();

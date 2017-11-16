@@ -121,18 +121,21 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseStep> call = api.enrollmentClientDetailStep(searchDTO);
+            Call<ResponseStep> call = api.enrollmentClientDetailStep(token, searchDTO);
 
             call.enqueue(new Callback<ResponseStep>() {
 
                 @Override
                 public void onResponse(Call<ResponseStep> call, Response<ResponseStep> response) {
                     progressDialog.dismiss();
+
+                    Log.d(CLASS_NAME, response.code() + " ");
+
+                    responseStatus = response.code();
+
                     if (response.isSuccessful()) {
 
                         responseStep = response.body();
-
-                        Log.d(CLASS_NAME, response.code() + " ");
 
                         if (responseStep.getStep() > 0) {
 

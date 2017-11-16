@@ -25,6 +25,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
 
+            <Switch
+                android:id="@+id/sw_watson_change_biosdk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/fragment"
+                android:layout_gravity="end"
+                android:textColor="#000000"
+                android:textOff="Actual"
+                android:textOn ="BioSDK" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -37,6 +47,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="16sp"/>
+
             <TextView
                 android:id="@+id/text_view_frame_time"
                 android:layout_width="wrap_content"

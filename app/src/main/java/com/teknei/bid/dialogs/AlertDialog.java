@@ -50,8 +50,6 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
 
-        Log.d(CLASS_NAME, "AlertDialog1 Acción " + actionIn);
-
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE ||
               actionIn == ApiConstants.ACTION_TRY_AGAIN_LOCAL || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION_LOCAL ||
@@ -94,8 +92,6 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         txvTitle.setText(titleIn);
         txvMessage.setText(menssageIn);
 
-        Log.d(CLASS_NAME, "AlertDialog2 Acción " + actionIn);
-
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_LOCAL ||
               actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL)
@@ -112,8 +108,6 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.ok_buttom:
-                Log.d(CLASS_NAME, "onClick Ok Buttom " + actionIn);
-
                 dismiss();
 
                 if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION) {
@@ -151,9 +145,6 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
                 break;
             case R.id.cancel_buttom:
-
-                Log.d(CLASS_NAME, "onClick Cancel Buttom " + actionIn);
-
                 dismiss();
 
                 if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE) {

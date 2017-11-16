@@ -102,13 +102,15 @@ public class GetTimeStamp extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseTimeStamp> call = api.enrollmentClientDetailSearchCustomerTs(idoperation,curp);
+            Call<ResponseTimeStamp> call = api.enrollmentClientDetailSearchCustomerTs(token, idoperation, curp);
 
             call.enqueue(new Callback<ResponseTimeStamp>() {
 
                 @Override
                 public void onResponse(Call<ResponseTimeStamp> call, Response<ResponseTimeStamp> response) {
                     progressDialog.dismiss();
+
+                    Log.d(CLASS_NAME, response.code() + " ");
 
                     responseStatus = response.code();
 
@@ -121,7 +123,7 @@ public class GetTimeStamp extends AsyncTask<String, Void, Void> {
                         String tDocument = "";
                         String tFingers = "";
 
-                        tID       = responseLocal.getId()+"";
+                        tID       = responseLocal.getCredentialsStr();
                         tFace     = responseLocal.getFacialStr();
                         tDocument = responseLocal.getAddressStr();
                         tFingers  = responseLocal.getFingersStr();

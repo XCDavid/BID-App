@@ -123,7 +123,7 @@ public class DataDocumentSend extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.enrollmentAddressUpdate(type,operationID,valueDto);
+            Call<ResponseServicesBID> call = api.enrollmentAddressUpdate(token, type, operationID, valueDto);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -139,25 +139,12 @@ public class DataDocumentSend extends AsyncTask<String, Void, Void> {
 
                         responseLocal = response.body();
 
-                        //SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
-
-                        if (responseLocal.isResultOK()) {
-
-                            Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
-                            AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseLocal.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
-                            dialogoAlert.setCancelable(false);
-                            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                            dialogoAlert.show();
-
-                        } else {
-                            Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
-                            AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseLocal.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
-                            dialogoAlert.setCancelable(false);
-                            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                            dialogoAlert.show();
-                        }
+                        Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Se guardo correctamente la información", ApiConstants.ACTION_GO_NEXT);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
 
                     } else {
                         if (responseStatus >= 300 && responseStatus < 400) {

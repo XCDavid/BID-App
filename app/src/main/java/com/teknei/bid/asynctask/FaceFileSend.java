@@ -126,13 +126,15 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                     MultipartBody.Part.createFormData("file", imageF.get(1).getName(),
                             RequestBody.create (MediaType.parse("image/jpg"), imageF.get(1)));
 
-            Call<ResponseServicesBID> call = api.enrollmentFacialFace(jsonBody, jsonFront);
+            Call<ResponseServicesBID> call = api.enrollmentFacialFace(token, jsonBody, jsonFront);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
                 @Override
                 public void onResponse(Call<ResponseServicesBID> call, Response<ResponseServicesBID> response) {
                     progressDialog.dismiss();
+
+                    Log.d(CLASS_NAME, response.code() + " ");
 
                     responseStatus = response.code();
 
@@ -142,8 +144,6 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                         errorMessage = responseFace.getErrorMessage();
                     }
 
-                    Log.d(CLASS_NAME,"RESPUESTA WEB SERVICES -----"+responseStatus +"-----");
-
                     if (responseStatus >= 200 && responseStatus < 300) {
 
                         if (responseOk) {
@@ -151,7 +151,7 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                             SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FACE_OPERATION, "ok");
 
                             AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), msgError, ApiConstants.ACTION_GO_NEXT);
+                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_GO_NEXT);
                             dialogoAlert.setCancelable(false);
                             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                             dialogoAlert.show();
@@ -159,7 +159,7 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                         } else {
                             Log.i(CLASS_NAME, "Face: " + errorMessage);
                             AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseStatus+" "+errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
                             dialogoAlert.setCancelable(false);
                             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                             dialogoAlert.show();

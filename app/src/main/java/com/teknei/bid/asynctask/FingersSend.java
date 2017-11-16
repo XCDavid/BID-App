@@ -116,7 +116,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                     MultipartBody.Part.createFormData("json", imageF.get(0).getName(),
                             RequestBody.create(MediaType.parse("application/json"), imageF.get(0)));
 
-            Call<ResponseServicesBID> call = api.enrollmentBiometricMinucias(jsonBody);
+            Call<ResponseServicesBID> call = api.enrollmentBiometricMinucias(token, jsonBody);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -124,15 +124,16 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                 public void onResponse(Call<ResponseServicesBID> call, Response<ResponseServicesBID> response) {
 
                     progressDialog.dismiss();
-                    Log.d(CLASS_NAME, "-----"+responseStatus +"-----");
+
+                    Log.d(CLASS_NAME, response.code() + " ");
+
+                    responseStatus = response.code();
 
                     if (response.isSuccessful() && response.body()!=null) {
 
                         responseFinger = response.body();
 
                     }
-
-                    responseStatus = response.code();
 
                     if ((responseStatus >= 200 && responseStatus < 300)) {
 

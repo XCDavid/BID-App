@@ -12,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.integratedbiometrics.ibscanultimate.IBScanDevice;
@@ -31,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -75,6 +78,8 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
     private RadioButton cbRightMiddle;
     private RadioButton cbRightRing;
     private RadioButton cbRightLittle;
+
+    private Switch swChangeBiosdk;
 
     byte[] left_thumb   = null;
     byte[] left_index   = null;
@@ -156,6 +161,19 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
 
         fingersFileArray = new ArrayList<File>();
         fileList = new ArrayList<File>();
+
+        swChangeBiosdk = (Switch) findViewById(R.id.sw_watson_change_biosdk);
+
+        swChangeBiosdk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (swChangeBiosdk.isChecked()){
+
+                    Intent i = new Intent(FingerWatsonActivity.this, FingerBioSdkActivity.class);
+                    startActivity(i);
+
+                }
+            }
+        });
     }
 
     @Override
@@ -351,13 +369,11 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         String finger = "";
         int fingerSelect = 0;
 
-        int numBytes = imageBitmap.getByteCount();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        ByteBuffer  bufferImage = ByteBuffer.allocate(numBytes);
+        imageBitmap.compress (Bitmap.CompressFormat.PNG, 100, baos);
 
-        imageBitmap.copyPixelsToBuffer(bufferImage);
-
-        imageBuffer = bufferImage.array();
+        imageBuffer = baos.toByteArray();
 
         if (imageBuffer != null) {
 

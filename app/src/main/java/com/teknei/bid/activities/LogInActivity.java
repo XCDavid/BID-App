@@ -117,7 +117,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
 
                         accessToken = response.body();
 
-                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.TOKEN_APP,accessToken.getAccessToken());
+                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.TOKEN_APP,"bearer "+accessToken.getAccessToken());
                         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.USERNAME,user);
 
                         goNext();

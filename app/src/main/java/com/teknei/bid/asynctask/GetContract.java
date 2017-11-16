@@ -24,9 +24,11 @@ import com.teknei.bid.ws.ServerConnectionDownloadFile;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -111,25 +113,42 @@ public class GetContract extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseBody> call = api.enrollmentContract(idOperation+"");
+            Call<ResponseBody> call = api.enrollmentContract(token, idOperation+"");
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     progressDialog.dismiss();
 
-                    Log.d(CLASS_NAME, "complete:" + response.code());
+                    Log.d(CLASS_NAME, response.code() + " ");
 
                     responseStatus = response.code();
 
                     if (responseStatus >= 200 && responseStatus < 300) {
 
-                        File file = new File("contract_" + idOperation + ".pdf");
                         try {
-                            file.createNewFile();
-                            Files.asByteSink(file).write(response.body().bytes());
+                            InputStream input = response.body().byteStream();File path = Environment.getExternalStorageDirectory();
+                            File file = new File(Environment.getExternalStorageDirectory()
+                                    + File.separator, "contract_" + idOperation + ".pdf");
+
+                            BufferedOutputStream output = new BufferedOutputStream(
+                                                                        new FileOutputStream(file));
+                            byte data[] = new byte[1024];
+
+                            long total = 0;
+                            int count;
+                            while ((count = input.read(data)) != -1) {
+                                total += count;
+                                output.write(data, 0, count);
+                            }
+
+                            output.flush();
+
+                            output.close();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            String logTag = "TEMPTAG";
+                            Log.e(logTag, "Error while writing file!");
+                            Log.e(logTag, e.toString());
                         }
 
                         ((BaseActivity) activityOrigin).goNext();
@@ -149,7 +168,8 @@ public class GetContract extends AsyncTask<String, Void, Void> {
 
                         }
 
-                        errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
+                        //errorMessage = activityOrigin.getString(R.string.message_ws_no_internet);
+
                         AlertDialog dialogoAlert;
                         dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN);
                         dialogoAlert.setCancelable(false);
@@ -167,7 +187,7 @@ public class GetContract extends AsyncTask<String, Void, Void> {
                     t.printStackTrace();
 
                     AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN);
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
@@ -195,6 +215,7 @@ public class GetContract extends AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
+        /*
         progressDialog.dismiss();
         if (hasConecction) {
             if (responseOk) {
@@ -218,7 +239,6 @@ public class GetContract extends AsyncTask<String, Void, Void> {
             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialogoAlert.show();
         }
-
+        */
     }
-
 }

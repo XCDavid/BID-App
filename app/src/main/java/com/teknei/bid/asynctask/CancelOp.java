@@ -106,7 +106,7 @@ public class CancelOp extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.enrollmentStatusCancelOperation(operationID);
+            Call<ResponseServicesBID> call = api.enrollmentStatusCancelOperation(token,operationID);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 

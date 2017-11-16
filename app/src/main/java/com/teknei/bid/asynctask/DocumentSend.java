@@ -124,7 +124,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                     MultipartBody.Part.createFormData("file", imageF.get(1).getName(),
                             RequestBody.create (MediaType.parse("image/jpg"), imageF.get(1)));
 
-            Call<ResponseDocument> call = api.enrollmentAddressComprobanteParsed(jsonBody, jsonDoc);
+            Call<ResponseDocument> call = api.enrollmentAddressComprobanteParsed(token, jsonBody, jsonDoc);
 
             call.enqueue(new Callback<ResponseDocument>() {
 
@@ -132,7 +132,9 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 public void onResponse(Call<ResponseDocument> call, Response<ResponseDocument> response) {
                     progressDialog.dismiss();
 
-                    Log.d("Response Message", "complete:" + response.code());
+                    Log.d(CLASS_NAME, response.code() + " ");
+
+                    responseStatus = response.code();
 
                     if (response.isSuccessful() && response.body()!=null) {
 
@@ -148,102 +150,114 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
 
                                 messageComplete = responseDoc.getErrorMessage();
                                 String messageSplit[] = messageComplete.split("\\|");
-                                messageResp = messageSplit[0];
-                                jsonResult  = messageSplit[1];
-
-                                Log.d("Response Message", "complete:" + messageComplete);
-                                Log.d("Response Message", "message:" + messageResp);
 
                                 if (messageSplit.length > 1) {
-                                    Log.d("Response Message", "json:" + jsonResult);
-                                    String name = "";
-                                    String apPat = "";
-                                    String apMat = "";
-                                    String address = "";
-                                    String street = "";
-                                    String suburb = "";
-                                    String zipCode = "";
-                                    String locality = "";
-                                    String state = "";
 
-                                    JSONObject dataObjectJSON = new JSONObject(jsonResult);
+                                    messageResp = messageSplit[0];
+                                    jsonResult  = messageSplit[1];
 
-                                    try {
-                                        street = dataObjectJSON.getString("street");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    try {
-                                        suburb = dataObjectJSON.getString("suburb");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    try {
-                                        zipCode = dataObjectJSON.getString("zipCode");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    try {
-                                        locality = dataObjectJSON.getString("locality");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    try {
-                                        state = dataObjectJSON.getString("state");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                    Log.d("Response Message", "complete:" + messageComplete);
+                                    Log.d("Response Message", "message:" + messageResp);
 
-                                    if (!street.equals("")) {
-                                        resolution = true;
-                                    }
+                                    if (messageSplit.length > 1) {
+                                        Log.d("Response Message", "json:" + jsonResult);
+                                        String name = "";
+                                        String apPat = "";
+                                        String apMat = "";
+                                        String address = "";
+                                        String street = "";
+                                        String suburb = "";
+                                        String zipCode = "";
+                                        String locality = "";
+                                        String state = "";
 
-                                    if (resolution) {
-                                        String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+                                        JSONObject dataObjectJSON = new JSONObject(jsonResult);
+
                                         try {
-                                            JSONObject jsonData = new JSONObject(jsonString);
-                                            jsonData.put("name"  , name);
-                                            jsonData.put("appat" , apPat);
-                                            jsonData.put("apmat" , apMat);
-
-                                            jsonData.put("street"  , street);
-                                            jsonData.put("suburb"  , suburb);
-                                            jsonData.put("zipCode" , zipCode);
-                                            jsonData.put("locality", locality);
-                                            jsonData.put("state"   , state);
-
-                                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, jsonData.toString());
-
-                                            Log.d("Response Message", "json:" + jsonData.toString());
-
-                                            DocumentResumeDialog dialogoAlert;
-                                            dialogoAlert = new DocumentResumeDialog(activityOrigin);
-                                            dialogoAlert.setCancelable(false);
-                                            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                                            dialogoAlert.show();
-
+                                            street = dataObjectJSON.getString("street");
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                    } else {
-                                        errorMessage = responseStatus + " - " + "Error al obtener información de la imagen";
+                                        try {
+                                            suburb = dataObjectJSON.getString("suburb");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        try {
+                                            zipCode = dataObjectJSON.getString("zipCode");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        try {
+                                            locality = dataObjectJSON.getString("locality");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        try {
+                                            state = dataObjectJSON.getString("state");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        if (!street.equals("")) {
+                                            resolution = true;
+                                        }
+
+                                        if (resolution) {
+                                            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+                                            try {
+                                                JSONObject jsonData = new JSONObject(jsonString);
+                                                jsonData.put("name"  , name);
+                                                jsonData.put("appat" , apPat);
+                                                jsonData.put("apmat" , apMat);
+
+                                                jsonData.put("street"  , street);
+                                                jsonData.put("suburb"  , suburb);
+                                                jsonData.put("zipCode" , zipCode);
+                                                jsonData.put("locality", locality);
+                                                jsonData.put("state"   , state);
+
+                                                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, jsonData.toString());
+
+                                                Log.d("Response Message", "json:" + jsonData.toString());
+
+                                                DocumentResumeDialog dialogoAlert;
+                                                dialogoAlert = new DocumentResumeDialog(activityOrigin);
+                                                dialogoAlert.setCancelable(false);
+                                                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                                dialogoAlert.show();
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            errorMessage = responseStatus + " - " + "Error al obtener información de la imagen";
+                                            AlertDialog dialogoAlert;
+                                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                            dialogoAlert.setCancelable(false);
+                                            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                            dialogoAlert.show();
+                                        }
+                                    }
+
+                                    else {
+                                        errorMessage = responseStatus + " - " + messageResp;
                                         AlertDialog dialogoAlert;
                                         dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
                                         dialogoAlert.setCancelable(false);
                                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                         dialogoAlert.show();
                                     }
-                                }
+                                } else {
 
-                                else {
-                                    errorMessage = responseStatus + " - " + messageResp;
+                                    errorMessage = responseStatus + " - " + "Error al obtener datos del servidor";
                                     AlertDialog dialogoAlert;
                                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
                                     dialogoAlert.setCancelable(false);
                                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                     dialogoAlert.show();
-                                }
 
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

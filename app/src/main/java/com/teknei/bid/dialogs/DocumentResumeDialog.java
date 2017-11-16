@@ -98,7 +98,7 @@ public class DocumentResumeDialog extends Dialog implements View.OnClickListener
             String operationID = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "");
             String token       = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.TOKEN_APP, "");
 
-            new DataDocumentSend(activityOrigin, token, ApiConstants.TYPE_INE+"", operationID, valueDto).execute();
+            new DataDocumentSend(activityOrigin, token, ApiConstants.TYPE_PASSPORT+"", operationID, valueDto).execute();
         }
     }
 }

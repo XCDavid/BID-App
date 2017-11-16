@@ -61,7 +61,7 @@
     <!--Default Values strings-->
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
     <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
-    <string name="default_url_teknei">http://192.168.1.190:28080/tkn-bid-invoker-unauth/enrollment/</string>
+    <string name="default_url_teknei">http://192.168.1.190:28080/tkn-bid-invoker/enrollment/</string>
     <!-- MobbSign -->
     <string name="default_url_mobbsign">https://192.168.1.100:28443/DemoServer/</string>
     <string name="default_license_mobbsign">56a03255-7bd3-49f2-8b32-2a62f1a867b9</string>

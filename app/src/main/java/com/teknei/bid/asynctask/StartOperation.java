@@ -122,13 +122,17 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
                                           "\"emprId\":\""          + startOperationDTO.getCustomerType()    + "\"}");
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
-            Call<ResponseStartOpe> call = api.enrollmentStatusStart(startOperationDTO);
+            Call<ResponseStartOpe> call = api.enrollmentStatusStart(token, startOperationDTO);
 
             call.enqueue(new Callback<ResponseStartOpe>() {
 
                 @Override
                 public void onResponse(Call<ResponseStartOpe> call, Response<ResponseStartOpe> response) {
                     progressDialog.dismiss();
+
+                    Log.d(CLASS_NAME, response.code() + " ");
+
+                    responseStatus = response.code();
 
                     if (response.isSuccessful()) {
 
@@ -160,8 +164,6 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                     } else {
 
-                        Log.d(CLASS_NAME, response.code() + " ");
-
                         if (responseStatus >= 300 && responseStatus < 400) {
 
                             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
@@ -173,19 +175,11 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                             if (responseStatus == 422){
 
-                                try {
-                                    JSONObject jObjError = new JSONObject(response.errorBody().string());
-
-                                    boolean dataExist = jObjError.getBoolean ("resultOK");
-                                    errorResponse      = jObjError.getString  ("errorMessage");
-
-                                } catch (Exception e) {
-
-                                    Log.d (CLASS_NAME, e.getMessage());
-
-                                }
+                                    if (response.body() != null)
+                                        errorResponse = errorResponse + response.body().getErrorMessage();
 
                             }
+
                             errorMessage = responseStatus + " - " + errorResponse;
 
                         } else if (responseStatus >= 500 && responseStatus < 600) {

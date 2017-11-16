@@ -133,7 +133,7 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.enrollmentCredentialUpdate(type,operationID,credencialDto);
+            Call<ResponseServicesBID> call = api.enrollmentCredentialUpdate(token, type, operationID, credencialDto);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -155,7 +155,7 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
 
                             Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
                             AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseLocal.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
+                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Se guardo correctamente la información", ApiConstants.ACTION_GO_NEXT);
                             dialogoAlert.setCancelable(false);
                             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                             dialogoAlert.show();
@@ -163,7 +163,7 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
                         } else {
                             Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
                             AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseLocal.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
+                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al actualizar información", ApiConstants.ACTION_GO_NEXT);
                             dialogoAlert.setCancelable(false);
                             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                             dialogoAlert.show();

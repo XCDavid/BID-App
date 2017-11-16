@@ -111,11 +111,7 @@ public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            MultipartBody.Part jsonBody =
-                    MultipartBody.Part.createFormData("json", "json",
-                            RequestBody.create(MediaType.parse("application/json"), jsonS));
-
-            Call<ResponseServicesBID> call = api.enrollmentStatusEnd(jsonBody);
+            Call<ResponseServicesBID> call = api.enrollmentStatusEnd(token,jsonS);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 
@@ -150,11 +146,26 @@ public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
                             dialogoAlert.show();
                         }
 
+                    }  else if (responseStatus >= 400 && responseStatus < 500) {
+
+                        Log.d(CLASS_NAME, "Messagge " +  response.message());
+
+                        if (response.body() != null)
+                            Log.d(CLASS_NAME, "Messagge Body " + response.body().getErrorMessage());
+
+                        errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
+
+                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.PAY_OPERATION, "ok");
+
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Enrolamiento exitoso", ApiConstants.ACTION_GO_NEXT);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+
                     } else {
                         if (responseStatus >= 300 && responseStatus < 400) {
                             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
-                        } else if (responseStatus >= 400 && responseStatus < 500) {
-                            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
                         } else if (responseStatus >= 500 && responseStatus < 600) {
                             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
                         }

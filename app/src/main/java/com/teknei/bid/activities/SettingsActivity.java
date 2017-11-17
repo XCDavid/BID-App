@@ -16,6 +16,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     EditText etServerTeknei;
     EditText etServerMobbSign;
     EditText etLicenseMobbSign;
+    EditText etServerAuth;
 
     Button updateButton;
 
@@ -24,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     String urlTeknei;
     String urlMobbsign;
     String licenseMobbsign;
+    String urlAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         urlTeknei = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
         urlMobbsign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_MOBBSIGN, getString(R.string.default_url_mobbsign));
         licenseMobbsign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
+        urlAuth         = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
 
         etServerMobbScan = (EditText) findViewById(R.id.et_settings_url_id_scan);
         etLicenseMobbScan = (EditText) findViewById(R.id.et_settings_license_id_scan);
         etServerTeknei = (EditText) findViewById(R.id.et_settings_url_teknei);
         etServerMobbSign = (EditText) findViewById(R.id.et_settings_url_mobbsign);
         etLicenseMobbSign = (EditText) findViewById(R.id.et_settings_licence_mobbsign);
+        etServerAuth      = (EditText) findViewById(R.id.et_settings_url_auth);
 
         updateButton = (Button) findViewById(R.id.b_update_project_settings);
 
@@ -53,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         etServerTeknei.setText(urlTeknei);
         etServerMobbSign.setText(urlMobbsign);
         etLicenseMobbSign.setText(licenseMobbsign);
+        etServerAuth.setText(urlAuth);
 
         updateButton.setOnClickListener(this);
     }
@@ -66,12 +71,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 urlTeknei = etServerTeknei.getText().toString();
                 urlMobbsign = etServerMobbSign.getText().toString();
                 licenseMobbsign = etLicenseMobbSign.getText().toString();
+                urlAuth         = etServerAuth.getText().toString();
 
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_ID_SCAN,urlIdScan);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.LICENSE_ID_SCAN,licenseIdScan);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_TEKNEI,urlTeknei);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_MOBBSIGN,urlMobbsign);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.MOBBSIGN_LICENSE,licenseMobbsign);
+                SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_AUTHACCESS,urlAuth);
 
                 Toast.makeText(SettingsActivity.this, "Ajustes actualizados !", Toast.LENGTH_LONG).show();
                 break;

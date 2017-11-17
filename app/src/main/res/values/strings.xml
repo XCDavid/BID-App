@@ -248,6 +248,7 @@
     <string name="tv_title_resume_dialog_ine">Resumen</string>
     <string name="tv_url_server_mobbsign_settings">Url servidor para firma digital</string>
     <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
+    <string name="tv_settings_url_auth">Url de autenticación</string>
 
     <string name="tv_street_credential_dialog">Calle</string>
     <string name="tv_hint_street_credential_dialog">Calle y Número</string>

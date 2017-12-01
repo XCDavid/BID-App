@@ -79,8 +79,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
 
     FingerScanDialog dialogScan;
 
-    Switch  swChangeBiosdk;
-
     //Uso para MSOShower
     private byte[] imgFPBuff = null;
     private ImageButton imgFP;
@@ -148,19 +146,6 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
         bMiddleRight.setOnClickListener(this);
         bIndexRight.setOnClickListener(this);
         bThumbRight.setOnClickListener(this);
-
-        swChangeBiosdk = (Switch) findViewById(R.id.sw_change_biosdk);
-
-        swChangeBiosdk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (swChangeBiosdk.isChecked()){
-
-                    Intent i = new Intent(FingerPrintsActivity.this, FingerWatsonActivity.class);
-                    startActivity(i);
-
-                }
-            }
-        });
 
         fingersFileArray = new ArrayList<File>();
         fileList = new ArrayList<File>();

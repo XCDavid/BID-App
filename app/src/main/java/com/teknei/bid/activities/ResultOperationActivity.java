@@ -36,9 +36,9 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
 
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.OPERATION_ID,"");
 
-        finishOperation = (Button) findViewById(R.id.b_end_result_operation);
+        finishOperation   = (Button) findViewById(R.id.b_end_result_operation);
         tryAgainOperation = (Button) findViewById(R.id.b_end_result_operation);
-        contractGenerate = (Button) findViewById(R.id.b_contract_generate_result_operation);
+        contractGenerate  = (Button) findViewById(R.id.b_contract_generate_result_operation);
         tvOperationResult = (TextView) findViewById(R.id.tv_operation_result);
         finishOperation.setOnClickListener(this);
         tryAgainOperation.setOnClickListener(this);

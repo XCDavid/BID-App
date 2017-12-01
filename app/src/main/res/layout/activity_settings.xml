@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_url_server_id_settings" />
-
         <EditText
             android:id="@+id/et_settings_url_id_scan"
             android:layout_width="match_parent"
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/licence_id_scan_settings" />
-
         <EditText
             android:id="@+id/et_settings_license_id_scan"
             android:layout_width="match_parent"
@@ -53,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_url_server_teknei_settings" />
-
         <EditText
             android:id="@+id/et_settings_url_teknei"
             android:layout_width="match_parent"
@@ -63,13 +60,13 @@
             android:inputType="text"
             android:maxLength="80"
             android:maxLines="1" />
+
         <TextView
             android:id="@+id/tv_settings_url_auth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_settings_url_auth" />
-
         <EditText
             android:id="@+id/et_settings_url_auth"
             android:layout_width="match_parent"
@@ -79,13 +76,13 @@
             android:inputType="text"
             android:maxLength="50"
             android:maxLines="1" />
+
         <TextView
             android:id="@+id/tv_settings_url_mobbsign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_url_server_mobbsign_settings" />
-
         <EditText
             android:id="@+id/et_settings_url_mobbsign"
             android:layout_width="match_parent"
@@ -95,13 +92,13 @@
             android:inputType="text"
             android:maxLength="50"
             android:maxLines="1" />
+
         <TextView
             android:id="@+id/tv_settings_licence_mobbsign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_licence_mobbsign_settings" />
-
         <EditText
             android:id="@+id/et_settings_licence_mobbsign"
             android:layout_width="match_parent"
@@ -111,6 +108,21 @@
             android:inputType="text"
             android:maxLength="50"
             android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tv_settings_fingerprint_reader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/tv_fingerprint_reader" />
+        
+        <Spinner
+            android:id="@+id/sp_option_fingerprint_reader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            />
 
     </LinearLayout>
 

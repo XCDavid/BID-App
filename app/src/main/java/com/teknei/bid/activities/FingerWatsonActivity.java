@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -25,6 +26,8 @@ import com.teknei.bid.R;
 import com.teknei.bid.asynctask.FingersSend;
 import com.teknei.bid.asynctask.LogOut;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.dialogs.DataValidation;
+import com.teknei.bid.mso.MSOConnection;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PhoneSimUtils;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -35,6 +38,7 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,37 +53,37 @@ import mx.com.morpho.watson_mini.WatsonMiniListener;
 
 import static com.integratedbiometrics.ibscanultimate.IBScanDevice.ImageType.FLAT_SINGLE_FINGER;
 import static com.integratedbiometrics.ibscanultimate.IBScanDevice.ImageType.FLAT_TWO_FINGERS;
+import static mx.com.morpho.watson_mini.AppState.INITIALIZED;
+import static mx.com.morpho.watson_mini.AppState.SCANNER_ATTACHED;
 
-public class FingerWatsonActivity extends WatsonMiniActivity implements BaseAction, View.OnClickListener, WatsonMiniListener {
+public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnClickListener, WatsonMiniListener {
 
     private static final String TAG = "FingerWatsonActivity";
     private Context myContext = FingerWatsonActivity.this;
     private String  mode;
     private byte[]  imgCapture;
 
-    private LinearLayout lnTakeFingerWatson;
     private ImageView imageViewPreview;
 
-    private Button buttonOpenDevice;
+    private Button  buttonOpenDevice;
     private Button  buttonCloseDevice;
-    private Button  buttonStartCapture;
-    private Button  buttonStopCapture;
 
     private Button  buttonContinue;
 
-    //  UI Variables //
-    private RadioButton cbLeftThumb;
-    private RadioButton cbLeftIndex;
-    private RadioButton cbLeftMiddle;
-    private RadioButton cbLeftRing;
-    private RadioButton cbLeftLittle;
-    private RadioButton cbRightThumb;
-    private RadioButton cbRightIndex;
-    private RadioButton cbRightMiddle;
-    private RadioButton cbRightRing;
-    private RadioButton cbRightLittle;
+    ImageButton imgFP;
 
-    private Switch swChangeBiosdk;
+    //Left Hand
+    ImageButton bPinkyLeft;
+    ImageButton bRingLeft;
+    ImageButton bMiddleLeft;
+    ImageButton bIndexLeft;
+    ImageButton bThumbLeft;
+    //Right Hand
+    ImageButton bPinkyRight;
+    ImageButton bRingRight;
+    ImageButton bMiddleRight;
+    ImageButton bIndexRight;
+    ImageButton bThumbRight;
 
     byte[] left_thumb   = null;
     byte[] left_index   = null;
@@ -123,6 +127,15 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
     File fileJson;
     List<File> fileList;
 
+    /*
+    * Folder Name and file name to save WSQ Image
+    */
+    protected String folderName  = ".morpho";
+    protected String WSQfileName = "ImageCaptured";
+
+    protected boolean flagIndexLeft  = false;
+    protected boolean flagIndexRight = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,52 +146,48 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
             invalidateOptionsMenu();
         }
 
-        cbLeftThumb     = (RadioButton) findViewById(R.id.fin1);
-        cbLeftIndex     = (RadioButton) findViewById(R.id.fin2);
-        cbLeftMiddle    = (RadioButton) findViewById(R.id.fin3);
-        cbLeftRing      = (RadioButton) findViewById(R.id.fin4);
-        cbLeftLittle    = (RadioButton) findViewById(R.id.fin5);
-        cbRightThumb    = (RadioButton) findViewById(R.id.fin6);
-        cbRightIndex    = (RadioButton) findViewById(R.id.fin7);
-        cbRightMiddle   = (RadioButton) findViewById(R.id.fin8);
-        cbRightRing     = (RadioButton) findViewById(R.id.fin9);
-        cbRightLittle   = (RadioButton) findViewById(R.id.fin10);
+        //Left Arm
+        bPinkyLeft = (ImageButton) findViewById(R.id.wm_b_pinky_left_arm);
+        bRingLeft = (ImageButton) findViewById(R.id.wm_b_ring_left_arm);
+        bMiddleLeft = (ImageButton) findViewById(R.id.wm_b_middle_left_arm);
+        bIndexLeft = (ImageButton) findViewById(R.id.wm_b_index_left_arm);
+        bThumbLeft = (ImageButton) findViewById(R.id.wm_b_thumb_left_arm);
+        //Right Arm
+        bPinkyRight = (ImageButton) findViewById(R.id.wm_b_pinky_right_arm);
+        bRingRight = (ImageButton) findViewById(R.id.wm_b_ring_right_arm);
+        bMiddleRight = (ImageButton) findViewById(R.id.wm_b_middle_right_arm);
+        bIndexRight = (ImageButton) findViewById(R.id.wm_b_index_right_arm);
+        bThumbRight = (ImageButton) findViewById(R.id.wm_b_thumb_right_arm);
 
         imageViewPreview     = (ImageView) findViewById (R.id.image_view_preview);
-        lnTakeFingerWatson   = (LinearLayout) findViewById(R.id.ln_take_finger_watson);
 
         buttonOpenDevice   = (Button) findViewById(R.id.button_open_device);
         buttonCloseDevice  = (Button) findViewById(R.id.button_close_device);
-        buttonStartCapture = (Button) findViewById(R.id.button_start_capture);
-        buttonStopCapture  = (Button) findViewById(R.id.button_stop_capture);
         buttonContinue     = (Button) findViewById(R.id.b_continue_bio_watson);
 
         buttonOpenDevice.setOnClickListener  (this);
         buttonCloseDevice.setOnClickListener (this);
-        buttonStartCapture.setOnClickListener(this);
-        buttonStopCapture.setOnClickListener (this);
         buttonContinue.setOnClickListener    (this);
+
+        bPinkyLeft.setOnClickListener(this);
+        bRingLeft.setOnClickListener(this);
+        bMiddleLeft.setOnClickListener(this);
+        bIndexLeft.setOnClickListener(this);
+        bThumbLeft.setOnClickListener(this);
+        bPinkyRight.setOnClickListener(this);
+        bRingRight.setOnClickListener(this);
+        bMiddleRight.setOnClickListener(this);
+        bIndexRight.setOnClickListener(this);
+        bThumbRight.setOnClickListener(this);
 
         fingersFileArray = new ArrayList<File>();
         fileList = new ArrayList<File>();
-
-        swChangeBiosdk = (Switch) findViewById(R.id.sw_watson_change_biosdk);
-
-        swChangeBiosdk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (swChangeBiosdk.isChecked()){
-
-                    Intent i = new Intent(FingerWatsonActivity.this, FingerBioSdkActivity.class);
-                    startActivity(i);
-
-                }
-            }
-        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.button_open_device:
                 openDevice();
                 break;
@@ -187,24 +196,18 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
                 closeDevice();
                 break;
 
-            case R.id.button_start_capture:
-
-                if(!cbLeftThumb.isChecked()   && !cbLeftIndex.isChecked()   && !cbLeftMiddle.isChecked()  &&
-                        !cbLeftRing.isChecked()    && !cbLeftLittle.isChecked()  && !cbRightThumb.isChecked()  &&
-                        !cbRightIndex.isChecked()  && !cbRightMiddle.isChecked() && !cbRightRing.isChecked()   &&
-                        !cbRightLittle.isChecked()) {
-
-                    showToastOnUiThread("Debe seleccionar una opción", Toast.LENGTH_LONG);
-
-                } else {
-
-                    startCapture();
-
-                }
-                break;
-
-            case R.id.button_stop_capture:
-                stopCapture();
+            case R.id.wm_b_thumb_left_arm:
+            case R.id.wm_b_index_left_arm:
+            case R.id.wm_b_middle_left_arm:
+            case R.id.wm_b_ring_left_arm:
+            case R.id.wm_b_pinky_left_arm:
+            case R.id.wm_b_thumb_right_arm:
+            case R.id.wm_b_index_right_arm:
+            case R.id.wm_b_middle_right_arm:
+            case R.id.wm_b_ring_right_arm:
+            case R.id.wm_b_pinky_right_arm:
+                imgFP = ((ImageButton) view);
+                startCapture();
                 break;
 
             case R.id.b_continue_bio_watson:
@@ -272,17 +275,18 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
     @Override
     public void onStatusChanged(final String status) {
         Log.i(TAG, "[INFO] onStatusChanged: " + status);
+        /*
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 showToastOnUiThread(status, Toast.LENGTH_LONG);
             }
-        });
+        });*/
     }
 
     @Override
     public void onError(String error) {
-        showToastOnUiThread(error, Toast.LENGTH_LONG);
+        showToastOnUiThread(error, Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -324,12 +328,13 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
 
     @Override
     public void onFrameTimeChanged(final String frameTime) {
-        runOnUiThread(new Runnable() {
+        /*runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 showToastOnUiThread(frameTime, Toast.LENGTH_LONG);
             }
         });
+        */
     }
 
     @Override
@@ -337,8 +342,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                buttonStartCapture.setVisibility(View.GONE);
-                buttonStopCapture.setVisibility(View.VISIBLE);
+
             }
         });
     }
@@ -348,8 +352,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                buttonStartCapture.setVisibility(View.VISIBLE);
-                buttonStopCapture.setVisibility(View.GONE);
+
             }
         });
     }
@@ -364,78 +367,103 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
     @Override
     public void onCaptureFinishedSuccess(byte[] imageBuffer, final Bitmap imageBitmap, IBScanDevice.ImageFormat imageFormat) {
 
+        byte [] bufferImage = null;
+
         String operationID = SharedPreferencesUtils.readFromPreferencesString(
                                 FingerWatsonActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         String finger = "";
         int fingerSelect = 0;
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        File fileImage = new File(Environment.getExternalStorageDirectory()+"/"+folderName+"/"+WSQfileName+".wsq");
 
-        imageBitmap.compress (Bitmap.CompressFormat.PNG, 100, baos);
+        try {
 
-        imageBuffer = baos.toByteArray();
+            bufferImage = getBytesFile(fileImage);
 
-        if (imageBuffer != null) {
+        } catch (IOException ex ) {
 
-            if(cbLeftThumb.isChecked()) {
-                left_thumb = imageBuffer;
-                finger = "I1";
-                fingerSelect = 6;
-                base64ThumbLeft = com.teknei.bid.tools.Base64.encode(imageBuffer);
+            ex.printStackTrace();
 
-            }else if(cbLeftIndex.isChecked()) {
-                left_index = imageBuffer;
-                finger = "I2";
-                fingerSelect = 7;
-                base64IndexLeft = com.teknei.bid.tools.Base64.encode(imageBuffer);
+        }
 
-            }else if(cbLeftMiddle.isChecked()) {
-                left_middle = imageBuffer;
-                finger = "I3";
-                fingerSelect = 8;
-                base64MiddleLeft = com.teknei.bid.tools.Base64.encode(imageBuffer);
+        if (bufferImage != null) {
 
-            }else if(cbLeftRing.isChecked()) {
-                left_ring = imageBuffer;
-                finger = "I4";
-                fingerSelect = 9;
-                base64RingLeft = com.teknei.bid.tools.Base64.encode(imageBuffer);
+            //imgFP.setImageBitmap(imageBitmap);
 
-            }else if(cbLeftLittle.isChecked()) {
-                left_little = imageBuffer;
-                finger = "I5";
-                fingerSelect = 10;
-                base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imageBuffer);
+            switch (imgFP.getId()) {
+                case R.id.wm_b_pinky_left_arm:
+                    left_little = bufferImage;
+                    finger = "I5";
+                    fingerSelect = 10;
+                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
 
-            }else if(cbRightThumb.isChecked()) {
-                right_thumb = imageBuffer;
-                finger = "D1";
-                fingerSelect = 1;
-                base64ThumbRight = com.teknei.bid.tools.Base64.encode(imageBuffer);
+                case R.id.wm_b_ring_left_arm:
+                    left_ring = bufferImage;
+                    finger = "I4";
+                    fingerSelect = 9;
+                    base64RingLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
 
-            }else if(cbRightIndex.isChecked()) {
-                right_index = imageBuffer;
-                finger = "D2";
-                fingerSelect = 2;
-                base64IndexRight = com.teknei.bid.tools.Base64.encode(imageBuffer);
+                case R.id.wm_b_middle_left_arm:
+                    left_middle = bufferImage;
+                    finger = "I3";
+                    fingerSelect = 8;
+                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
 
-            }else if(cbRightMiddle.isChecked()) {
-                right_middle = imageBuffer;
-                finger = "D3";
-                fingerSelect = 3;
-                base64MiddleRight = com.teknei.bid.tools.Base64.encode(imageBuffer);
+                case R.id.wm_b_index_left_arm:
+                    //bIndexLeft.setImageBitmap(imageBitmap);
+                    flagIndexLeft = true;
+                    left_index = bufferImage;
+                    finger = "I2";
+                    fingerSelect = 7;
+                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
 
-            }else if(cbRightRing.isChecked()) {
-                right_ring = imageBuffer;
-                finger = "D4";
-                fingerSelect = 4;
-                base64RingRight = com.teknei.bid.tools.Base64.encode(imageBuffer);
+                case R.id.wm_b_thumb_left_arm:
+                    left_thumb = bufferImage;
+                    finger = "I1";
+                    fingerSelect = 6;
+                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
 
-            }else if(cbRightLittle.isChecked()) {
-                right_little = imageBuffer;
-                finger = "D5";
-                fingerSelect = 5;
-                base64PinkyRight = com.teknei.bid.tools.Base64.encode(imageBuffer);
+                case R.id.wm_b_pinky_right_arm:
+                    right_little = bufferImage;
+                    finger = "D5";
+                    fingerSelect = 5;
+                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
+
+                case R.id.wm_b_ring_right_arm:
+                    right_ring = bufferImage;
+                    finger = "D4";
+                    fingerSelect = 4;
+                    base64RingRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
+
+                case R.id.wm_b_middle_right_arm:
+                    right_middle = bufferImage;
+                    finger = "D3";
+                    fingerSelect = 3;
+                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
+
+                case R.id.wm_b_index_right_arm:
+                    //bIndexRight.setImageBitmap(imageBitmap);
+                    flagIndexRight = true;
+                    right_index = bufferImage;
+                    finger = "D2";
+                    fingerSelect = 2;
+                    base64IndexRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
+
+                case R.id.wm_b_thumb_right_arm:
+                    right_thumb = bufferImage;
+                    finger = "D1";
+                    fingerSelect = 1;
+                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    break;
             }
 
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + "_" + operationID + ".jpg");
@@ -446,7 +474,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
 
             try {
                 FileOutputStream fo = new FileOutputStream(f);
-                fo.write(imageBuffer);
+                fo.write(bufferImage);
 
                 fo.close();
 
@@ -488,7 +516,31 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         }
     }
 
-    @Override
+    private static byte[] getBytesFile(File f) throws IOException {
+        int size = (int) f.length();
+        byte bytes[] = new byte[size];
+        byte tmpBuff[] = new byte[size];
+        FileInputStream fis= new FileInputStream(f);;
+        try {
+
+            int read = fis.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = fis.read(tmpBuff, 0, remain);
+                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+        }  catch (IOException e){
+            throw e;
+        } finally {
+            fis.close();
+        }
+
+        return bytes;
+    }
+
     public void logOut() {
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
@@ -506,13 +558,11 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         }
     }
 
-    @Override
     public void goNext() {
         Intent i = new Intent(FingerWatsonActivity.this, FakeINEActivity.class);
         startActivity(i);
     }
 
-    @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String fingerOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERS_OPERATION, "");
@@ -558,7 +608,6 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
         }
     }
 
-    @Override
     public void goStep(int flowStep) {
 
     }
@@ -592,20 +641,23 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
+
     }
 
     public boolean validateIndexFingers() {
         boolean bitMapTake;
-        if (imageFilePinkyLeft == null && imageFileRingLeft == null && imageFileMiddleLeft == null &&
-                imageFileIndexLeft == null && imageFileThumbLeft == null && imageFilePinkyRight == null &&
-                    imageFileRingRight == null && imageFileMiddleRight == null && imageFileIndexRight == null &&
-                        imageFileThumbRight == null) {
+
+        if ( imageFileIndexRight==null || imageFileIndexLeft==null) {
+
             bitMapTake = false;
-            Toast.makeText(FingerWatsonActivity.this, "Capture minimo un dedo para continuar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FingerWatsonActivity.this, "Debe capturar ambos dedos indices", Toast.LENGTH_SHORT).show();
+
         } else {
+
             bitMapTake = true;
+
         }
+
         return bitMapTake;
     }
 
@@ -620,9 +672,9 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
             jsonObject.put("emprId", idEnterprice);
             jsonObject.put("customerType", customerType);
             jsonObject.put("operationId", operationID+"");
-            jsonObject.put("contentType", "image/jpeg");
+            jsonObject.put("contentType", "image/wsq");
 
-            Log.i("....-.......,,.,",jsonObject.toString());
+            jsonObject = addBase64Fingers(jsonObject);
 
             if (imageFileThumbLeft != null) {
                 jsonObject.put("dedo1I", true);
@@ -693,9 +745,6 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements BaseActi
             } else {
                 jsonObject.put("dedo5D", false);
             }
-
-            jsonObject = addBase64Fingers(jsonObject);
-
 
         } catch (JSONException e) {
             e.printStackTrace();

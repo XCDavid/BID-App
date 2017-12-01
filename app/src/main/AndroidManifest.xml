@@ -78,8 +78,9 @@
         <activity
             android:name=".activities.FingerBioSdkActivity"
             android:screenOrientation="portrait" />
+
         <activity android:name=".activities.FingerWatsonActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
 
     </application>
 

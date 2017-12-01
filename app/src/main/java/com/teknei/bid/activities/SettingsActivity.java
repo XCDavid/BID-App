@@ -2,21 +2,27 @@ package com.teknei.bid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.teknei.bid.R;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
-public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     EditText etServerMobbScan;
     EditText etLicenseMobbScan;
     EditText etServerTeknei;
     EditText etServerMobbSign;
     EditText etLicenseMobbSign;
     EditText etServerAuth;
+
+    Spinner spFingerprintReader;
 
     Button updateButton;
 
@@ -26,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     String urlMobbsign;
     String licenseMobbsign;
     String urlAuth;
+    String fingerprintReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         urlMobbsign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_MOBBSIGN, getString(R.string.default_url_mobbsign));
         licenseMobbsign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
         urlAuth         = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
+        fingerprintReader = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERPRINT_READER, getString(R.string.default_fingerprint_reader));
 
         etServerMobbScan = (EditText) findViewById(R.id.et_settings_url_id_scan);
         etLicenseMobbScan = (EditText) findViewById(R.id.et_settings_license_id_scan);
@@ -58,6 +66,29 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         etServerMobbSign.setText(urlMobbsign);
         etLicenseMobbSign.setText(licenseMobbsign);
         etServerAuth.setText(urlAuth);
+
+        spFingerprintReader = (Spinner) findViewById(R.id.sp_option_fingerprint_reader);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                            R.array.fingerprint_reader_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spFingerprintReader.setAdapter(adapter);
+        spFingerprintReader.setOnItemSelectedListener(this);
+
+        int posReader = 0;
+
+        for (int i = 0; i < adapter.getCount();i++) {
+            String temp = adapter.getItem(i).toString();
+
+            if (temp.equals(fingerprintReader)) {
+                posReader = i;
+            }
+
+        }
+
+        spFingerprintReader.setSelection(posReader);
 
         updateButton.setOnClickListener(this);
     }
@@ -79,9 +110,20 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_MOBBSIGN,urlMobbsign);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.MOBBSIGN_LICENSE,licenseMobbsign);
                 SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.URL_AUTHACCESS,urlAuth);
+                SharedPreferencesUtils.saveToPreferencesString(SettingsActivity.this,SharedPreferencesUtils.FINGERPRINT_READER,fingerprintReader);
 
                 Toast.makeText(SettingsActivity.this, "Ajustes actualizados !", Toast.LENGTH_LONG).show();
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        fingerprintReader = adapterView.getItemAtPosition(i).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

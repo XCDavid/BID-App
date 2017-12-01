@@ -47,6 +47,9 @@ public class SharedPreferencesUtils {
     public static final String ID_ENTERPRICE = "id_enterprice";
     public static final String CUSTOMER_TYPE = "customer_type";
 
+    //Lector de huellas digitales
+    public static final String FINGERPRINT_READER = "fingerprint_reader";
+
 
     public static void saveToPreferencesString(Context contex, String preferenceName, String preferenceValue) {
         SharedPreferences sharedPreferences = contex.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);

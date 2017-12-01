@@ -3,259 +3,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|center_vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/wm_ly_instructions_fingerprints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/ln_take_finger_watson">
+        android:gravity="center_horizontal">
 
-        <LinearLayout
-            android:weightSum="100"
-            android:orientation="vertical"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/instruction_begin_fingerprints_scan"
+            android:textStyle="bold" />
 
-            <Switch
-                android:id="@+id/sw_watson_change_biosdk"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/fragment"
-                android:layout_gravity="end"
-                android:textColor="#000000"
-                android:textOff="Actual"
-                android:textOn ="BioSDK" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:text="@string/instruction_begin_fingerprints_scan"
-                android:textAlignment="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/text_view_frame_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:paddingBottom="20dp"
-                android:paddingTop="30dp">
-
-                <LinearLayout
-                    android:id="@+id/left_hand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingRight="15dp">
-
-                    <RadioGroup
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal">
-
-                        <RadioButton
-                            android:id="@+id/fin1"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_left_thumb" />
-
-                        <RadioButton
-                            android:id="@+id/fin2"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_left_index" />
-
-                        <RadioButton
-                            android:id="@+id/fin3"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_left_middle" />
-
-                        <RadioButton
-                            android:id="@+id/fin4"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_left_ring" />
-
-                        <RadioButton
-                            android:id="@+id/fin5"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_left_little" />
-
-                        <RadioButton
-                            android:id="@+id/fin6"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_right_thumb" />
-
-                        <RadioButton
-                            android:id="@+id/fin7"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_right_index" />
-
-                        <RadioButton
-                            android:id="@+id/fin8"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_right_middle" />
-
-                        <RadioButton
-                            android:id="@+id/fin9"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_right_ring" />
-
-                        <RadioButton
-                            android:id="@+id/fin10"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp"
-                            android:text="@string/bio_watson_right_little" />
-
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/image_view_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="434dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="100"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:id="@+id/ln_show_finger_watson">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical">
 
-            <Button
-                android:id="@+id/button_start_capture"
-                android:layout_weight="50"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bio_watson_start_capture"
-                tools:layout_editor_absoluteX="34dp"
-                tools:layout_editor_absoluteY="157dp" />
+            <include layout="@layout/finger_print_hands"/>
 
-            <Button
-                android:id="@+id/button_stop_capture"
-                android:layout_weight="50"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bio_watson_stop_capture"
-                tools:layout_editor_absoluteX="34dp"
-                tools:layout_editor_absoluteY="157dp" />
-
-            <Button
-                android:id="@+id/button_open_device"
-                android:layout_weight="50"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bio_watson_open_device"
-                tools:layout_editor_absoluteX="34dp"
-                tools:layout_editor_absoluteY="97dp" />
-
-            <Button
-                android:id="@+id/button_close_device"
-                android:layout_weight="50"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bio_watson_close_device"
-                tools:layout_editor_absoluteX="34dp"
-                tools:layout_editor_absoluteY="97dp" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/b_continue_bio_watson"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height_form"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/selector_primary_button"
-        android:text="@string/bio_watson_continue"
-        android:textColor="@color/text_color_white" />
+        android:gravity="center_vertical|center_horizontal"
+        >
+
+        <Button
+            android:id="@+id/b_continue_bio_watson"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/button_height_form"
+            android:background="@drawable/selector_primary_button"
+            android:textColor="@color/text_color_white"
+            android:text="@string/bio_watson_continue"
+            />
+
+        <Button
+            android:id="@+id/button_open_device"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/button_height_form"
+            android:text="@string/bio_watson_open_device"
+            android:background="@drawable/selector_primary_button"
+            android:textColor="@color/text_color_white"
+            android:layout_alignParentBottom="true"
+            />
+
+        <Button
+            android:id="@+id/button_close_device"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/button_height_form"
+            android:background="@drawable/selector_primary_button"
+            android:textColor="@color/text_color_white"
+            android:text="@string/bio_watson_close_device"
+            android:layout_above="@+id/button_open_device"
+            android:layout_alignParentStart="true"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/button_stop_capture"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/button_height_form"
+            android:background="@drawable/selector_primary_button"
+            android:textColor="@color/text_color_white"
+            android:text="@string/bio_watson_stop_capture"
+            android:layout_below="@+id/b_continue_bio_watson"
+            android:layout_alignParentStart="true"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

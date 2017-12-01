@@ -32,6 +32,8 @@ public class ApiConstants {
     public static final int ACTION_GO_STEP_LOCAL                = 16;
     public static final int ACTION_TRY_AGAIN_CONTINUE_LOCAL     = 17;
 
+    public static final int ACTION_TRY_AGAIN_CONTINUE_DOC       =  8;
+
     public static final int TYPE_INE      = 1;
     public static final int TYPE_PASSPORT = 2;
 

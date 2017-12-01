@@ -21,17 +21,6 @@
             android:text="@string/instruction_begin_fingerprints_scan"
             android:textStyle="bold" />
 
-        <Switch
-            android:id="@+id/sw_change_biosdk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/fragment"
-            android:layout_gravity="end"
-            android:textColor="#000000"
-            android:textOff="Actual"
-            android:textOn ="BioSDK" />
-
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -64,13 +53,14 @@
             android:id="@+id/b_thumb_left_arm"
             android:layout_width="@dimen/width_thumb_finger"
             android:layout_height="@dimen/height_thumb_finger"
-            android:layout_marginBottom="@dimen/thumb_left_margin_bottom"
+            android:layout_marginBottom="116dp"
             android:layout_marginStart="@dimen/thumb_left_margin_left"
             android:adjustViewBounds="true"
             android:background="@drawable/selector__transparent_image_button"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="400dp" />
         <ImageButton
             android:id="@+id/b_index_left_arm"
             android:layout_width="@dimen/width_index_finger"

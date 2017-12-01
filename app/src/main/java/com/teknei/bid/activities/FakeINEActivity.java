@@ -43,6 +43,9 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         }
 
         String jsonString = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+
+        Log.d("-----------::",jsonString);
+
         String name = "";
         String apPat = "";
         String apMat = "";

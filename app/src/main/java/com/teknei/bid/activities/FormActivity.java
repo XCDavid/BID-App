@@ -402,8 +402,23 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(iDocu);
                 break;
             case 4:
-                Intent iFinger = new Intent(FormActivity.this, FingerPrintsActivity.class);
-                startActivity(iFinger);
+                String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+                if (opcionFingerprintReader.equals("watson")){
+
+                    Intent i = new Intent(FormActivity.this, FingerWatsonActivity.class);
+                    startActivity(i);
+
+                } else if (opcionFingerprintReader.equals("biosmart")) {
+
+                    Intent i = new Intent(FormActivity.this, FingerBioSdkActivity.class);
+                    startActivity(i);
+
+                } else {
+
+                    Intent i = new Intent(FormActivity.this, FingerPrintsActivity.class);
+                    startActivity(i);
+                }
                 break;
             case 5:
 //                Intent iFake = new Intent(FormActivity.this, FakeINEActivity.class);

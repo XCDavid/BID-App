@@ -68,6 +68,15 @@
     <!-- Retrofit OAuthAccess -->
     <string name="default_url_oauthaccess">http://192.168.1.190:8081</string>
     <!--string name="default_url_oauthaccess">http://201.99.106.95:8081</string-->
+    <string name="settings_fingerprint_reader">biosmart/watson/mso</string>
+    <string name="default_fingerprint_reader">mso</string>
+
+    <string-array name="fingerprint_reader_array">
+        <item> </item>
+        <item>mso</item>
+        <item>watson</item>
+        <item>biosmart</item>
+    </string-array>
 
     <!--Alert Dialog strings-->
     <string name="continue_message_dialog">Continuar</string>
@@ -249,6 +258,7 @@
     <string name="tv_url_server_mobbsign_settings">Url servidor para firma digital</string>
     <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
     <string name="tv_settings_url_auth">Url de autenticación</string>
+    <string name="tv_fingerprint_reader">Lector de huellas digitales</string>
 
     <string name="tv_street_credential_dialog">Calle</string>
     <string name="tv_hint_street_credential_dialog">Calle y Número</string>

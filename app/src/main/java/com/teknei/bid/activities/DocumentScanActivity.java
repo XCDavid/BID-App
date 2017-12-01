@@ -168,8 +168,23 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void goNext() {
-        Intent i = new Intent(DocumentScanActivity.this, FingerPrintsActivity.class);
-        startActivity(i);
+        String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+        if (opcionFingerprintReader.equals("watson")){
+
+            Intent i = new Intent(DocumentScanActivity.this, FingerWatsonActivity.class);
+            startActivity(i);
+
+        } else if (opcionFingerprintReader.equals("biosmart")) {
+
+            Intent i = new Intent(DocumentScanActivity.this, FingerBioSdkActivity.class);
+            startActivity(i);
+
+        } else {
+
+            Intent i = new Intent(DocumentScanActivity.this, FingerPrintsActivity.class);
+            startActivity(i);
+        }
     }
 
     public String buildJSON() {

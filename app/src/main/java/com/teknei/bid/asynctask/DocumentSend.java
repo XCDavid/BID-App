@@ -233,7 +233,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                                         } else {
                                             errorMessage = responseStatus + " - " + "Error al obtener información de la imagen";
                                             AlertDialog dialogoAlert;
-                                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                                             dialogoAlert.setCancelable(false);
                                             dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                             dialogoAlert.show();
@@ -243,7 +243,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                                     else {
                                         errorMessage = responseStatus + " - " + messageResp;
                                         AlertDialog dialogoAlert;
-                                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                                         dialogoAlert.setCancelable(false);
                                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                         dialogoAlert.show();
@@ -252,7 +252,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
 
                                     errorMessage = responseStatus + " - " + "Error al obtener datos del servidor";
                                     AlertDialog dialogoAlert;
-                                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                                     dialogoAlert.setCancelable(false);
                                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                     dialogoAlert.show();
@@ -268,7 +268,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                             Log.d("Response Message", "complete:" + response.code());
 
                             AlertDialog dialogoAlert;
-                                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), response.message().toString(), ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), response.message().toString(), ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                                 dialogoAlert.setCancelable(false);
                                 dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                 dialogoAlert.show();
@@ -280,7 +280,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                         Log.d("Response Message", "complete:" + response.code());
 
                         AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),response.message().toString(), ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),response.message().toString(), ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                         dialogoAlert.setCancelable(false);
                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                         dialogoAlert.show();
@@ -291,12 +291,10 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 public void onFailure(Call<ResponseDocument> call, Throwable t) {
                     progressDialog.dismiss();
 
-                    Log.d("Response Message", "--------------------------------------------------");
-
                     t.printStackTrace();
 
                     AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC);
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
@@ -309,7 +307,6 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                 //espera hasta que pasen los 2 segundos en caso de que halla terminado muy rapido el hilo
             }
             Log.i("Wait", "timer finish : " + System.currentTimeMillis());
-
         }
         return null;
     }

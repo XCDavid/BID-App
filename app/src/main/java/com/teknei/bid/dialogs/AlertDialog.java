@@ -53,15 +53,18 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE ||
               actionIn == ApiConstants.ACTION_TRY_AGAIN_LOCAL || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION_LOCAL ||
-               actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL )
+               actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL
+                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC)
             okButton.setText    (activityOrigin.getString(R.string.message_ws_tray_again));
 
         if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION  ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_LOG_OUT_LOCAL ||
-              actionIn == ApiConstants.ACTION_CANCEL_OPERATION_LOCAL  || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL) {
+              actionIn == ApiConstants.ACTION_CANCEL_OPERATION_LOCAL  || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL
+                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
             cancelButton.setVisibility(View.VISIBLE);
 
-        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL ) {
+        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL
+                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
 
             cancelButton.setVisibility(View.VISIBLE);
             cancelButton.setText(activityOrigin.getString(R.string.continue_message_dialog));
@@ -94,12 +97,14 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
         if (actionIn == ApiConstants.ACTION_TRY_AGAIN || actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_TRY_AGAIN_LOCAL ||
-              actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL)
+              actionIn == ApiConstants.ACTION_BLOCK_CANCEL_OPERATION_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL
+                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC)
             okButton.setText(activityOrigin.getString(R.string.message_ws_tray_again));
 
         if (actionIn == ApiConstants.ACTION_LOG_OUT || actionIn == ApiConstants.ACTION_CANCEL_OPERATION ||
              actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL || actionIn == ApiConstants.ACTION_LOG_OUT_LOCAL ||
-              actionIn == ApiConstants.ACTION_CANCEL_OPERATION_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL)
+              actionIn == ApiConstants.ACTION_CANCEL_OPERATION_LOCAL || actionIn == ApiConstants.ACTION_TRY_AGAIN_CANCEL_LOCAL
+                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC)
             cancelButton.setVisibility(View.VISIBLE);
     }
 
@@ -141,8 +146,11 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
                 } else if (actionIn == ApiConstants.ACTION_GO_STEP_LOCAL) {
                     ((FingerWatsonActivity) activityOrigin).goStep(flowStep);
-                }
 
+                } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
+                    ((BaseActivity) activityOrigin).sendPetition();
+
+                }
                 break;
             case R.id.cancel_buttom:
                 dismiss();
@@ -152,6 +160,13 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
 
                 } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL) {
                     ((FingerWatsonActivity) activityOrigin).goNext();
+
+                }else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
+                    DocumentResumeDialog dialogoAlert;
+                    dialogoAlert = new DocumentResumeDialog(activityOrigin);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
                 }
 
                 break;

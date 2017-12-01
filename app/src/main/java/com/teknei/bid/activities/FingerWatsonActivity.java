@@ -65,8 +65,8 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
 
     private ImageView imageViewPreview;
 
-    private Button  buttonOpenDevice;
-    private Button  buttonCloseDevice;
+    //private Button  buttonOpenDevice;
+    //private Button  buttonCloseDevice;
 
     private Button  buttonContinue;
 
@@ -161,12 +161,12 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
 
         imageViewPreview     = (ImageView) findViewById (R.id.image_view_preview);
 
-        buttonOpenDevice   = (Button) findViewById(R.id.button_open_device);
-        buttonCloseDevice  = (Button) findViewById(R.id.button_close_device);
+        //buttonOpenDevice   = (Button) findViewById(R.id.button_open_device);
+        //buttonCloseDevice  = (Button) findViewById(R.id.button_close_device);
         buttonContinue     = (Button) findViewById(R.id.b_continue_bio_watson);
 
-        buttonOpenDevice.setOnClickListener  (this);
-        buttonCloseDevice.setOnClickListener (this);
+        //buttonOpenDevice.setOnClickListener  (this);
+        //buttonCloseDevice.setOnClickListener (this);
         buttonContinue.setOnClickListener    (this);
 
         bPinkyLeft.setOnClickListener(this);
@@ -187,7 +187,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+/*
             case R.id.button_open_device:
                 openDevice();
                 break;
@@ -195,7 +195,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
             case R.id.button_close_device:
                 closeDevice();
                 break;
-
+*/
             case R.id.wm_b_thumb_left_arm:
             case R.id.wm_b_index_left_arm:
             case R.id.wm_b_middle_left_arm:
@@ -207,13 +207,21 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
             case R.id.wm_b_ring_right_arm:
             case R.id.wm_b_pinky_right_arm:
                 imgFP = ((ImageButton) view);
-                startCapture();
+
+                if (watsonMiniData.state == INITIALIZED)
+                    startCapture();
+                else
+                    openDevice();
+
                 break;
 
             case R.id.b_continue_bio_watson:
 
                 if (validateIndexFingers()) {
                     Log.d(TAG,"SEND PETICION TRUE");
+
+                    closeDevice();
+
                     sendPetition();
                 }
                 break;
@@ -302,9 +310,9 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
             @Override
             public void run() {
                 if(progressValue != 100){
-                    buttonOpenDevice.setEnabled(false);
+                    //buttonOpenDevice.setEnabled(false);
                 }else{
-                    buttonOpenDevice.setEnabled(true);
+                    //buttonOpenDevice.setEnabled(true);
                 }
             }
         });
@@ -313,11 +321,12 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
     @Override
     public void onDeviceStateChanged(boolean isOpen) {
         if(isOpen) {
-            buttonOpenDevice.setVisibility(View.GONE);
-            buttonCloseDevice.setVisibility(View.VISIBLE);
+            //buttonOpenDevice.setVisibility(View.GONE);
+            //buttonCloseDevice.setVisibility(View.VISIBLE);
+            startCapture();
         } else {
-            buttonOpenDevice.setVisibility(View.VISIBLE);
-            buttonCloseDevice.setVisibility(View.GONE);
+            //buttonOpenDevice.setVisibility(View.VISIBLE);
+            //buttonCloseDevice.setVisibility(View.GONE);
         }
     }
 
@@ -349,12 +358,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
 
     @Override
     public void onCaptureStop() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
     }
 
     /**

@@ -2,6 +2,7 @@ package com.teknei.bid.services;
 
 import com.teknei.bid.domain.AddressDTO;
 import com.teknei.bid.domain.CredentialDTO;
+import com.teknei.bid.domain.FingerLoginDTO;
 import com.teknei.bid.domain.SearchDTO;
 import com.teknei.bid.domain.StartOperationDTO;
 import com.teknei.bid.response.OAuthAccessToken;
@@ -113,5 +114,18 @@ public interface BIDEndPointServices {
                                                       @Path("id")      String id,
                                                       @Path("type")    String type,
                                                       @Body AddressDTO addressDTO);
+
+    /*
+    @Multipart
+    @POST("rest/v3/enrollment/biometric/search/customerId")
+    Call<ResponseServicesBID> enrollmentBiometricSearchCustomerId
+                                                     (@Header("Authorization") String authorization,
+                                                      @Part MultipartBody.Part jsonFile);
+    */
+
+    @POST("rest/v3/enrollment/biometric/search/customerId")
+    Call<ResponseServicesBID> enrollmentBiometricSearchCustomerId
+                                                    (@Header("Authorization") String authorization,
+                                                     @Body FingerLoginDTO jsonFile);
 
 }

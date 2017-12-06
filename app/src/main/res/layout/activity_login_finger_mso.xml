@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:src="@drawable/buro"
+        android:scaleType="centerCrop"
+        android:layout_above="@+id/lay_user_pass_section"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/lfm_lay_fingerprint_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical|center_horizontal"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/lfM_instruction_begin_fingerprints_scan"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/lfm_b_finger_print"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector__transparent_image_button"
+            android:scaleType="centerCrop"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/lfm_b_login_finger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/b_in_login"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_white"
+        android:background="@drawable/selector_rounded_rectangle_login"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/lfm_lay_fingerprint_section"
+        />
+
+</RelativeLayout>
+

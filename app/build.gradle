@@ -78,6 +78,8 @@ dependencies {
 
     compile project(':scanlibrary')
 
+    // Butterknife
+    compile project(':watson-mini')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -91,10 +93,7 @@ dependencies {
     compile 'cz.msebera.android:httpclient:4.4.1.2'
     compile 'io.fotoapparat.fotoapparat:library:1.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    testCompile 'junit:junit:4.12'
-
-    // Butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
+    testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile project(':watson-mini')
 }

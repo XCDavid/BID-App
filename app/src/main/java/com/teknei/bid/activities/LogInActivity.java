@@ -1,18 +1,33 @@
 package com.teknei.bid.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.integratedbiometrics.ibscanultimate.IBScan;
+import com.integratedbiometrics.ibscanultimate.IBScanDevice;
+import com.integratedbiometrics.ibscanultimate.IBScanDeviceListener;
+import com.integratedbiometrics.ibscanultimate.IBScanException;
+import com.integratedbiometrics.ibscanultimate.IBScanListener;
 import com.teknei.bid.R;
 import com.teknei.bid.response.OAuthAccessToken;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.response.ResponseDetailMe;
 import com.teknei.bid.services.OAuthApi;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
@@ -20,19 +35,47 @@ import com.teknei.bid.ws.RetrofitSingleton;
 
 import android.provider.Settings.Secure;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+
+import mx.com.morpho.watson_mini.AppState;
+import mx.com.morpho.watson_mini.PlaySound;
+import mx.com.morpho.watson_mini.WatsonMiniData;
+import mx.com.morpho.watson_mini.WatsonMiniHelper;
+import mx.com.morpho.watson_mini.WatsonMiniListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.integratedbiometrics.ibscanultimate.IBScanDevice.ImageType.FLAT_SINGLE_FINGER;
+import static com.integratedbiometrics.ibscanultimate.IBScanDevice.ImageType.FLAT_TWO_FINGERS;
+import static mx.com.morpho.watson_mini.AppState.INITIALIZED;
+import static mx.com.morpho.watson_mini.AppState.SCANNER_ATTACHED;
+import static mx.com.morpho.watson_mini.Constants.FINGER_QUALITIES_COUNT;
+import static mx.com.morpho.watson_mini.Constants.FINGER_QUALITY_FAIR_COLOR;
+import static mx.com.morpho.watson_mini.Constants.FINGER_QUALITY_GOOD_COLOR;
+import static mx.com.morpho.watson_mini.Constants.FINGER_QUALITY_NOT_PRESENT_COLOR;
+import static mx.com.morpho.watson_mini.Constants.FINGER_QUALITY_POOR_COLOR;
+import static mx.com.morpho.watson_mini.Constants.INITIALIZING_DEVICE_INDEX;
+import static mx.com.morpho.watson_mini.Constants.STOPPING_CAPTURE_DELAY_MILLIS;
+import static mx.com.morpho.watson_mini.WatsonMiniHelper.drawBitmapRollingLine;
+
 public class LogInActivity extends BaseActivity implements View.OnClickListener {
-    Button bLogIn;
+
+    Button   bLogIn;
     EditText etUser;
     EditText etPass;
-    String user;
-    String pass;
+    String   user;
+    String   pass;
 
     private OAuthApi api;
     private OAuthAccessToken accessToken;
+
+    private static final String TAG = "LogInActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +88,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         }
 
         String uuid = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-
-        Log.d("LogInActivity--",uuid);
 
         setContentView(R.layout.activity_log_in);
         etUser = (EditText) findViewById(R.id.et_user_log_in);
@@ -93,14 +134,13 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     public void sendPetition() {
         String authorization = Base64.encodeToString(new String(user + ":" + pass).getBytes(), Base64.DEFAULT);
         if (user.equals("admin")) {
+
             Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
-        }else{
-            //new LogIn(LogInActivity.this, user, pass, "", authorization).execute();
+        }
+        else {
 
             String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
-
-            Log.d("................",urlAuthAccess);
 
             api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
 
@@ -120,7 +160,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
                         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.TOKEN_APP,"bearer "+accessToken.getAccessToken());
                         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.USERNAME,user);
 
-                        goNext();
+                        obteinDataCustomer();
+
                     } else {
 
                         String errorMessage = "Error al autenticar verifique datos de usuario y contraseña";
@@ -153,11 +194,96 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    public void obteinDataCustomer () {
+        String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
+        String token           = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+
+        api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
+
+        Call<ResponseDetailMe> call = api.getOwnerInfo(token);
+
+        call.enqueue(new Callback<ResponseDetailMe>() {
+
+            @Override
+            public void onResponse(Call<ResponseDetailMe> call, Response<ResponseDetailMe> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    ResponseDetailMe responseCustomer = response.body();
+
+                    if (responseCustomer.isAuthenticated()) {
+
+                        Log.d("LOGGGGGG",responseCustomer.getClientId()+"");
+
+                        String idClient =  responseCustomer.getClientId()+"";
+
+                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.ID_CLIENT, idClient);
+
+                        goNext();
+
+                    } else {
+
+                        String errorMessage = "Error al obtener datos de usuario";
+
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice),
+                                errorMessage, ApiConstants.ACTION_CANCEL_OPERATION);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+
+                    }
+
+                } else {
+
+                    String errorMessage = "Error al obtener datos de usuario";
+
+                    AlertDialog dialogoAlert;
+                    dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage,
+                                                                                        ApiConstants.ACTION_CANCEL_OPERATION);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDetailMe> call, Throwable t) {
+
+                Log.d("................", "onFailure");
+
+                t.printStackTrace();
+
+                String errorMessage = "Error al conectarse con servidor, verifique conexión";
+
+                AlertDialog dialogoAlert;
+                dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                dialogoAlert.setCancelable(false);
+                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogoAlert.show();
+            }
+        });
+    }
+
     @Override
     public void goNext() {
-        Intent i = new Intent(LogInActivity.this, FormActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
+        String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(LogInActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+        if (opcionFingerprintReader.equals("watson")){
+
+            Intent i = new Intent(LogInActivity.this, LoginFingerWatsonActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+        } else {
+
+            Intent i = new Intent(LogInActivity.this, LoginFingerMSOActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+        }
+
     }
 
     public void saveSharedPreferenceByDefault() {
@@ -177,5 +303,4 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_AUTHACCESS, urlAuthAccess);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, fingerprintReader);
     }
-
 }

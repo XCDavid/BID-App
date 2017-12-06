@@ -31,6 +31,10 @@
     <string name="tv_hint_pass_login">Contraseña</string>
     <string name="b_in_login">Ingresar</string>
 
+    <!--Login Finger Mini Watson Activity -->
+    <string name="lfw_b_capture_fingerprint">Capturar Huella</string>
+    <string name="message_figerprints_login">Verificando Huella Digital</string>
+
     <!--Server strings-->
     <string name="message_ws_notice">Aviso</string>
     <string name="message_ws_tray_again">Reintentar</string>
@@ -302,4 +306,9 @@
     <string name="title_curp_alert_dialog">Aviso</string>
     <string name="message_curp_alert_dialog">El CURP ingresado en el formulario no es el mismo recuperado de la identificación proporcionada.</string>
     <string name="title_activity_finger_bio_sdk">FingerBioSdkActivity</string>
+
+    <!-- Login Finger MSO -->
+    <string name="lfM_instruction_begin_fingerprints_scan">Seleccione botón para iniciar lectura.</string>
+    <string name="lfM_login_fingerprints_activity_name">Autenticación Dactilar</string>
+
 </resources>

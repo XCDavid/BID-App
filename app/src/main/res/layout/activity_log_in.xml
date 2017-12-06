@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     >
+
     <ImageView
         android:layout_width="500dp"
         android:layout_height="300dp"
@@ -73,6 +74,9 @@
             android:hint="@string/tv_hint_pass_login"
             />
     </LinearLayout>
+
+
+
     <Button
         android:id="@+id/b_login"
         android:layout_width="match_parent"

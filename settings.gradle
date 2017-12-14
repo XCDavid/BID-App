@@ -1,1 +1,1 @@
-include ':app', ':scanlibrary', ':morphobiosdk', ':watson-mini'
+include ':app', ':scanlibrary', ':bio-sdk', ':watson-mini'

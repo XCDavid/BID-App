@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,72 +21,100 @@
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
-        android:icon="@drawable/movi"
+        android:icon="@drawable/ico_bid"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/movi"
+        android:roundIcon="@drawable/ico_bid"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.LogInActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.IdScanActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.IcarScanActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.FaceScanActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.FingerPrintsActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".activities.DocumentScanActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.SelectIdTypeActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.PayConfirmationActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.FormActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.ResultOperationActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.ConsultActivity"
             android:screenOrientation="portrait" />
+
         <activity android:name=".activities.BaseActivity" />
+
         <activity
             android:name=".activities.FakeINEActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".mobbsign.MobbSignActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".activities.FingerBioSdkActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.FingerWatsonActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".activities.LoginFingerWatsonActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.LoginFingerMSOActivity"
+
+        <activity
+            android:name=".activities.LoginFingerMSOActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.LoginFingerBioSmartActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activities.FaceEnrollActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

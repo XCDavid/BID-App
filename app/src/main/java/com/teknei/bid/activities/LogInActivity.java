@@ -25,6 +25,8 @@ import com.integratedbiometrics.ibscanultimate.IBScanDeviceListener;
 import com.integratedbiometrics.ibscanultimate.IBScanException;
 import com.integratedbiometrics.ibscanultimate.IBScanListener;
 import com.teknei.bid.R;
+import com.teknei.bid.asynctask.LogIn;
+import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.response.OAuthAccessToken;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.response.ResponseDetailMe;
@@ -140,6 +142,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         }
         else {
 
+            new LogIn(LogInActivity.this, user, pass, "", "").execute();
+            /*
             String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
 
             api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
@@ -190,7 +194,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
                 }
-            });
+            });*/
         }
     }
 
@@ -276,14 +280,18 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
+        } else if (opcionFingerprintReader.equals("biosmart")) {
+
+            Intent i = new Intent(LogInActivity.this, LoginFingerBioSmartActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
         } else {
 
             Intent i = new Intent(LogInActivity.this, LoginFingerMSOActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
-
         }
-
     }
 
     public void saveSharedPreferenceByDefault() {

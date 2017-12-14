@@ -433,7 +433,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void goNext() {
-        Intent i = new Intent(IcarScanActivity.this, FaceScanActivity.class);
+        Intent i = new Intent(IcarScanActivity.this, FaceEnrollActivity.class);
         startActivity(i);
     }
 

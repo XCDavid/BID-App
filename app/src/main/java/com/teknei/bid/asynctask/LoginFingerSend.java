@@ -62,7 +62,7 @@ public class LoginFingerSend extends AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        progressDialog = new ProgressDialog(activityOrigin,activityOrigin.getString(R.string.message_figerprints_check));
+        progressDialog = new ProgressDialog(activityOrigin,activityOrigin.getString(R.string.message_figerprints_auth));
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();

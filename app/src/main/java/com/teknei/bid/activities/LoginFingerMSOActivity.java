@@ -280,8 +280,15 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
         });
     }
 
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        SharedPreferencesUtils.deleteFromPreferences(LoginFingerMSOActivity.this, SharedPreferencesUtils.TOKEN_APP);
+        SharedPreferencesUtils.deleteFromPreferences(LoginFingerMSOActivity.this, SharedPreferencesUtils.USERNAME);
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(LoginFingerMSOActivity.this);
+
+        Intent i = new Intent(LoginFingerMSOActivity.this, LogInActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 }

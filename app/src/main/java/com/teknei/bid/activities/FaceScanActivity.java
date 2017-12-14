@@ -64,6 +64,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_scan);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.face_scan_activity_name));
             invalidateOptionsMenu();
@@ -113,6 +114,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                     photoBuffer = bitmapToByteArray(bmp);
                     ibFacePictureButton.setImageBitmap(bmp);
 
@@ -161,6 +163,7 @@ public class FaceScanActivity extends BaseActivity implements View.OnClickListen
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String faceOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FACE_OPERATION, "");
+
         if (faceOperation.equals("")) {
             fileList.clear();
             String localTime = PhoneSimUtils.getLocalDateAndTime();

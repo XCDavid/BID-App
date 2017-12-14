@@ -56,6 +56,7 @@ import com.morpho.mph_bio_sdk.android.sdk.msc.data.results.IImage;
 import com.morpho.mph_bio_sdk.android.sdk.msc.data.results.MorphoBioTraking;
 import com.morpho.mph_bio_sdk.android.sdk.msc.data.results.MorphoImage;
 import com.morpho.mph_bio_sdk.android.sdk.msc.error.BioCaptureHandlerError;
+import com.morpho.mph_bio_sdk.android.sdk.msc.error.exceptions.MSCException;
 import com.morpho.mph_bio_sdk.android.sdk.msc.listeners.BioCaptureFeedbackListener;
 import com.morpho.mph_bio_sdk.android.sdk.msc.listeners.BioCaptureResultListener;
 import com.morpho.mph_bio_sdk.android.sdk.msc.listeners.BioCaptureTrackingListener;
@@ -85,7 +86,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import morpho.urt.msc.mscengine.MorphoSurfaceView;
 
-public class FingerBioSdkActivity extends BaseActivity implements FingersPresenter.View, LicensePresenter.View,
+public class FingerBioSdkActivity extends BaseActivity implements FingersPresenter.View, LicensePresenter.Ui,
         BioCaptureResultListener, BioCaptureFeedbackListener, View.OnClickListener {
 
     // Local Variables
@@ -181,7 +182,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         licensePresenter = new LicensePresenter(new LicenseInteractor( new LicenseService(this,
                 "http://201.99.117.119:8081/ServiceProviderLicense/LicenseRequest",
                 "https://service-intg.dictao.com/lkms-server-app")));
-        licensePresenter.setView(FingerBioSdkActivity.this);
+        licensePresenter.setUi(FingerBioSdkActivity.this);
 
         checkLicense();
 
@@ -319,7 +320,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     }
 
     protected void onInitializationSuccess() {
-        captureHandler.startPreview();
+        try {
+            captureHandler.startPreview();
+        } catch (MSCException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onBioCaptureInitialized(IBioCaptureHandler iBioCaptureHandler) {
@@ -358,7 +363,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     @Override
     public void onCaptureSuccess(List<MorphoImage> imageList) {
         if(captureHandler!=null) {
-            captureHandler.stopCapture();
+            try {
+                captureHandler.stopCapture();
+            } catch (MSCException e) {
+                e.printStackTrace();
+            }
         }
         int imageQuality    =0;
         int numberOfSamples =0;
@@ -401,7 +410,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     @Override
     public void onCaptureFailure(CaptureError captureError, IBiometricInfo iBiometricInfo, Bundle bundle) {
         if(captureHandler!=null) {
-            captureHandler.startCapture();
+            try {
+                captureHandler.startCapture();
+            } catch (MSCException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -453,12 +466,12 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
     @Override
     public void hideLoader() {
-        runOnUiThread(new Runnable() {
+        /*runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // progressBar.setVisibility(View.GONE);
             }
-        });
+        });*/
     }
 
     @Override
@@ -582,7 +595,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
 
             if (isTakeLeft && isTakeRight) {
 
-                captureHandler.stopPreview();
+                try {
+                    captureHandler.stopPreview();
+                } catch (MSCException e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 onPreparePresenter();
@@ -658,7 +675,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         switch (view.getId()) {
 
             case R.id.i_take_image_bio_sdk:
-                captureHandler.startCapture();
+                try {
+                    captureHandler.startCapture();
+                } catch (MSCException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case R.id.b_continue_bio_sdk:
@@ -712,7 +733,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     }
 
     public String buildJSON() {
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        String operationID  = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         String idEnterprice = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, "default");
         String customerType = SharedPreferencesUtils.readFromPreferencesString(FingerBioSdkActivity.this, SharedPreferencesUtils.CUSTOMER_TYPE, "default");
 
@@ -724,6 +745,9 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
             jsonObject.put("operationId", Integer.valueOf(operationID));
             jsonObject.put("contentType", "image/jpeg");
             jsonObject = addBase64Fingers(jsonObject);
+
+            Log.d(TAG,"---"+jsonObject);
+
             if (imageFileThumbLeft != null) {
                 jsonObject.put("dedo1I", true);
                 fingersFileArray.add(imageFileThumbLeft);
@@ -806,8 +830,10 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
     }
 
     private JSONObject addBase64Fingers(JSONObject jsonObject) {
+
         if (base64PinkyLeft != null && !base64PinkyLeft.equals("")) {
             try {
+                Log.d ("----------------------------","ll" + base64PinkyLeft);
                 jsonObject.put("ll", base64PinkyLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -815,6 +841,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64RingLeft != null && !base64RingLeft.equals("")) {
             try {
+                Log.d ("----------------------------","lr" + base64RingLeft);
                 jsonObject.put("lr", base64RingLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -822,6 +849,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64MiddleLeft != null && !base64MiddleLeft.equals("")) {
             try {
+                Log.d ("----------------------------","lm" + base64MiddleLeft);
                 jsonObject.put("lm", base64MiddleLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -829,6 +857,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64IndexLeft != null && !base64IndexLeft.equals("")) {
             try {
+                Log.d ("----------------------------","li" + base64IndexLeft);
                 jsonObject.put("li", base64IndexLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -836,6 +865,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64ThumbLeft != null && !base64ThumbLeft.equals("")) {
             try {
+                Log.d ("----------------------------","lt" + base64ThumbLeft);
                 jsonObject.put("lt", base64ThumbLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -844,6 +874,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         //Right arm
         if (base64PinkyRight != null && !base64PinkyRight.equals("")) {
             try {
+                Log.d ("----------------------------","rl" + base64PinkyRight);
                 jsonObject.put("rl", base64PinkyRight);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -851,6 +882,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64RingRight != null && !base64RingRight.equals("")) {
             try {
+                Log.d ("----------------------------","rr" + base64RingRight);
                 jsonObject.put("rr", base64RingRight);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -858,6 +890,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64MiddleRight != null && !base64MiddleRight.equals("")) {
             try {
+                Log.d ("----------------------------","rm" + base64MiddleRight);
                 jsonObject.put("rm", base64MiddleRight);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -865,6 +898,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64IndexRight != null && !base64IndexRight.equals("")) {
             try {
+                Log.d ("----------------------------","ri" + base64IndexRight);
                 jsonObject.put("ri", base64IndexRight);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -872,6 +906,7 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
         }
         if (base64ThumbRight != null && !base64ThumbRight.equals("")) {
             try {
+                Log.d ("----------------------------","rt" + base64ThumbRight);
                 jsonObject.put("rt", base64ThumbRight);
             } catch (JSONException e) {
                 e.printStackTrace();

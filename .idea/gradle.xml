@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/morphobiosdk" />
+            <option value="$PROJECT_DIR$/bio-sdk" />
             <option value="$PROJECT_DIR$/scanlibrary" />
             <option value="$PROJECT_DIR$/watson-mini" />
           </set>

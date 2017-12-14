@@ -1660,7 +1660,12 @@ public class LoginFingerWatsonActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-    }
+        SharedPreferencesUtils.deleteFromPreferences(LoginFingerWatsonActivity.this, SharedPreferencesUtils.TOKEN_APP);
+        SharedPreferencesUtils.deleteFromPreferences(LoginFingerWatsonActivity.this, SharedPreferencesUtils.USERNAME);
+        SharedPreferencesUtils.cleanSharedPreferencesOperation(LoginFingerWatsonActivity.this);
 
+        Intent i = new Intent(LoginFingerWatsonActivity.this, LogInActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
 }

@@ -1,11 +1,11 @@
 ext{
     /// ==================== Libs Versions ====================== ///
-    ANDROID_SUPPORT_VERSION = '25.3.1'
+    ANDROID_SUPPORT_VERSION = '26.+' // supportDependencies
     RETROFIT_VERSION = '2.3.0'
     BUTTERKNIFE_VERSION = '8.6.0'
     CONSTRAINT_LAYOUT_VERSION = '1.0.2'
     JUNIT_VERSION = '4.12'
-    KOTLIN_VERSION = '1.1.2-4'
+    KOTLIN_VERSION = '1.1.61'
     SCANBOT_VERSION = '1.22.3'
     PLAY_SERVICES_VERSION = '11.0.2'
     GPU_IMAGE_VERSION = '1.4.1'
@@ -15,9 +15,11 @@ ext{
     // Libs Versions for TESTING
     SUPPORT_TEST_VERSION = '0.5'
     UI_AUTOMATOR_VERSION = '2.1.2'
-    BUILD_VERSION = '25.0.3'
+    BUILD_TOOLS_VERSION = "27.0.0"      // buildToolsVersion
     SQL_CIPHER_VERSION = '3.5.2'
 
+    CIRCLE_PROGRESS_VERSION = 'v1.3'
+    CIRCLE_IMAGE_VIEW_VERSION = '2.1.0'
 
     /// ========================= PACKAGES ======================= ///
     supportPackage = 'com.android.support'
@@ -49,6 +51,9 @@ ext{
 
     // SQL Cipher
     sqlCipherPackage = 'net.zetetic'
+
+    circleProgressPackage = 'com.github.jakob-grabner'      // Circle Progress
+    circleimageviewPackage = 'de.hdodenhof'                 // Circle image view
 
     //Support Libraries dependencies
     supportDependencies = [
@@ -83,6 +88,8 @@ ext{
     okhttp3 = buildDependency(okHttpPackage, 'okhttp', OK_HTTP_VERSION)
     caligraphy = buildDependency(caligraphyPackage,'calligraphy',CALIGRAPHY_VERSION)
     sqlcipher = buildDependency(sqlCipherPackage, 'android-database-sqlcipher', SQL_CIPHER_VERSION)
+    circleProgress = buildDependency(circleProgressPackage, 'Circle-Progress-View', CIRCLE_PROGRESS_VERSION) // Circle progress
+    circleImageView = buildDependency(circleimageviewPackage, 'circleimageview', CIRCLE_IMAGE_VIEW_VERSION)  // Circle Image View
 }
 
 static String buildDependency(String pack, String dependency, String version) {

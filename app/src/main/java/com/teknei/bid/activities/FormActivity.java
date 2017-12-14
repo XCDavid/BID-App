@@ -394,7 +394,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(iId);
                 break;
             case 2:
-                Intent iFace = new Intent(FormActivity.this, FaceScanActivity.class);
+                Intent iFace = new Intent(FormActivity.this, FaceEnrollActivity.class);
                 startActivity(iFace);
                 break;
             case 3:

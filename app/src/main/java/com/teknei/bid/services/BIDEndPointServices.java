@@ -115,14 +115,6 @@ public interface BIDEndPointServices {
                                                       @Path("type")    String type,
                                                       @Body AddressDTO addressDTO);
 
-    /*
-    @Multipart
-    @POST("rest/v3/enrollment/biometric/search/customerId")
-    Call<ResponseServicesBID> enrollmentBiometricSearchCustomerId
-                                                     (@Header("Authorization") String authorization,
-                                                      @Part MultipartBody.Part jsonFile);
-    */
-
     @POST("rest/v3/enrollment/biometric/search/customerId")
     Call<ResponseServicesBID> enrollmentBiometricSearchCustomerId
                                                     (@Header("Authorization") String authorization,

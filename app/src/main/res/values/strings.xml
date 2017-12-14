@@ -15,6 +15,7 @@
     <string name="message_credentials_captured">Comprobando credenciales</string>
     <string name="message_face_scan_check">Comprobando imagen</string>
     <string name="message_figerprints_check">Almacenando huellas dactilares</string>
+    <string name="message_figerprints_auth">Validando huella digital</string>
     <string name="message_pay_confirm_operation">Confirmando operación</string>
     <string name="message_send_data_credential">Enviando datos de credencial</string>
     <string name="message_send_data_document">Enviando datos de comprobante</string>
@@ -310,5 +311,10 @@
     <!-- Login Finger MSO -->
     <string name="lfM_instruction_begin_fingerprints_scan">Seleccione botón para iniciar lectura.</string>
     <string name="lfM_login_fingerprints_activity_name">Autenticación Dactilar</string>
+
+    <!-- FACE Enroll Activity -->
+    <string name="time_before_start">%1$s segundos para iniciar</string>
+    <string name="url_activation_server_default">http://201.99.117.119:8081/ServiceProviderLicense/LicenseRequest</string>
+    <string name="url_lkms_server_default">https://service-intg.dictao.com/lkms-server-app</string>
 
 </resources>

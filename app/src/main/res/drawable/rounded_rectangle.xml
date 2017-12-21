@@ -2,8 +2,8 @@
     android:shape="rectangle" >
  
     <!-- view background color -->
-    <solid android:color="@color/colorPrimary" >
-    </solid>
+    <!--solid android:color="@color/colorPrimary" /-->
+    <solid android:color="@color/colorPrimary" />
  
     <!-- If you want to add some padding -->
     <padding

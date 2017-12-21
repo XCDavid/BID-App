@@ -1,17 +1,24 @@
 package com.teknei.bid.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.ConfirmPayOperation;
+import com.teknei.bid.asynctask.GetFace;
 import com.teknei.bid.asynctask.GetTimeStamp;
+import com.teknei.bid.asynctask.ServiceVerifyCecobanINE;
 import com.teknei.bid.dialogs.INEResumeDialog;
+import com.teknei.bid.domain.VerifyCecobanDTO;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
@@ -28,15 +35,25 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
     TextView tvValidity;
     TextView tvAddress;
     TextView tvCoincidencePoints;
+
+    ImageView faceView;
+    ImageView ineFrontView;
+    ImageView ineBackView;
+
     Button continueFake;
     Button resumeFake;
+    Button validateFake;
 
     INEResumeDialog resumeDialog;
+
+    private String token;
+    private String operationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fake_ine);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.fake_ine_activity_name));
             invalidateOptionsMenu();
@@ -54,6 +71,7 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         String validity = "";
         String address = "";
         Random rand = new Random();
+
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
         int randomNum = rand.nextInt((1500 - 1400) + 1) + 1400;
@@ -113,6 +131,10 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
 
+        faceView     = (ImageView) findViewById(R.id.iv_front_face);
+        ineFrontView = (ImageView) findViewById(R.id.iv_id_front);
+        ineBackView  = (ImageView) findViewById(R.id.iv_id_back);
+
         tvName = (TextView) findViewById(R.id.tv_name_fake_ine);
         tvLastName = (TextView) findViewById(R.id.tv_first_ap_fake_ine);
         tvMotherLastNAme = (TextView) findViewById(R.id.tv_second_ap_fake_ine);
@@ -123,9 +145,11 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         tvCoincidencePoints = (TextView) findViewById(R.id.tv_coincidence_points_fake_ine);
         continueFake = (Button) findViewById(R.id.b_continue_fake_ine);
         resumeFake = (Button) findViewById(R.id.b_resume_fake_ine);
+        validateFake = (Button) findViewById(R.id.b_validate_fake_ine);
 
         continueFake.setOnClickListener(this);
         resumeFake.setOnClickListener(this);
+        validateFake.setOnClickListener(this);
 
         tvName.setText(name);
         tvLastName.setText(apPat);
@@ -141,7 +165,7 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         resumeDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         //obtiene los timestamp
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
+        operationID = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
         String jsonFormStringAux = SharedPreferencesUtils.readFromPreferencesString(FakeINEActivity.this, SharedPreferencesUtils.JSON_INIT_FORM, "{}");
         String curpAux = "";
         try {
@@ -150,8 +174,14 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+
         new GetTimeStamp(FakeINEActivity.this, curpAux, operationID, token).execute();
+
+        new GetFace(FakeINEActivity.this, 3,curp, operationID, token).execute();
+        new GetFace(FakeINEActivity.this, 1,curp, operationID, token).execute();
+        new GetFace(FakeINEActivity.this, 2,curp, operationID, token).execute();
+
     }
 
     @Override
@@ -165,25 +195,32 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
             case R.id.b_resume_fake_ine:
                 resumeDialog.show();
                 break;
+            case R.id.b_validate_fake_ine:
+                VerifyCecobanDTO value = new VerifyCecobanDTO(Long.parseLong(operationID));
+                new ServiceVerifyCecobanINE(FakeINEActivity.this, token, value).execute();
+                break;
         }
     }
 
     //LLamada fake a finalizar la operación para no presentar la pantalla de CONFIRMACION DE PAGO
     @Override
     public void sendPetition() {
-        String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-        String payOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.PAY_OPERATION, "");
-        if (payOperation.equals("")) {
-            String jsonString = buildJSON();
-            new ConfirmPayOperation(FakeINEActivity.this, token, jsonString).execute();
-        } else {
+        //String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        //String payOperation = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.PAY_OPERATION, "");
+
+        //if (payOperation.equals("")) {
+        //    String jsonString = buildJSON();
+        //    new ConfirmPayOperation(FakeINEActivity.this, token, jsonString).execute();
+        //} else {
             goNext();
-        }
+        //}
     }
 
     @Override
     public void goNext() {
-        Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
+        //Intent i = new Intent(FakeINEActivity.this, ResultOperationActivity.class);
+        //startActivity(i);
+        Intent i = new Intent(FakeINEActivity.this, DocumentScanActivity.class);
         startActivity(i);
     }
 
@@ -211,5 +248,49 @@ public class FakeINEActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+    }
+
+    public void printFace(Bitmap bmp) {
+        faceView.setImageBitmap(bmp);
+    }
+
+    public void printINEFront(Bitmap bmp) {
+        // find the width and height of the screen:
+        Display d = getWindowManager().getDefaultDisplay();
+
+        int x = bmp.getWidth();
+        int y = bmp.getHeight();
+        Bitmap rotatedBitmap = bmp;
+        if (x < y) {
+// create a matrix object
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90); // anti-clockwise by 90 degrees
+// create a new bitmap from the original using the matrix to transform the result
+            rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        }
+// scale it to fit the screen, x and y swapped because my image is wider than it is tall
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bmp, y, x, true);
+
+        ineFrontView.setImageBitmap(rotatedBitmap);
+    }
+
+    public void printINEBack(Bitmap bmp) {
+        // find the width and height of the screen:
+        Display d = getWindowManager().getDefaultDisplay();
+
+        int x = bmp.getWidth();
+        int y = bmp.getHeight();
+        Bitmap rotatedBitmap = bmp;
+        if (x < y) {
+// create a matrix object
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90); // anti-clockwise by 90 degrees
+// create a new bitmap from the original using the matrix to transform the result
+            rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        }
+// scale it to fit the screen, x and y swapped because my image is wider than it is tall
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bmp, y, x, true);
+
+        ineBackView.setImageBitmap(rotatedBitmap);
     }
 }

@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class LoginFingerSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "LoginFingerSend";
 
     private String token;
 

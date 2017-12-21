@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class DataCredencialSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "DataCredencialSend";
 
     private String token;
     private String operationID;
@@ -51,6 +51,7 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
 
     private ResponseServicesBID responseLocal;
     private CredentialDTO       credencialDto;
+    private JSONObject jsonData;
 
     public DataCredencialSend (Activity context, String tokenOld, String type, String operationID, CredentialDTO credencialDto) {
         this.activityOrigin = context;
@@ -95,12 +96,16 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
             String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,
                     SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
 
-            JSONObject jsonData = new JSONObject();
+            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
 
             try {
-                jsonData.put("apeMat"   , credencialDto.getApeMat());
-                jsonData.put("apePat"   , credencialDto.getApePat());
-                jsonData.put("call"     , credencialDto.getCall());
+                jsonData = new JSONObject(jsonString);
+
+                /*
+                jsonData.put("name"    , credencialDto.getNomb());
+                jsonData.put("apmat"   , credencialDto.getApeMat());
+                jsonData.put("appat"   , credencialDto.getApePat());
+                jsonData.put("street"  , credencialDto.getCall());
                 jsonData.put("clavElec" , credencialDto.getClavElec());
                 jsonData.put("col"      , credencialDto.getCol());
                 jsonData.put("cp"       , credencialDto.getCp());
@@ -119,6 +124,24 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
                 jsonData.put("secc"     , credencialDto.getSecc());
                 jsonData.put("user"     , credencialDto.getUser());
                 jsonData.put("vige"     , credencialDto.getVige());
+                */
+
+                jsonData.put("name" , credencialDto.getNomb() );
+                jsonData.put("appat", credencialDto.getApePat());
+                jsonData.put("apmat", credencialDto.getApeMat());
+                if (!credencialDto.getCurp().equals(""))
+                    jsonData.put("curp", credencialDto.getCurp());
+                jsonData.put("mrz", credencialDto.getMrz());
+                jsonData.put("ocr", credencialDto.getOcr());
+                //jsonData.put("address", address);
+
+                jsonData.put("street"  , credencialDto.getCall());
+                jsonData.put("suburb"  , credencialDto.getCol());
+                jsonData.put("zipCode" , credencialDto.getCp());
+                jsonData.put("locality", credencialDto.getMuni());
+                jsonData.put("state"   , credencialDto.getEsta());
+
+                jsonData.put("validity", credencialDto.getVige());
 
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -152,6 +175,20 @@ public class DataCredencialSend extends AsyncTask<String, Void, Void> {
                         //SharedPreferencesUtils.cleanSharedPreferencesOperation(activityOrigin);
 
                         if (responseLocal.isResultOK()) {
+
+                            SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE);
+                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, jsonData.toString());
+
+                            JSONObject jsonObject3 = new JSONObject();
+
+                            try {
+                                jsonObject3.put("curp", credencialDto.getCurp());
+                                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_INIT_FORM, jsonObject3.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.d(CLASS_NAME,"JSON " + jsonData.toString());
 
                             Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
                             AlertDialog dialogoAlert;

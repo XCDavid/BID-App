@@ -34,6 +34,15 @@ public class ApiConstants {
 
     public static final int ACTION_TRY_AGAIN_CONTINUE_DOC       =  8;
 
+    public static final int ACTION_FINISH_SING_CONTRACT_GO_NEXT             = 0;
+    public static final int ACTION_FINISH_SING_CONTRACT_TRY_AGAIN           = 1;
+    public static final int ACTION_FINISH_SING_CONTRACT_CANCEL              = 2;
+    public static final int ACTION_FINISH_SING_CONTRACT_TRY_AGAIN_CANCEL    = 3;
+    public static final int ACTION_FINISH_SING_CONTRACT_TRY_AGAIN_CONTINUE  = 4;
+
+    public static final int ACTION_SEND_FINGER_CONTRACT     = 0;
+    public static final int ACTION_CONFIRM_FINGER_CONTRACT  = 1;
+
     public static final int TYPE_INE      = 1;
     public static final int TYPE_PASSPORT = 2;
 

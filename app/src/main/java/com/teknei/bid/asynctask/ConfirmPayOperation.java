@@ -32,7 +32,7 @@ import retrofit2.Response;
 
 public class ConfirmPayOperation extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "ConfirmPayOperation";
 
     private String token;
     private String jsonS;

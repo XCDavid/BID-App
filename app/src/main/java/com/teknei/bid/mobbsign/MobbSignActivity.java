@@ -74,22 +74,29 @@ public class MobbSignActivity extends BaseActivity {
         Bundle customizationBundle = new Bundle();
         customizationBundle.putBoolean(MobbSignCustomizationProperties.DEVICE_POSITION_ENABLED, false);
         customizationBundle.putString(MobbSignCustomizationProperties.PDF_FONT_FILENAME, "DroidSerif-Regular.ttf");
+
         mobbSignView = new MobbSignView(this, customizationBundle);
 
         setContentView(mobbSignView);
 
         String licenseMS = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
+
         mobbSignView.configureLicense(licenseMS, new LicenseStatusListener() {
+
             @Override
             public void onLicenseStatusChecked(Date licenseValidTo, MobbSignLicenseResult mobbSignLicenseResult) {
-                if (mobbSignLicenseResult == MobbSignLicenseResult.VALID || mobbSignLicenseResult == MobbSignLicenseResult.GRACE_PERIOD) {
+                if (mobbSignLicenseResult == MobbSignLicenseResult.VALID ||
+                        mobbSignLicenseResult == MobbSignLicenseResult.GRACE_PERIOD) {
+
                     String validTo;
+
                     if (licenseValidTo != null) {
                         DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
                         validTo = df.format(licenseValidTo);
                     } else {
                         validTo = "forever";
                     }
+
                     Toast.makeText(MobbSignActivity.this, "License is valid until " + validTo + " (" + mobbSignLicenseResult.toString() + ")", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MobbSignActivity.this, "License problem, not a valid license (" + mobbSignLicenseResult.toString() + ")", Toast.LENGTH_SHORT).show();
@@ -113,6 +120,7 @@ public class MobbSignActivity extends BaseActivity {
         });
 
         mobbSignView.setOnErrorOccurredListener(new MobbSignErrorOccurredListener() {
+
             @Override
             public void onErrorOccurred(int errorCode, HashMap<String, Object> errorDetails) {
                 Log.d("MobbSignDemo", "onErrorOcurred: " + errorCode);
@@ -139,6 +147,7 @@ public class MobbSignActivity extends BaseActivity {
             mobbSignView.loadPDFDocument(inputStream, "Teknei document");
 
             mobbSignView.setOnProcessEndListener(new MobbSignProcessEndListener() {
+
                 @Override
                 public void onProcessEnd(byte[] bytes) {
 //                    uploadDocument(bytes);
@@ -146,7 +155,7 @@ public class MobbSignActivity extends BaseActivity {
                     filesToSend.add(bytes);
                     String token = SharedPreferencesUtils.readFromPreferencesString(MobbSignActivity.this, SharedPreferencesUtils.TOKEN_APP, "");
                     String operationID = SharedPreferencesUtils.readFromPreferencesString(MobbSignActivity.this, SharedPreferencesUtils.OPERATION_ID, "");
-                    new SendContract(MobbSignActivity.this, token, Integer.valueOf(operationID),filesToSend).execute();
+                    //new SendContract(MobbSignActivity.this, token, Integer.valueOf(operationID),filesToSend).execute();
 
                     File file = new File(Environment.getExternalStorageDirectory()
                             + File.separator + "contract_" + idOperation + ".pdf");

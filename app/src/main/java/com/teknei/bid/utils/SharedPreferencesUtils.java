@@ -147,6 +147,5 @@ public class SharedPreferencesUtils {
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_DOCUMENT);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TIMESTAMP_FINGERPRINTS);
 
-
     }
 }

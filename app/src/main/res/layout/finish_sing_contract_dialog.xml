@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rectangle"
+    android:layout_margin="100dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/fscd_txt_title"
+                style="@style/LargeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/app_name"
+                android:textColor="@color/text_color_white"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/fscd_txt_message"
+            style="@style/NormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:maxEms="15"
+            android:text="@string/message_dialog"
+            android:textColor="@color/text_color_white"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#D1D6D6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/fscd_btn_ok"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/continue_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/fscd_btn_retry"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/cancel_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/fscd_btn_cancel"
+                style="@style/NormalText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:text="@string/cancel_message_dialog"
+                android:textColor="@color/text_color_white"
+                android:textStyle="normal"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

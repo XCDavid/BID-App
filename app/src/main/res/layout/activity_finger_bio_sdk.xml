@@ -43,7 +43,7 @@
             android:visibility="visible">
 
             <fragment class="com.morpho.contactless.view.fragment.BaseFingerCameraFragment"
-                android:id="@+id/fragment"
+                android:id="@+id/fb_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/finger_capture_fragment"

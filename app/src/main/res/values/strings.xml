@@ -19,11 +19,16 @@
     <string name="message_pay_confirm_operation">Confirmando operación</string>
     <string name="message_send_data_credential">Enviando datos de credencial</string>
     <string name="message_send_data_document">Enviando datos de comprobante</string>
+    <string name="message_finger_sing_contract">Realizando firma de contrato</string>
+    <string name="message_finger_sing_send_mail_contract">Enviando copia de contrato por correo</string>
 
     <string name="message_data_validation">Validación de campo</string>
     <string name="message_error_curp_format">El formato del campo ( CURP ) es erroneo. </string>
     <string name="message_error_length_curp">El campo ( CURP ) debe tener 18 digitos.</string>
     <string name="message_obligatory_field_curp">El campo ( CURP ) es obligatorio.</string>
+
+    <string name="message_obligatory_field_mail">El campo ( Correo Electrónico ) es obligatorio.</string>
+    <string name="message_error_mail_format">El formato del campo ( Correo Electrónico ) es erroneo. </string>
 
     <!--LogIn Activity string-->
     <string name="tv_user_login">Usuario</string>
@@ -66,7 +71,7 @@
     <!--Default Values strings-->
     <string name="default_url_id_scan">http://192.168.1.201:38080/</string>
     <string name="default_license_id_scan">0b3237e6-76c5-40d7-b895-0b7c74ccda5a</string>
-    <string name="default_url_teknei">http://192.168.1.190:28080/tkn-bid-invoker/enrollment/</string>
+    <string name="default_url_teknei">http://192.168.1.190:28080/tkn-api/api/enrollment/</string>
     <!-- MobbSign -->
     <string name="default_url_mobbsign">https://192.168.1.100:28443/DemoServer/</string>
     <string name="default_license_mobbsign">56a03255-7bd3-49f2-8b32-2a62f1a867b9</string>
@@ -92,13 +97,27 @@
     <string name="form_activity_name">Formulario</string>
     <string name="phone_form">Teléfono</string>
     <string name="continue_form">Continuar</string>
-    <string name="mail_form">Correo electrónico</string>
+    <string name="mail_form">* Correo electrónico</string>
     <string name="mother_last_name_form">* Apellido materno</string>
     <string name="last_name_form">* Apellido paterno</string>
     <string name="name_form">* Nombre(s)</string>
     <string name="required_text_form">* Campos obligatorios</string>
     <string name="instructions_form">Ingresa los campos obligatorios y presiona el botón continuar, para iniciar la operación.</string>
     <string name="tv_curp_form">* CURP</string>
+    <string name="tv_product">* Seleccione un producto</string>
+
+    <string-array name="product_array">
+        <item>* Seleccione un producto </item>
+        <item>product 1</item>
+        <item>product 2</item>
+        <item>product 3</item>
+    </string-array>
+
+    <string-array name="person_array">
+        <item>* Seleccione un tipo de persona a enrolar</item>
+        <item>Operador</item>
+        <item>Cliente</item>
+    </string-array>
 
     <!--Select Id Scan strings-->
     <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
@@ -141,7 +160,9 @@
     <string name="instruction_clue_face_scan">Toca aquí para tomar la fotografía</string>
     <!--Fingerprints strings-->
     <string name="fingerprints_activity_name">Huellas Dactilares</string>
-    <string name="instruction_begin_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
+    <string name="instruction_fingerprints_scan">Selecciona un dedo para comenzar la captura de huellas dactilares.</string>
+    <string name="instruction_begin_fingerprints_scan">Capturando huella, coloque su dedo en el lector.</string>
+    <string name="instruction_end_fingerprints_scan">Captura de huella finalizada.</string>
     <string name="continue_fingerprints">Continuar</string>
     <!--Document Scan strings-->
     <string name="document_scan_activity_name">Comprobante</string>
@@ -195,6 +216,8 @@
     <string name="tv_result_result_operation">Resultado</string>
     <string name="tv_operation_ok_result_operation">Operación exitosa</string>
     <string name="b_generate_contract_result_operation">Generar contrato</string>
+    <string name="b_show_contract_result_operation">Mostrar contrato</string>
+    <string name="b_sign_contract_result_operation">Firmar contrato</string>
 
     <!--Settings strings-->
     <string name="settings_activity_name">Ajustes</string>
@@ -237,6 +260,7 @@
     <string name="tv_coincidence_validation_ine">Puntuación de coincidencia :</string>
     <string name="tv_coincidence_example_validation_ine">102452015</string>
     <string name="b_resume_validation_ine">Resumen</string>
+    <string name="b_validate_validation_ine">Validar INE</string>
 
     <!--Credential Dialog strings-->
     <string name="tv_title_credential_dialog">Resultado de escaneo</string>
@@ -316,5 +340,41 @@
     <string name="time_before_start">%1$s segundos para iniciar</string>
     <string name="url_activation_server_default">http://201.99.117.119:8081/ServiceProviderLicense/LicenseRequest</string>
     <string name="url_lkms_server_default">https://service-intg.dictao.com/lkms-server-app</string>
+
+    <!-- OTP Validation Mail Activity -->
+    <string name="otpv_mail_form_activity_name">Validación de correo</string>
+    <string name="otpv_mail_tv_instructions">Ingresa el código enviado al correo electrónico proporcionado.</string>
+    <string name="otpv_mail_tv_code">C Ó D I G O</string>
+    <string name="otpv_mail_message_obligatory_field_code">El campo ( Código ) es obligatorio.</string>
+
+    <!-- Contract Finger Signature MSO -->
+    <string name="cfs_mso_form_activity_name">Firma Digital de Contrato</string>
+    <string name="cfs_mso_tv_instructions">Seleccione el botón para iniciar el proceso de captura.</string>
+    <string name="cfs_mso_message_obligatory">Es neceario capturar una huella.</string>
+
+    <!-- Resumen Dialog INE VALIDATION -->
+    <string name="divr_tv_title">Resultado de validación</string>
+    <string name="divr_tv_date_request">Fecha de petición</string>
+    <string name="divr_tv_response_description">Descripción de respuesta</string>
+    <string name="divr_tv_customer_id">Folio de cliente</string>
+
+    <string name="divr_tv_minutiea_response">Respuesta de minucias</string>
+    <string name="divr_tv_similitud_7">Similitud 7</string>
+    <string name="divr_tv_response_code_minusia">Código de respuesta</string>
+    <string name="divr_tv_similitud_2">Similitud 2</string>
+
+    <string name="divr_tv_response_data">Datos de respuesta</string>
+    <string name="divr_tv_response_code_data">Código respuesta datos</string>
+    <string name="divr_tv_anser_comparation">Respuesta de comparación</string>
+    <string name="divr_tv_registration_year">Año de registro</string>
+    <string name="divr_tv_elector_key">Clave de elector</string>
+    <string name="divr_tv_surname">Ap. Paterno</string>
+    <string name="divr_tv_year_emission">Año de emisión</string>
+    <string name="divr_tv_number_emission">Número de emisión</string>
+    <string name="divr_tv_cic">CIC</string>
+    <string name="divr_tv_name">Nombre</string>
+    <string name="divr_tv_curp">CURP</string>
+    <string name="divr_tv_ocr">OCR</string>
+    <string name="divr_tv_last_surname">Ap. Materno</string>
 
 </resources>

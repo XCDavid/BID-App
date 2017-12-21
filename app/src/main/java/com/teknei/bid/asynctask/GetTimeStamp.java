@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class GetTimeStamp extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "GetTimeStamp";
 
     private String token;
     private String curp;

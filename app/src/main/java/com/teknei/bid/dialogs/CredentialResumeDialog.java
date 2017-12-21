@@ -161,7 +161,7 @@ public class CredentialResumeDialog extends Dialog implements View.OnClickListen
 
             credentialDTO.setVige(txvValidity.getText().toString());
 
-            //txvCurp.setText(curp);
+            credentialDTO.setCurp(txvCurp.getText().toString());
 
             String operationID = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, "");
             String token       = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.TOKEN_APP, "");

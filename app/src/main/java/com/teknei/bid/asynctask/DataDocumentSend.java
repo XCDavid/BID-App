@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class DataDocumentSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "DataDocumentSend";
 
     private String token;
     private String operationID;
@@ -51,6 +51,7 @@ public class DataDocumentSend extends AsyncTask<String, Void, Void> {
 
     private ResponseServicesBID responseLocal;
     private AddressDTO valueDto;
+    private JSONObject jsonData;
 
     public DataDocumentSend (Activity context, String tokenOld, String type, String operationID, AddressDTO valueDto) {
         this.activityOrigin = context;
@@ -95,19 +96,21 @@ public class DataDocumentSend extends AsyncTask<String, Void, Void> {
             String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,
                     SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
 
-            JSONObject jsonData = new JSONObject();
+            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "{}");
+
+            jsonData = new JSONObject();
 
             try {
                 jsonData.put("country"   , valueDto.getCountry());
                 jsonData.put("extNumber" , valueDto.getExtNumber());
                 jsonData.put("intNumber" , valueDto.getIntNumber());
-                jsonData.put("locality"  , valueDto.getLocality());
                 jsonData.put("municipio" , valueDto.getMunicipio());
-                jsonData.put("state"     , valueDto.getState());
 
-                jsonData.put("street"    , valueDto.getStreet());
-                jsonData.put("suburb"    , valueDto.getSuburb());
-                jsonData.put("zipCode"   , valueDto.getZipCode());
+                jsonData.put("street"  , valueDto.getStreet());
+                jsonData.put("suburb"  , valueDto.getSuburb());
+                jsonData.put("zipCode" , valueDto.getZipCode());
+                jsonData.put("locality", valueDto.getLocality());
+                jsonData.put("state"   , valueDto.getState());
 
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -138,6 +141,12 @@ public class DataDocumentSend extends AsyncTask<String, Void, Void> {
                     if (responseStatus >= 200 && responseStatus < 300) {
 
                         responseLocal = response.body();
+
+                        SharedPreferencesUtils.deleteFromPreferences(activityOrigin,SharedPreferencesUtils.DOCUMENT_OPERATION);
+
+                        SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, jsonData.toString());
+
+                        Log.d(CLASS_NAME,"JSON " + jsonData.toString());
 
                         Log.i(CLASS_NAME, "onResponse: " + responseLocal.getErrorMessage());
                         AlertDialog dialogoAlert;

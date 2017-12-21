@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.integratedbiometrics.ibscanultimate.IBScanDevice;
@@ -84,6 +85,8 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
     ImageButton bMiddleRight;
     ImageButton bIndexRight;
     ImageButton bThumbRight;
+
+    //TextView    txtInstruccion;
 
     byte[] left_thumb   = null;
     byte[] left_index   = null;
@@ -161,6 +164,8 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
 
         imageViewPreview     = (ImageView) findViewById (R.id.image_view_preview);
 
+        //txtInstruccion   = (TextView) findViewById(R.id.fw_text_instruccion);
+
         //buttonOpenDevice   = (Button) findViewById(R.id.button_open_device);
         //buttonCloseDevice  = (Button) findViewById(R.id.button_close_device);
         buttonContinue     = (Button) findViewById(R.id.b_continue_bio_watson);
@@ -216,7 +221,6 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
                 break;
 
             case R.id.b_continue_bio_watson:
-
                 if (validateIndexFingers()) {
                     Log.d(TAG,"SEND PETICION TRUE");
 
@@ -370,7 +374,6 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
      */
     @Override
     public void onCaptureFinishedSuccess(byte[] imageBuffer, final Bitmap imageBitmap, IBScanDevice.ImageFormat imageFormat) {
-
         byte [] bufferImage = null;
 
         String operationID = SharedPreferencesUtils.readFromPreferencesString(

@@ -2,8 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="500dp"
@@ -28,10 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/lfM_instruction_begin_fingerprints_scan"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="30sp"/>
 
         <ImageButton
             android:id="@+id/lfm_b_finger_print"
@@ -39,7 +39,8 @@
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:background="@drawable/selector__transparent_image_button"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
 

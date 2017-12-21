@@ -12,8 +12,11 @@ import com.teknei.bid.R;
 import com.teknei.bid.activities.BaseActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
+import com.teknei.bid.domain.MailVerificationOTPDTO;
 import com.teknei.bid.domain.SearchDTO;
 import com.teknei.bid.domain.StartOperationDTO;
+import com.teknei.bid.domain.ValidateOtpDTO;
+import com.teknei.bid.response.ResponseServicesBID;
 import com.teknei.bid.response.ResponseStartOpe;
 import com.teknei.bid.response.ResponseStep;
 import com.teknei.bid.services.BIDEndPointServices;
@@ -31,7 +34,7 @@ import retrofit2.Response;
 
 public class StartOperation extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "StartOperation";
 
     private String token;
     private String jsonS;
@@ -47,8 +50,9 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    private StartOperationDTO startOperationDTO;
-    private ResponseStartOpe  responseStartOpe;
+    private StartOperationDTO   startOperationDTO;
+    private ResponseStartOpe    responseStartOpe;
+    private String responseValue;
 
     public StartOperation(Activity context, String tokenOld, String jsonString, StartOperationDTO startOperationDTO) {
         this.activityOrigin    = context;
@@ -80,21 +84,6 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         if (hasConecction) {
-            /*
-            try {
-                ServerConnection serverConnection = new ServerConnection();
-                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_START_OPERATION, token, ServerConnection.METHOD_POST,null,"");
-                if (arrayResponse[1] != null) {
-                    manageResponse(arrayResponse);
-                } else {
-                    errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-            }
-            */
 
             Log.i("Wait", "timer after DO: " + System.currentTimeMillis());
             while (System.currentTimeMillis() < endTime) {
@@ -128,7 +117,6 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                 @Override
                 public void onResponse(Call<ResponseStartOpe> call, Response<ResponseStartOpe> response) {
-                    progressDialog.dismiss();
 
                     Log.d(CLASS_NAME, response.code() + " ");
 
@@ -142,17 +130,11 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                         if (responseStartOpe.isResultOK()) {
 
-                            SharedPreferencesUtils.saveToPreferencesString(activityOrigin,
-                               SharedPreferencesUtils.OPERATION_ID, responseStartOpe.getOperationId() + "");
-
-                            AlertDialog dialogoAlert;
-                            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
-                                               responseStartOpe.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
-                            dialogoAlert.setCancelable(false);
-                            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                            dialogoAlert.show();
+                            confirmMail ();
 
                         } else {
+                            progressDialog.dismiss();
+
                             Log.i(CLASS_NAME, "StartOperation: " + errorMessage);
                             AlertDialog dialogoAlert;
                             dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage,
@@ -163,6 +145,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
                         }
 
                     } else {
+                        progressDialog.dismiss();
 
                         if (responseStatus >= 300 && responseStatus < 400) {
 
@@ -170,8 +153,7 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                         } else if (responseStatus >= 400 && responseStatus < 500) {
 
-                            String errorResponse = "";
-                            errorResponse = activityOrigin.getString(R.string.message_ws_response_400);
+                            String errorResponse = activityOrigin.getString(R.string.message_ws_response_400);
 
                             if (responseStatus == 422){
 
@@ -217,95 +199,100 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-    private void manageResponse(Object arrayResponse[]) {
-        responseJSONObject = (JSONObject) arrayResponse[0];
-        responseStatus = (Integer) arrayResponse[1];
-        boolean dataExist   = false;
-        String  msgError    = "";
-        String resultString = "";
+    public void confirmMail () {
+        String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,
+                SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
 
-        if ((responseStatus >= 200 && responseStatus < 300)) {
-            try {
-                dataExist = responseJSONObject.getBoolean ("resultOK"); //obtiene los datos del json de respuesta
-                msgError  = responseJSONObject.getString  ("errorMessage");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        Log.v("confirmMail       : ", "token        :" + token);
+        Log.v("confirmMail       : ", "endpoint     :" + endPoint);
+        Log.v("confirmMail       : ", "{\"idOperation\":\""  + responseStartOpe.getOperationId()+"\"}");
 
-            if (dataExist) {
+        MailVerificationOTPDTO validate = new MailVerificationOTPDTO(responseStartOpe.getOperationId());
 
-                responseOk = true;
+        BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            } else {
+        Call<String> call = api.enrollmentMailVerificationOTP(token, validate);
 
-                errorMessage = ApiConstants.managerErrorServices (Integer.parseInt(msgError),activityOrigin);
+        call.enqueue(new Callback<String>() {
 
-            }
-        } else if (responseStatus >= 300 && responseStatus < 400) {
-            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
-        } else if (responseStatus >= 400 && responseStatus < 500) {
-            //errorMessage = activityOrigin.getString(R.string.message_ws_response_400);
-            //resultString = responseJSONObject.optString("resultOK");
-            //String errorResponse = "";
-            //if (resultString.equals("false")) {
-            //errorResponse = responseJSONObject.optString("errorMessage");
-            //}
-            if (responseStatus == 422){
-                try {
-                    dataExist = responseJSONObject.getBoolean("resultOK"); //obtiene los datos del json de respuesta
-                    msgError  = responseJSONObject.getString ("errorMessage");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                progressDialog.dismiss();
+
+                Log.d(CLASS_NAME, response.code() + " ");
+
+                responseStatus = response.code();
+
+                if (response.body() != null) {
+
+                    responseValue = response.body();
+
                 }
 
-                Log.v("Error Message " , msgError);
+                if (responseStatus == 200) {
 
-                errorMessage = ApiConstants.managerErrorServices (Integer.parseInt(msgError),activityOrigin);
+                    SharedPreferencesUtils.saveToPreferencesString(activityOrigin,
+                            SharedPreferencesUtils.OPERATION_ID, responseStartOpe.getOperationId() + "");
+
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
+                                responseStartOpe.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+
+                } else {
+
+                    if (responseStatus >= 300 && responseStatus < 400) {
+
+                        errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
+
+                    } else if (responseStatus >= 400 && responseStatus < 500) {
+
+                        String errorResponse = "";
+                        errorResponse = activityOrigin.getString(R.string.message_ws_response_400);
+
+                        if (responseStatus == 422){
+
+                            if (response.body() != null)
+                                errorResponse = errorResponse + response.body().toString();
+
+                        }
+
+                        errorMessage = responseStatus + " - " + errorResponse;
+
+                    } else if (responseStatus >= 500 && responseStatus < 600) {
+
+                        errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
+
+                    }
+
+                    AlertDialog dialogoAlert;
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                    dialogoAlert.setCancelable(false);
+                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialogoAlert.show();
+                }
             }
 
-        } else if (responseStatus >= 500 && responseStatus < 600) {
-            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
-        }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+
+                Log.d(CLASS_NAME, activityOrigin.getString(R.string.message_ws_response_500));
+
+                AlertDialog dialogoAlert;
+                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
+                        activityOrigin.getString(R.string.message_ws_response_500), ApiConstants.ACTION_TRY_AGAIN_CANCEL);
+                dialogoAlert.setCancelable(false);
+                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogoAlert.show();
+
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
-    protected void onPostExecute(Void result) {
-        /*
-        progressDialog.dismiss();
-        if (hasConecction) {
-            if (responseOk) {
-                int operationINT=-1;
-                String messageResp = "";
-                try {
-                    operationINT = responseJSONObject.getInt("operationId");
-                    messageResp  = responseJSONObject.getString("errorMessage");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, operationINT+"");
-
-                AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), messageResp, ApiConstants.ACTION_GO_NEXT);
-                dialogoAlert.setCancelable(false);
-                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogoAlert.show();
-            } else {
-                Log.i("Message logout", "logout: " + errorMessage);
-                AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-                dialogoAlert.setCancelable(false);
-                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogoAlert.show();
-            }
-        } else {
-            Log.i("Message logout", "logout: " + errorMessage);
-            AlertDialog dialogoAlert;
-            dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-            dialogoAlert.setCancelable(false);
-            dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            dialogoAlert.show();
-        }
-        */
-    }
-
+    protected void onPostExecute(Void result) { }
 }

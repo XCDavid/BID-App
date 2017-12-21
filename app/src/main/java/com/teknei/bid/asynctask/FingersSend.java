@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.dialogs.AlertDialog;
+import com.teknei.bid.dialogs.DataValidation;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.response.ResponseServicesBID;
 import com.teknei.bid.services.BIDEndPointServices;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 
 public class FingersSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "FingersSend";
 
     private String token;
     private String jsonS;
@@ -50,6 +51,8 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
 
     private ResponseServicesBID responseFinger;
     int tipoAct;
+
+    AlertDialog dialogoAlert;
 
     public FingersSend(Activity context, String tokenOld, String jsonString, List<File> imagesFiles, int tipoActivity) {
         this.activityOrigin = context;
@@ -82,20 +85,6 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         if (hasConecction) {
-            /*try {
-                ServerConnectionListImages serverConnection = new ServerConnectionListImages();
-                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, jsonS, endPoint + ApiConstants.METHOD_FINGERS, token, ServerConnection.METHOD_POST, imageF, "");
-                if (arrayResponse[1] != null) {
-                    manageResponse(arrayResponse);
-                } else {
-                    errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                errorMessage = activityOrigin.getString(R.string.message_ws_petition_fail);
-            }*/
-
             Log.i("Wait", "timer after DO: " + System.currentTimeMillis());
             while (System.currentTimeMillis() < endTime) {
                 //espera hasta que pasen los 2 segundos en caso de que halla terminado muy rapido el hilo
@@ -141,8 +130,6 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
 
                                 SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.FINGERS_OPERATION, "ok");
 
-                                AlertDialog dialogoAlert;
-
                                 if (tipoAct == ApiConstants.TYPE_ACT_BASIC)
                                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseFinger.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
                                 else
@@ -156,8 +143,6 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
 
                                 Log.i(CLASS_NAME, "----" + responseFinger.getErrorMessage());
 
-                                AlertDialog dialogoAlert;
-
                                 if (tipoAct == ApiConstants.TYPE_ACT_BASIC)
                                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), responseFinger.getErrorMessage(), ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
                                 else
@@ -170,60 +155,55 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                             }
 
                     } else {
-                            if (responseStatus >= 300 && responseStatus < 400) {
 
-                                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
+                        if (responseStatus >= 400 && responseStatus < 500) {
 
-                            } else if (responseStatus >= 400 && responseStatus < 500) {
+                            if (responseStatus == 409) {
 
-                                if (responseStatus == 409) {
+                                if (response.body() == null) {
 
-                                    if (response.body() == null) {
-
-                                        errorMessage = responseStatus + " - " + response.message();
-
-                                    } else {
-
-                                        responseFinger = response.body();
-
-                                        if (responseFinger.getErrorMessage().length() > 6) {
-
-                                            errorMessage = responseStatus + " - " + responseFinger.getErrorMessage();
-
-                                        } else {
-
-                                            errorMessage = responseStatus + " - " + ApiConstants.managerErrorServices(Integer.parseInt(responseFinger.getErrorMessage()), activityOrigin);
-
-                                        }
-                                    }
-
-                                } else if (responseStatus == 422) {
-
-                                    if (response.body() == null) {
-
-                                        errorMessage = responseStatus + " - " + response.message();
-
-                                    } else {
-
-                                        responseFinger = response.body();
-
-                                        if (responseFinger.getErrorMessage().length() > 6) {
-
-                                            errorMessage = responseStatus + " - " + responseFinger.getErrorMessage();
-
-                                        } else {
-
-                                            errorMessage = responseStatus + " - " + ApiConstants.managerErrorServices(Integer.parseInt(responseFinger.getErrorMessage()), activityOrigin);
-
-                                        }
-
-                                    }
+                                    errorMessage = responseStatus + " - " + response.message();
 
                                 } else {
 
-                                    errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
+                                    responseFinger = response.body();
+
+                                    if (responseFinger.getErrorMessage().length() > 6) {
+
+                                        errorMessage = responseStatus + " - " + responseFinger.getErrorMessage();
+
+                                    } else {
+
+                                        errorMessage = responseStatus + " - " + ApiConstants.managerErrorServices(Integer.parseInt(responseFinger.getErrorMessage()), activityOrigin);
+
+                                    }
 
                                 }
+
+                                if (tipoAct == ApiConstants.TYPE_ACT_BASIC)
+                                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                                else
+                                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL);
+
+                                dialogoAlert.setCancelable(false);
+                                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                dialogoAlert.show();
+
+                            } else if (responseStatus == 422) {
+
+                                errorMessage = responseStatus + " - " + "Usuario ya registrado en sistema";
+
+                                Log.i(CLASS_NAME, "Face: " + errorMessage);
+                                DataValidation dialogoAlert;
+                                dialogoAlert = new DataValidation(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage);
+                                dialogoAlert.setCancelable(false);
+                                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                dialogoAlert.show();
+                            }
+
+                        } else if (responseStatus >= 300 && responseStatus < 400) {
+
+                                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
 
                             } else if (responseStatus >= 500 && responseStatus < 600) {
 
@@ -232,7 +212,6 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                             }
 
                             Log.i(CLASS_NAME, "Error Api " + errorMessage);
-                            AlertDialog dialogoAlert;
 
                             if (tipoAct == ApiConstants.TYPE_ACT_BASIC)
                                 dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);

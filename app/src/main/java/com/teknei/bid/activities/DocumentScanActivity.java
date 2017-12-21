@@ -168,6 +168,7 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void goNext() {
+        /*
         String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(DocumentScanActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
 
         if (opcionFingerprintReader.equals("watson")){
@@ -185,6 +186,10 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
             Intent i = new Intent(DocumentScanActivity.this, FingerPrintsActivity.class);
             startActivity(i);
         }
+        */
+
+        Intent i = new Intent(DocumentScanActivity.this, ResultOperationActivity.class);
+        startActivity(i);
     }
 
     public String buildJSON() {

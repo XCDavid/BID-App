@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class FindOperation extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "FindOperation";
 
     //    private String newToken;
     private String token;

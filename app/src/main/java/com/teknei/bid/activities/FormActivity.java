@@ -2,6 +2,7 @@ package com.teknei.bid.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -11,10 +12,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teknei.bid.R;
@@ -34,7 +40,7 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FormActivity extends BaseActivity implements View.OnClickListener {
+public class FormActivity extends BaseActivity implements View.OnClickListener , AdapterView.OnItemSelectedListener {
     EditText etName;
     EditText etLastName;
     EditText etMotherLastName;
@@ -42,6 +48,9 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     EditText etMail;
     EditText etPhone;
     EditText etRefContract;
+
+    Spinner spProducts;
+    Spinner spPerson;
 
     Button buttonContinue;
     String phoneID;
@@ -130,6 +139,75 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
         etMail.setFilters(new InputFilter[]{filterMail, new InputFilter.LengthFilter(40)});
         etRefContract.setFilters(new InputFilter[]{filterBasic, new InputFilter.LengthFilter(20)});
 
+        spProducts = (Spinner) findViewById(R.id.sp_option_product);
+        spPerson   = (Spinner) findViewById(R.id.sp_option_person);
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence> (this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.product_array)) {
+            @Override
+            public boolean isEnabled(int position) {
+                if(position == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                    ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if(position == 0){
+                    tv.setTextColor(Color.GRAY);
+                }
+                else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProducts.setAdapter(adapter);
+        spProducts.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapterPerson = new ArrayAdapter<CharSequence> (this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.person_array)) {
+            @Override
+            public boolean isEnabled(int position) {
+                if(position == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if(position == 0){
+                    tv.setTextColor(Color.GRAY);
+                }
+                else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        adapterPerson.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spPerson.setAdapter(adapterPerson);
+        spPerson.setOnItemSelectedListener(this);
+
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionPhoneState(this);
         //Hide keyboard
@@ -141,6 +219,8 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
         }
+
+
 
     }
 
@@ -234,22 +314,39 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.showSoftInput(etPhone, InputMethodManager.SHOW_IMPLICIT);
             }
-        } else if (!etMail.getText().toString().equals("")) {
-            if (!validate(etMail.getText().toString())) {
-                Toast.makeText(this, "El campo ( Correo ) tiene un formato erroneo", Toast.LENGTH_SHORT).show();
-                etMail.clearFocus();
-                if (etMail.requestFocus()) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(etMail, InputMethodManager.SHOW_IMPLICIT);
-                }
-            } else {
-//                Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
-                return true;
+        } */ else if (etMail.getText().toString().equals("")) {
+
+            DataValidation dataValidation;
+            dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_obligatory_field_mail));
+            dataValidation.setCancelable(false);
+            dataValidation.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dataValidation.show();
+
+            etMail.clearFocus();
+            if (etMail.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etMail, InputMethodManager.SHOW_IMPLICIT);
             }
-        }*/ else {
-//            Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
+
+        }else if (!validate(etMail.getText().toString())) {
+
+            DataValidation dataValidation;
+            dataValidation = new DataValidation(FormActivity.this, getString(R.string.message_data_validation), getString(R.string.message_error_mail_format));
+            dataValidation.setCancelable(false);
+            dataValidation.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dataValidation.show();
+
+            etMail.clearFocus();
+            if (etMail.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etMail, InputMethodManager.SHOW_IMPLICIT);
+            }
+
+        } else {
+//          Toast.makeText(this, "Super OK !!!", Toast.LENGTH_SHORT).show();
             return true;
         }
+
         return false;
     }
 
@@ -322,7 +419,8 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 //        }
         //Construimos el JSON con los datos del formulario
 
-        startOperationDTO = new StartOperationDTO(Long.parseLong(idEnterprice), Long.parseLong(customerType), employee, phoneID,curp);
+        startOperationDTO = new StartOperationDTO(1,Long.parseLong(idEnterprice), Long.parseLong(customerType), employee, phoneID,curp);
+        startOperationDTO.setEmail(mail);
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -349,10 +447,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
+
         if (operationID.equals("")) {
             String jsonString = buildJSON();
             new StartOperation(FormActivity.this, token, jsonString, startOperationDTO).execute();
-//            new FindOperation(FormActivity.this, token, etCurp.getText().toString()).execute();
         } else {
             goNext();
         }
@@ -360,8 +458,10 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void goNext() {
-        Intent i = new Intent(FormActivity.this, SelectIdTypeActivity.class);
+
+        Intent i = new Intent(FormActivity.this, OTPValidationMailActivity.class);
         startActivity(i);
+
     }
 
     @Override
@@ -397,11 +497,11 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 Intent iFace = new Intent(FormActivity.this, FaceEnrollActivity.class);
                 startActivity(iFace);
                 break;
-            case 3:
+            case 5:
                 Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
                 startActivity(iDocu);
                 break;
-            case 4:
+            case 3:
                 String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
 
                 if (opcionFingerprintReader.equals("watson")){
@@ -420,7 +520,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(i);
                 }
                 break;
-            case 5:
+            case 4:
 //                Intent iFake = new Intent(FormActivity.this, FakeINEActivity.class);
 //                startActivity(iFake);
 //                break;
@@ -428,7 +528,16 @@ public class FormActivity extends BaseActivity implements View.OnClickListener {
                 Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
                 startActivity(iFirma);
                 break;
-
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d ("Productos ",adapterView.getItemAtPosition(i).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

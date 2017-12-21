@@ -11,6 +11,7 @@ import com.teknei.bid.R;
 import com.teknei.bid.dialogs.AlertCurpDialog;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.CredentialResumeDialog;
+import com.teknei.bid.dialogs.DataValidation;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.response.ResponseServicesBID;
 import com.teknei.bid.services.BIDEndPointServices;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 
 public class FaceFileSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "FaceFileSend";
 
     private String token;
     private String jsonS;
@@ -165,23 +166,31 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                             dialogoAlert.show();
                         }
 
+                    } else if (responseStatus >= 400 && responseStatus < 500) {
+
+                        if (responseStatus == 422) {
+
+                            errorMessage = responseStatus + " - " + "Usuario ya registrado en sistema";
+
+                        } else {
+
+                            errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
+
+                        }
+
+                        Log.i(CLASS_NAME, "Face: " + errorMessage);
+                        DataValidation dialogoAlert;
+                        dialogoAlert = new DataValidation(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
+
                     } else {
 
                         if (responseStatus >= 300 && responseStatus < 400) {
 
                             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_300);
 
-                        } else if (responseStatus >= 400 && responseStatus < 500) {
-
-                            if (responseStatus == 422) {
-
-                                errorMessage = responseStatus + " - " + response.message();
-
-                            } else {
-
-                                errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_400);
-
-                            }
                         } else if (responseStatus >= 500 && responseStatus < 600) {
 
                             errorMessage = responseStatus + " - " + activityOrigin.getString(R.string.message_ws_response_500);
@@ -190,7 +199,7 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
 
                         Log.i(CLASS_NAME, "Face: " + errorMessage);
                         AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                         dialogoAlert.setCancelable(false);
                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                         dialogoAlert.show();
@@ -204,7 +213,7 @@ public class FaceFileSend extends AsyncTask<String, Void, Void> {
                     t.printStackTrace();
 
                     AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CONTINUE);
+                    dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), "Error al conectarse con el servidor", ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();

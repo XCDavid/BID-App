@@ -23,7 +23,7 @@
         android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
         >
-        <TextView
+        <!--TextView
             android:id="@+id/tv_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,8 +32,7 @@
             android:textColor="@color/text_color_white"
             android:textStyle="bold"
             android:textSize="20sp"
-            />
-
+            /-->
         <EditText
             android:id="@+id/et_user_log_in"
             android:layout_width="match_parent"
@@ -48,7 +47,8 @@
             android:textColorHint="@color/text_color_white"
             android:hint="@string/tv_hint_user_login"
             />
-        <TextView
+
+        <!--TextView
             android:id="@+id/tv_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:textColor="@color/text_color_white"
             android:textStyle="bold"
             android:textSize="20sp"
-            />
+            /-->
 
         <EditText
             android:id="@+id/et_pass_log_in"

@@ -64,11 +64,6 @@
         android:layout_above="@+id/b_end_result_operation"
         >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/b_contract_generate_result_operation"
             android:layout_width="0dp"
@@ -76,9 +71,22 @@
             android:textColor="@color/text_color_white"
             android:background="@drawable/selector_rounded_rectangle_login"
             android:layout_weight="1"
-            android:text="@string/b_generate_contract_result_operation"
+            android:text="@string/b_show_contract_result_operation"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             />
 
+        <Button
+            android:id="@+id/b_contract_sign_result_operation"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:textColor="@color/text_color_white"
+            android:background="@drawable/selector_rounded_rectangle_login"
+            android:layout_weight="1"
+            android:text="@string/b_sign_contract_result_operation"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            />
     </LinearLayout>
 
     <Button

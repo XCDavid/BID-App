@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class SendContract extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "SendContract";
 
     private String token;
     private int idOperation;

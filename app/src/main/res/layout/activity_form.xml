@@ -20,16 +20,28 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/instructions_form"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/required_text_form"
                 android:textSize="@dimen/notice_required_form" />
+
+            <Spinner
+                android:id="@+id/sp_option_person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -93,13 +105,13 @@
                 android:maxLines="1"
                 android:visibility="gone"
                 />
-            <TextView
+            <!--TextView
                 android:id="@+id/tv_curp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/tv_curp_form" />
-
+                android:text="@string/tv_curp_form"
+                android:textStyle="bold"/-->
             <EditText
                 android:id="@+id/et_curp_form"
                 android:layout_width="match_parent"
@@ -109,15 +121,16 @@
                 android:inputType="textCapCharacters"
                 android:maxLength="18"
                 android:maxLines="1"
-                android:textAlignment="center"/>
+                android:hint="@string/tv_curp_form"
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
 
-            <TextView
+            <!--TextView
                 android:id="@+id/tv_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/mail_form" />
-
+                android:text="@string/mail_form"
+                android:textStyle="bold"/-->
             <EditText
                 android:id="@+id/et_mail_form"
                 android:layout_width="match_parent"
@@ -126,15 +139,17 @@
                 android:focusableInTouchMode="true"
                 android:inputType="textEmailAddress"
                 android:maxLength="40"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:hint="@string/mail_form"
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
 
-            <TextView
+            <!--TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_separator_form"
-                android:text="@string/phone_form" />
-
+                android:text="@string/phone_form"
+                android:textStyle="bold"/-->
             <EditText
                 android:id="@+id/et_phone_form"
                 android:layout_width="match_parent"
@@ -142,9 +157,11 @@
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:inputType="number|phone"
-                android:maxLength="20"
+                android:maxLength="10"
                 android:maxLines="1"
-                />
+                android:hint="@string/phone_form"
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
+
             <TextView
                 android:id="@+id/tv_contract_ref_form"
                 android:layout_width="match_parent"
@@ -167,8 +184,25 @@
                 android:visibility="gone"
                 />
 
+            <!--TextView
+                android:id="@+id/tv_settings_fingerprint_reader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/tv_product"
+                android:textStyle="bold"/-->
+            <Spinner
+                android:id="@+id/sp_option_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                />
+
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:id="@+id/b_continue_form"
         android:layout_width="match_parent"

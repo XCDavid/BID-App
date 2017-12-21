@@ -78,6 +78,7 @@ public class ScanActivity extends Activity implements IScanner, ComponentCallbac
         fragmentTransaction.add(R.id.content, fragment);
         fragmentTransaction.addToBackStack(ResultFragment.class.toString());
         fragmentTransaction.commit();
+        this.onDestroy();
     }
 
     @Override

@@ -22,6 +22,7 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
     Button finishOperation;
     Button tryAgainOperation;
     Button contractGenerate;
+    Button contractSing;
     TextView tvOperationResult;
 
     String operationID = "";
@@ -39,10 +40,14 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
         finishOperation   = (Button) findViewById(R.id.b_end_result_operation);
         tryAgainOperation = (Button) findViewById(R.id.b_end_result_operation);
         contractGenerate  = (Button) findViewById(R.id.b_contract_generate_result_operation);
+        contractSing      = (Button) findViewById(R.id.b_contract_sign_result_operation);
+
         tvOperationResult = (TextView) findViewById(R.id.tv_operation_result);
+
         finishOperation.setOnClickListener(this);
         tryAgainOperation.setOnClickListener(this);
         contractGenerate.setOnClickListener(this);
+        contractSing.setOnClickListener(this);
 
         tvOperationResult.setText(operationID);
     }
@@ -65,6 +70,29 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
                 String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
                 operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
                 new GetContract(ResultOperationActivity.this, token, Integer.valueOf(operationID)).execute();
+                break;
+
+            case R.id.b_contract_sign_result_operation:
+
+                String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString
+                                                (ResultOperationActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+                if (opcionFingerprintReader.equals("watson")){
+
+                    Intent i = new Intent(ResultOperationActivity.this, ContractFingerSignatureWatson.class);
+                    startActivity(i);
+
+                } else if (opcionFingerprintReader.equals("biosmart")) {
+
+                    Intent i = new Intent(ResultOperationActivity.this, ContractFingerSignatureBioSmart.class);
+                    startActivity(i);
+
+                } else {
+
+                    Intent i = new Intent(ResultOperationActivity.this, ContractFingerSignatureMSO.class);
+                    startActivity(i);
+                }
+
                 break;
         }
     }

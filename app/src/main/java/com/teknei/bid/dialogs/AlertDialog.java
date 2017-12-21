@@ -15,7 +15,7 @@ import com.teknei.bid.utils.ApiConstants;
 
 public class AlertDialog extends Dialog implements View.OnClickListener {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "AlertDialog";
 
     Button okButton;
     Button cancelButton;
@@ -63,8 +63,7 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
             cancelButton.setVisibility(View.VISIBLE);
 
-        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL
-                || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
+        } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE || actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL){
 
             cancelButton.setVisibility(View.VISIBLE);
             cancelButton.setText(activityOrigin.getString(R.string.continue_message_dialog));
@@ -161,12 +160,6 @@ public class AlertDialog extends Dialog implements View.OnClickListener {
                 } else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_LOCAL) {
                     ((FingerWatsonActivity) activityOrigin).goNext();
 
-                }else if (actionIn == ApiConstants.ACTION_TRY_AGAIN_CONTINUE_DOC) {
-                    DocumentResumeDialog dialogoAlert;
-                    dialogoAlert = new DocumentResumeDialog(activityOrigin);
-                    dialogoAlert.setCancelable(false);
-                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialogoAlert.show();
                 }
 
                 break;

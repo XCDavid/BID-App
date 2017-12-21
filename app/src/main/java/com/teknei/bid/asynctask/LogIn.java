@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class LogIn extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "LoginIn";
 
     private String newToken;
     private String token;

@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class CancelOp extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "CancelOP";
 
     private String token;
     private String operationID;

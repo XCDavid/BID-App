@@ -1,10 +1,15 @@
 package com.teknei.bid.services;
 
 import com.teknei.bid.domain.AddressDTO;
+import com.teknei.bid.domain.ConfirmFingerSingDTO;
 import com.teknei.bid.domain.CredentialDTO;
 import com.teknei.bid.domain.FingerLoginDTO;
+import com.teknei.bid.domain.FingerSingDTO;
+import com.teknei.bid.domain.MailVerificationOTPDTO;
 import com.teknei.bid.domain.SearchDTO;
 import com.teknei.bid.domain.StartOperationDTO;
+import com.teknei.bid.domain.ValidateOtpDTO;
+import com.teknei.bid.domain.VerifyCecobanDTO;
 import com.teknei.bid.response.OAuthAccessToken;
 import com.teknei.bid.response.ResponseDetail;
 import com.teknei.bid.response.ResponseDocument;
@@ -12,6 +17,7 @@ import com.teknei.bid.response.ResponseServicesBID;
 import com.teknei.bid.response.ResponseStartOpe;
 import com.teknei.bid.response.ResponseStep;
 import com.teknei.bid.response.ResponseTimeStamp;
+import com.teknei.bid.response.ResponseVerifyCecoban;
 
 import java.util.List;
 
@@ -119,5 +125,31 @@ public interface BIDEndPointServices {
     Call<ResponseServicesBID> enrollmentBiometricSearchCustomerId
                                                     (@Header("Authorization") String authorization,
                                                      @Body FingerLoginDTO jsonFile);
+
+    @POST ("rest/v3/enrollment/mail/mail/verification/otp")
+    Call<String> enrollmentMailVerificationOTP (@Header("Authorization") String authorization,
+                                                @Body MailVerificationOTPDTO validate);
+
+    @POST ("rest/v3/enrollment/mail/validateOTP")
+    Call<String> enrollmentMailValidateOTP (@Header("Authorization") String authorization,
+                                                         @Body ValidateOtpDTO validate);
+
+    @POST ("rest/v3/enrollment/contract/contrato/sign")
+    Call<ResponseServicesBID> enrollmentContractSign (@Header("Authorization") String authorization,
+                                                      @Body FingerSingDTO jsonFile);
+
+    @POST ("rest/v3/enrollment/mail/contractSigned")
+    Call<ResponseServicesBID> enrollmentMailContractSign (@Header("Authorization") String authorization,
+                                                          @Body ConfirmFingerSingDTO jsonFile);
+
+    @GET("rest/v3/enrollment/pictures/search/customer/image/{option}/{curp}/{id}")
+    Call<ResponseBody> enrollmentPicturesSearchCustomerImage (@Header("Authorization") String authorization,
+                                                              @Path("option") String option,
+                                                              @Path("curp") String curp,
+                                                              @Path("id") String id);
+
+    @POST("rest/v3/enrollment/credentials/verifyCecoban")
+    Call<ResponseVerifyCecoban> enrollmentCredentialsVerifyCecoban (@Header("Authorization") String authorization,
+                                                                    @Body VerifyCecobanDTO temp);
 
 }

@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class DocumentSend extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = getClass().getSimpleName();
+    private final String CLASS_NAME = "DocumentSend";
 
     private String token;
     private String jsonS;
@@ -204,7 +204,7 @@ public class DocumentSend extends AsyncTask<String, Void, Void> {
                                         }
 
                                         if (resolution) {
-                                            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.JSON_CREDENTIALS_RESPONSE, "{}");
+                                            String jsonString = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.DOCUMENT_OPERATION, "{}");
                                             try {
                                                 JSONObject jsonData = new JSONObject(jsonString);
                                                 jsonData.put("name"  , name);

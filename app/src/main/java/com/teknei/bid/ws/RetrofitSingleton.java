@@ -1,5 +1,7 @@
 package com.teknei.bid.ws;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.teknei.bid.services.BIDEndPointServices;
 
 import java.util.concurrent.TimeUnit;
@@ -23,10 +25,15 @@ public class RetrofitSingleton {
 
     public static Retrofit build(String baseURL) {
         OkHttpClient httpClient = buildHttpClient();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .validateEagerly(true)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
                 .build();
     }
@@ -55,12 +62,18 @@ public class RetrofitSingleton {
     }
 
     private static Retrofit buildRetrofitInstance(String baseUrl) {
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .validateEagerly(true)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(getOkHttpClientInstance())
                 .build();
+
         return retrofit;
     }
 

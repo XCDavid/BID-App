@@ -141,133 +141,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
             startActivity(i);
         }
         else {
-
             new LogIn(LogInActivity.this, user, pass, "", "").execute();
-            /*
-            String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
-
-            api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
-
-            Call<OAuthAccessToken> call = api.getAccessTokenByPassword(user, pass);
-
-            call.enqueue(new Callback<OAuthAccessToken>() {
-
-                @Override
-                public void onResponse(Call<OAuthAccessToken> call, Response<OAuthAccessToken> response) {
-
-                    Log.d("................", "onResponse");
-
-                    if (response.isSuccessful()) {
-
-                        accessToken = response.body();
-
-                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.TOKEN_APP,"bearer "+accessToken.getAccessToken());
-                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.USERNAME,user);
-
-                        obteinDataCustomer();
-
-                    } else {
-
-                        String errorMessage = "Error al autenticar verifique datos de usuario y contraseña";
-
-                        AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-                        dialogoAlert.setCancelable(false);
-                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                        dialogoAlert.show();
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<OAuthAccessToken> call, Throwable t) {
-
-                    Log.d("................", "onFailure");
-
-                    t.printStackTrace();
-
-                    String errorMessage = "Error al conectarse con servidor, verifique conexión";
-
-                    AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-                    dialogoAlert.setCancelable(false);
-                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialogoAlert.show();
-                }
-            });*/
         }
-    }
-
-    public void obteinDataCustomer () {
-        String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
-        String token           = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-
-        api = RetrofitSingleton.getInstance().build(urlAuthAccess).create(OAuthApi.class);
-
-        Call<ResponseDetailMe> call = api.getOwnerInfo(token);
-
-        call.enqueue(new Callback<ResponseDetailMe>() {
-
-            @Override
-            public void onResponse(Call<ResponseDetailMe> call, Response<ResponseDetailMe> response) {
-
-                if (response.isSuccessful() && response.body() != null) {
-
-                    ResponseDetailMe responseCustomer = response.body();
-
-                    if (responseCustomer.isAuthenticated()) {
-
-                        Log.d("LOGGGGGG",responseCustomer.getClientId()+"");
-
-                        String idClient =  responseCustomer.getClientId()+"";
-
-                        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this,SharedPreferencesUtils.ID_CLIENT, idClient);
-
-                        goNext();
-
-                    } else {
-
-                        String errorMessage = "Error al obtener datos de usuario";
-
-                        AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice),
-                                errorMessage, ApiConstants.ACTION_CANCEL_OPERATION);
-                        dialogoAlert.setCancelable(false);
-                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                        dialogoAlert.show();
-
-                    }
-
-                } else {
-
-                    String errorMessage = "Error al obtener datos de usuario";
-
-                    AlertDialog dialogoAlert;
-                    dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage,
-                                                                                        ApiConstants.ACTION_CANCEL_OPERATION);
-                    dialogoAlert.setCancelable(false);
-                    dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    dialogoAlert.show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseDetailMe> call, Throwable t) {
-
-                Log.d("................", "onFailure");
-
-                t.printStackTrace();
-
-                String errorMessage = "Error al conectarse con servidor, verifique conexión";
-
-                AlertDialog dialogoAlert;
-                dialogoAlert = new AlertDialog(LogInActivity.this, getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
-                dialogoAlert.setCancelable(false);
-                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                dialogoAlert.show();
-            }
-        });
     }
 
     @Override
@@ -277,19 +152,16 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         if (opcionFingerprintReader.equals("watson")){
 
             Intent i = new Intent(LogInActivity.this, LoginFingerWatsonActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
         } else if (opcionFingerprintReader.equals("biosmart")) {
 
             Intent i = new Intent(LogInActivity.this, LoginFingerBioSmartActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
         } else {
 
             Intent i = new Intent(LogInActivity.this, LoginFingerMSOActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }
     }

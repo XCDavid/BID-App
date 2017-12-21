@@ -32,6 +32,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,82 +40,74 @@
         <activity
             android:name=".activities.IdScanActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.IcarScanActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FaceScanActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FingerPrintsActivity"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".activities.DocumentScanActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SelectIdTypeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.PayConfirmationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FormActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.ResultOperationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.ConsultActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".activities.BaseActivity" />
-
         <activity
             android:name=".activities.FakeINEActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".mobbsign.MobbSignActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.FingerBioSdkActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FingerWatsonActivity"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".activities.LoginFingerWatsonActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.LoginFingerMSOActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.LoginFingerBioSmartActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FaceEnrollActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.OTPValidationMailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ContractFingerSignatureMSO"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ContractFingerSignatureWatson"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ContractFingerSignatureBioSmart"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

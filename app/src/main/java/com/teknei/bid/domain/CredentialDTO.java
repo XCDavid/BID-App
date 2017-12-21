@@ -65,6 +65,9 @@ public class CredentialDTO {
     @SerializedName("vige")
     private String vige;
 
+    @SerializedName("curp")
+    private String curp;
+
     public CredentialDTO() {
         this.apeMat = "";
         this.apePat = "";
@@ -85,6 +88,15 @@ public class CredentialDTO {
         this.secc = "";
         this.user = "";
         this.vige = "";
+        this.curp = "";
+    }
+
+    public String getCurp() {
+        return curp;
+    }
+
+    public void setCurp(String curp) {
+        this.curp = curp;
     }
 
     public String getApeMat() {

@@ -272,8 +272,41 @@ public class FaceEnrollActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void goNext() {
-        Intent i = new Intent(FaceEnrollActivity.this, DocumentScanActivity.class);
-        startActivity(i);
+        //Intent i = new Intent(FaceEnrollActivity.this, DocumentScanActivity.class);
+        //startActivity(i);
+
+        try {
+            if (captureHandler != null) {
+                captureHandler.destroy();
+                captureHandler = null;
+            }
+            if (matcherHandler != null) {
+                matcherHandler.destroy();
+                matcherHandler = null;
+            }
+            morphoSurfaceViewPreview.onDestroy();
+        }catch (Exception e){
+            Log.e(TAG, "", e);
+        }
+
+        String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(FaceEnrollActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+        if (opcionFingerprintReader.equals("watson")){
+
+            Intent i = new Intent(FaceEnrollActivity.this, FingerWatsonActivity.class);
+            startActivity(i);
+
+        } else if (opcionFingerprintReader.equals("biosmart")) {
+
+            Intent i = new Intent(FaceEnrollActivity.this, FingerBioSdkActivity.class);
+            startActivity(i);
+
+        } else {
+
+            Intent i = new Intent(FaceEnrollActivity.this, FingerPrintsActivity.class);
+            startActivity(i);
+        }
+
     }
 
     public String buildJSON() {

@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class StartOperationDTO {
 
+    @SerializedName("confType")
+    private int confType;
+
     @SerializedName("nombre")
     private String name;
 
@@ -41,7 +44,8 @@ public class StartOperationDTO {
     @SerializedName("emprId")
     private Long companyId;
 
-    public StartOperationDTO(Long companyId, Long customerType, String employee, String deviceId, String curp) {
+    public StartOperationDTO(int confType, Long companyId, Long customerType, String employee, String deviceId, String curp) {
+        this.confType     = confType;
         this.customerType = customerType;
         this.companyId    = companyId;
         this.employee     = employee;
@@ -54,6 +58,14 @@ public class StartOperationDTO {
         this.refContract    = "";
         this.phoneNumber    = "";
         this.secondLastName = "";
+    }
+
+    public int getConfType() {
+        return confType;
+    }
+
+    public void setConfType(int confType) {
+        this.confType = confType;
     }
 
     public String getName() {

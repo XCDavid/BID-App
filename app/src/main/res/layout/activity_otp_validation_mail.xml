@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="@string/otpv_mail_tv_instructions"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginBottom="60dp"/>
+
+            <!--TextView
+                android:id="@+id/tv_curp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                android:text="@string/tv_curp_form"
+                android:textStyle="bold"/-->
+
+            <EditText
+                android:id="@+id/otpv_mail_edt_codigo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/otpv_mail_tv_code"
+                android:maxLength="6"
+                android:textAlignment="center"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/otpv_mail_btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_form"
+        android:layout_alignParentBottom="true"
+        android:text="@string/continue_form"
+        android:textColor="@color/text_color_white"
+        android:background="@drawable/selector_primary_button"/>
+
+</RelativeLayout>
+

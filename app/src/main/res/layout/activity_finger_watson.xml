@@ -19,8 +19,9 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="@string/instruction_begin_fingerprints_scan"
-            android:textStyle="bold" />
+            android:text="@string/instruction_fingerprints_scan"
+            android:textStyle="bold"
+            android:textSize="25sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,6 +31,18 @@
             <include layout="@layout/finger_print_hands"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/fw_text_instruccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/instruction_begin_fingerprints_scan"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

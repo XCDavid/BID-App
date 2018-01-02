@@ -17,6 +17,8 @@ public class SharedPreferencesUtils {
     public static final String USERNAME = "username";
     public static final String ID_CLIENT = "clientId";
 
+    public static final String TYPE_PERSON = "type_person";
+
     public static final String OPERATION_ID = "operation_id";
     public static final String SCAN_SAVE_ID = "id_scan_save_val";
     public static final String ID_SCAN = "id_scan_val";
@@ -50,7 +52,6 @@ public class SharedPreferencesUtils {
 
     //Lector de huellas digitales
     public static final String FINGERPRINT_READER = "fingerprint_reader";
-
 
     public static void saveToPreferencesString(Context contex, String preferenceName, String preferenceValue) {
         SharedPreferences sharedPreferences = contex.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
@@ -134,6 +135,7 @@ public class SharedPreferencesUtils {
         }
         //Delete Preferences
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.OPERATION_ID);
+        SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.TYPE_PERSON);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.ID_SCAN);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.SCAN_SAVE_ID);
         SharedPreferencesUtils.deleteFromPreferences(context,SharedPreferencesUtils.FACE_OPERATION);

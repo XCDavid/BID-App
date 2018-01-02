@@ -570,7 +570,7 @@ public class LoginFingerBioSmartActivity extends BaseActivity implements Fingers
             e.printStackTrace();
         }
 
-        Intent i = new Intent(LoginFingerBioSmartActivity.this, FormActivity.class);
+        Intent i = new Intent(LoginFingerBioSmartActivity.this, PersonSelectionActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

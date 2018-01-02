@@ -46,6 +46,9 @@ public class ApiConstants {
     public static final int TYPE_INE      = 1;
     public static final int TYPE_PASSPORT = 2;
 
+    public static final int TYPE_OPERATOR = 1;
+    public static final int TYPE_CUSTOMER = 2;
+
     public static final String LOG_IN_USER  = "login";
     public static final String LOG_OUT_USER = "logout";
 

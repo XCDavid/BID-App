@@ -31,8 +31,7 @@
             android:name=".activities.LogInActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
+                <action   android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -108,6 +107,12 @@
         <activity
             android:name=".activities.ContractFingerSignatureBioSmart"
             android:screenOrientation="portrait" />
-    </application>
+        <activity
+            android:name=".activities.PersonSelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AccountRegistrationActivity"
+            android:screenOrientation="portrait" />
 
+    </application>
 </manifest>

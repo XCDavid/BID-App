@@ -149,6 +149,7 @@
                 android:layout_marginEnd="0dp"
                 app:layout_constraintRight_toRightOf="@+id/imageViewCameraId2" />
         </android.support.constraint.ConstraintLayout>
+
     </LinearLayout>
 
     <LinearLayout

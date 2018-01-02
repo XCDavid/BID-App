@@ -608,7 +608,7 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
 
         String operationIDAux = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
         if (operationIDAux.equals("")) {
-            Intent end = new Intent(this, FormActivity.class);
+            Intent end = new Intent(this, PersonSelectionActivity.class);
             end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(end);
             finish();

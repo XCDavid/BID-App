@@ -130,7 +130,26 @@ public class StartOperation extends AsyncTask<String, Void, Void> {
 
                         if (responseStartOpe.isResultOK()) {
 
-                            confirmMail ();
+                            int typePerson = Integer.parseInt(SharedPreferencesUtils.readFromPreferencesString
+                                                             (activityOrigin, SharedPreferencesUtils.TYPE_PERSON, ""));
+
+                            if (typePerson == ApiConstants.TYPE_OPERATOR) {
+
+                                SharedPreferencesUtils.saveToPreferencesString(activityOrigin,
+                                        SharedPreferencesUtils.OPERATION_ID, responseStartOpe.getOperationId() + "");
+
+                                AlertDialog dialogoAlert;
+                                dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
+                                        responseStartOpe.getErrorMessage(), ApiConstants.ACTION_GO_NEXT);
+                                dialogoAlert.setCancelable(false);
+                                dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                dialogoAlert.show();
+
+                            } else {
+
+                                confirmMail ();
+
+                            }
 
                         } else {
                             progressDialog.dismiss();

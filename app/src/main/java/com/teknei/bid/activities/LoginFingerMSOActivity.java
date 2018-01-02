@@ -202,7 +202,7 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void goNext() {
-        Intent i = new Intent(LoginFingerMSOActivity.this, FormActivity.class);
+        Intent i = new Intent(LoginFingerMSOActivity.this, PersonSelectionActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

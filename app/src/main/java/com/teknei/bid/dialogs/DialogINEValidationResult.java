@@ -69,10 +69,10 @@ public class DialogINEValidationResult extends Dialog implements View.OnClickLis
         txtDateRequest.setText          (responseValue.getResponse().getFechaHoraPeticion());
         txtResponseDescription.setText  (responseValue.getResponse().getDescripcionRespuesta());
         txtCustomerId.setText           (responseValue.getResponse().getFolioCliente()+"");
-        txtSimilitud7.setText           (responseValue.getResponse().getMinutiaeResponse().getSimilitud7()+"");
-        txtResponseCodeMinusia.setText  (responseValue.getResponse().getMinutiaeResponse().getCodigoRespuestaMinucia()+"");
-        txtSimilitud2.setText           (responseValue.getResponse().getMinutiaeResponse().getSimilitud2()+"");
-        txtCodeData.setText             (responseValue.getResponse().getDataResponse().getCodigoRespuestaDatos()+"");
+        txtSimilitud7.setText           (responseValue.getResponse().getMinutiaeResponse().getSimilitud7().toString());
+        txtResponseCodeMinusia.setText  (responseValue.getResponse().getMinutiaeResponse().getCodigoRespuestaMinucia().toString());
+        txtSimilitud2.setText           (responseValue.getResponse().getMinutiaeResponse().getSimilitud2().toString());
+        txtCodeData.setText             (responseValue.getResponse().getDataResponse().getCodigoRespuestaDatos().toString());
 
         txtRegistrationYear.setText     (validateValue(responseValue.getResponse().getDataResponse().getRespuestaComparacion().getAnioRegistro()));
         txtElectorKey.setText           (validateValue(responseValue.getResponse().getDataResponse().getRespuestaComparacion().getClaveElector()));

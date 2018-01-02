@@ -60,8 +60,12 @@ public class LogOut extends AsyncTask<String, Void, Void> {
         if (hasConecction) {
             try {
                 ServerConnection serverConnection = new ServerConnection();
-                String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
-                Object arrayResponse[] = serverConnection.connection(activityOrigin, null, endPoint + ApiConstants.LOG_OUT_USER, token, ServerConnection.METHOD_GET, null, "");
+                String endPoint = SharedPreferencesUtils.readFromPreferencesString
+                        (activityOrigin, SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
+
+                Object arrayResponse[] = serverConnection.connection
+                        (activityOrigin, null, endPoint + ApiConstants.LOG_OUT_USER, token, ServerConnection.METHOD_GET, null, "");
+
                 if (arrayResponse[1] != null) {
                     manageResponse(arrayResponse);
                 } else {

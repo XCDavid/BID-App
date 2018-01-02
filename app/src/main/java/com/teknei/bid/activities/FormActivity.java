@@ -50,12 +50,14 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
     EditText etRefContract;
 
     Spinner spProducts;
-    Spinner spPerson;
+    Spinner spRegion;
 
     Button buttonContinue;
     String phoneID;
 
     StartOperationDTO startOperationDTO;
+
+    private int typePerson;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
@@ -73,10 +75,12 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.form_activity_name));
             invalidateOptionsMenu();
         }
+
         InputFilter filter = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals("")) { // for backspace
@@ -88,6 +92,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
                 return "";
             }
         };
+
         InputFilter filterCURP = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals("")) { // for backspace
@@ -99,6 +104,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
                 return "";
             }
         };
+
         InputFilter filterMail = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals("")) { // for backspace
@@ -110,6 +116,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
                 return "";
             }
         };
+
         InputFilter filterBasic = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals("")) { // for backspace
@@ -121,6 +128,8 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
                 return "";
             }
         };
+
+        typePerson = Integer.parseInt(SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TYPE_PERSON, ""));
 
         etName = (EditText) findViewById(R.id.et_name_form);
         etLastName = (EditText) findViewById(R.id.et_last_name_form);
@@ -140,7 +149,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
         etRefContract.setFilters(new InputFilter[]{filterBasic, new InputFilter.LengthFilter(20)});
 
         spProducts = (Spinner) findViewById(R.id.sp_option_product);
-        spPerson   = (Spinner) findViewById(R.id.sp_option_person);
+        spRegion   = (Spinner) findViewById(R.id.sp_option_zone);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence> (this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.product_array)) {
@@ -175,8 +184,8 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
         spProducts.setAdapter(adapter);
         spProducts.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adapterPerson = new ArrayAdapter<CharSequence> (this,
-                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.person_array)) {
+        ArrayAdapter<CharSequence> adapterZone = new ArrayAdapter<CharSequence> (this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.zone_array)) {
             @Override
             public boolean isEnabled(int position) {
                 if(position == 0)
@@ -204,9 +213,19 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
             }
         };
 
-        adapterPerson.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spPerson.setAdapter(adapterPerson);
-        spPerson.setOnItemSelectedListener(this);
+        adapterZone.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRegion.setAdapter(adapterZone);
+        spRegion.setOnItemSelectedListener(this);
+
+        switch (typePerson) {
+            case ApiConstants.TYPE_CUSTOMER:
+                spRegion.setVisibility(View.GONE);
+                break;
+
+            case ApiConstants.TYPE_OPERATOR:
+                spProducts.setVisibility(View.GONE);
+                break;
+        }
 
         //Check Permissions For Android 6.0 up
         PermissionsUtils.checkPermissionPhoneState(this);
@@ -219,9 +238,6 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.showSoftInput(etCurp, InputMethodManager.SHOW_IMPLICIT);
         }
-
-
-
     }
 
     @Override
@@ -229,7 +245,6 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
         switch (view.getId()) {
             case R.id.b_continue_form:
                 if (validateDataForm()) {
-//                    sendPetition();
                     String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
                     new FindOperation(FormActivity.this, token, etCurp.getText().toString()).execute();
                 }
@@ -388,6 +403,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     @Override
     public void onBackPressed() {
         AlertDialog dialogoAlert;
@@ -396,6 +412,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialogoAlert.show();
     }
+    */
 
     public String buildJSON() {
         String name = etName.getText().toString();
@@ -459,9 +476,17 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
     @Override
     public void goNext() {
 
-        Intent i = new Intent(FormActivity.this, OTPValidationMailActivity.class);
-        startActivity(i);
+        if (typePerson == ApiConstants.TYPE_OPERATOR) {
 
+            Intent i = new Intent(FormActivity.this, SelectIdTypeActivity.class);
+            startActivity(i);
+
+        } else {
+
+            Intent i = new Intent(FormActivity.this, OTPValidationMailActivity.class);
+            startActivity(i);
+
+        }
     }
 
     @Override
@@ -489,18 +514,18 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
     @Override
     public void goStep(int flowStep) {
         switch (flowStep){
+
+            /*
             case 1:
                 Intent iId = new Intent(FormActivity.this, SelectIdTypeActivity.class);
                 startActivity(iId);
                 break;
+
             case 2:
                 Intent iFace = new Intent(FormActivity.this, FaceEnrollActivity.class);
                 startActivity(iFace);
                 break;
-            case 5:
-                Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
-                startActivity(iDocu);
-                break;
+
             case 3:
                 String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
 
@@ -520,11 +545,88 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
                     startActivity(i);
                 }
                 break;
+
             case 4:
 //                Intent iFake = new Intent(FormActivity.this, FakeINEActivity.class);
 //                startActivity(iFake);
 //                break;
+
+            case 5:
+                Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
+                startActivity(iDocu);
+                break;
+
             case 6:
+                Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
+                startActivity(iFirma);
+                break; */
+            case 2:
+                if (typePerson == ApiConstants.TYPE_CUSTOMER) {
+
+                    Intent iId = new Intent(FormActivity.this, OTPValidationMailActivity.class);
+                    startActivity(iId);
+
+                } else {
+
+                    Intent iId = new Intent(FormActivity.this, SelectIdTypeActivity.class);
+                    startActivity(iId);
+
+                }
+                break;
+
+            case 3:
+                Intent iId = new Intent(FormActivity.this, SelectIdTypeActivity.class);
+                startActivity(iId);
+                break;
+
+            case 4:
+                Intent iFace = new Intent(FormActivity.this, FaceEnrollActivity.class);
+                startActivity(iFace);
+                break;
+
+            case 5:
+                String opcionFingerprintReader = SharedPreferencesUtils.readFromPreferencesString(FormActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, "");
+
+                if (opcionFingerprintReader.equals("watson")){
+
+                    Intent i = new Intent(FormActivity.this, FingerWatsonActivity.class);
+                    startActivity(i);
+
+                } else if (opcionFingerprintReader.equals("biosmart")) {
+
+                    Intent i = new Intent(FormActivity.this, FingerBioSdkActivity.class);
+                    startActivity(i);
+
+                } else {
+
+                    Intent i = new Intent(FormActivity.this, FingerPrintsActivity.class);
+                    startActivity(i);
+                }
+                break;
+
+            case 6:
+            case 7:
+                Intent iFake = new Intent(FormActivity.this, FakeINEActivity.class);
+                startActivity(iFake);
+                break;
+
+            case 8:
+                Intent iDocu = new Intent(FormActivity.this, DocumentScanActivity.class);
+                startActivity(iDocu);
+                break;
+
+            case  9:
+                if (typePerson == ApiConstants.TYPE_CUSTOMER) {
+                    Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
+                    startActivity(iFirma);
+                } else {
+                    Intent iFirma = new Intent(FormActivity.this, AccountRegistrationActivity.class);
+                    startActivity(iFirma);
+                }
+                break;
+            case 11:
+            case 12:
+            case 13:
                 Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
                 startActivity(iFirma);
                 break;

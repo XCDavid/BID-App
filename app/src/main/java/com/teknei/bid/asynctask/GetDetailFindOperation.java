@@ -111,8 +111,8 @@ public class GetDetailFindOperation extends AsyncTask<String, Void, Void> {
             String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,
                     SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
 
-            Log.v("token             :", "token        :" + token);
-            Log.v("END POINT         :", "endpoint     :" + endPoint);
+            Log.v(CLASS_NAME, "token        :" + token);
+            Log.v(CLASS_NAME, "endpoint     :" + endPoint);
 
             SearchDTO searchDTO = new SearchDTO();
 

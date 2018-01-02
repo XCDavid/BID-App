@@ -1,5 +1,8 @@
 package com.teknei.bid.services;
 
+import android.accounts.Account;
+
+import com.teknei.bid.domain.AccountDTO;
 import com.teknei.bid.domain.AddressDTO;
 import com.teknei.bid.domain.ConfirmFingerSingDTO;
 import com.teknei.bid.domain.CredentialDTO;
@@ -151,5 +154,12 @@ public interface BIDEndPointServices {
     @POST("rest/v3/enrollment/credentials/verifyCecoban")
     Call<ResponseVerifyCecoban> enrollmentCredentialsVerifyCecoban (@Header("Authorization") String authorization,
                                                                     @Body VerifyCecobanDTO temp);
+
+    @GET ("rest/v3/management/admin/usua")
+    Call<List<AccountDTO>> managementAdminUsuaCheck (@Header("Authorization") String authorization);
+
+    @POST ("rest/v3/management/admin/usua/")
+    Call<ResponseServicesBID> managementAdminUsua (@Header("Authorization") String authorization,
+                                                     @Body AccountDTO accountDTO);
 
 }

@@ -111,9 +111,9 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
             String endPoint = SharedPreferencesUtils.readFromPreferencesString(activityOrigin,
                     SharedPreferencesUtils.URL_TEKNEI, activityOrigin.getString(R.string.default_url_teknei));
 
-            Log.v("token             :", "token        :" + token);
-            Log.v("END POINT         :", "endpoint     :" + endPoint);
-            Log.v("Curp              :", "curp         :" + curp);
+            Log.d(CLASS_NAME, "token        :" + token);
+            Log.d(CLASS_NAME, "endpoint     :" + endPoint);
+            Log.d(CLASS_NAME, "curp         :" + curp);
 
             SearchDTO searchDTO = new SearchDTO();
 
@@ -140,6 +140,9 @@ public class FindOperation extends AsyncTask<String, Void, Void> {
                         if (responseStep.getStep() > 0) {
 
                             SharedPreferencesUtils.saveToPreferencesString(activityOrigin, SharedPreferencesUtils.OPERATION_ID, responseStep.getOperationId()+"");
+
+                            Log.d(CLASS_NAME, "Numero de paso " + responseStep.getStep());
+
                             new GetDetailFindOperation(activityOrigin, token,responseStep.getStep().intValue(), curp).execute();
 
                         } else {

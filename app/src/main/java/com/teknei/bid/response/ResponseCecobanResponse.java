@@ -17,7 +17,7 @@ public class ResponseCecobanResponse {
     private String descripcionRespuesta;
     @SerializedName("folioCliente")
     @Expose
-    private Object folioCliente;
+    private String folioCliente;
     @SerializedName("minutiaeResponse")
     @Expose
     private ResponseCecobanMinutia minutiaeResponse;
@@ -56,11 +56,11 @@ public class ResponseCecobanResponse {
         this.descripcionRespuesta = descripcionRespuesta;
     }
 
-    public Object getFolioCliente() {
+    public String getFolioCliente() {
         return folioCliente;
     }
 
-    public void setFolioCliente(Object folioCliente) {
+    public void setFolioCliente(String folioCliente) {
         this.folioCliente = folioCliente;
     }
 

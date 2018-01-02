@@ -268,7 +268,7 @@ public class LoginFingerWatsonActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void goNext() {
-        Intent i = new Intent(LoginFingerWatsonActivity.this, FormActivity.class);
+        Intent i = new Intent(LoginFingerWatsonActivity.this, PersonSelectionActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

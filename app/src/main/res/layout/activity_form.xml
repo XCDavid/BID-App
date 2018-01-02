@@ -31,17 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/required_text_form"
-                android:textSize="@dimen/notice_required_form" />
-
-            <Spinner
-                android:id="@+id/sp_option_person"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                style="@android:style/Widget.Holo.Light.Spinner"
-                android:layout_marginTop="@dimen/vertical_separator_form"
-                android:visibility="gone"
-                />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -193,6 +183,15 @@
                 android:textStyle="bold"/-->
             <Spinner
                 android:id="@+id/sp_option_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_marginTop="@dimen/vertical_separator_form"
+                />
+
+            <Spinner
+                android:id="@+id/sp_option_zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog"

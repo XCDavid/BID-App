@@ -12,6 +12,7 @@ import com.mobbeel.mobblicense.IOUtils;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.GetContract;
 import com.teknei.bid.mobbsign.MobbSignActivity;
+import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
 import java.io.File;
@@ -25,17 +26,21 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
     Button contractSing;
     TextView tvOperationResult;
 
-    String operationID = "";
+    private String operationID = "";
+    private int    typePerson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_operation);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.result_operation_activity_name));
             invalidateOptionsMenu();
         }
 
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.OPERATION_ID,"");
+        operationID = SharedPreferencesUtils.readFromPreferencesString(this,SharedPreferencesUtils.OPERATION_ID,"");
+        typePerson  = Integer.parseInt(SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TYPE_PERSON, ""));
 
         finishOperation   = (Button) findViewById(R.id.b_end_result_operation);
         tryAgainOperation = (Button) findViewById(R.id.b_end_result_operation);
@@ -50,6 +55,11 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
         contractSing.setOnClickListener(this);
 
         tvOperationResult.setText(operationID);
+
+        if (typePerson == ApiConstants.TYPE_OPERATOR) {
+            contractGenerate.setVisibility(View.GONE);
+            contractSing.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,13 +68,15 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
             case R.id.b_end_result_operation:
                 SharedPreferencesUtils.cleanSharedPreferencesOperation(ResultOperationActivity.this);
 
-                Intent end = new Intent(ResultOperationActivity.this, FormActivity.class);
+                Intent end = new Intent(ResultOperationActivity.this, PersonSelectionActivity.class);
                 end.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(end);
                 finish();
                 break;
+
             case R.id.b_try_again_result_operation:
                 break;
+
             case R.id.b_contract_generate_result_operation:
                 //Add the bundle to the intent
                 String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");

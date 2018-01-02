@@ -56,6 +56,8 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
     List<File> fileList;
 
+    private int typePerson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,8 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
             getSupportActionBar().setTitle(getResources().getString(R.string.document_scan_activity_name));
             invalidateOptionsMenu();
         }
+
+        typePerson = Integer.parseInt(SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TYPE_PERSON, ""));
 
         fileList = new ArrayList<File>();
 
@@ -188,8 +192,17 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
         }
         */
 
-        Intent i = new Intent(DocumentScanActivity.this, ResultOperationActivity.class);
-        startActivity(i);
+        if (typePerson == ApiConstants.TYPE_OPERATOR) {
+
+            Intent i = new Intent(DocumentScanActivity.this, AccountRegistrationActivity.class);
+            startActivity(i);
+
+        } else {
+
+            Intent i = new Intent(DocumentScanActivity.this, ResultOperationActivity.class);
+            startActivity(i);
+
+        }
     }
 
     public String buildJSON() {

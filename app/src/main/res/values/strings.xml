@@ -113,11 +113,39 @@
         <item>product 3</item>
     </string-array>
 
+    <string-array name="zone_array">
+        <item>* Seleccione una zona </item>
+        <item>Zona Norte</item>
+        <item>Zona Sur</item>
+        <item>Zona Este</item>
+        <item>Zona Oriente</item>
+    </string-array>
+
     <string-array name="person_array">
         <item>* Seleccione un tipo de persona a enrolar</item>
         <item>Operador</item>
         <item>Cliente</item>
     </string-array>
+
+    <!--Select Person strings-->
+    <string name="sp_tv_title_activity">Enrolamiento de Personas</string>
+    <string name="sp_tv_instructions">Seleccione un tipo de persona para enrollar.</string>
+    <string name="sp_tv_customer">Cliente</string>
+    <string name="sp_tv_operator">Agente</string>
+    <string name="type_operator">1</string>
+    <string name="type_customer">2</string>
+
+    <!--Account Registration strings-->
+    <string name="ar_tv_title_activity">Registro de Cuenta</string>
+    <string name="ar_tv_instructions">Ingrese los datos solicitados.</string>
+    <string name="ar_tv_required_text">* Campos obligatorios</string>
+    <string name="ar_tv_user_name">* Nombre de usuario</string>
+    <string name="ar_tv_password">* Contraseña</string>
+    <string name="ar_tv_confirm_password">* Confirmar contraseña</string>
+    <string name="ar_message_obligatory_field_user">El campo ( Nombre de usuario ) es obligatorio.</string>
+    <string name="ar_message_obligatory_field_password">El campo ( Contraseña ) es obligatorio.</string>
+    <string name="ar_message_obligatory_field_confirm">El campo ( Confirmar contraseña ) es obligatorio.</string>
+    <string name="ar_message_error_confirm">Los campos ( Contraseña ) y ( Confirmar contraseña ) no coinciden.</string>
 
     <!--Select Id Scan strings-->
     <string name="select_id_scan_activity_name">Selecciona tipo de identificación</string>
@@ -376,5 +404,11 @@
     <string name="divr_tv_curp">CURP</string>
     <string name="divr_tv_ocr">OCR</string>
     <string name="divr_tv_last_surname">Ap. Materno</string>
+
+    <!--Check Account-->
+    <string name="message_check_account">Validando nombre de usuario</string>
+    <string name="message_register_account">Registrando usuario</string>
+    <string name="message_account_exist">Nombre de usuario ya registrado, favor de cambiarlo</string>
+    <string name="message_account_register">Cuenta registrada satisfactoriamente</string>
 
 </resources>

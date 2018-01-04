@@ -9,16 +9,15 @@ import android.util.Log;
 
 import com.teknei.bid.R;
 import com.teknei.bid.activities.BankAccountRegistrationActivity;
+import com.teknei.bid.activities.SettingsActivity;
 import com.teknei.bid.dialogs.AlertDialog;
-import com.teknei.bid.dialogs.DataValidation;
-import com.teknei.bid.dialogs.ProgressDialog;
-import com.teknei.bid.domain.AccountDTO;
-import com.teknei.bid.domain.BankingInstitutionDTO;
+import com.teknei.bid.domain.CompanyDTO;
 import com.teknei.bid.services.BIDEndPointServices;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.RetrofitSingleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,14 +25,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by rgarciav on 03/01/2018.
+ * Created by rgarciav on 04/01/2018.
  */
 
-public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
+public class GetCompany extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = "GetCreditInstitution";
+    private final String CLASS_NAME = "GetCompany";
 
-    private List<BankingInstitutionDTO> listBank;
+    private List<CompanyDTO> listValue;
 
     private Activity activityOrigin;
     private String   errorMessage;
@@ -44,9 +43,10 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
 
     private long endTime;
 
-    public GetCreditInstitution(Activity activityOrigin, String token) {
+    public GetCompany (Activity activityOrigin, String token) {
         this.token          = token;
         this.activityOrigin = activityOrigin;
+        listValue = new ArrayList<CompanyDTO>();
     }
 
     @Override
@@ -81,12 +81,12 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<List<BankingInstitutionDTO>> call = api.enrollmentClientAccountCreditInstitution(token);
+            Call<List<CompanyDTO>> call = api.managementAdminEmpr(token);
 
-            call.enqueue(new Callback<List<BankingInstitutionDTO>>() {
+            call.enqueue(new Callback<List<CompanyDTO>>() {
 
                 @Override
-                public void onResponse(Call<List<BankingInstitutionDTO>> call, Response<List<BankingInstitutionDTO>> response) {
+                public void onResponse(Call<List<CompanyDTO>> call, Response<List<CompanyDTO>> response) {
 
                     Log.d(CLASS_NAME, response.code() + " ");
 
@@ -96,9 +96,8 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
 
                         if (response.body()!= null) {
 
-                            listBank = response.body();
+                            listValue = response.body();
 
-                            ((BankAccountRegistrationActivity) activityOrigin).showSpinnerBank(listBank);
                         }
 
                     } else {
@@ -126,7 +125,7 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
                 }
 
                 @Override
-                public void onFailure(Call<List<BankingInstitutionDTO>> call, Throwable t) {
+                public void onFailure(Call<List<CompanyDTO>> call, Throwable t) {
                     Log.d(CLASS_NAME, activityOrigin.getString(R.string.message_ws_response_500));
 
                     AlertDialog dialogoAlert;

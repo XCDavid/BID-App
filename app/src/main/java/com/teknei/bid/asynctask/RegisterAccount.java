@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teknei.bid.R;
+import com.teknei.bid.activities.AccountRegistrationActivity;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.domain.AccountDTO;
@@ -87,12 +88,12 @@ public class RegisterAccount extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.managementAdminUsua(token,accountDTO);
+            Call<AccountDTO> call = api.managementAdminUsua(token,accountDTO);
 
-            call.enqueue(new Callback<ResponseServicesBID>() {
+            call.enqueue(new Callback<AccountDTO>() {
 
                 @Override
-                public void onResponse(Call<ResponseServicesBID> call, Response<ResponseServicesBID> response) {
+                public void onResponse(Call<AccountDTO> call, Response<AccountDTO> response) {
 
                     progressDialog.dismiss();
 
@@ -102,12 +103,9 @@ public class RegisterAccount extends AsyncTask<String, Void, Void> {
 
                     if (responseStatus >= 200 && responseStatus < 300) {
 
-                        AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
-                                activityOrigin.getString(R.string.message_account_register), ApiConstants.ACTION_GO_NEXT);
-                        dialogoAlert.setCancelable(false);
-                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                        dialogoAlert.show();
+                        accountDTO = response.body();
+
+                        ((AccountRegistrationActivity)activityOrigin).sendRegisterUserCompany(accountDTO);
 
                     } else {
 
@@ -134,7 +132,7 @@ public class RegisterAccount extends AsyncTask<String, Void, Void> {
                 }
 
                 @Override
-                public void onFailure(Call<ResponseServicesBID> call, Throwable t) {
+                public void onFailure(Call<AccountDTO> call, Throwable t) {
                     progressDialog.dismiss();
 
                     Log.d(CLASS_NAME, activityOrigin.getString(R.string.message_ws_response_500));

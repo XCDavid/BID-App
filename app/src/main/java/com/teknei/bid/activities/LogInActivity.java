@@ -100,7 +100,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         SharedPreferencesUtils.cleanSharedPreferencesOperation(this);
         saveSharedPreferenceByDefault();
 
-        SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.ID_ENTERPRICE,"1");
         SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.CUSTOMER_TYPE,"2");
         SharedPreferencesUtils.saveToPreferencesString(this,SharedPreferencesUtils.ID_DEVICE,uuid);
     }
@@ -168,13 +167,14 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void saveSharedPreferenceByDefault() {
-        String urlIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_ID_SCAN, getString(R.string.default_url_id_scan));
-        String licenseIdScan = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.LICENSE_ID_SCAN, getString(R.string.default_license_id_scan));
-        String urlTeknei = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
-        String urlMobbSign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_MOBBSIGN, getString(R.string.default_url_mobbsign));
-        String licenseMobbSign = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
-        String urlAuthAccess   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
+        String urlIdScan         = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_ID_SCAN, getString(R.string.default_url_id_scan));
+        String licenseIdScan     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.LICENSE_ID_SCAN, getString(R.string.default_license_id_scan));
+        String urlTeknei         = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_TEKNEI, getString(R.string.default_url_teknei));
+        String urlMobbSign       = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_MOBBSIGN, getString(R.string.default_url_mobbsign));
+        String licenseMobbSign   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.MOBBSIGN_LICENSE, getString(R.string.default_license_mobbsign));
+        String urlAuthAccess     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.URL_AUTHACCESS, getString(R.string.default_url_oauthaccess));
         String fingerprintReader = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.FINGERPRINT_READER, getString(R.string.default_fingerprint_reader));
+        String idCompany         = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_ENTERPRICE, getString(R.string.default_id_company));
 
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_ID_SCAN, urlIdScan);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.LICENSE_ID_SCAN, licenseIdScan);
@@ -183,5 +183,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.MOBBSIGN_LICENSE, licenseMobbSign);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.URL_AUTHACCESS, urlAuthAccess);
         SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.FINGERPRINT_READER, fingerprintReader);
+        SharedPreferencesUtils.saveToPreferencesString(LogInActivity.this, SharedPreferencesUtils.ID_ENTERPRICE, idCompany);
     }
 }

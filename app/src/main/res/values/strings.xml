@@ -81,6 +81,8 @@
     <string name="settings_fingerprint_reader">biosmart/watson/mso</string>
     <string name="default_fingerprint_reader">mso</string>
 
+    <string name="default_id_company">1</string>
+
     <string-array name="fingerprint_reader_array">
         <item> </item>
         <item>mso</item>
@@ -335,6 +337,7 @@
     <string name="tv_licence_mobbsign_settings">Licencia para firma digital</string>
     <string name="tv_settings_url_auth">Url de autenticación</string>
     <string name="tv_fingerprint_reader">Lector de huellas digitales</string>
+    <string name="tv_company">Identificador de Compañia</string>
 
     <string name="tv_street_credential_dialog">Calle</string>
     <string name="tv_hint_street_credential_dialog">Calle y Número</string>

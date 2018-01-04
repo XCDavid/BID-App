@@ -15,10 +15,12 @@ import android.widget.EditText;
 import com.teknei.bid.R;
 import com.teknei.bid.asynctask.CheckRegisterAccount;
 import com.teknei.bid.asynctask.FindOperation;
+import com.teknei.bid.asynctask.RegisterUserCompany;
 import com.teknei.bid.asynctask.StartOperation;
 import com.teknei.bid.dialogs.AlertDialog;
 import com.teknei.bid.dialogs.DataValidation;
 import com.teknei.bid.domain.AccountDTO;
+import com.teknei.bid.domain.UserCompanyDTO;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 
@@ -26,11 +28,17 @@ import static android.R.id.edit;
 
 public class AccountRegistrationActivity extends BaseActivity implements View.OnClickListener {
 
-    private EditText   edtUser;
-    private EditText   edtPassword;
-    private EditText   edtConfirm;
-    private Button     btnContinue;
-    private AccountDTO accountDTO;
+    private EditText        edtUser;
+    private EditText        edtPassword;
+    private EditText        edtConfirm;
+    private Button          btnContinue;
+    private AccountDTO      accountDTO;
+    private UserCompanyDTO  userComDTO;
+
+    private String token;
+    private String companyID;
+    private String deviceID;
+    private String operationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,11 @@ public class AccountRegistrationActivity extends BaseActivity implements View.On
                 return null;
             }
         };
+
+        token       = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
+        companyID   = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_ENTERPRICE, "");
+        deviceID    = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_DEVICE, "");
+        operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
 
         edtUser     = (EditText) findViewById(R.id.ar_et_user);
         edtPassword = (EditText) findViewById(R.id.ar_et_password);
@@ -141,10 +154,17 @@ public class AccountRegistrationActivity extends BaseActivity implements View.On
         return false;
     }
 
+    public void sendRegisterUserCompany(AccountDTO accountDTO) {
+
+        this.accountDTO = accountDTO;
+
+        userComDTO = new UserCompanyDTO(Long.parseLong(companyID),accountDTO.getIdOperation(),Long.parseLong(operationID));
+
+        new RegisterUserCompany(this,token,userComDTO).execute();
+    }
+
     @Override
     public void sendPetition() {
-        String token       = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-        String operationID = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.OPERATION_ID, "");
 
         accountDTO = new AccountDTO(Long.parseLong(operationID), edtPassword.getText().toString(), edtUser.getText().toString());
 

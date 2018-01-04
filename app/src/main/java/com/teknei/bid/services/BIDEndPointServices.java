@@ -6,6 +6,7 @@ import com.teknei.bid.domain.AccountDTO;
 import com.teknei.bid.domain.AddressDTO;
 import com.teknei.bid.domain.BankAccountDTO;
 import com.teknei.bid.domain.BankingInstitutionDTO;
+import com.teknei.bid.domain.CompanyDTO;
 import com.teknei.bid.domain.ConfirmFingerSingDTO;
 import com.teknei.bid.domain.CredentialDTO;
 import com.teknei.bid.domain.FingerLoginDTO;
@@ -13,6 +14,7 @@ import com.teknei.bid.domain.FingerSingDTO;
 import com.teknei.bid.domain.MailVerificationOTPDTO;
 import com.teknei.bid.domain.SearchDTO;
 import com.teknei.bid.domain.StartOperationDTO;
+import com.teknei.bid.domain.UserCompanyDTO;
 import com.teknei.bid.domain.ValidateOtpDTO;
 import com.teknei.bid.domain.VerifyCecobanDTO;
 import com.teknei.bid.response.OAuthAccessToken;
@@ -161,7 +163,7 @@ public interface BIDEndPointServices {
     Call<List<AccountDTO>> managementAdminUsuaCheck (@Header("Authorization") String authorization);
 
     @POST ("rest/v3/management/admin/usua/")
-    Call<ResponseServicesBID> managementAdminUsua (@Header("Authorization") String authorization,
+    Call<AccountDTO> managementAdminUsua (@Header("Authorization") String authorization,
                                                      @Body AccountDTO accountDTO);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,5 +174,13 @@ public interface BIDEndPointServices {
     @POST ("rest/v3/enrollment/client/account/accountDestiny")
     Call<ResponseServicesBID> enrollmentClientAccountDestiny (@Header("Authorization") String authorization,
                                                               @Body BankAccountDTO accountDTO);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    @GET ("rest/unauth/management/admin/empr")
+    Call<List<CompanyDTO>> managementAdminEmpr (@Header("Authorization") String authorization);
+
+    @POST ("rest/v3/management/assign/companyUser")
+    Call<Boolean> managementAssignCompanyUser (@Header("Authorization") String authorization,
+                                                                 @Body UserCompanyDTO accountDTO);
 
 }

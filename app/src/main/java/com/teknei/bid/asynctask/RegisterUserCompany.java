@@ -8,50 +8,54 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teknei.bid.R;
-import com.teknei.bid.activities.BankAccountRegistrationActivity;
 import com.teknei.bid.dialogs.AlertDialog;
-import com.teknei.bid.dialogs.DataValidation;
 import com.teknei.bid.dialogs.ProgressDialog;
 import com.teknei.bid.domain.AccountDTO;
-import com.teknei.bid.domain.BankingInstitutionDTO;
+import com.teknei.bid.domain.UserCompanyDTO;
+import com.teknei.bid.response.ResponseServicesBID;
 import com.teknei.bid.services.BIDEndPointServices;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.SharedPreferencesUtils;
 import com.teknei.bid.ws.RetrofitSingleton;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by rgarciav on 03/01/2018.
+ * Created by rgarciav on 04/01/2018.
  */
 
-public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
+public class RegisterUserCompany extends AsyncTask<String, Void, Void> {
 
-    private final String CLASS_NAME = "GetCreditInstitution";
+    private final String CLASS_NAME = "RegisterUserCompany";
 
-    private List<BankingInstitutionDTO> listBank;
+    private String         token;
+    private UserCompanyDTO valueDTO;
 
+    private ProgressDialog progressDialog;
     private Activity activityOrigin;
-    private String   errorMessage;
-    private String   token;
+    private String          errorMessage;
 
     private boolean hasConecction  = false;
     private Integer responseStatus = 0;
 
     private long endTime;
 
-    public GetCreditInstitution(Activity activityOrigin, String token) {
-        this.token          = token;
+    public RegisterUserCompany(Activity activityOrigin, String token, UserCompanyDTO accountDTO) {
+        this.token = token;
+        this.valueDTO = accountDTO;
         this.activityOrigin = activityOrigin;
     }
 
     @Override
     protected void onPreExecute() {
-        endTime = System.currentTimeMillis() + 1000;
+        progressDialog = new ProgressDialog( activityOrigin, activityOrigin.getString(R.string.message_register_account));
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
+
+        endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
         Log.i("Wait", "Timer END: " + endTime);
 
@@ -65,7 +69,7 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(String... strings) {
+    protected Void doInBackground(String... params) {
         if (hasConecction) {
             Log.i("Wait", "timer after DO: " + System.currentTimeMillis());
             while (System.currentTimeMillis() < endTime) {
@@ -81,12 +85,14 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<List<BankingInstitutionDTO>> call = api.enrollmentClientAccountCreditInstitution(token);
+            Call<Boolean> call = api.managementAssignCompanyUser(token,valueDTO);
 
-            call.enqueue(new Callback<List<BankingInstitutionDTO>>() {
+            call.enqueue(new Callback<Boolean>() {
 
                 @Override
-                public void onResponse(Call<List<BankingInstitutionDTO>> call, Response<List<BankingInstitutionDTO>> response) {
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                    progressDialog.dismiss();
 
                     Log.d(CLASS_NAME, response.code() + " ");
 
@@ -94,12 +100,12 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
 
                     if (responseStatus >= 200 && responseStatus < 300) {
 
-                        if (response.body()!= null) {
-
-                            listBank = response.body();
-
-                            ((BankAccountRegistrationActivity) activityOrigin).showSpinnerBank(listBank);
-                        }
+                        AlertDialog dialogoAlert;
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
+                                activityOrigin.getString(R.string.message_account_register), ApiConstants.ACTION_GO_NEXT);
+                        dialogoAlert.setCancelable(false);
+                        dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialogoAlert.show();
 
                     } else {
 
@@ -118,7 +124,7 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
                         }
 
                         AlertDialog dialogoAlert;
-                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_CANCEL_OPERATION);
+                        dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice), errorMessage, ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                         dialogoAlert.setCancelable(false);
                         dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                         dialogoAlert.show();
@@ -126,12 +132,14 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
                 }
 
                 @Override
-                public void onFailure(Call<List<BankingInstitutionDTO>> call, Throwable t) {
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    progressDialog.dismiss();
+
                     Log.d(CLASS_NAME, activityOrigin.getString(R.string.message_ws_response_500));
 
                     AlertDialog dialogoAlert;
                     dialogoAlert = new AlertDialog(activityOrigin, activityOrigin.getString(R.string.message_ws_notice),
-                            activityOrigin.getString(R.string.message_ws_response_500), ApiConstants.ACTION_CANCEL_OPERATION);
+                            activityOrigin.getString(R.string.message_ws_response_500), ApiConstants.ACTION_TRY_AGAIN_CANCEL);
                     dialogoAlert.setCancelable(false);
                     dialogoAlert.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     dialogoAlert.show();
@@ -140,7 +148,7 @@ public class GetCreditInstitution extends AsyncTask<String, Void, Void> {
                 }
             });
         }
-
         return null;
     }
 }
+

@@ -165,12 +165,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener 
             Intent i = new Intent(LogInActivity.this, LoginFingerMSOActivity.class);
             startActivity(i);
         }
-
-        /*
-        Intent i = new Intent(LogInActivity.this, PersonSelectionActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
-        */
     }
 
     public void saveSharedPreferenceByDefault() {

@@ -199,7 +199,8 @@ public class DocumentScanActivity extends BaseActivity implements View.OnClickLi
 
         } else {
 
-            Intent i = new Intent(DocumentScanActivity.this, ResultOperationActivity.class);
+            // Intent i = new Intent(DocumentScanActivity.this, ResultOperationActivity.class);
+            Intent i = new Intent(DocumentScanActivity.this, BankAccountRegistrationActivity.class);
             startActivity(i);
 
         }

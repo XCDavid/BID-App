@@ -135,7 +135,5 @@ public class ResultOperationActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public void onBackPressed() { }
 }

@@ -127,6 +127,25 @@
         <item>Cliente</item>
     </string-array>
 
+    <!-- Bank Account Registration -->
+    <string name="bar_activity_name">Registro de Cuenta</string>
+    <string name="bar_required_text">* Campos obligatorios</string>
+    <string name="bar_instructions">Ingresa los campos obligatorios y presiona el botón continuar para registrar cuenta.</string>
+    <string name="bar_ed_clabe">* Cuenta CLABE destino</string>
+    <string name="bar_ed_alias">* Alias de la cuenta</string>
+    <string name="bar_ed_ammount">* Cantidad máxima </string>
+
+    <string name="bar_message_obligatory_field_clabe">El campo ( CLABE ) es obligatorio.</string>
+    <string name="bar_message_obligatory_field_alias">El campo ( Alias ) es obligatorio.</string>
+    <string name="bar_message_obligatory_field_ammount">El campo ( Cantidad máxima ) es obligatorio.</string>
+    <string name="bar_message_obligatory_field_bank">Debe seleccionar una Institución Bancaria.</string>
+
+    <string name="bar_message_register_account">Registrando cuenta bancaria</string>
+
+    <string-array name="bank_array">
+        <item>* Seleccione un banco</item>
+    </string-array>
+
     <!--Select Person strings-->
     <string name="sp_tv_title_activity">Enrolamiento de Personas</string>
     <string name="sp_tv_instructions">Seleccione un tipo de persona para enrollar.</string>

@@ -4,6 +4,8 @@ import android.accounts.Account;
 
 import com.teknei.bid.domain.AccountDTO;
 import com.teknei.bid.domain.AddressDTO;
+import com.teknei.bid.domain.BankAccountDTO;
+import com.teknei.bid.domain.BankingInstitutionDTO;
 import com.teknei.bid.domain.ConfirmFingerSingDTO;
 import com.teknei.bid.domain.CredentialDTO;
 import com.teknei.bid.domain.FingerLoginDTO;
@@ -161,5 +163,14 @@ public interface BIDEndPointServices {
     @POST ("rest/v3/management/admin/usua/")
     Call<ResponseServicesBID> managementAdminUsua (@Header("Authorization") String authorization,
                                                      @Body AccountDTO accountDTO);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GET ("rest/v3/enrollment/client/account/creditInstitution")
+    Call<List<BankingInstitutionDTO>> enrollmentClientAccountCreditInstitution (@Header("Authorization") String authorization);
+
+    @POST ("rest/v3/enrollment/client/account/accountDestiny")
+    Call<ResponseServicesBID> enrollmentClientAccountDestiny (@Header("Authorization") String authorization,
+                                                              @Body BankAccountDTO accountDTO);
 
 }

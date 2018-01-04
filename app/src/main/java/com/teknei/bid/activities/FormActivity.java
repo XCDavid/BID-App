@@ -617,7 +617,7 @@ public class FormActivity extends BaseActivity implements View.OnClickListener ,
 
             case  9:
                 if (typePerson == ApiConstants.TYPE_CUSTOMER) {
-                    Intent iFirma = new Intent(FormActivity.this, ResultOperationActivity.class);
+                    Intent iFirma = new Intent(FormActivity.this, BankAccountRegistrationActivity.class);
                     startActivity(iFirma);
                 } else {
                     Intent iFirma = new Intent(FormActivity.this, AccountRegistrationActivity.class);

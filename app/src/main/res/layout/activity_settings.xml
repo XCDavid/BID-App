@@ -6,12 +6,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ico_sabadell"
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/tv_settings_url_id_scan"
@@ -50,12 +56,16 @@
             android:visibility="gone"/>
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:id="@+id/tv_settings_url_teknei"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_url_server_teknei_settings" />
         <EditText
+            style="@style/normalBlackFontET"
+            android:textSize="18sp"
             android:id="@+id/et_settings_url_teknei"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,12 +76,16 @@
             android:maxLines="1" />
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:id="@+id/tv_settings_url_auth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_settings_url_auth" />
         <EditText
+            style="@style/normalBlackFontET"
+            android:textSize="18sp"
             android:id="@+id/et_settings_url_auth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,6 +103,8 @@
             android:text="@string/tv_url_server_mobbsign_settings"
             android:visibility="gone"/>
         <EditText
+            style="@style/normalBlackFontET"
+            android:textSize="18sp"
             android:id="@+id/et_settings_url_mobbsign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,13 +134,16 @@
             android:visibility="gone"/>
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:id="@+id/tv_settings_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_company" />
-
         <EditText
+            style="@style/normalBlackFontET"
+            android:textSize="18sp"
             android:id="@+id/et_settings_id_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,12 +155,13 @@
             />
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:id="@+id/tv_settings_fingerprint_reader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/tv_fingerprint_reader" />
-        
         <Spinner
             android:id="@+id/sp_option_fingerprint_reader"
             android:layout_width="match_parent"
@@ -153,11 +173,13 @@
     </LinearLayout>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/b_update_project_settings"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_primary_button"
         android:text="@string/b_update_settings"
-        android:textColor="@color/text_color_white" />
+        android:textColor="@color/text_color_white"/>
+
 </RelativeLayout>

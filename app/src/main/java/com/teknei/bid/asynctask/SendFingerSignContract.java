@@ -107,7 +107,7 @@ public class SendFingerSignContract extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.enrollmentContractSign(token, fingerDTO);
+            Call<ResponseServicesBID> call = api.enrollmentContractSignCyphered(token, fingerDTO);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 

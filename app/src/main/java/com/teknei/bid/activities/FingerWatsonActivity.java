@@ -402,21 +402,21 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
                     left_little = bufferImage;
                     finger = "I5";
                     fingerSelect = 10;
-                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_ring_left_arm:
                     left_ring = bufferImage;
                     finger = "I4";
                     fingerSelect = 9;
-                    base64RingLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64RingLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_middle_left_arm:
                     left_middle = bufferImage;
                     finger = "I3";
                     fingerSelect = 8;
-                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_index_left_arm:
@@ -425,35 +425,35 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
                     left_index = bufferImage;
                     finger = "I2";
                     fingerSelect = 7;
-                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_thumb_left_arm:
                     left_thumb = bufferImage;
                     finger = "I1";
                     fingerSelect = 6;
-                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_pinky_right_arm:
                     right_little = bufferImage;
                     finger = "D5";
                     fingerSelect = 5;
-                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_ring_right_arm:
                     right_ring = bufferImage;
                     finger = "D4";
                     fingerSelect = 4;
-                    base64RingRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64RingRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_middle_right_arm:
                     right_middle = bufferImage;
                     finger = "D3";
                     fingerSelect = 3;
-                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_index_right_arm:
@@ -462,14 +462,14 @@ public class FingerWatsonActivity extends WatsonMiniActivity implements View.OnC
                     right_index = bufferImage;
                     finger = "D2";
                     fingerSelect = 2;
-                    base64IndexRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64IndexRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
 
                 case R.id.wm_b_thumb_right_arm:
                     right_thumb = bufferImage;
                     finger = "D1";
                     fingerSelect = 1;
-                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(bufferImage);
+                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,bufferImage));
                     break;
             }
 

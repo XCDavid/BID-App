@@ -6,23 +6,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ico_sabadell"
+                android:scaleType="centerInside" />
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/bar_instructions"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:text="@string/bar_instructions" />
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/bar_required_text"
-                android:textSize="15sp" />
+                android:text="@string/bar_required_text" />
 
             <Spinner
                 android:id="@+id/sp_option_bank"
@@ -35,6 +45,8 @@
                 />
 
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/bar_clabe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,10 +56,11 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:hint="@string/bar_ed_clabe"
-                android:layout_marginTop="@dimen/vertical_separator_form"
-                android:textAlignment="center"/>
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
 
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/bar_alias"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,10 +70,11 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:hint="@string/bar_ed_alias"
-                android:layout_marginTop="@dimen/vertical_separator_form"
-                android:textAlignment="center"/>
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
 
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/bar_ammount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,18 +84,17 @@
                 android:maxLength="15"
                 android:maxLines="1"
                 android:hint="@string/bar_ed_ammount"
-                android:layout_marginTop="@dimen/vertical_separator_form"
-                android:textAlignment="center"/>
+                android:layout_marginTop="@dimen/vertical_separator_form"/>
 
         </LinearLayout>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/bar_btn_continue"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:text="@string/continue_form"
-        android:textColor="@color/text_color_white"
         android:background="@drawable/selector_primary_button"/>
 
 </RelativeLayout>

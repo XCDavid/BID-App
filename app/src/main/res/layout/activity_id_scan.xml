@@ -10,10 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/b_continue_id_scan"
-        android:layout_below="@+id/ly_section_result_id_scan"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/margin_top_bottom_id_scan"
-        android:paddingTop="@dimen/margin_top_bottom_id_scan">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ico_sabadell"
+            android:scaleType="centerInside" />
+
+        <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
+            android:id="@+id/tv_id_scan_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id_scan_instructions_both_sides"/>
 
         <Switch
             android:id="@+id/sw_id_type_photo"
@@ -24,23 +39,14 @@
             android:textOff="@string/switch_desc"
             android:textColor="#000000"/>
 
-        <TextView
-            android:id="@+id/tv_id_scan_instructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:text="@string/id_scan_instructions_both_sides"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_constraint_id_scan"
@@ -81,6 +87,8 @@
                 android:id="@+id/imageViewCameraId1"
                 app:layout_constraintHorizontal_bias="0.504" />
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -100,6 +108,8 @@
             android:layout_weight="1">
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_constraint_id_scan"
@@ -138,6 +148,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/ib_posterior_id_scan"
                 android:layout_marginBottom="8dp" />
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -152,7 +164,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!--LinearLayout
         android:id="@+id/ly_section_result_id_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -355,7 +367,10 @@
                      />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </LinearLayout-->
+
+    <!-- Empieza Liner camara -->
 
     <LinearLayout
         android:id="@+id/ly_section_camara"
@@ -364,28 +379,29 @@
         android:layout_above="@+id/b_continue_id_scan"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_top_bottom_id_scan"
-        android:paddingTop="@dimen/margin_top_bottom_id_scan" >
+        android:paddingTop="@dimen/margin_top_bottom_id_scan"
+        android:visibility="gone">
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="16sp"
             android:id="@+id/tv_id_scan_permission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="@string/id_scan_message_permission"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center"
             android:visibility="gone" />
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="16sp"
             android:id="@+id/tv_id_scan_id_photo_side"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="@string/identification_frontal_id_scan"
-            android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center" />
 

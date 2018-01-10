@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -125,9 +126,10 @@ public class LoginFingerWatsonActivity extends BaseActivity implements View.OnCl
         setContentView(R.layout.activity_login_finger_watson);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getResources().getString(R.string.lfM_login_fingerprints_activity_name));
-            invalidateOptionsMenu();
+            getSupportActionBar().hide();
         }
+
+        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         imageViewPreview    = (ImageView) findViewById(R.id.lfw_image_view_preview);
         buttonContinue      = (Button)    findViewById(R.id.lfw_b_login_finger);
@@ -203,7 +205,6 @@ public class LoginFingerWatsonActivity extends BaseActivity implements View.OnCl
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
         fingerDTO    = new FingerLoginDTO();
-        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         fingerDTO.setFingerIndex(base64FingerLogin);
         fingerDTO.setId         (idClient);
@@ -538,7 +539,7 @@ public class LoginFingerWatsonActivity extends BaseActivity implements View.OnCl
 
             fingerLogin = bufferImage;
 
-            base64FingerLogin = com.teknei.bid.tools.Base64.encode(bufferImage);
+            base64FingerLogin = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(idClient,bufferImage));
 
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + operationID + ".jpg");
 

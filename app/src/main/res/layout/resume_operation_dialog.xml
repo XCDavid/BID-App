@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_gray_rectangle"
+    android:background="@drawable/rounded_rectangle"
     android:paddingBottom="8dp"
     android:paddingTop="8dp">
 
@@ -32,14 +32,15 @@
 
 
             <TextView
+                style="@style/titleWhiteFont"
+                android:textSize="20dp"
                 android:id="@+id/alert_title_fake_ine"
-                style="@style/LargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
-                android:text="@string/tv_title_resume_dialog_ine"
-                android:textColor="@color/colorAccent" />
+                android:text="@string/tv_title_resume_dialog_ine" />
+
         </LinearLayout>
 
 
@@ -181,15 +182,14 @@
             android:layout_height="3dp"
             android:background="@color/colorAccent" />
         <Button
+            style="@style/titleWhiteFont"
             android:id="@+id/b_cancel_dialog_fake_ine"
-            style="@style/NormalText"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#00000000"
             android:padding="5dp"
             android:text="Cerrar"
-            android:textColor="#000000"
-            android:textStyle="normal"
             android:visibility="visible" />
     </LinearLayout>
+
 </RelativeLayout>

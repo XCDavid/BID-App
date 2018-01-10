@@ -4,8 +4,56 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="titleBlackFont">
+        <item name="android:textColor" >#000000</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="titleWhiteFont">
+        <item name="android:textColor" >#FFFFFF</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+    <style name="normalBlackFont">
+        <item name="android:textColor" >#000000</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="normalWhiteFont">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="normalWhiteFontET">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="normalBlackFontET">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHint">#AAB6B6B6</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="normalWhiteFontBTN">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="LargeText">
@@ -25,6 +73,6 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

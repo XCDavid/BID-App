@@ -83,12 +83,12 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     ImageButton idFrontButton;
     ImageButton idPosteriorButton;
     Button continueButton;
-    LinearLayout buttonShowHideResultData;
-    LinearLayout sectionResultData;
-    ImageView indicatorResultShow;
+    //LinearLayout buttonShowHideResultData;
+    //LinearLayout sectionResultData;
+    //ImageView indicatorResultShow;
     ConstraintLayout posteriorLayout;
     TextView instructionsTV;
-    LinearLayout resultLayout;
+    //LinearLayout resultLayout;
 
     TextView            photoSideTV;
     ImageView           takeImage;
@@ -134,17 +134,17 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
         idFrontButton = (ImageButton) findViewById(R.id.ib_frontal_id_scan);
         idPosteriorButton = (ImageButton) findViewById(R.id.ib_posterior_id_scan);
         continueButton = (Button) findViewById(R.id.b_continue_id_scan);
-        buttonShowHideResultData = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
-        sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
-        indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
+        //buttonShowHideResultData = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
+        //sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
+        //indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
         posteriorLayout = (ConstraintLayout) findViewById(R.id.cl_posterior);
         instructionsTV = (TextView) findViewById(R.id.tv_id_scan_instructions);
-        resultLayout = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
+        //resultLayout = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
         idFrontButton.setOnClickListener(this);
         idPosteriorButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
-        buttonShowHideResultData.setOnClickListener(this);
-        resultLayout.setVisibility(View.GONE);
+        //buttonShowHideResultData.setOnClickListener(this);
+        //resultLayout.setVisibility(View.GONE);
 
         photoSideTV  = (TextView)     findViewById(R.id.tv_id_scan_id_photo_side);
         camaraLayout = (LinearLayout) findViewById(R.id.ly_section_camara);
@@ -207,10 +207,10 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
                 dispatchTakePictureIntent(CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_POSTERIOR);
                 break;
 
-            case R.id.ly_button_reult_data_id_scan:
+            /*case R.id.ly_button_reult_data_id_scan:
                 showHideResultData();
                 break;
-
+            */
             case R.id.b_continue_id_scan:
                 if (validatePictureTake()) {
                     sendPetition();
@@ -226,6 +226,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void showHideResultData() {
+        /*
         if (sectionResultData.getVisibility() == View.VISIBLE) {
             sectionResultData.setVisibility(View.GONE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_48dp));
@@ -233,6 +234,7 @@ public class IcarScanActivity extends BaseActivity implements View.OnClickListen
             sectionResultData.setVisibility(View.VISIBLE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_up_black_48dp));
         }
+        */
     }
 
     private void dispatchTakePictureIntent(int REQUEST_CODE) {

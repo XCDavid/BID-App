@@ -32,8 +32,8 @@
                 app2:srcCompat="@drawable/ic_warning" />
 
             <TextView
-                android:id="@+id/alert_titleCurpDialog"
                 style="@style/LargeText"
+                android:id="@+id/alert_titleCurpDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

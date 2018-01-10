@@ -15,9 +15,9 @@
     <dimen name="padding_all_image_buton_scan_face">20dp</dimen>
     <!--Id Scan Dimens-->
     <dimen name="margin_top_bottom_id_scan">5dp</dimen>
-    <dimen name="margin_constraint_id_scan">8dp</dimen>
-    <dimen name="width_image_button_id_scan">280dp</dimen>
-    <dimen name="height_image_button_id_scan">180dp</dimen>
+    <dimen name="margin_constraint_id_scan">5dp</dimen>
+    <dimen name="width_image_button_id_scan">250dp</dimen>
+    <dimen name="height_image_button_id_scan">150dp</dimen>
     <dimen name="margin_top_id_scan">30dp</dimen>
     <dimen name="padding_all_image_button_id_scan">20dp</dimen>
     <!--Fingerprints Dimens-->

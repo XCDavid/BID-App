@@ -8,6 +8,7 @@
     <color name="polygonViewCircleStrokeColor">#ff59a9ff</color>
     <color name="polygonViewCircleBackground">#90e5f8ff</color>
 
+    <color name="colorPrimary">#00aaaa</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <!--Button state colors-->
     <color name="button_disabled">#B6B6B6</color>

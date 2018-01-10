@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -108,9 +109,10 @@ public class LoginFingerBioSmartActivity extends BaseActivity implements Fingers
         setContentView(R.layout.activity_login_finger_bio_smart);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getResources().getString(R.string.lfM_login_fingerprints_activity_name));
-            invalidateOptionsMenu();
+            getSupportActionBar().hide();
         }
+
+        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         btnCaptureFinger   = (ImageView) findViewById(R.id.lfb_i_take_image_bio_sdk);
         btnLoginFinger     = (Button)    findViewById(R.id.lfb_b_login_finger);
@@ -374,7 +376,7 @@ public class LoginFingerBioSmartActivity extends BaseActivity implements Fingers
 
             photoBuffer = jpgImages.get(0);
 
-            base64FingerLogin = com.teknei.bid.tools.Base64.encode(photoBuffer);
+            base64FingerLogin = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(idClient,photoBuffer));
 
             Log.d(TAG, Environment.getExternalStorageDirectory() + File.separator + "finger.jpg");
 
@@ -551,9 +553,7 @@ public class LoginFingerBioSmartActivity extends BaseActivity implements Fingers
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-
         fingerDTO    = new FingerLoginDTO();
-        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         fingerDTO.setFingerIndex(base64FingerLogin);
         fingerDTO.setId         (idClient);

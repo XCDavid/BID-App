@@ -59,9 +59,9 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     ImageButton idFrontButton;
     ImageButton idPosteriorButton;
     Button continueButton;
-    LinearLayout buttonShowHideResultData;
-    LinearLayout sectionResultData;
-    ImageView indicatorResultShow;
+    //LinearLayout buttonShowHideResultData;
+    //LinearLayout sectionResultData;
+    //ImageView indicatorResultShow;
     ConstraintLayout posteriorLayout;
 
     MobbScanDocumentType idTypeSelected;
@@ -94,14 +94,14 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
         idFrontButton = (ImageButton) findViewById(R.id.ib_frontal_id_scan);
         idPosteriorButton = (ImageButton) findViewById(R.id.ib_posterior_id_scan);
         continueButton = (Button) findViewById(R.id.b_continue_id_scan);
-        buttonShowHideResultData = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
-        sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
-        indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
+        //buttonShowHideResultData = (LinearLayout) findViewById(R.id.ly_button_reult_data_id_scan);
+        //sectionResultData = (LinearLayout) findViewById(R.id.ly_text_reult_data_id_scan);
+        //indicatorResultShow = (ImageView) findViewById(R.id.iv_idicator_result_show_id_scan);
         posteriorLayout = (ConstraintLayout) findViewById(R.id.cl_posterior);
         idFrontButton.setOnClickListener(this);
         idPosteriorButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
-        buttonShowHideResultData.setOnClickListener(this);
+        //buttonShowHideResultData.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(this, getString(R.string.get_info_process_id_scan));
         progressDialog.setCancelable(false);
@@ -192,9 +192,9 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 //                scanBack();
                 scanBoth();
                 break;
-            case R.id.ly_button_reult_data_id_scan:
+            /*case R.id.ly_button_reult_data_id_scan:
                 showHideResultData();
-                break;
+                break;*/
             case R.id.b_continue_id_scan:
 //                if (validatePictureTake()){
 //                Intent i = new Intent(this, FaceScanActivity.class);
@@ -206,6 +206,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void showHideResultData() {
+        /*
         if (sectionResultData.getVisibility() == View.VISIBLE) {
             sectionResultData.setVisibility(View.GONE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_48dp));
@@ -213,7 +214,7 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
             sectionResultData.setVisibility(View.VISIBLE);
             indicatorResultShow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_up_black_48dp));
         }
-
+        */
     }
 
 //    private void dispatchTakePictureIntent(int REQUEST_CODE) {
@@ -339,21 +340,21 @@ public class IdScanActivity extends BaseActivity implements View.OnClickListener
 //                e.printStackTrace();
 //            }
 
-            ((TextView) findViewById(R.id.tvPeronalNumber)).setText(document.getPersonalNumber());
+            /*((TextView) findViewById(R.id.tvPeronalNumber)).setText(document.getPersonalNumber());
             ((TextView) findViewById(R.id.tvDocumentNumber)).setText(document.getDocumentNumber());
             ((TextView) findViewById(R.id.tvNameAndSurname)).setText(document.getName() + " " + document.getSurname());
             ((TextView) findViewById(R.id.tvDateOfBirth)).setText(document.getDateOfBirth());
             ((TextView) findViewById(R.id.tvGender)).setText(document.getGender());
             ((TextView) findViewById(R.id.tvValidTo)).setText(document.getDateOfExpiry());
-            ((TextView) findViewById(R.id.tvNationality)).setText(document.getNationality());
+            ((TextView) findViewById(R.id.tvNationality)).setText(document.getNationality());*/
         } else {
-            ((TextView) findViewById(R.id.tvPeronalNumber)).setText("");
+            /*((TextView) findViewById(R.id.tvPeronalNumber)).setText("");
             ((TextView) findViewById(R.id.tvDocumentNumber)).setText("");
             ((TextView) findViewById(R.id.tvNameAndSurname)).setText("");
             ((TextView) findViewById(R.id.tvDateOfBirth)).setText("");
             ((TextView) findViewById(R.id.tvGender)).setText("");
             ((TextView) findViewById(R.id.tvValidTo)).setText("");
-            ((TextView) findViewById(R.id.tvNationality)).setText("");
+            ((TextView) findViewById(R.id.tvNationality)).setText("");*/
         }
 
     }

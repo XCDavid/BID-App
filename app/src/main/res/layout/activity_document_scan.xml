@@ -4,19 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ico_sabadell"
+        android:scaleType="centerInside" />
+
     <TextView
+        style="@style/normalBlackFont"
+        android:textSize="25sp"
         android:id="@+id/tv_document_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/instructions_document_scan"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:paddingTop="@dimen/margin_top_bottom_id_scan"
-        />
+        android:text="@string/instructions_document_scan"        />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,10 +35,11 @@
         >
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="18sp"
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_constrain_document_scan"
             android:layout_marginEnd="@dimen/margin_constrain_document_scan"
             android:layout_marginLeft="@dimen/margin_constrain_document_scan"
             android:layout_marginRight="@dimen/margin_constrain_document_scan"
@@ -46,13 +56,12 @@
             android:layout_height="@dimen/height_document_scan_buton"
             android:adjustViewBounds="true"
             android:background="@drawable/selector_image_button"
-            android:padding="@dimen/padding_all_image_buton_document_scan"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintVertical_bias="0.274" />
 
         <ImageView
             android:layout_width="100dp"
@@ -67,7 +76,10 @@
             app:layout_constraintTop_toTopOf="@+id/ib_document_scan"
             app:layout_constraintBottom_toBottomOf="@+id/ib_document_scan"
             android:layout_marginBottom="8dp" />
+
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -80,12 +92,15 @@
             app:layout_constraintRight_toRightOf="@+id/imageViewCameraDocument" />
     </android.support.constraint.ConstraintLayout>
 
+    </LinearLayout>
+
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/b_continue_document_scan"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_primary_button"
-        android:text="@string/continue_document_scan"
-        android:textColor="@color/text_color_white" />
+        android:text="@string/continue_document_scan"/>
+
 </RelativeLayout>

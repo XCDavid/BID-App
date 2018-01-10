@@ -69,6 +69,7 @@ public class LoginFingerSend extends AsyncTask<String, Void, Void> {
 
         endTime = System.currentTimeMillis() + 1500;
         Log.i("Wait", "Timer Start: " + System.currentTimeMillis());
+        Log.i("Wait", "Json       : " + fingerDTO.toString().toString());
         Log.i("Wait", "Timer END: " + endTime);
 
         ConnectivityManager check = (ConnectivityManager) activityOrigin.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -97,7 +98,7 @@ public class LoginFingerSend extends AsyncTask<String, Void, Void> {
 
             BIDEndPointServices api = RetrofitSingleton.getInstance().build(endPoint).create(BIDEndPointServices.class);
 
-            Call<ResponseServicesBID> call = api.enrollmentBiometricSearchCustomerId(token, fingerDTO);
+            Call<ResponseServicesBID> call = api.enrollmentBiometricSearchCustomerIdCyphered(token, fingerDTO);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 

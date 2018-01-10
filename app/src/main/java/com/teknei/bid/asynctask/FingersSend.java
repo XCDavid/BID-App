@@ -105,7 +105,7 @@ public class FingersSend extends AsyncTask<String, Void, Void> {
                     MultipartBody.Part.createFormData("json", imageF.get(0).getName(),
                             RequestBody.create(MediaType.parse("application/json"), imageF.get(0)));
 
-            Call<ResponseServicesBID> call = api.enrollmentBiometricMinucias(token, jsonBody);
+            Call<ResponseServicesBID> call = api.enrollmentBiometricMinuciasCyphered(token, jsonBody);
 
             call.enqueue(new Callback<ResponseServicesBID>() {
 

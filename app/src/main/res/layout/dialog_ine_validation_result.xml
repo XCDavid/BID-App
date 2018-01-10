@@ -22,14 +22,14 @@
             android:paddingTop="5dp">
 
             <TextView
+                style="@style/titleWhiteFont"
+                android:textSize="20dp"
                 android:id="@+id/alert_title"
-                style="@style/LargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
-                android:text="@string/divr_tv_title"
-                android:textColor="@color/colorAccent" />
+                android:text="@string/divr_tv_title"/>
         </LinearLayout>
 
 
@@ -148,6 +148,39 @@
                         android:textColor="#000000"
                         android:inputType="textCapCharacters"
                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="0.60"
+                        android:gravity="center_vertical"
+                        android:text="@string/divr_tv_registration_year"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/divr_et_registration_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/divr_tv_registration_year"
+                        android:inputType="textCapCharacters"
+                        android:maxEms="15"
+                        android:maxLength="9"
+                        android:textColor="#000000" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -334,40 +367,6 @@
                         android:text="@string/divr_tv_anser_comparation"
                         android:textColor="#000000" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0.60"
-                        android:gravity="center_vertical"
-                        android:text="@string/divr_tv_registration_year"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/divr_et_registration_year"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:maxEms="15"
-                        android:hint="@string/divr_tv_registration_year"
-                        android:textColor="#000000"
-                        android:inputType="textCapCharacters"
-                        android:maxLength="9"
-                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -680,13 +679,13 @@
                 </LinearLayout>
 
                 <Button
+                    style="@style/normalWhiteFontBTN"
                     android:id="@+id/divr_btn_continue"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="Aceptar"
                     android:background="@drawable/selector_primary_button"
                     android:textColor="@color/text_color_white"
-                    style="@style/NormalText"
                     android:textStyle="normal"
                     android:padding="5dp"
                     android:visibility="visible"

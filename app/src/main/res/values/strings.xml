@@ -158,7 +158,7 @@
 
     <!--Account Registration strings-->
     <string name="ar_tv_title_activity">Registro de Cuenta</string>
-    <string name="ar_tv_instructions">Ingrese los datos solicitados.</string>
+    <string name="ar_tv_instructions">Ingrese los datos solicitados para la generación de cuenta.</string>
     <string name="ar_tv_required_text">* Campos obligatorios</string>
     <string name="ar_tv_user_name">* Nombre de usuario</string>
     <string name="ar_tv_password">* Contraseña</string>
@@ -200,7 +200,7 @@
     <string name="id_scan_instructions_one_side">Toma la foto de la identificación para continuar.</string>
     <string name="instruction_clue_id_scan">Toca aquí para tomar la fotografía</string>
     <string name="result_id_scan">Resultado</string>
-    <string name="id_scan_message_permission">La aplicación no cuenta con permisos\npara usar la camara.</string>
+    <string name="id_scan_message_permission">La aplicación no cuenta con permisos para usar la camara.</string>
 
     <!--Face Scan strings-->
     <string name="face_scan_activity_name">Fotografía</string>
@@ -259,7 +259,7 @@
 
     <!--Result operation strings-->
     <string name="result_operation_activity_name">Resultado</string>
-    <string name="end_result_operation">Terminar</string>
+    <string name="end_result_operation">Finalizar Proceso</string>
     <string name="tv_operation_result_operation">Operación</string>
     <string name="hitn_operation_result_operation">3012213321</string>
     <string name="tv_result_result_operation">Resultado</string>
@@ -275,11 +275,11 @@
     <string name="tv_url_server_teknei_settings">Url servidor Teknei</string>
     <string name="b_update_settings">Actualizar</string>
 
-
     <!--Fake INE strings-->
     <string name="fake_ine_activity_name">Resultado: Comprobación de identificación</string>
     <string name="continue_fake_ine">Continuar</string>
     <string name="message_get_timestamp_operation">Obteniendo tiempos</string>
+
     <!--Contract strings-->
     <string name="contract_activity_name">Contrato</string>
     <string name="continue_contract">Continuar</string>
@@ -383,10 +383,11 @@
     <string name="title_activity_finger_bio_sdk">FingerBioSdkActivity</string>
 
     <!-- Login Finger MSO -->
-    <string name="lfM_instruction_begin_fingerprints_scan">Seleccione botón para iniciar lectura.</string>
+    <string name="lfM_instruction_begin_fingerprints_scan">Seleccione botón para iniciar captura de huella.</string>
     <string name="lfM_login_fingerprints_activity_name">Autenticación Dactilar</string>
 
     <!-- FACE Enroll Activity -->
+    <string name="fea_instructions">Captura de rostro, siga las instrucciones.</string>
     <string name="time_before_start">%1$s segundos para iniciar</string>
     <string name="url_activation_server_default">http://201.99.117.119:8081/ServiceProviderLicense/LicenseRequest</string>
     <string name="url_lkms_server_default">https://service-intg.dictao.com/lkms-server-app</string>

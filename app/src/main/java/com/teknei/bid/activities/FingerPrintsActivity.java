@@ -38,6 +38,7 @@ import com.teknei.bid.dialogs.FingerScanDialog;
 import com.teknei.bid.mso.MSOConnection;
 import com.teknei.bid.mso.MSOShower;
 import com.morpho.android.usb.USBManager;
+import com.teknei.bid.services.CipherFingerServices;
 import com.teknei.bid.tools.TKN_MSO_ERROR;
 import com.morpho.morphosmart.sdk.ErrorCodes;
 import com.morpho.morphosmart.sdk.MorphoDevice;
@@ -244,61 +245,61 @@ public class FingerPrintsActivity extends BaseActivity implements View.OnClickLi
                 case R.id.b_pinky_left_arm:
                     finger = "I5";
                     fingerSelect = 10;
-                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64PinkyLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_ring_left_arm:
                     finger = "I4";
                     fingerSelect = 9;
-                    base64RingLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64RingLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_middle_left_arm:
                     finger = "I3";
                     fingerSelect = 8;
-                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64MiddleLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_index_left_arm:
                     finger = "I2";
                     fingerSelect = 7;
-                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64IndexLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_thumb_left_arm:
                     finger = "I1";
                     fingerSelect = 6;
-                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64ThumbLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_pinky_right_arm:
                     finger = "D5";
                     fingerSelect = 5;
-                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64PinkyRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_ring_riht_arm:
                     finger = "D4";
                     fingerSelect = 4;
-                    base64RingRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64RingRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_middle_right_arm:
                     finger = "D3";
                     fingerSelect = 3;
-                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64MiddleRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_index_right_arm:
                     finger = "D2";
                     fingerSelect = 2;
-                    base64IndexRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64IndexRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
 
                 case R.id.b_thumb_right_arm:
                     finger = "D1";
                     fingerSelect = 1;
-                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+                    base64ThumbRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,imgFPBuff));
                     break;
             }
             //Guarda nueva imagen del dedo

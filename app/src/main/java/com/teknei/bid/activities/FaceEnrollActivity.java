@@ -704,7 +704,7 @@ public class FaceEnrollActivity extends BaseActivity implements View.OnClickList
 
     //region PRIVATE METHODS
     private void startCountdownTimer(){
-        String time = "5";
+        String time = "3";
         int timeSeconds = Integer.valueOf(time);
         final long start = timeSeconds * 1000;
         new CountDownTimer(start, 100) {
@@ -721,7 +721,6 @@ public class FaceEnrollActivity extends BaseActivity implements View.OnClickList
         }.start();
     }
 
-
     private void initUi(){
         setOrientationByWindowSize();
         textViewFeedback.setText("");
@@ -729,8 +728,7 @@ public class FaceEnrollActivity extends BaseActivity implements View.OnClickList
         buttonTakeAgain.setVisibility(View.GONE);
     }
 
-    private void setupWindow(){
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    private void setupWindow(){getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private void setMorphoSurfacePreview(){

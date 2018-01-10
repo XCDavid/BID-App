@@ -3,14 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    >
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="500dp"
         android:layout_height="300dp"
-        android:src="@drawable/buro"
-        android:scaleType="centerCrop"
+        android:src="@drawable/log_sabadell"
+        android:scaleType="centerInside"
         android:layout_above="@+id/lay_user_pass_section"
         android:layout_centerHorizontal="true" />
 
@@ -21,73 +20,49 @@
         android:orientation="vertical"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_centerVertical="true"
-        >
-        <!--TextView
-            android:id="@+id/tv_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="@string/tv_user_login"
-            android:textColor="@color/text_color_white"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            /-->
+        android:layout_centerVertical="true">
+
         <EditText
+            style="@style/normalWhiteFontET"
             android:id="@+id/et_user_log_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusableInTouchMode="true"
             android:inputType="text"
-            android:maxLength="20"
+            android:maxLength="15"
             android:maxLines="1"
             android:layout_marginBottom="@dimen/vertical_separator_form"
-            android:textColor="@color/text_color_white"
-            android:textColorHint="@color/text_color_white"
             android:hint="@string/tv_hint_user_login"
-            />
-
-        <!--TextView
-            android:id="@+id/tv_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_separator_form"
-            android:text="@string/tv_pass_login"
-            android:textColor="@color/text_color_white"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            /-->
+            android:textAlignment="center"/>
 
         <EditText
+            style="@style/normalWhiteFontET"
             android:id="@+id/et_pass_log_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusableInTouchMode="true"
             android:inputType="textPassword"
-            android:maxLength="20"
+            android:maxLength="10"
             android:maxLines="1"
             android:layout_marginBottom="@dimen/vertical_separator_form"
-            android:textColor="@color/text_color_white"
-            android:textColorHint="@color/text_color_white"
             android:hint="@string/tv_hint_pass_login"
-            />
+            android:textAlignment="center"/>
+
     </LinearLayout>
 
-
-
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/b_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/b_in_login"
-        android:textSize="16sp"
-        android:textColor="@color/text_color_white"
         android:background="@drawable/selector_rounded_rectangle_login"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_below="@+id/lay_user_pass_section"
-        />
+    />
+
 </RelativeLayout>

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--color name="colorPrimary">#5BC500</color-->
-    <color name="colorPrimary">#AED6F1</color>
-    <!--color name="colorPrimary">#006DFF</color-->
+    <!--color name="colorPrimary">#AED6F1</color-->
+    <!--color name="colorPrimary">#00aaaa</color-->
+    <color name="colorPrimary">#006DFF</color>
 
     <!--color name="colorPrimaryDark">#64ba3b</color-->
-    <!--color name="colorPrimaryDark">#81A4CD</color-->
+    <!--color name="colorPrimaryDark">#00aaaa</color-->
     <color name="colorPrimaryDark">#006DFF</color>
+
 
     <color name="colorAccent">#00769F</color>
     <color name="colorGray">#BFC0C0</color><!--B6B6B6-->
@@ -31,7 +33,8 @@
     <!--LogIn Button state colors-->
     <color name="button_login_disabled">#B6B6B6</color>
     <color name="button_login_pressed">#4BB3FD</color>
-    <color name="button_login_active">#00769F</color>
+    <!--color name="button_login_active">#00769F</color-->
+    <color name="button_login_active">#000000</color>
 
 
     <!--Alert curp dialog-->

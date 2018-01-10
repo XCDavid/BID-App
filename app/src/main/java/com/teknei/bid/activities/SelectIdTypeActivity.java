@@ -35,7 +35,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
     Button passportButton;
     Button licenseButton;
 
-    Switch mySwitch;
+    //Switch mySwitch;
 
     boolean credentialProvider = true;
 
@@ -53,7 +53,7 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         passportButton = (Button) findViewById(R.id.b_passport_select_id);
         licenseButton = (Button) findViewById(R.id.b_licence_select_id);
 
-        mySwitch = (Switch) findViewById(R.id.sw_id_provider);
+        //mySwitch = (Switch) findViewById(R.id.sw_id_provider);
 
         ifeCButton.setOnClickListener(this);
         ifeDButton.setOnClickListener(this);
@@ -62,8 +62,8 @@ public class SelectIdTypeActivity extends BaseActivity implements View.OnClickLi
         licenseButton.setOnClickListener(this);
 
         //set the switch to ON
-        mySwitch.setChecked(true);
-        mySwitch.setOnCheckedChangeListener(this);
+        //mySwitch.setChecked(true);
+        //mySwitch.setOnCheckedChangeListener(this);
 
         if (credentialProvider) {
             ifeDButton.setVisibility(View.GONE);

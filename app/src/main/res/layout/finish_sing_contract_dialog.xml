@@ -23,17 +23,15 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                style="@style/titleWhiteFont"
                 android:id="@+id/fscd_txt_title"
-                style="@style/LargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/app_name"
-                android:textColor="@color/text_color_white"
-                />
+                android:text="@string/app_name"/>
         </LinearLayout>
 
 
@@ -80,29 +78,25 @@
                 android:textStyle="normal" />
 
             <Button
+                style="@style/normalWhiteFontBTN"
                 android:id="@+id/fscd_btn_retry"
-                style="@style/NormalText"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:padding="5dp"
                 android:text="@string/cancel_message_dialog"
-                android:textColor="@color/text_color_white"
-                android:textStyle="normal"
                 android:visibility="gone"/>
 
             <Button
+                style="@style/titleWhiteFont"
                 android:id="@+id/fscd_btn_cancel"
-                style="@style/NormalText"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:padding="5dp"
                 android:text="@string/cancel_message_dialog"
-                android:textColor="@color/text_color_white"
-                android:textStyle="normal"
                 android:visibility="gone"/>
 
         </LinearLayout>

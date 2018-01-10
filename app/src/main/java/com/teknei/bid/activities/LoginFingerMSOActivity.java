@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.teknei.bid.dialogs.FingerScanDialog;
 import com.teknei.bid.domain.FingerLoginDTO;
 import com.teknei.bid.mso.MSOConnection;
 import com.teknei.bid.mso.MSOShower;
+import com.teknei.bid.services.CipherFingerServices;
 import com.teknei.bid.tools.TKN_MSO_ERROR;
 import com.teknei.bid.utils.ApiConstants;
 import com.teknei.bid.utils.PhoneSimUtils;
@@ -46,6 +48,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,9 +80,10 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.activity_login_finger_mso);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getResources().getString(R.string.lfM_login_fingerprints_activity_name));
-            invalidateOptionsMenu();
+            getSupportActionBar().hide();
         }
+
+        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         fingerPrintLogin = (Button)      findViewById(R.id.lfm_b_login_finger);
         fingerPrint      = (ImageButton) findViewById(R.id.lfm_b_finger_print);
@@ -153,6 +157,8 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
     }
 
     public void setImageToRightFinger() {
+        byte[] ciphered;
+
         if (imgFP != null) {
             Bitmap msoBitMap = MSOConnection.getInstance().getBitMap();
             photoBuffer = imgFPBuff;
@@ -161,9 +167,11 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
             String finger = "";
             int fingerSelect = 0;
 
+            ciphered = com.teknei.bid.services.CipherFingerServices.cipherFinger(idClient, imgFPBuff);
+
             finger = "ri";
             fingerSelect = 10;
-            base64FingerPrint = com.teknei.bid.tools.Base64.encode(imgFPBuff);
+            base64FingerPrint = com.teknei.bid.tools.Base64.encode(ciphered);
 
             //Guarda nueva imagen del dedo
             File f = new File(Environment.getExternalStorageDirectory() + File.separator + "finger_" + finger + ".jpg");
@@ -186,16 +194,50 @@ public class LoginFingerMSOActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    public String buildJSON() {
+        File fileJson;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", idClient);
+            jsonObject.put("contentType", "image/wsq");
+            if (base64FingerPrint != null && !base64FingerPrint.equals("")) {
+                try {
+                    jsonObject.put("rm", base64FingerPrint);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Writer output;
+            fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "login" + ".json");
+            if (fileJson.exists()) {
+                fileJson.delete();
+                fileJson = new File(Environment.getExternalStorageDirectory() + File.separator + "login" + ".json");
+            }
+            output = new BufferedWriter(new FileWriter(fileJson));
+            output.write(jsonObject.toString());
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
     @Override
     public void sendPetition() {
         String token = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.TOKEN_APP, "");
-
         fingerDTO    = new FingerLoginDTO();
-        idClient     = SharedPreferencesUtils.readFromPreferencesString(this, SharedPreferencesUtils.ID_CLIENT, "");
 
         fingerDTO.setFingerIndex(base64FingerPrint);
         fingerDTO.setId         (idClient);
         fingerDTO.setContentType("image/wsq");
+
+        Log.d("LoginFingerMSOACT", buildJSON());
 
         new LoginFingerSend(LoginFingerMSOActivity.this, token, fingerDTO).execute();
     }

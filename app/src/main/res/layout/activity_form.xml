@@ -7,31 +7,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/b_continue_form"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/horizontal_margin_form"
-        android:layout_marginRight="@dimen/horizontal_margin_form"
-        android:layout_marginTop="@dimen/margin_top_form">
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ico_sabadell"
+                android:scaleType="centerInside" />
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="@string/instructions_form"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
+                />
 
             <TextView
+                style="@style/normalBlackFont"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/required_text_form"
-                android:textSize="15sp" />
+                android:text="@string/required_text_form"/>
 
             <TextView
                 android:id="@+id/tv_name"
@@ -103,6 +110,8 @@
                 android:text="@string/tv_curp_form"
                 android:textStyle="bold"/-->
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/et_curp_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,6 +131,8 @@
                 android:text="@string/mail_form"
                 android:textStyle="bold"/-->
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/et_mail_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,6 +152,8 @@
                 android:text="@string/phone_form"
                 android:textStyle="bold"/-->
             <EditText
+                style="@style/normalBlackFontET"
+                android:textSize="20sp"
                 android:id="@+id/et_phone_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -203,11 +216,12 @@
     </ScrollView>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/b_continue_form"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:text="@string/continue_form"
-        android:textColor="@color/text_color_white"
         android:background="@drawable/selector_primary_button"/>
+
 </RelativeLayout>

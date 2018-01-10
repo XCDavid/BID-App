@@ -5,23 +5,34 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ico_sabadell"
+        android:scaleType="centerInside" />
+
+    <LinearLayout
         android:id="@+id/lfm_lay_fingerprint_section"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal">
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="25sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
             android:text="@string/cfs_mso_tv_instructions"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
             android:layout_marginBottom="60dp"/>
 
         <ImageButton
@@ -31,10 +42,12 @@
             android:adjustViewBounds="true"
             android:background="@drawable/selector__transparent_image_button"
             android:scaleType="centerCrop"/>
+        </LinearLayout>
 
     </LinearLayout>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/cfs_mso_b_continue"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"

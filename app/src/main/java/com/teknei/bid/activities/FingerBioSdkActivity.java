@@ -494,11 +494,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                         if (!sdkBioSideHand.isChecked()) {
                             finger = "D2";
                             fingerSelect = 2;
-                            base64IndexRight = com.teknei.bid.tools.Base64.encode(image);
+                            base64IndexRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         } else {
                             finger = "I2";
                             fingerSelect = 7;
-                            base64IndexLeft = com.teknei.bid.tools.Base64.encode(image);
+                            base64IndexLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         }
                         break;
 
@@ -506,11 +506,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                         if (!sdkBioSideHand.isChecked()) {
                             finger = "D3";
                             fingerSelect = 3;
-                            base64MiddleRight = com.teknei.bid.tools.Base64.encode(image);
+                            base64MiddleRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         } else {
                             finger = "I3";
                             fingerSelect = 8;
-                            base64MiddleLeft = com.teknei.bid.tools.Base64.encode(image);
+                            base64MiddleLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         }
                         break;
 
@@ -518,11 +518,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                         if (!sdkBioSideHand.isChecked()) {
                             finger = "D4";
                             fingerSelect = 4;
-                            base64RingRight = com.teknei.bid.tools.Base64.encode(image);
+                            base64RingRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         } else {
                             finger = "I4";
                             fingerSelect = 9;
-                            base64RingLeft = com.teknei.bid.tools.Base64.encode(image);
+                            base64RingLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         }
                         break;
 
@@ -530,11 +530,11 @@ public class FingerBioSdkActivity extends BaseActivity implements FingersPresent
                         if (!sdkBioSideHand.isChecked()) {
                             finger = "D5";
                             fingerSelect = 5;
-                            base64PinkyRight = com.teknei.bid.tools.Base64.encode(image);
+                            base64PinkyRight = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         } else {
                             finger = "I5";
                             fingerSelect = 10;
-                            base64PinkyLeft = com.teknei.bid.tools.Base64.encode(image);
+                            base64PinkyLeft = com.teknei.bid.tools.Base64.encode(com.teknei.bid.services.CipherFingerServices.cipherFinger(operationID,image));
                         }
                         break;
                 }

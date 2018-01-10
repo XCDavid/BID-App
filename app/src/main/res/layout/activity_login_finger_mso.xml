@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="500dp"
         android:layout_height="300dp"
-        android:src="@drawable/buro"
-        android:scaleType="centerCrop"
+        android:src="@drawable/log_sabadell"
+        android:scaleType="centerInside"
         android:layout_above="@+id/lay_user_pass_section"
         android:layout_centerHorizontal="true" />
 
@@ -17,20 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_centerVertical="true"
         android:gravity="center_vertical|center_horizontal"
-        >
+        android:layout_centerVertical="true">
 
         <TextView
+            style="@style/normalWhiteFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/lfM_instruction_begin_fingerprints_scan"
-            android:textStyle="bold"
             android:textSize="30sp"/>
 
         <ImageButton
@@ -45,12 +43,11 @@
     </LinearLayout>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/lfm_b_login_finger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/b_in_login"
-        android:textSize="16sp"
-        android:textColor="@color/text_color_white"
         android:background="@drawable/selector_rounded_rectangle_login"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"

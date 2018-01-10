@@ -183,4 +183,19 @@ public interface BIDEndPointServices {
     Call<Boolean> managementAssignCompanyUser (@Header("Authorization") String authorization,
                                                                  @Body UserCompanyDTO accountDTO);
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Multipart
+    @POST("rest/v3/enrollment/biometric/minuciasCyphered")
+    Call<ResponseServicesBID> enrollmentBiometricMinuciasCyphered (@Header("Authorization") String authorization,
+                                                                   @Part MultipartBody.Part jsonFile);
+
+    @POST("rest/v3/enrollment/biometric/search/customerIdCyphered")
+    Call<ResponseServicesBID> enrollmentBiometricSearchCustomerIdCyphered
+                                                                   (@Header("Authorization") String authorization,
+                                                                    @Body FingerLoginDTO jsonFile);
+
+    @POST ("rest/v3/enrollment/contract/contrato/signCyphered")
+    Call<ResponseServicesBID> enrollmentContractSignCyphered     (@Header("Authorization") String authorization,
+                                                                  @Body FingerSingDTO jsonFile);
 }

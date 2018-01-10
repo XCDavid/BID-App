@@ -15,20 +15,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_alignParentTop="true">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ico_sabadell"
+            android:scaleType="centerInside" />
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fea_instructions"
+            android:layout_marginBottom="25dp"/>
+
+        <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:id="@+id/text_view_feedback"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mueve tu rostro a la derecha"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="100dp"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginBottom="50dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -87,7 +103,7 @@
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 CircleProgressView:cpv_autoTextSize="true"
-                CircleProgressView:cpv_barColor="@color/colorPrimaryDark"
+                CircleProgressView:cpv_barColor="@color/colorPrimary"
                 CircleProgressView:cpv_barWidth="5dp"
                 CircleProgressView:cpv_innerContourSize="0dp"
                 CircleProgressView:cpv_maxValue="3"
@@ -116,13 +132,14 @@
         </RelativeLayout>
 
         <Button
+            style="@style/normalWhiteFontBTN"
             android:id="@+id/fe_btn_take_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/button_bg"
+            android:background="@drawable/selector_rounded_button"
             android:text="Tomar de Nuevo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -132,12 +149,12 @@
     </LinearLayout>
 
     <Button
+        style="@style/normalWhiteFontBTN"
         android:id="@+id/fe_btn_continue"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height_form"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_primary_button"
-        android:text="Continuar"
-        android:textColor="@color/text_color_white" />
+        android:text="Continuar"/>
 
 </RelativeLayout>

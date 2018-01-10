@@ -13,13 +13,14 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/normalBlackFont"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="@string/instruction_begin_fingerprints_scan"
-            android:textStyle="bold" />
+            android:text="@string/instruction_begin_fingerprints_scan" />
 
     </LinearLayout>
 
@@ -164,8 +165,9 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <Button
+            style="@style/normalWhiteFontBTN"
             android:id="@+id/b_continue_fingerprints"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="80dp"
             android:adjustViewBounds="true"
             android:background="@drawable/selector_rounded_button"
@@ -178,7 +180,6 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintRight_toRightOf="parent"
             android:text="@string/continue_fingerprints"
-            android:textColor="@color/text_color_white"
             />
 
     </android.support.constraint.ConstraintLayout>
